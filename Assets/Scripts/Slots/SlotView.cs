@@ -7,18 +7,22 @@ namespace Slots
     /// <summary>
     /// This class handle the view and the visual feedbacks of the slot
     /// </summary>
+    [SelectionBase]
     public class SlotView : MonoBehaviour
     {
         public SlotController Controller { get; private set; }
 
         #region Private values
 
-        [BoxGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
+        [TabGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
         private SpriteRenderer _actionFeedbackSpriteRenderer;
-        [BoxGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
+        [TabGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
         private SpriteRenderer _selectionFeedbackSpriteRenderer;
-        [BoxGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
+        [TabGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
         private SpriteRenderer _arrowFeedbackSpriteRenderer;
+
+        [TabGroup("References"), SerializeField, Required, ChildGameObjectsOnly]
+        private Transform _obstacleParent;
 
         #endregion
 
@@ -30,6 +34,13 @@ namespace Slots
         {
             Controller = controller;
             Controller.OnSlotAction += SlotActionView;
+
+            Color transparentBaseColor = new Color(1f, 1f, 1f, 0f);
+            _actionFeedbackSpriteRenderer.color = transparentBaseColor;
+            _selectionFeedbackSpriteRenderer.color = transparentBaseColor;
+            _arrowFeedbackSpriteRenderer.color = transparentBaseColor;
+            
+            _obstacleParent.gameObject.SetActive(Controller.Data.HasObstacle);
         }
 
         private void OnDestroy()
@@ -37,6 +48,19 @@ namespace Slots
             Controller.OnSlotAction -= SlotActionView;
             Controller = null;
         }
+
+        #region Editor methods
+
+        [Button]
+        private void SetObstacle()
+        {
+            Controller.Data.HasObstacle = Controller.Data.HasObstacle == false;
+            _obstacleParent.gameObject.SetActive(Controller.Data.HasObstacle);
+        }
+
+        #endregion
+        
+        #region Actions
 
         private void SlotActionView(SlotAction action, bool isValid)
         {
@@ -53,16 +77,43 @@ namespace Slots
                 case SlotAction.Attackable:
                     break;
                 case SlotAction.GetDestroyed:
-                    if (Application.isPlaying)
-                    {
-                        Destroy(gameObject);
-                        return;
-                    }
-                    DestroyImmediate(gameObject);
+                    DestroySlot();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
         }
+
+        private void DestroySlot()
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            DestroyImmediate(gameObject);
+        }
+
+        #endregion
+
+#if UNITY_EDITOR
+
+        private void OnDrawGizmos()
+        {
+            DrawSquareGizmo();
+        }
+
+        private void DrawSquareGizmo()
+        {
+            Gizmos.color = Color.red;
+            float height = 0.5f;
+            float lenght = 0.5f;
+            Gizmos.DrawLine(transform.position + new Vector3(-lenght,height,-lenght), transform.position + new Vector3(-lenght,height,lenght));
+            Gizmos.DrawLine(transform.position + new Vector3(-lenght,height,lenght), transform.position + new Vector3(lenght,height,lenght));
+            Gizmos.DrawLine(transform.position + new Vector3(lenght,height,lenght), transform.position + new Vector3(lenght,height,-lenght));
+            Gizmos.DrawLine(transform.position + new Vector3(lenght,height,-lenght), transform.position + new Vector3(-lenght,height,-lenght));
+        }
+
+#endif
     }
 }

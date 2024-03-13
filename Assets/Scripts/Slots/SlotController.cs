@@ -17,6 +17,14 @@ namespace Slots
         Attackable = 4,
         GetDestroyed = 5
     }
+
+    /// <summary>
+    /// This class stores the slot data
+    /// </summary>
+    public class SlotData
+    {
+        public bool HasObstacle { get; set; }
+    }
     
     /// <summary>
     /// This class handle the control of the slot and the functional logic in it
@@ -27,11 +35,12 @@ namespace Slots
         /// This action get invoked on any slot actions
         /// </summary>
         public Action<SlotAction, bool> OnSlotAction { get; set; }
+        public SlotData Data { get; set; }
 
         public SlotController(BoardController board, Vector2Int coordinates) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Slot;
-
+            Data = new SlotData();
             OnSlotAction += SlotActionController;
         }
 
