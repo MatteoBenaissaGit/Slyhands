@@ -7,7 +7,7 @@ namespace LevelEditor
 {
     public class LevelToLoadButtonController : MonoBehaviour
     {
-        // [SerializeField, Required] private Button _button;
-        // [SerializeField, Required] private TMP_Text _nameText;
+        [SerializeField, Required] private Button _button;
+        [SerializeField, Required] private TMP_Text _nameText;
     }
 }

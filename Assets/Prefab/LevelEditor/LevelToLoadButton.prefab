@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 3986010476770886268}
   - component: {fileID: 4462923796300916171}
   m_Layer: 0
-  m_Name: LevelSaveButton
+  m_Name: LevelToLoadButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -792,6 +792,7 @@ GameObject:
   m_Component:
   - component: {fileID: 892218333543107433}
   - component: {fileID: 3190631873065954490}
+  - component: {fileID: 7875119143004893435}
   m_Layer: 0
   m_Name: LevelEditorSaveMenu
   m_TagString: Untagged
@@ -834,6 +835,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7875119143004893435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6915112981655628221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d4aaf6ae3e4f46aa5413d7050ef9e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CanvasGroup>k__BackingField: {fileID: 3190631873065954490}
+  <CancelButton>k__BackingField: {fileID: 6534319985266066575}
+  _saveButton: {fileID: 6187453192557000151}
+  _saveNameInputField: {fileID: 8670930220331279456}
 --- !u!1 &7075872247345891586
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ namespace LevelEditor
 {
     public class LevelEditorManager : Singleton<LevelEditorManager>
     {
-        // [field:SerializeField] [Required]
-        // public LevelEditorUI UI { get; private set; }
+        [field:SerializeField] [field:Required]
+        public LevelEditorUI UI { get; private set; }
     }
 }
