@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Sprites>k__BackingField:
   - {fileID: 1829175875, guid: 05ad280fa87b84548a6888b4fa0df78b, type: 3}
+  - {fileID: 21300000, guid: f5ea212b3c32f9c4cb0dbf92f85553ae, type: 3}
+  - {fileID: 21300000, guid: c2b840ec010b13a4ebcf838c2cb2a209, type: 3}
 --- !u!1 &2982781617325086859
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +125,7 @@ Transform:
   - {fileID: 2668021055123432408}
   - {fileID: 1529714821900748679}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9030153835398476540
 MonoBehaviour:

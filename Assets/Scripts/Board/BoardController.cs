@@ -65,17 +65,6 @@ namespace Board
         #endregion
 
         /// <summary>
-        /// Create the board by creating slots and storing them
-        /// </summary>
-        [Button]
-        private void CreateBoard()
-        {
-            ClearBoard();
-
-            ForEachCoordinatesOnBoard(x => Slots[x.x,x.y] = CreateSlotAt(new Vector2Int(x.x,x.y)));
-        }
-
-        /// <summary>
         /// Clear all the slots on current board
         /// </summary>
         private void ClearBoard()
