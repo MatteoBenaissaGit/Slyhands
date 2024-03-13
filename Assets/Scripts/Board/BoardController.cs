@@ -64,6 +64,9 @@ namespace Board
 
         #endregion
 
+        /// <summary>
+        /// Create the board by creating slots and storing them
+        /// </summary>
         [Button]
         private void CreateBoard()
         {
@@ -72,6 +75,9 @@ namespace Board
             ForEachCoordinatesOnBoard(x => Slots[x.x,x.y] = CreateSlotAt(new Vector2Int(x.x,x.y)));
         }
 
+        /// <summary>
+        /// Clear all the slots on current board
+        /// </summary>
         private void ClearBoard()
         {
             if (Slots == null)
@@ -92,6 +98,10 @@ namespace Board
             Slots = new SlotController[_width, _length];
         }
 
+        /// <summary>
+        /// Make an action for each coordinates of the board
+        /// </summary>
+        /// <param name="actionToExecute">The action to make</param>
         public void ForEachCoordinatesOnBoard(Action<Vector2Int> actionToExecute)
         {
             for (int x = 0; x < _width; x++)
@@ -103,6 +113,11 @@ namespace Board
             }
         }
 
+        /// <summary>
+        /// Create a slot at defined coordinates
+        /// </summary>
+        /// <param name="coordinates">The coordinates to create the slot at</param>
+        /// <returns>The slot created</returns>
         private SlotController CreateSlotAt(Vector2Int coordinates)
         {
             SlotController slot = new SlotController(this, coordinates);
