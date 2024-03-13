@@ -1,4 +1,4 @@
- using UnityEngine;
+using UnityEngine;
 
 public enum CardType
 {
@@ -23,8 +23,38 @@ public class Card : ScriptableObject
     public int MovingDist;
 
     // //Test
-    public string VialString;
-    public int ParchmentInt;
-    public bool UtilityBool;
-    public float EnchantmentFloat;
+
+    // // //Vial Card
+    [Tooltip("Variable Test number 1 for Vial Card")]
+    public string TestVariableVial1;
+
+    [Tooltip("Variable Test number 2 for Vial Card")]
+    public bool TestVariableVial2;
+
+    // // //Parchment Card
+    [Tooltip("Variable Test number 1 for Parchment Card")]
+    public int TestVariableParchment1;
+
+    [Tooltip("Variable Test number 2 for Parchment Card")]
+    public string TestVariableParchment2;
+
+    [Tooltip("Variable Test number 3 for Parchment Card")]
+    public float TestVariableParchment3;
+
+    // // //Utility Card
+    [Tooltip("Variable Test number 1 for Utility Card")]
+    public bool TestVariableUtility1;
+
+    [Tooltip("Variable Test number 2 for Utility Card")]
+    public bool TestVariableUtility2;
+
+    // // //Enchantment Card
+    [Tooltip("Variable Test number 1 for Enchantment Card")]
+    public string TestVariableEnchantment1;
+
+    [Tooltip("Variable Test number 2 for Enchantment Card")]
+    public string TestVariableEnchantment2;
+
+    [Tooltip("Variable Test number 3 for Enchantment Card")]
+    public float TestVariableEnchantment3;
 }
