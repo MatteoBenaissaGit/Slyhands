@@ -10,6 +10,9 @@ namespace Slots
     [SelectionBase]
     public class SlotView : MonoBehaviour
     {
+        /// <summary>
+        /// The slot controller related to the slot view
+        /// </summary>
         public SlotController Controller { get; private set; }
 
         #region Private values
@@ -51,6 +54,9 @@ namespace Slots
 
         #region Editor methods
 
+        /// <summary>
+        /// This method handle the creation or the destruction of obstacles on the slot
+        /// </summary>
         [Button]
         private void SetObstacle()
         {
@@ -84,6 +90,9 @@ namespace Slots
             }
         }
 
+        /// <summary>
+        /// Destroy the slot either in editor or in game
+        /// </summary>
         private void DestroySlot()
         {
             if (Application.isPlaying)
@@ -103,6 +112,9 @@ namespace Slots
             DrawSquareGizmo();
         }
 
+        /// <summary>
+        /// Draw a red square above the slot
+        /// </summary>
         private void DrawSquareGizmo()
         {
             Gizmos.color = Color.red;
