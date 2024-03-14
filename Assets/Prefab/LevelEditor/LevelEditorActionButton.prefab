@@ -250,4 +250,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Button>k__BackingField: {fileID: 1773777985446462914}
   _icon: {fileID: 138840932684665768}
+  _cursorTexture: {fileID: 2800000, guid: 37d3fe9db5281184c9e69b425b293514, type: 3}
+  _cursorHotSpot: {x: -1, y: 1}
   _background: {fileID: 4690622802620151606}

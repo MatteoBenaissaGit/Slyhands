@@ -198,6 +198,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectionButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7803562728147133586, guid: d8a699dba8e400149816c5fa6bb8acd8,
+        type: 3}
+      propertyPath: _cursorHotSpot.x
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803562728147133586, guid: d8a699dba8e400149816c5fa6bb8acd8,
+        type: 3}
+      propertyPath: _cursorHotSpot.y
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -364,6 +374,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803562728147133586, guid: d8a699dba8e400149816c5fa6bb8acd8,
+        type: 3}
+      propertyPath: _cursorTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 792fde1213ab7704db51c65d3d83959b, type: 3}
+    - target: {fileID: 7803562728147133586, guid: d8a699dba8e400149816c5fa6bb8acd8,
+        type: 3}
+      propertyPath: _cursorHotSpot.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803562728147133586, guid: d8a699dba8e400149816c5fa6bb8acd8,
+        type: 3}
+      propertyPath: _cursorHotSpot.y
+      value: 550
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
