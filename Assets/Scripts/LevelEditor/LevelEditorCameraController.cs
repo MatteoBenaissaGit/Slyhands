@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// This class manage the camera used in the level editor
+    /// </summary>
     public class LevelEditorCameraController : MonoBehaviour
     {
         [SerializeField] private Camera _camera;

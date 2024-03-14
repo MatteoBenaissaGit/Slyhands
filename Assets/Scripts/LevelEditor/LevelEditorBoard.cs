@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// This class manage the level editor board where the user can create the level
+    /// </summary>
     public class LevelEditorBoard : MonoBehaviour
     {
         /// <summary>
@@ -29,6 +32,9 @@ namespace LevelEditor
             _slotLocations = new LevelEditorSlotLocation[_width, _length];
         }
 
+        /// <summary>
+        /// Create a new blank board of the defined settings size
+        /// </summary>
         public void CreateNewBoard()
         {
             ClearBoard();
@@ -43,6 +49,9 @@ namespace LevelEditor
             }
         }
 
+        /// <summary>
+        /// Clear the board from all slots on it
+        /// </summary>
         private void ClearBoard()
         {
             foreach (LevelEditorSlotLocation slot in _slotLocations)

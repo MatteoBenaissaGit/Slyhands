@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// This class manage all the action buttons in the level editor
+    /// </summary>
     public class LevelEditorUIActionButtons : MonoBehaviour
     {
         [SerializeField, Required] private LevelEditorActionButtonController _selectionButton;
@@ -14,6 +17,7 @@ namespace LevelEditor
 
         private List<LevelEditorActionButtonController> _buttons;
         private LevelEditorActionButtonController _currentButton;
+        private bool _isHoldingClick;
 
         private void Awake()
         {
@@ -36,6 +40,14 @@ namespace LevelEditor
             _paintButton.Button.onClick.RemoveListener(() => SetCurrentButton(_paintButton));
         }
 
+        private void Update()
+        {
+            if (_isHoldingClick)
+            {
+                ClickHoldAction();
+            }
+        }
+
         /// <summary>
         /// Set the current used button
         /// </summary>
@@ -45,6 +57,48 @@ namespace LevelEditor
             _currentButton.SetSelected(false);
             _currentButton = buttonToSet;
             _currentButton.SetSelected(true);
+        }
+
+        /// <summary>
+        /// Handle the action made when the user tap click 
+        /// </summary>
+        private void ClickTapAction()
+        {
+            if (_currentButton == null)
+            {
+                return;
+            }
+            
+            switch (_currentButton.Type)
+            {
+                case LevelEditorActionButtonType.Selection:
+                    break;
+                case LevelEditorActionButtonType.Paint:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// Handle the action made when the user hold click
+        /// </summary>
+        private void ClickHoldAction()
+        {
+            if (_currentButton == null)
+            {
+                return;
+            }
+            
+            switch (_currentButton.Type)
+            {
+                case LevelEditorActionButtonType.Selection:
+                    break;
+                case LevelEditorActionButtonType.Paint:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

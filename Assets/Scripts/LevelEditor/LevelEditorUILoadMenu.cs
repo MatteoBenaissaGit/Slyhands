@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// This class manage the load menu of the level editor
+    /// </summary>
     public class LevelEditorUILoadMenu : LevelEditorUIMenu
     {
         [SerializeField, Required] private Button LoadButton;

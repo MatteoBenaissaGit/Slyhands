@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// This abstract class serve as a base for all level editors menus
+    /// </summary>
     public abstract class LevelEditorUIMenu : MonoBehaviour
     {
         [field:SerializeField] [field:Required]

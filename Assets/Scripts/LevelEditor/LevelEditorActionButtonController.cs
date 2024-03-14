@@ -7,10 +7,22 @@ using UnityEngine.UI;
 
 namespace LevelEditor
 {
+    public enum LevelEditorActionButtonType
+    {
+        Selection = 0,
+        Paint = 1
+    }
+    
+    /// <summary>
+    /// This class handle the control of a level editor action button
+    /// </summary>
     public class LevelEditorActionButtonController : MonoBehaviour
     {
         [field:SerializeField] [field:Required] 
         public Button Button { get; private set; }
+        
+        [field:SerializeField]
+        public LevelEditorActionButtonType Type { get; private set; }
         
         [SerializeField, Required] private Image _icon;
         [SerializeField, Required] private Texture2D _cursorTexture;
@@ -22,6 +34,11 @@ namespace LevelEditor
             SetSelected(false,true);
         }
 
+        /// <summary>
+        /// Visual show that this button is selected or not
+        /// </summary>
+        /// <param name="isSelected">is button selected ?</param>
+        /// <param name="doInstant">make animation instant ?</param>
         public void SetSelected(bool isSelected, bool doInstant = false)
         {
             SelectedEffect(_icon, isSelected, doInstant);
@@ -36,6 +53,12 @@ namespace LevelEditor
             }
         }
 
+        /// <summary>
+        /// Make the selection effect on an image
+        /// </summary>
+        /// <param name="image">the image to apply the effect to</param>
+        /// <param name="isSelected">is button selected ?</param>
+        /// <param name="doInstant">make animation instant ?</param>
         private void SelectedEffect(Image image, bool isSelected, bool doInstant)
         {
             image.DOKill();

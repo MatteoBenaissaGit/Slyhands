@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// This class handle all the ui elements of the level editing
+    /// </summary>
     public class LevelEditorUI : MonoBehaviour
     {
         [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]

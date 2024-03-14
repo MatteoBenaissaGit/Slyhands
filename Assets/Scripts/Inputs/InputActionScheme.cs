@@ -53,6 +53,24 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ClickTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""4255ad11-24fd-4333-82f1-7975d4a42ef2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClickHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""f379f635-ae61-4967-bc84-9c98f176595d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +106,28 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""CameraZoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19432855-63c9-4512-8c45-e62a27ba6d71"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClickTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e668c4b8-3de6-45a5-8228-9e9e9083c35e"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +139,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_CameraMoveButton = m_LevelEditor.FindAction("CameraMoveButton", throwIfNotFound: true);
         m_LevelEditor_CameraMoveVector = m_LevelEditor.FindAction("CameraMoveVector", throwIfNotFound: true);
         m_LevelEditor_CameraZoom = m_LevelEditor.FindAction("CameraZoom", throwIfNotFound: true);
+        m_LevelEditor_ClickTap = m_LevelEditor.FindAction("ClickTap", throwIfNotFound: true);
+        m_LevelEditor_ClickHold = m_LevelEditor.FindAction("ClickHold", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -163,6 +205,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_CameraMoveButton;
     private readonly InputAction m_LevelEditor_CameraMoveVector;
     private readonly InputAction m_LevelEditor_CameraZoom;
+    private readonly InputAction m_LevelEditor_ClickTap;
+    private readonly InputAction m_LevelEditor_ClickHold;
     public struct LevelEditorActions
     {
         private @InputActionScheme m_Wrapper;
@@ -170,6 +214,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @CameraMoveButton => m_Wrapper.m_LevelEditor_CameraMoveButton;
         public InputAction @CameraMoveVector => m_Wrapper.m_LevelEditor_CameraMoveVector;
         public InputAction @CameraZoom => m_Wrapper.m_LevelEditor_CameraZoom;
+        public InputAction @ClickTap => m_Wrapper.m_LevelEditor_ClickTap;
+        public InputAction @ClickHold => m_Wrapper.m_LevelEditor_ClickHold;
         public InputActionMap Get() { return m_Wrapper.m_LevelEditor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +234,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @CameraZoom.started += instance.OnCameraZoom;
             @CameraZoom.performed += instance.OnCameraZoom;
             @CameraZoom.canceled += instance.OnCameraZoom;
+            @ClickTap.started += instance.OnClickTap;
+            @ClickTap.performed += instance.OnClickTap;
+            @ClickTap.canceled += instance.OnClickTap;
+            @ClickHold.started += instance.OnClickHold;
+            @ClickHold.performed += instance.OnClickHold;
+            @ClickHold.canceled += instance.OnClickHold;
         }
 
         private void UnregisterCallbacks(ILevelEditorActions instance)
@@ -201,6 +253,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @CameraZoom.started -= instance.OnCameraZoom;
             @CameraZoom.performed -= instance.OnCameraZoom;
             @CameraZoom.canceled -= instance.OnCameraZoom;
+            @ClickTap.started -= instance.OnClickTap;
+            @ClickTap.performed -= instance.OnClickTap;
+            @ClickTap.canceled -= instance.OnClickTap;
+            @ClickHold.started -= instance.OnClickHold;
+            @ClickHold.performed -= instance.OnClickHold;
+            @ClickHold.canceled -= instance.OnClickHold;
         }
 
         public void RemoveCallbacks(ILevelEditorActions instance)
@@ -223,5 +281,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnCameraMoveButton(InputAction.CallbackContext context);
         void OnCameraMoveVector(InputAction.CallbackContext context);
         void OnCameraZoom(InputAction.CallbackContext context);
+        void OnClickTap(InputAction.CallbackContext context);
+        void OnClickHold(InputAction.CallbackContext context);
     }
 }
