@@ -46,7 +46,7 @@ namespace Inputs
             
             manager.Scheme.LevelEditor.ClickTap.started += SetClickTap;
             
-            manager.Scheme.LevelEditor.ClickHold.started += SetClickHold;
+            manager.Scheme.LevelEditor.ClickHold.performed += SetClickHold;
             manager.Scheme.LevelEditor.ClickHold.canceled += SetClickHold;
         }
 
@@ -72,7 +72,7 @@ namespace Inputs
 
         private void SetClickHold(InputAction.CallbackContext context)
         {
-            OnClickHold?.Invoke(context.started);
+            OnClickHold?.Invoke(context.performed);
         }
     }
 }

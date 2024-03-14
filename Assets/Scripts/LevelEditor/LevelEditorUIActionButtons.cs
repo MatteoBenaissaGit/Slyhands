@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Inputs;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +41,12 @@ namespace LevelEditor
             _paintButton.Button.onClick.RemoveListener(() => SetCurrentButton(_paintButton));
         }
 
+        private void Start()
+        {
+            InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapAction;
+            InputManager.Instance.LevelEditorInput.OnClickHold += (bool doHold) => _isHoldingClick = doHold;
+        }
+
         private void Update()
         {
             if (_isHoldingClick)
@@ -72,8 +79,10 @@ namespace LevelEditor
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
+                    Debug.Log("CL");
                     break;
                 case LevelEditorActionButtonType.Paint:
+                    Debug.Log("CP");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -93,8 +102,10 @@ namespace LevelEditor
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
+                    Debug.Log("HL");
                     break;
                 case LevelEditorActionButtonType.Paint:
+                    Debug.Log("HP");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
