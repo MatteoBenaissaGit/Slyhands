@@ -21,6 +21,8 @@ namespace LevelEditor
         private Button _saveButton;
         [SerializeField, BoxGroup("Buttons"), Required]
         private Button _loadButton;
+        [SerializeField, BoxGroup("Buttons"), Required]
+        private Button _createNewBoardButton;
 
         private List<LevelEditorUIMenu> _menus;
         private LevelEditorUIMenu _currentMenu;
@@ -39,13 +41,14 @@ namespace LevelEditor
             
             _saveButton.onClick.AddListener(() => ShowMenu(_saveMenu));
             _loadButton.onClick.AddListener(() => ShowMenu(_loadMenu));
-            
+            _createNewBoardButton.onClick.AddListener(() => LevelEditorManager.Instance.Board.CreateNewBoard());
         }
 
         private void OnDestroy()
         {
             _saveButton.onClick.RemoveListener(() => ShowMenu(_saveMenu));
             _loadButton.onClick.RemoveListener(() => ShowMenu(_loadMenu));
+            _createNewBoardButton.onClick.RemoveListener(() => LevelEditorManager.Instance.Board.CreateNewBoard());
         }
 
         #region Menus

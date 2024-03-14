@@ -1,0 +1,74 @@
+{
+    "name": "InputActionScheme",
+    "maps": [
+        {
+            "name": "LevelEditor",
+            "id": "f82a47c9-45b1-43b1-9c85-f00b0a3cbec3",
+            "actions": [
+                {
+                    "name": "CameraMoveButton",
+                    "type": "Button",
+                    "id": "226f4253-6fd1-4209-9873-9b6e17f40824",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CameraMoveVector",
+                    "type": "Value",
+                    "id": "ffd16df6-1737-467f-b53b-ed255313529e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CameraZoom",
+                    "type": "Value",
+                    "id": "32a04d80-0da7-4a7c-ad44-a393009d45ba",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "667973c7-f62c-4ad5-9ced-989747c65ff8",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraMoveButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5588e9f8-d0a9-4f7c-8749-09445d02479a",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraMoveVector",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3abd31c-fc45-478d-acf5-f26ebe8266d8",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CameraZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

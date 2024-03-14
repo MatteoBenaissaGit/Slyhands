@@ -29,17 +29,15 @@ namespace Board
         #endregion
 
         #region Private values
-
-        [SerializeField, TabGroup("TabGroup1", "Board size", SdfIconType.Columns, TextColor = "green")]
-        private int _width;
-        [SerializeField, TabGroup("TabGroup1", "Board size")]
-        private int _length;
-
+        
         [SerializeField, TabGroup("TabGroup1", "References", SdfIconType.Archive, TextColor = "red"), Required]
         private SlotView _slotViewPrefab;
         [SerializeField, TabGroup("TabGroup1", "References"), Required, ChildGameObjectsOnly]
         private Transform _slotParentTransform;
         
+        private int _width;
+        private int _length;
+
         #endregion
 
         #region MonoBehaviour methods
@@ -80,10 +78,6 @@ namespace Board
             }
 
             createNewArray:
-            foreach (Transform child in _slotParentTransform)
-            {
-                DestroyImmediate(child.gameObject);
-            }
             Slots = new SlotController[_width, _length];
         }
 
