@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828a25ec2bd943269a226848d6199190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 7159577387062255503}
+  <Camera>k__BackingField: {fileID: 7159577387062255503}
   _moveSpeed: 0.02
   _zoomSpeed: 0.1
   _cameraSizeMin: 0.5
@@ -418,6 +418,7 @@ MonoBehaviour:
   isPersistant: 0
   <UI>k__BackingField: {fileID: 4795315964691730650}
   <Board>k__BackingField: {fileID: 4386948183803038824}
+  <Camera>k__BackingField: {fileID: 7841478749800259305}
 --- !u!1 &7575999652578597015
 GameObject:
   m_ObjectHideFlags: 0

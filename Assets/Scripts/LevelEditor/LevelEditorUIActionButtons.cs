@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Inputs;
 using Sirenix.OdinInspector;
+using Slots;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +20,12 @@ namespace LevelEditor
         private List<LevelEditorActionButtonController> _buttons;
         private LevelEditorActionButtonController _currentButton;
         private bool _isHoldingClick;
-
+        private RaycastHit[] _mouseClickRaycastHits ;
+        
         private void Awake()
         {
+            _mouseClickRaycastHits = new RaycastHit[32];
+            
             _buttons = new List<LevelEditorActionButtonController>()
             {
                 _selectionButton,
@@ -71,7 +75,8 @@ namespace LevelEditor
         /// </summary>
         private void ClickTapAction()
         {
-            if (_currentButton == null)
+            SlotLocation slotLocation = GetClickedSlotLocation();
+            if (_currentButton == null || slotLocation == null)
             {
                 return;
             }
@@ -79,10 +84,9 @@ namespace LevelEditor
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
-                    Debug.Log("CL");
                     break;
                 case LevelEditorActionButtonType.Paint:
-                    Debug.Log("CP");
+                    LevelEditorManager.Instance.Board.CreateSlotAt(slotLocation.Coordinates);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -94,7 +98,8 @@ namespace LevelEditor
         /// </summary>
         private void ClickHoldAction()
         {
-            if (_currentButton == null)
+            SlotLocation slotLocation = GetClickedSlotLocation();
+            if (_currentButton == null || slotLocation == null)
             {
                 return;
             }
@@ -102,14 +107,29 @@ namespace LevelEditor
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
-                    Debug.Log("HL");
                     break;
                 case LevelEditorActionButtonType.Paint:
-                    Debug.Log("HP");
+                    LevelEditorManager.Instance.Board.CreateSlotAt(slotLocation.Coordinates);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private SlotLocation GetClickedSlotLocation()
+        {
+            Ray ray = LevelEditorManager.Instance.Camera.Camera.ScreenPointToRay(Input.mousePosition);
+            int hits = Physics.RaycastNonAlloc(ray, _mouseClickRaycastHits);
+            for (int i = 0; i < hits; i++)
+            {
+                if (_mouseClickRaycastHits[i].collider.TryGetComponent(out SlotLocation location) == false)
+                {
+                    continue;
+                }
+                return location;
+            }
+
+            return null;
         }
     }
 }

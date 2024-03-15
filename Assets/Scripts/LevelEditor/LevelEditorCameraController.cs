@@ -1,7 +1,9 @@
 ﻿using System;
 using DG.Tweening;
 using Inputs;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LevelEditor
 {
@@ -10,7 +12,8 @@ namespace LevelEditor
     /// </summary>
     public class LevelEditorCameraController : MonoBehaviour
     {
-        [SerializeField] private Camera _camera;
+        [field:SerializeField, Required] public Camera Camera { get; private set; }
+        
         [SerializeField] private float _moveSpeed = 1f;
         [SerializeField] private float _zoomSpeed = 0.1f;
         [SerializeField] private float _cameraSizeMin = 0.5f;
@@ -24,7 +27,7 @@ namespace LevelEditor
         
         private void Start()
         {
-            _baseSize = _camera.orthographicSize;
+            _baseSize = Camera.orthographicSize;
             
             InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += (bool doMove) => _doMoveCamera = doMove;
             InputManager.Instance.LevelEditorInput.OnCameraMoved += (Vector2 movementValue) => _cameraMovement = movementValue;
@@ -33,22 +36,22 @@ namespace LevelEditor
 
         private void Update()
         {
-            _camera.DOKill();
-            float size = _camera.orthographicSize - _cameraZoom * _zoomSpeed;
+            Camera.DOKill();
+            float size = Camera.orthographicSize - _cameraZoom * _zoomSpeed;
             size = Mathf.Clamp(size, _cameraSizeMin, _cameraSizeMax);
-            _camera.DOOrthoSize(size, 0.1f).SetEase(Ease.Flash);
+            Camera.DOOrthoSize(size, 0.1f).SetEase(Ease.Flash);
             
             if (_doMoveCamera == false)
             {
                 return;
             }
 
-            float zoomFactor = _camera.orthographicSize / _baseSize;
+            float zoomFactor = Camera.orthographicSize / _baseSize;
             float zoomFactorSpeed = zoomFactor * _moveSpeedMultiplierPerZoom;
             float deltaTime = Time.deltaTime * 350;
-            Vector3 xMovement = _camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed * deltaTime);
-            Vector3 yMovement = _camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
-            _camera.transform.localPosition += xMovement + yMovement;
+            Vector3 xMovement = Camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed * deltaTime);
+            Vector3 yMovement = Camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
+            Camera.transform.localPosition += xMovement + yMovement;
         }
     }
 }

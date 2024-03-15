@@ -9,15 +9,31 @@ namespace Slots
     /// </summary>
     public class SlotLocation : MonoBehaviour
     {
-        [SerializeField, TabGroup("References"), Required] private SlotView _slotViewPrefab;
+        public Vector2Int Coordinates { get; set; }
+        
         [SerializeField, TabGroup("References"), Required] private SpriteRenderer _emptySprite;
 
         private SlotView _slotView;
 
-        public void SetSlot(SlotView slot = null)
+        public void SetSlotOnLocation(SlotView view)
         {
-            _slotView = slot;
-            _emptySprite.gameObject.SetActive(slot == null);
+            if (_slotView != null)
+            {
+                DestroySlot();
+            }
+
+            _slotView = view;
+            _emptySprite.gameObject.SetActive(false);
+        }
+
+        public void DestroySlot()
+        {
+            if (_slotView != null)
+            {
+                return;
+            }
+            Destroy(_slotView);
+            _emptySprite.gameObject.SetActive(true);
         }
     }
 }

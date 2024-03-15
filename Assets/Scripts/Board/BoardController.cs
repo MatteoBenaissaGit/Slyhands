@@ -84,13 +84,14 @@ namespace Board
         public void CreateBoardSlots()
         {
             ClearBoardSlots();
-            ForEachCoordinatesOnBoard(coordinates => CreateSlotAt(coordinates.x, coordinates.y));
+            ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y));
         }
 
-        private void CreateSlotAt(int x, int y)
+        private void CreateSlotLocationAt(int x, int y)
         {
-            Data.SlotLocations[x, y] = Instantiate(_slotLocationPrefab, transform.position + new Vector3(x,0,y), Quaternion.identity);
+            Data.SlotLocations[x, y] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector2Int(x,y)), Quaternion.identity);
             Data.SlotLocations[x, y].transform.parent = _slotParent;
+            Data.SlotLocations[x, y].Coordinates = new Vector2Int(x, y);
         }
         
         /// <summary>
@@ -129,12 +130,18 @@ namespace Board
         /// </summary>
         /// <param name="coordinates">The coordinates to create the slot at</param>
         /// <returns>The slot created</returns>
-        private SlotController CreateSlotAt(Vector2Int coordinates)
+        public SlotController CreateSlotAt(Vector2Int coordinates)
         {
+            Debug.Log("create slot");
             SlotController slot = new SlotController(this, coordinates);
+            
             SlotView slotView = Instantiate(_slotViewPrefab, _slotParent, true);
             slotView.Initialize(slot);
-            slotView.transform.position = GetCoordinatesToWorldPosition(slot.Coordinates);
+            float slotViewOffsetY = -0.5f;
+            slotView.transform.position = GetCoordinatesToWorldPosition(slot.Coordinates) + new Vector3(0,slotViewOffsetY,0);
+            
+            Data.SlotLocations[coordinates.x, coordinates.y].SetSlotOnLocation(slotView);
+            
             return slot;
         }
     }

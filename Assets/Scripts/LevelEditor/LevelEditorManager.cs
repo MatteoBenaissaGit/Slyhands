@@ -12,5 +12,6 @@ namespace LevelEditor
     {
         [field:SerializeField] [field:Required] public LevelEditorUI UI { get; private set; }
         [field:SerializeField] [field:Required] public BoardController Board { get; private set; }
+        [field:SerializeField] [field:Required] public LevelEditorCameraController Camera { get; private set; }
     }
 }
