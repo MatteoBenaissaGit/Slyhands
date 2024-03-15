@@ -1,4 +1,5 @@
 ﻿using System;
+using LevelEditor;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Slots;
@@ -6,47 +7,65 @@ using UnityEngine;
 
 namespace Board
 {
+    public class BoardData
+    {
+        public BoardData(Vector2Int dimensions)
+        {
+            Width = dimensions.x;
+            Length = dimensions.y;
+            SlotLocations = new SlotLocation[Width, Length];
+        }
+        
+        public int Width { get; private set; }
+        public int Length { get; private set; }
+        
+        public Vector2Int BoardSize => new Vector2Int(Width, Length);
+
+        /// <summary>
+        /// The array containing all board's slots
+        /// </summary>
+        public SlotLocation[,] SlotLocations { get; set; }
+    }
+    
     /// <summary>
     /// This class handle the board management and store the slots on it
     /// </summary>
     public class BoardController : MonoBehaviour
     {
         #region Properties
-
-        /// <summary>
-        /// The (X,Y) size of the board 
-        /// </summary>
-        public Vector2Int BoardSize
-        {
-            get => new Vector2Int(_width, _length);
-        }
-
-        /// <summary>
-        /// The array containing all board's slots
-        /// </summary>
-        public SlotController[,] Slots { get; private set; } = new SlotController[,] { };
+        
+        public BoardData Data { get; private set; }
 
         #endregion
 
         #region Private values
         
-        [SerializeField, TabGroup("TabGroup1", "References", SdfIconType.Archive, TextColor = "red"), Required]
-        private SlotView _slotViewPrefab;
-        [SerializeField, TabGroup("TabGroup1", "References"), Required, ChildGameObjectsOnly]
-        private Transform _slotParentTransform;
-        
+        [SerializeField, TabGroup("TabGroup1", "Dimensions"), Range(0, 256)] 
         private int _width;
+        [SerializeField, TabGroup("TabGroup1", "Dimensions"), Range(0, 256)] 
         private int _length;
 
-        #endregion
+        [SerializeField, TabGroup("TabGroup1", "References", SdfIconType.Archive, TextColor = "red"), Required]
+        private SlotView _slotViewPrefab;
+        [SerializeField, TabGroup("TabGroup1", "References"), Required] 
+        private SlotLocation _slotLocationPrefab;
 
-        #region MonoBehaviour methods
+        private Transform _slotParent;
+        
+        #endregion
 
         private void Start()
         {
+            Initialize(_width, _length);
         }
 
-        #endregion
+        public void Initialize(int width, int length)
+        {
+            Data = new BoardData(new Vector2Int(width, length));
+            
+            _slotParent = new GameObject("SlotParent").transform;
+            _slotParent.parent = transform;
+        }
 
         #region Common
 
@@ -62,23 +81,32 @@ namespace Board
 
         #endregion
 
+        public void CreateBoardSlots()
+        {
+            ClearBoardSlots();
+            ForEachCoordinatesOnBoard(coordinates => CreateSlotAt(coordinates.x, coordinates.y));
+        }
+
+        private void CreateSlotAt(int x, int y)
+        {
+            Data.SlotLocations[x, y] = Instantiate(_slotLocationPrefab, transform.position + new Vector3(x,0,y), Quaternion.identity);
+            Data.SlotLocations[x, y].transform.parent = _slotParent;
+        }
+        
         /// <summary>
         /// Clear all the slots on current board
         /// </summary>
-        private void ClearBoard()
+        private void ClearBoardSlots()
         {
-            if (Slots == null)
+            foreach (SlotLocation slot in Data.SlotLocations)
             {
-                goto createNewArray;
+                if (slot == null || slot.gameObject == null)
+                {
+                    continue;
+                }
+                Destroy(slot.gameObject);
             }
-            
-            foreach (SlotController slot in Slots)
-            {
-                slot.OnSlotAction.Invoke(SlotAction.GetDestroyed, true);
-            }
-
-            createNewArray:
-            Slots = new SlotController[_width, _length];
+            Data.SlotLocations = new SlotLocation[_width, _length];
         }
 
         /// <summary>
@@ -104,7 +132,7 @@ namespace Board
         private SlotController CreateSlotAt(Vector2Int coordinates)
         {
             SlotController slot = new SlotController(this, coordinates);
-            SlotView slotView = Instantiate(_slotViewPrefab, _slotParentTransform, true);
+            SlotView slotView = Instantiate(_slotViewPrefab, _slotParent, true);
             slotView.Initialize(slot);
             slotView.transform.position = GetCoordinatesToWorldPosition(slot.Coordinates);
             return slot;

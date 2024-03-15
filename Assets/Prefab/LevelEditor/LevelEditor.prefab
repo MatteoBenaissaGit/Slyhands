@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4308639762329277391}
-  - component: {fileID: 2416212600354247991}
+  - component: {fileID: 4386948183803038824}
   m_Layer: 0
   m_Name: BoardEditor
   m_TagString: Untagged
@@ -156,7 +156,7 @@ Transform:
   m_Father: {fileID: 2496616733447243810}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2416212600354247991
+--- !u!114 &4386948183803038824
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,11 +165,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3029212993002765690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59c55108e1a42504ca311041ec826586, type: 3}
+  m_Script: {fileID: 11500000, guid: 8780088c0bcf44c295c3b1b311994a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _width: 32
   _length: 32
+  _slotViewPrefab: {fileID: 991644387507572401, guid: 716e1df8b88e8a24cae767e0ff4eb8b6,
+    type: 3}
   _slotLocationPrefab: {fileID: 803311559390336027, guid: 1276bdc702fde4b41b2c43ee54db7c88,
     type: 3}
 --- !u!1 &3954623253566398463
@@ -399,7 +401,7 @@ Transform:
   - {fileID: 4961015677131810871}
   - {fileID: 4308639762329277391}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5382473377780604658
 MonoBehaviour:
@@ -415,7 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPersistant: 0
   <UI>k__BackingField: {fileID: 4795315964691730650}
-  <Board>k__BackingField: {fileID: 2416212600354247991}
+  <Board>k__BackingField: {fileID: 4386948183803038824}
 --- !u!1 &7575999652578597015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,7 +1209,7 @@ PrefabInstance:
     - target: {fileID: 1667554191143636441, guid: 9e61db7c792e0104b843b9ef3fd93e6a,
         type: 3}
       propertyPath: m_Size
-      value: 0.99651396
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1667554191143636441, guid: 9e61db7c792e0104b843b9ef3fd93e6a,
         type: 3}

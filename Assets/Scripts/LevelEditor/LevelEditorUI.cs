@@ -30,7 +30,7 @@ namespace LevelEditor
         private List<LevelEditorUIMenu> _menus;
         private LevelEditorUIMenu _currentMenu;
 
-        private void Awake()
+        private void Start()
         {
             _menus = new List<LevelEditorUIMenu>()
             {
@@ -44,14 +44,14 @@ namespace LevelEditor
             
             _saveButton.onClick.AddListener(() => ShowMenu(_saveMenu));
             _loadButton.onClick.AddListener(() => ShowMenu(_loadMenu));
-            _createNewBoardButton.onClick.AddListener(() => LevelEditorManager.Instance.Board.CreateNewBoard());
+            _createNewBoardButton.onClick.AddListener(() => LevelEditorManager.Instance.Board.CreateBoardSlots());
         }
 
         private void OnDestroy()
         {
             _saveButton.onClick.RemoveListener(() => ShowMenu(_saveMenu));
             _loadButton.onClick.RemoveListener(() => ShowMenu(_loadMenu));
-            _createNewBoardButton.onClick.RemoveListener(() => LevelEditorManager.Instance.Board.CreateNewBoard());
+            _createNewBoardButton.onClick.RemoveListener(() => LevelEditorManager.Instance.Board.CreateBoardSlots());
         }
 
         #region Menus

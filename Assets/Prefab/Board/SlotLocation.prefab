@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3633054206733459071}
   - component: {fileID: 803311559390336027}
   m_Layer: 0
-  m_Name: LevelEditorSlotLocation
+  m_Name: SlotLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,3 +131,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slotViewPrefab: {fileID: 991644387507572401, guid: 716e1df8b88e8a24cae767e0ff4eb8b6,
     type: 3}
+  _emptySprite: {fileID: 7675796831197025348}

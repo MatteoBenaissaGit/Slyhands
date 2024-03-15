@@ -45,8 +45,9 @@ namespace LevelEditor
 
             float zoomFactor = _camera.orthographicSize / _baseSize;
             float zoomFactorSpeed = zoomFactor * _moveSpeedMultiplierPerZoom;
-            Vector3 xMovement = _camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed);
-            Vector3 yMovement = _camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed);
+            float deltaTime = Time.deltaTime * 350;
+            Vector3 xMovement = _camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed * deltaTime);
+            Vector3 yMovement = _camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
             _camera.transform.localPosition += xMovement + yMovement;
         }
     }
