@@ -1,5 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Slots
 {
@@ -10,8 +11,10 @@ namespace Slots
     public class SlotLocation : MonoBehaviour
     {
         public Vector2Int Coordinates { get; set; }
+        public bool IsEditable { get; private set; }
         
-        [SerializeField, TabGroup("References"), Required] private SpriteRenderer _emptySprite;
+        [SerializeField, TabGroup("References"), Required] private SpriteRenderer _emptyEditableSprite;
+        [SerializeField, TabGroup("References"), Required] private Collider _clickRaycastCollider;
 
         private SlotView _slotView;
 
@@ -19,21 +22,30 @@ namespace Slots
         {
             if (_slotView != null)
             {
-                DestroySlot();
+                DestroySlotViewOnLocation();
             }
 
             _slotView = view;
-            _emptySprite.gameObject.SetActive(false);
+            _slotView.transform.parent = transform;
+            _emptyEditableSprite.gameObject.SetActive(false);
         }
 
-        public void DestroySlot()
+        public void DestroySlotViewOnLocation()
         {
-            if (_slotView != null)
+            if (_slotView == null)
             {
                 return;
             }
-            Destroy(_slotView);
-            _emptySprite.gameObject.SetActive(true);
+            Destroy(_slotView.gameObject);
+            _emptyEditableSprite.gameObject.SetActive(IsEditable);
+        }
+
+        public void SetEditable(bool isEditable)
+        {
+            IsEditable = isEditable;
+            
+            _clickRaycastCollider.enabled = IsEditable;
+            _emptyEditableSprite.gameObject.SetActive(_slotView == null && IsEditable);
         }
     }
 }

@@ -130,7 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13feede7773e434ab00618fee007451a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _emptySprite: {fileID: 7675796831197025348}
+  _emptyEditableSprite: {fileID: 7675796831197025348}
+  _clickRaycastCollider: {fileID: 2093966138885732976}
 --- !u!65 &2093966138885732976
 BoxCollider:
   m_ObjectHideFlags: 0

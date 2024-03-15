@@ -5,6 +5,7 @@ using Inputs;
 using Sirenix.OdinInspector;
 using Slots;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace LevelEditor
@@ -118,6 +119,11 @@ namespace LevelEditor
 
         private SlotLocation GetClickedSlotLocation()
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return null;
+            }
+            
             Ray ray = LevelEditorManager.Instance.Camera.Camera.ScreenPointToRay(Input.mousePosition);
             int hits = Physics.RaycastNonAlloc(ray, _mouseClickRaycastHits);
             for (int i = 0; i < hits; i++)

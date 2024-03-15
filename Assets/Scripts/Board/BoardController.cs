@@ -105,6 +105,7 @@ namespace Board
                 {
                     continue;
                 }
+                slot.DestroySlotViewOnLocation();
                 Destroy(slot.gameObject);
             }
             Data.SlotLocations = new SlotLocation[_width, _length];
@@ -132,7 +133,6 @@ namespace Board
         /// <returns>The slot created</returns>
         public SlotController CreateSlotAt(Vector2Int coordinates)
         {
-            Debug.Log("create slot");
             SlotController slot = new SlotController(this, coordinates);
             
             SlotView slotView = Instantiate(_slotViewPrefab, _slotParent, true);
