@@ -9,22 +9,24 @@ namespace Board
 {
     public class BoardData
     {
-        public BoardData(Vector2Int dimensions)
+        public BoardData(Vector3Int dimensions)
         {
             Width = dimensions.x;
-            Length = dimensions.y;
-            SlotLocations = new SlotLocation[Width, Length];
+            Height = dimensions.y;
+            Length = dimensions.z;
+            SlotLocations = new SlotLocation[Width, Height, Length];
         }
         
-        public int Width { get; private set; }
-        public int Length { get; private set; }
+        public int Width { get; private set; } //X
+        public int Length { get; private set; } //Z
+        public int Height { get; private set; } //Y
         
-        public Vector2Int BoardSize => new Vector2Int(Width, Length);
+        public Vector3Int BoardSize => new Vector3Int(Width, Height, Length);
 
         /// <summary>
         /// The array containing all board's slots
         /// </summary>
-        public SlotLocation[,] SlotLocations { get; set; }
+        public SlotLocation[,,] SlotLocations { get; set; }
     }
     
     /// <summary>
@@ -40,11 +42,7 @@ namespace Board
 
         #region Private values
         
-        [SerializeField, TabGroup("TabGroup1", "Dimensions"), Range(0, 256)] 
-        private int _width;
-        [SerializeField, TabGroup("TabGroup1", "Dimensions"), Range(0, 256)] 
-        private int _length;
-
+        
         [SerializeField, TabGroup("TabGroup1", "References", SdfIconType.Archive, TextColor = "red"), Required]
         private SlotView _slotViewPrefab;
         [SerializeField, TabGroup("TabGroup1", "References"), Required] 
@@ -54,19 +52,6 @@ namespace Board
         
         #endregion
 
-        private void Start()
-        {
-            Initialize(_width, _length);
-        }
-
-        public void Initialize(int width, int length)
-        {
-            Data = new BoardData(new Vector2Int(width, length));
-            
-            _slotParent = new GameObject("SlotParent").transform;
-            _slotParent.parent = transform;
-        }
-
         #region Common
 
         /// <summary>
@@ -74,24 +59,33 @@ namespace Board
         /// </summary>
         /// <param name="coordinates">The coordinates you need to translate in world position</param>
         /// <returns>A Vector3 of the world position associated to the given coordinates</returns>
-        public Vector3 GetCoordinatesToWorldPosition(Vector2Int coordinates)
+        public Vector3 GetCoordinatesToWorldPosition(Vector3Int coordinates)
         {
-            return transform.position + new Vector3(coordinates.x, 0, coordinates.y);
+            return transform.position + new Vector3(coordinates.x, coordinates.y, coordinates.z);
         }
 
         #endregion
 
-        public void CreateBoardSlots()
+        public void CreateBoard(int width, int length, int height)
         {
             ClearBoardSlots();
-            ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y));
+            InitializeBoardData(width, length, height);
+            ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
         }
 
-        private void CreateSlotLocationAt(int x, int y)
+        private void InitializeBoardData(int width, int length, int height)
         {
-            Data.SlotLocations[x, y] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector2Int(x,y)), Quaternion.identity);
-            Data.SlotLocations[x, y].transform.parent = _slotParent;
-            Data.SlotLocations[x, y].Coordinates = new Vector2Int(x, y);
+            Data = new BoardData(new Vector3Int(width,height, length));
+            
+            _slotParent = new GameObject("SlotParent").transform;
+            _slotParent.parent = transform;
+        }
+
+        private void CreateSlotLocationAt(int x, int y, int z)
+        {
+            Data.SlotLocations[x, y, z] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector3Int(x,y,z)), Quaternion.identity);
+            Data.SlotLocations[x, y, z].transform.parent = _slotParent;
+            Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
         }
         
         /// <summary>
@@ -99,29 +93,43 @@ namespace Board
         /// </summary>
         private void ClearBoardSlots()
         {
-            foreach (SlotLocation slot in Data.SlotLocations)
+            ForEachCoordinatesOnBoard(ClearBoardSlot);
+        }
+
+        /// <summary>
+        /// Cleat a slot at defined coordinates
+        /// </summary>
+        /// <param name="coordinates">The coordinates of the slot to clear</param>
+        private void ClearBoardSlot(Vector3Int coordinates)
+        {
+            SlotLocation slot = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
+            if (slot == null)
             {
-                if (slot == null || slot.gameObject == null)
-                {
-                    continue;
-                }
-                slot.DestroySlotViewOnLocation();
-                Destroy(slot.gameObject);
+                return;
             }
-            Data.SlotLocations = new SlotLocation[_width, _length];
+            slot.DestroySlotViewOnLocation();
+            Destroy(slot.gameObject);
         }
 
         /// <summary>
         /// Make an action for each coordinates of the board
         /// </summary>
         /// <param name="actionToExecute">The action to make</param>
-        public void ForEachCoordinatesOnBoard(Action<Vector2Int> actionToExecute)
+        public void ForEachCoordinatesOnBoard(Action<Vector3Int> actionToExecute)
         {
-            for (int x = 0; x < _width; x++)
+            if (Data == null)
             {
-                for (int y = 0; y < _length; y++)
+                return;
+            }
+            
+            for (int y = 0; y < Data.Height; y++) //height
+            {
+                for (int x = 0; x < Data.Width; x++) //width
                 {
-                    actionToExecute.Invoke(new Vector2Int(x,y));
+                    for (int z = 0; z < Data.Length; z++) //length
+                    {
+                        actionToExecute.Invoke(new Vector3Int(x, y, z));
+                    }
                 }
             }
         }
@@ -131,7 +139,7 @@ namespace Board
         /// </summary>
         /// <param name="coordinates">The coordinates to create the slot at</param>
         /// <returns>The slot created</returns>
-        public SlotController CreateSlotAt(Vector2Int coordinates)
+        public SlotController CreateSlotAt(Vector3Int coordinates)
         {
             SlotController slot = new SlotController(this, coordinates);
             
@@ -140,9 +148,17 @@ namespace Board
             float slotViewOffsetY = -0.5f;
             slotView.transform.position = GetCoordinatesToWorldPosition(slot.Coordinates) + new Vector3(0,slotViewOffsetY,0);
             
-            Data.SlotLocations[coordinates.x, coordinates.y].SetSlotOnLocation(slotView);
+            Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SetSlotOnLocation(slotView);
             
             return slot;
+        }
+
+        /// <summary>
+        /// Show the slots at a specific height and hide the other slot floors
+        /// </summary>
+        public void ViewSlotsAtHeight(int height)
+        {
+            
         }
     }
 }

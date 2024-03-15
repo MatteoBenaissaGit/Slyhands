@@ -20,9 +20,9 @@ namespace Board
     public abstract class BoardEntity
     {
         /// <summary>
-        /// The X,Y coordinates of the entity on the board
+        /// The X,Y and Z coordinates of the entity on the board
         /// </summary>
-        public Vector2Int Coordinates { get; protected set; }
+        public Vector3Int Coordinates { get; protected set; }
 
         /// <summary>
         /// The super type of the entity
@@ -34,7 +34,7 @@ namespace Board
         /// </summary>
         public BoardController Board { get; private set; }
 
-        public BoardEntity(BoardController board, Vector2Int coordinates)
+        public BoardEntity(BoardController board, Vector3Int coordinates)
         {
             Coordinates = coordinates;
             Board = board;

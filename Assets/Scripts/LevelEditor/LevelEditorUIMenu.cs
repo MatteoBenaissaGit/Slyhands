@@ -16,12 +16,12 @@ namespace LevelEditor
         [field:SerializeField] [field:Required]
         protected Button CancelButton { get; set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             CancelButton.onClick.AddListener(Cancel);
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             CancelButton.onClick.RemoveListener(Cancel);
         }

@@ -19,6 +19,8 @@ namespace LevelEditor
         private LevelEditorUILoadMenu _loadMenu;
         [SerializeField, BoxGroup("Menus"), Required]
         private LevelEditorUISaveMenu _saveMenu;
+        [SerializeField, BoxGroup("Menus"), Required]
+        private LevelEditorUICreateBoardMenu _createNewBoardMenu;
         
         [SerializeField, BoxGroup("Buttons"), Required]
         private Button _saveButton;
@@ -26,6 +28,9 @@ namespace LevelEditor
         private Button _loadButton;
         [SerializeField, BoxGroup("Buttons"), Required]
         private Button _createNewBoardButton;
+        
+        [SerializeField, BoxGroup("Other"), Required]
+        private LevelEditorUIHeightSlider _heightSlider;
 
         private List<LevelEditorUIMenu> _menus;
         private LevelEditorUIMenu _currentMenu;
@@ -35,7 +40,8 @@ namespace LevelEditor
             _menus = new List<LevelEditorUIMenu>()
             {
                 _loadMenu,
-                _saveMenu
+                _saveMenu,
+                _createNewBoardMenu
             };
             
             _menus.ForEach(x => x.CanvasGroup.alpha = 0);
@@ -44,14 +50,16 @@ namespace LevelEditor
             
             _saveButton.onClick.AddListener(() => ShowMenu(_saveMenu));
             _loadButton.onClick.AddListener(() => ShowMenu(_loadMenu));
-            _createNewBoardButton.onClick.AddListener(() => LevelEditorManager.Instance.Board.CreateBoardSlots());
+            _createNewBoardButton.onClick.AddListener(() => ShowMenu(_createNewBoardMenu));
+
+            _heightSlider.SetSlider(false);
         }
 
         private void OnDestroy()
         {
             _saveButton.onClick.RemoveListener(() => ShowMenu(_saveMenu));
             _loadButton.onClick.RemoveListener(() => ShowMenu(_loadMenu));
-            _createNewBoardButton.onClick.RemoveListener(() => LevelEditorManager.Instance.Board.CreateBoardSlots());
+            _createNewBoardButton.onClick.RemoveListener(() => ShowMenu(_createNewBoardMenu));
         }
 
         #region Menus
@@ -90,6 +98,12 @@ namespace LevelEditor
                 .OnComplete(() => _currentMenu.CanvasGroup.alpha = 1f)
                 .OnComplete(() => _currentMenu.CanvasGroup.interactable = true)
                 .OnComplete(() => _currentMenu.CanvasGroup.blocksRaycasts = true);
+        }
+
+        public void CreateNewBoard(int width, int height, int length)
+        {
+            LevelEditorManager.Instance.Board.CreateBoard(width,length,height);
+            _heightSlider.SetSlider(height > 1);
         }
 
         #endregion

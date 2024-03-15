@@ -10,7 +10,7 @@ namespace Slots
     /// </summary>
     public class SlotLocation : MonoBehaviour
     {
-        public Vector2Int Coordinates { get; set; }
+        public Vector3Int Coordinates { get; set; }
         public bool IsEditable { get; private set; }
         
         [SerializeField, TabGroup("References"), Required] private SpriteRenderer _emptyEditableSprite;
