@@ -21,7 +21,8 @@ namespace LevelEditor
         private List<LevelEditorActionButtonController> _buttons;
         private LevelEditorActionButtonController _currentButton;
         private bool _isHoldingClick;
-        private RaycastHit[] _mouseClickRaycastHits ;
+        private RaycastHit[] _mouseClickRaycastHits;
+        private SlotLocation _currentHoveredLocation;
         
         private void Awake()
         {
@@ -54,6 +55,14 @@ namespace LevelEditor
 
         private void Update()
         {
+            SlotLocation location = GetClickedSlotLocation();
+            if (location != _currentHoveredLocation)
+            {
+                _currentHoveredLocation?.SetHovered(false);
+                location?.SetHovered(true);
+            }
+            _currentHoveredLocation = location;
+            
             if (_isHoldingClick)
             {
                 ClickHoldAction();
@@ -76,8 +85,7 @@ namespace LevelEditor
         /// </summary>
         private void ClickTapAction()
         {
-            SlotLocation slotLocation = GetClickedSlotLocation();
-            if (_currentButton == null || slotLocation == null)
+            if (_currentButton == null || _currentHoveredLocation == null)
             {
                 return;
             }
@@ -87,7 +95,7 @@ namespace LevelEditor
                 case LevelEditorActionButtonType.Selection:
                     break;
                 case LevelEditorActionButtonType.Paint:
-                    LevelEditorManager.Instance.Board.CreateSlotAt(slotLocation.Coordinates);
+                    LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -99,8 +107,7 @@ namespace LevelEditor
         /// </summary>
         private void ClickHoldAction()
         {
-            SlotLocation slotLocation = GetClickedSlotLocation();
-            if (_currentButton == null || slotLocation == null)
+            if (_currentButton == null || _currentHoveredLocation == null)
             {
                 return;
             }
@@ -110,7 +117,7 @@ namespace LevelEditor
                 case LevelEditorActionButtonType.Selection:
                     break;
                 case LevelEditorActionButtonType.Paint:
-                    LevelEditorManager.Instance.Board.CreateSlotAt(slotLocation.Coordinates);
+                    LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -128,7 +135,8 @@ namespace LevelEditor
             int hits = Physics.RaycastNonAlloc(ray, _mouseClickRaycastHits);
             for (int i = 0; i < hits; i++)
             {
-                if (_mouseClickRaycastHits[i].collider.TryGetComponent(out SlotLocation location) == false)
+                if (_mouseClickRaycastHits[i].collider.TryGetComponent(out SlotLocation location) == false
+                    || location.IsEditable == false)
                 {
                     continue;
                 }

@@ -63,54 +63,7 @@ namespace Board
         {
             return transform.position + new Vector3(coordinates.x, coordinates.y, coordinates.z);
         }
-
-        #endregion
-
-        public void CreateBoard(int width, int length, int height)
-        {
-            ClearBoardSlots();
-            InitializeBoardData(width, length, height);
-            ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
-        }
-
-        private void InitializeBoardData(int width, int length, int height)
-        {
-            Data = new BoardData(new Vector3Int(width,height, length));
-            
-            _slotParent = new GameObject("SlotParent").transform;
-            _slotParent.parent = transform;
-        }
-
-        private void CreateSlotLocationAt(int x, int y, int z)
-        {
-            Data.SlotLocations[x, y, z] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector3Int(x,y,z)), Quaternion.identity);
-            Data.SlotLocations[x, y, z].transform.parent = _slotParent;
-            Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
-        }
         
-        /// <summary>
-        /// Clear all the slots on current board
-        /// </summary>
-        private void ClearBoardSlots()
-        {
-            ForEachCoordinatesOnBoard(ClearBoardSlot);
-        }
-
-        /// <summary>
-        /// Cleat a slot at defined coordinates
-        /// </summary>
-        /// <param name="coordinates">The coordinates of the slot to clear</param>
-        private void ClearBoardSlot(Vector3Int coordinates)
-        {
-            SlotLocation slot = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
-            if (slot == null)
-            {
-                return;
-            }
-            slot.DestroySlotViewOnLocation();
-            Destroy(slot.gameObject);
-        }
-
         /// <summary>
         /// Make an action for each coordinates of the board
         /// </summary>
@@ -132,6 +85,65 @@ namespace Board
                     }
                 }
             }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Initialize the board data and setup the slot parent
+        /// </summary>
+        /// <param name="width">the width of the board</param>
+        /// <param name="length">the length of the board</param>
+        /// <param name="height">the height of the board</param>
+        private void InitializeBoardData(int width, int length, int height)
+        {
+            Data = new BoardData(new Vector3Int(width,height, length));
+            
+            _slotParent = new GameObject("SlotParent").transform;
+            _slotParent.parent = transform;
+        }
+        
+        /// <summary>
+        /// Create a new blank board filled with slots
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="length"></param>
+        /// <param name="height"></param>
+        public void CreateBlankBoard(int width, int length, int height)
+        {
+            ClearBoard();
+            InitializeBoardData(width, length, height);
+            ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
+        }
+
+        private void CreateSlotLocationAt(int x, int y, int z)
+        {
+            Data.SlotLocations[x, y, z] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector3Int(x,y,z)), Quaternion.identity);
+            Data.SlotLocations[x, y, z].transform.parent = _slotParent;
+            Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
+        }
+        
+        /// <summary>
+        /// Clear the current board
+        /// </summary>
+        private void ClearBoard()
+        {
+            ForEachCoordinatesOnBoard(ClearBoardSlot);
+        }
+
+        /// <summary>
+        /// Cleat a slot at defined coordinates
+        /// </summary>
+        /// <param name="coordinates">The coordinates of the slot to clear</param>
+        private void ClearBoardSlot(Vector3Int coordinates)
+        {
+            SlotLocation slot = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
+            if (slot == null)
+            {
+                return;
+            }
+            slot.DestroySlotViewOnLocation();
+            Destroy(slot.gameObject);
         }
 
         /// <summary>
@@ -158,7 +170,9 @@ namespace Board
         /// </summary>
         public void ViewSlotsAtHeight(int height)
         {
-            
+            ForEachCoordinatesOnBoard(
+                coordinate => 
+                    Data.SlotLocations[coordinate.x,coordinate.y,coordinate.z].SetEditable(coordinate.y == height));
         }
     }
 }

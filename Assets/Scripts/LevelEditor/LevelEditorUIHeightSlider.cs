@@ -38,7 +38,7 @@ namespace LevelEditor
             _slider.value = _currentHeight;
             _heightValueText.text = _currentHeight.ToString();
             
-            //board method to show floor
+            LevelEditorManager.Instance.Board.ViewSlotsAtHeight(_currentHeight);
         }
     }
 }

@@ -102,7 +102,7 @@ namespace LevelEditor
 
         public void CreateNewBoard(int width, int height, int length)
         {
-            LevelEditorManager.Instance.Board.CreateBoard(width,length,height);
+            LevelEditorManager.Instance.Board.CreateBlankBoard(width,length,height);
             _heightSlider.SetSlider(height > 1);
         }
 
