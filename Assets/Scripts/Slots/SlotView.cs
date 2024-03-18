@@ -52,19 +52,28 @@ namespace Slots
             Controller = null;
         }
 
-        #region Editor methods
-
         /// <summary>
-        /// This method handle the creation or the destruction of obstacles on the slot
+        /// Set the obstacle object on the slot
         /// </summary>
-        [Button]
-        private void SetObstacle()
+        /// <param name="obstacle">The object to put as obstacle</param>
+        public void SetObstacle(GameObject obstacle)
         {
-            Controller.Data.HasObstacle = Controller.Data.HasObstacle == false;
-            _obstacleParent.gameObject.SetActive(Controller.Data.HasObstacle);
+            _obstacleParent.gameObject.SetActive(true);
+            Controller.Data.HasObstacle = true;
+            
+            obstacle.transform.parent = _obstacleParent;
+            obstacle.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
 
-        #endregion
+        /// <summary>
+        /// Set if there is an obstacle or not
+        /// </summary>
+        /// <param name="isThereObstacle">Is there an obstacle ?</param>
+        public void SetObstacle(bool isThereObstacle)
+        {
+            _obstacleParent.gameObject.SetActive(isThereObstacle);
+            Controller.Data.HasObstacle = isThereObstacle;
+        }
         
         #region Actions
 
