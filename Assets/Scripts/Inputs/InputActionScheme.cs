@@ -64,6 +64,15 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""c72197de-8537-47ba-98e4-b6bfa5431eca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ClickHold"",
                     ""type"": ""Button"",
                     ""id"": ""f379f635-ae61-4967-bc84-9c98f176595d"",
@@ -128,6 +137,17 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""ClickHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3279e585-4a6c-4f51-9c65-0fe1d16b2a97"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -140,6 +160,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_CameraMoveVector = m_LevelEditor.FindAction("CameraMoveVector", throwIfNotFound: true);
         m_LevelEditor_CameraZoom = m_LevelEditor.FindAction("CameraZoom", throwIfNotFound: true);
         m_LevelEditor_ClickTap = m_LevelEditor.FindAction("ClickTap", throwIfNotFound: true);
+        m_LevelEditor_RightClick = m_LevelEditor.FindAction("RightClick", throwIfNotFound: true);
         m_LevelEditor_ClickHold = m_LevelEditor.FindAction("ClickHold", throwIfNotFound: true);
     }
 
@@ -206,6 +227,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_CameraMoveVector;
     private readonly InputAction m_LevelEditor_CameraZoom;
     private readonly InputAction m_LevelEditor_ClickTap;
+    private readonly InputAction m_LevelEditor_RightClick;
     private readonly InputAction m_LevelEditor_ClickHold;
     public struct LevelEditorActions
     {
@@ -215,6 +237,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @CameraMoveVector => m_Wrapper.m_LevelEditor_CameraMoveVector;
         public InputAction @CameraZoom => m_Wrapper.m_LevelEditor_CameraZoom;
         public InputAction @ClickTap => m_Wrapper.m_LevelEditor_ClickTap;
+        public InputAction @RightClick => m_Wrapper.m_LevelEditor_RightClick;
         public InputAction @ClickHold => m_Wrapper.m_LevelEditor_ClickHold;
         public InputActionMap Get() { return m_Wrapper.m_LevelEditor; }
         public void Enable() { Get().Enable(); }
@@ -237,6 +260,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @ClickTap.started += instance.OnClickTap;
             @ClickTap.performed += instance.OnClickTap;
             @ClickTap.canceled += instance.OnClickTap;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
             @ClickHold.started += instance.OnClickHold;
             @ClickHold.performed += instance.OnClickHold;
             @ClickHold.canceled += instance.OnClickHold;
@@ -256,6 +282,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @ClickTap.started -= instance.OnClickTap;
             @ClickTap.performed -= instance.OnClickTap;
             @ClickTap.canceled -= instance.OnClickTap;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
             @ClickHold.started -= instance.OnClickHold;
             @ClickHold.performed -= instance.OnClickHold;
             @ClickHold.canceled -= instance.OnClickHold;
@@ -282,6 +311,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnCameraMoveVector(InputAction.CallbackContext context);
         void OnCameraZoom(InputAction.CallbackContext context);
         void OnClickTap(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
         void OnClickHold(InputAction.CallbackContext context);
     }
 }

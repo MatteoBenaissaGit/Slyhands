@@ -50,6 +50,7 @@ namespace LevelEditor
         private void Start()
         {
             InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapAction;
+            InputManager.Instance.LevelEditorInput.OnRightClick += RightClickAction;
             InputManager.Instance.LevelEditorInput.OnClickHold += (bool doHold) => _isHoldingClick = doHold;
         }
 
@@ -96,6 +97,29 @@ namespace LevelEditor
                     break;
                 case LevelEditorActionButtonType.Paint:
                     LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// Handle the action made when the user right click 
+        /// </summary>
+        private void RightClickAction()
+        {
+            if (_currentButton == null || _currentHoveredLocation == null)
+            {
+                return;
+            }
+            
+            switch (_currentButton.Type)
+            {
+                case LevelEditorActionButtonType.Selection:
+                    LevelEditorManager.Instance.UI.DropDownMenu.CreateDropDownMenu(_currentHoveredLocation);
+                    break;
+                case LevelEditorActionButtonType.Paint:
+                    _currentHoveredLocation.DestroySlotViewOnLocation();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

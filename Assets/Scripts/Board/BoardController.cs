@@ -151,9 +151,13 @@ namespace Board
         /// </summary>
         /// <param name="coordinates">The coordinates to create the slot at</param>
         /// <returns>The slot created</returns>
-        public SlotController CreateSlotAt(Vector3Int coordinates)
+        public SlotController CreateSlotAt(Vector3Int coordinates, SlotData data = null)
         {
             SlotController slot = new SlotController(this, coordinates);
+            if (data != null)
+            {
+                slot.Data = data;
+            }
             
             SlotView slotView = Instantiate(_slotViewPrefab, _slotParent, true);
             slotView.Initialize(slot);

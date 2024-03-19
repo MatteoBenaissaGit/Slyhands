@@ -14,6 +14,8 @@ namespace LevelEditor
     {
         [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]
         public LevelEditorUIActionButtons ActionButtons { get; private set; }
+        [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]
+        public LevelEditorUIDropDownMenu DropDownMenu { get; private set; }
         
         [SerializeField, BoxGroup("Menus"), Required]
         private LevelEditorUILoadMenu _loadMenu;

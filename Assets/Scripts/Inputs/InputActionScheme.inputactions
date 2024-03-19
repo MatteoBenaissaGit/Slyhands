@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RightClick",
+                    "type": "Button",
+                    "id": "c72197de-8537-47ba-98e4-b6bfa5431eca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ClickHold",
                     "type": "Button",
                     "id": "f379f635-ae61-4967-bc84-9c98f176595d",
@@ -104,6 +113,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ClickHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3279e585-4a6c-4f51-9c65-0fe1d16b2a97",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
