@@ -20,6 +20,8 @@ namespace LevelEditor
 
         private bool _isActive;
         private List<LevelEditorUIDropDownButton> _currentButtons = new List<LevelEditorUIDropDownButton>();
+        private SlotData _copiedSlotData;
+        private SlotLocation _currentLocationSelected;
 
         private void Awake()
         {
@@ -31,11 +33,15 @@ namespace LevelEditor
             InputManager.Instance.LevelEditorInput.OnRightClick += ClearDropDownMenu;
             InputManager.Instance.LevelEditorInput.OnClickTap += ClearDropDownMenu;
             InputManager.Instance.LevelEditorInput.OnCameraZoomed += context =>  ClearDropDownMenu();
-            InputManager.Instance.LevelEditorInput.OnCameraMoved += context =>  ClearDropDownMenu();
+            InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += context =>  ClearDropDownMenu();
         }
 
         public void CreateDropDownMenu(SlotView slotView)
         {
+            _isActive = true;
+            _currentLocationSelected = GetViewLocation(slotView);
+            _currentLocationSelected.SetSelected(true);
+            
             LevelEditorUIDropDownButton copyButton = Instantiate(_dropDownButtonPrefab, _layout, true);
             copyButton.Initialize(() => Copy(slotView), "Copy", slotView != null);
 
@@ -51,7 +57,7 @@ namespace LevelEditor
 
             _menuRectTransform.position = Input.mousePosition + new Vector3(50, 0, 0);
             
-            SetMenuSize(); 
+            SetMenuSize();
         }
 
         public void CreateDropDownMenu(SlotLocation slotLocation)
@@ -61,12 +67,22 @@ namespace LevelEditor
 
         private void ClearDropDownMenu()
         {
+            if (_isActive == false)
+            {
+                return;
+            }
+            _isActive = false;
+            
             foreach (LevelEditorUIDropDownButton button in _currentButtons)
             {
                 Destroy(button.gameObject);
             }
             _currentButtons.Clear();
+            
             SetMenuSize();
+            
+            _currentLocationSelected.SetSelected(false);
+            _currentLocationSelected = null;
         }
 
         private void SetMenuSize()
@@ -82,8 +98,6 @@ namespace LevelEditor
         }
 
         #region Copy / Cut / Paste slot view actions
-
-        private SlotData _copiedSlotData;
 
         private void Copy(SlotView view)
         {

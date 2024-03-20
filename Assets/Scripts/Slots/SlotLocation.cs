@@ -17,6 +17,7 @@ namespace Slots
         public SlotView SlotView { get; private set; }
         
         [SerializeField, TabGroup("References"), Required] private SpriteRenderer _emptyEditableSprite;
+        [SerializeField, TabGroup("References"), Required] private SpriteRenderer _selectedSprite;
         [SerializeField, TabGroup("References"), Required] private Collider _clickRaycastCollider;
         [SerializeField, TabGroup("References"), Required] private GameObject _hoveredFeedback;
 
@@ -31,9 +32,14 @@ namespace Slots
             _notEditableColor = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 0f);
             
             _hoveredFeedback.SetActive(false);
+            _selectedSprite.gameObject.SetActive(false);
         }
 
-        public void SetSlotOnLocation(SlotView view)
+        /// <summary>
+        /// Set a slot view to this slot location
+        /// </summary>
+        /// <param name="view">the view to set on this location, set null to clear to location</param>
+        public void SetSlotViewOnLocation(SlotView view)
         {
             if (SlotView != null)
             {
@@ -45,6 +51,9 @@ namespace Slots
             _emptyEditableSprite.gameObject.SetActive(false);
         }
 
+        /// <summary>
+        /// Destroy the slot view that is associated to this location
+        /// </summary>
         public void DestroySlotViewOnLocation()
         {
             if (SlotView == null)
@@ -55,6 +64,10 @@ namespace Slots
             _emptyEditableSprite.gameObject.SetActive(IsEditable);
         }
 
+        /// <summary>
+        /// Set the editable property of the location
+        /// </summary>
+        /// <param name="isEditable">is the slot location editable ?</param>
         public void SetEditable(bool isEditable)
         {
             IsEditable = isEditable;
@@ -64,17 +77,30 @@ namespace Slots
             _emptyEditableSprite.color = IsEditable ? _baseColor : _notEditableColor;
         }
 
+        /// <summary>
+        /// Set the hovered feedbacks of the slot location
+        /// </summary>
+        /// <param name="isHovered">show the feedback ?</param>
         public void SetHovered(bool isHovered)
         {
+            //empty editable sprite
             _emptyEditableSprite.color = isHovered ? _hoveredColor : _baseColor;
+            if (isHovered)
+            {
+                _emptyEditableSprite.gameObject.SetActive(true);
+            }
+            else if (SlotView != null)
+            {
+                _emptyEditableSprite.gameObject.SetActive(false);
+            }
             
             if (Coordinates.y == 0)
             {
                 return;
             }
 
+            //feedback placement
             Vector3 position = LevelEditorManager.Instance.Board.GetCoordinatesToWorldPosition(new Vector3Int(Coordinates.x, 0, Coordinates.z));
-
             for (int y = Coordinates.y - 1; y >= 0 ; y--)
             {
                 SlotLocation location = LevelEditorManager.Instance.Board.Data.SlotLocations[Coordinates.x, y, Coordinates.z];
@@ -85,9 +111,17 @@ namespace Slots
                 position = location.transform.position;
                 break;
             }
-            
             _hoveredFeedback.SetActive(isHovered);
             _hoveredFeedback.transform.position = position;
+        }
+
+        /// <summary>
+        /// Set the selected feedback of the location
+        /// </summary>
+        /// <param name="isSelected">show the feedback ?</param>
+        public void SetSelected(bool isSelected)
+        {
+            _selectedSprite.gameObject.SetActive(isSelected);
         }
     }
 }

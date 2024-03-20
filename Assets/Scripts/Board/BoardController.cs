@@ -164,7 +164,7 @@ namespace Board
             float slotViewOffsetY = -0.5f;
             slotView.transform.position = GetCoordinatesToWorldPosition(slot.Coordinates) + new Vector3(0,slotViewOffsetY,0);
             
-            Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SetSlotOnLocation(slotView);
+            Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SetSlotViewOnLocation(slotView);
             
             return slot;
         }
