@@ -10,7 +10,7 @@ namespace LevelEditor
     /// <summary>
     /// This class handle the drop down menu of the level editor selection
     /// </summary>
-    public class LevelEditorUIDropDownMenu : MonoBehaviour
+    public class LevelEditorDropDownMenuController : MonoBehaviour
     {
         [SerializeField] private LevelEditorUIDropDownButton _dropDownButtonPrefab;
         [SerializeField] private RectTransform _menuRectTransform;
@@ -31,16 +31,18 @@ namespace LevelEditor
         private void Start()
         {
             InputManager.Instance.LevelEditorInput.OnRightClick += ClearDropDownMenu;
-            InputManager.Instance.LevelEditorInput.OnClickTap += ClearDropDownMenu;
+            InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapCheckToClearDropDownMenu;
             InputManager.Instance.LevelEditorInput.OnCameraZoomed += context =>  ClearDropDownMenu();
             InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += context =>  ClearDropDownMenu();
         }
 
-        public void CreateDropDownMenu(SlotView slotView)
+        public void CreateDropDownMenu(Vector3Int slotCoordinate)
         {
             _isActive = true;
-            _currentLocationSelected = GetViewLocation(slotView);
+            _currentLocationSelected = LevelEditorManager.Instance.Board.Data.SlotLocations[slotCoordinate.x, slotCoordinate.y, slotCoordinate.z];
             _currentLocationSelected.SetSelected(true);
+
+            SlotView slotView = _currentLocationSelected.SlotView;
             
             LevelEditorUIDropDownButton copyButton = Instantiate(_dropDownButtonPrefab, _layout, true);
             copyButton.Initialize(() => Copy(slotView), "Copy", slotView != null);
@@ -49,7 +51,7 @@ namespace LevelEditor
             cutButton.Initialize(() => Cut(slotView), "Cut", slotView != null);
 
             LevelEditorUIDropDownButton pastButton = Instantiate(_dropDownButtonPrefab, _layout, true);
-            pastButton.Initialize(() => Paste(slotView), "Paste", _copiedSlotData != null);
+            pastButton.Initialize(() => Paste(_currentLocationSelected), "Paste", _copiedSlotData != null);
 
             _currentButtons.Add(copyButton);
             _currentButtons.Add(cutButton);
@@ -62,7 +64,7 @@ namespace LevelEditor
 
         public void CreateDropDownMenu(SlotLocation slotLocation)
         {
-            CreateDropDownMenu(slotLocation.SlotView);
+            CreateDropDownMenu(slotLocation.Coordinates);
         }
 
         private void ClearDropDownMenu()
@@ -85,6 +87,15 @@ namespace LevelEditor
             _currentLocationSelected = null;
         }
 
+        private void ClickTapCheckToClearDropDownMenu()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+            ClearDropDownMenu();
+        }
+        
         private void SetMenuSize()
         {
             float size = _currentButtons.Count * BackgroundSizePerButton;
@@ -101,12 +112,13 @@ namespace LevelEditor
 
         private void Copy(SlotView view)
         {
+            ClearDropDownMenu();
+
             if (view.Controller == null)
             {
                 return;
             }
             _copiedSlotData = view.Controller.Data;
-            ClearDropDownMenu();
         }
 
         private void Cut(SlotView view)
@@ -130,11 +142,6 @@ namespace LevelEditor
             
             LevelEditorManager.Instance.Board.CreateSlotAt(location.Coordinates, _copiedSlotData);
             ClearDropDownMenu();
-        }
-
-        private void Paste(SlotView view)
-        {
-            Paste(GetViewLocation(view));
         }
 
         #endregion

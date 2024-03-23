@@ -116,7 +116,7 @@ namespace LevelEditor
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
-                    LevelEditorManager.Instance.UI.DropDownMenu.CreateDropDownMenu(_currentHoveredLocation);
+                    LevelEditorManager.Instance.UI.DropDownMenuController.CreateDropDownMenu(_currentHoveredLocation);
                     break;
                 case LevelEditorActionButtonType.Paint:
                     _currentHoveredLocation.DestroySlotViewOnLocation();
