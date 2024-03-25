@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using LevelEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,12 +28,22 @@ namespace Inputs
     /// </summary>
     public class InputLevelEditor
     {
+        public enum ControlShortcutAction
+        {
+            Copy = 0,
+            Paste = 1,
+            Cut = 2
+        }
+        
         public Action<bool> OnCameraMoveButtonPressed { get; set; }
         public Action<Vector2> OnCameraMoved { get; set; }
         public Action<float> OnCameraZoomed { get; set; }
         public Action OnClickTap { get; set; }
         public Action OnRightClick { get; set; }
         public Action<bool> OnClickHold { get; set; }
+        public Action<ControlShortcutAction> OnControlShortcut { get; set; }
+
+        private bool _isControlPressed;
         
         public InputLevelEditor(InputManager manager)
         {
@@ -51,8 +62,21 @@ namespace Inputs
             
             manager.Scheme.LevelEditor.ClickHold.performed += context => OnClickHold?.Invoke(context.performed);
             manager.Scheme.LevelEditor.ClickHold.canceled += context => OnClickHold?.Invoke(context.performed);
-            
-            
+
+            manager.Scheme.LevelEditor.Ctrl.started += _ => _isControlPressed = true;
+            manager.Scheme.LevelEditor.Ctrl.canceled += _ => _isControlPressed = false;
+            manager.Scheme.LevelEditor.C.started += _ => PressedControlShortcut(ControlShortcutAction.Copy);
+            manager.Scheme.LevelEditor.V.started += _ => PressedControlShortcut(ControlShortcutAction.Paste);
+            manager.Scheme.LevelEditor.X.started += _ => PressedControlShortcut(ControlShortcutAction.Cut);
+        }
+
+        private void PressedControlShortcut(ControlShortcutAction shortcut)
+        {
+            if (_isControlPressed == false)
+            {
+                return;
+            }
+            OnControlShortcut?.Invoke(shortcut);
         }
     }
 }

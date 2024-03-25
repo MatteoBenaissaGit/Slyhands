@@ -18,10 +18,11 @@ namespace LevelEditor
 
         private const float BackgroundSizePerButton = 109f;
 
+        private SlotLocation _currentLocationSelected => LevelEditorManager.Instance.CurrentSelectedLocation;
+        
         private bool _isActive;
         private List<LevelEditorUIDropDownButton> _currentButtons = new List<LevelEditorUIDropDownButton>();
         private SlotData _copiedSlotData;
-        private SlotLocation _currentLocationSelected;
 
         private void Awake()
         {
@@ -30,17 +31,45 @@ namespace LevelEditor
 
         private void Start()
         {
-            InputManager.Instance.LevelEditorInput.OnRightClick += ClearDropDownMenu;
-            InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapCheckToClearDropDownMenu;
-            InputManager.Instance.LevelEditorInput.OnCameraZoomed += context =>  ClearDropDownMenu();
-            InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += context =>  ClearDropDownMenu();
+            InputLevelEditor levelEditorInput = InputManager.Instance.LevelEditorInput;
+            
+            levelEditorInput.OnRightClick += ClearDropDownMenu;
+            levelEditorInput.OnClickTap += ClickTapCheckToClearDropDownMenu;
+            levelEditorInput.OnCameraZoomed += context =>  ClearDropDownMenu();
+            levelEditorInput.OnCameraMoveButtonPressed += context =>  ClearDropDownMenu();
+
+            levelEditorInput.OnControlShortcut += DropDownShortcutAction;
         }
 
+        /// <summary>
+        /// Make a shortcut action (copy / paste / cut)
+        /// </summary>
+        /// <param name="shortcutAction">the shortcut action to execute</param>
+        private void DropDownShortcutAction(InputLevelEditor.ControlShortcutAction shortcutAction)
+        {
+            switch (shortcutAction)
+            {
+                case InputLevelEditor.ControlShortcutAction.Copy:
+                    Copy(_currentLocationSelected.SlotView);
+                    break;
+                case InputLevelEditor.ControlShortcutAction.Paste:
+                    Paste(_currentLocationSelected);
+                    break;
+                case InputLevelEditor.ControlShortcutAction.Cut:
+                    Cut(_currentLocationSelected.SlotView);
+                    break;
+            }
+        }
+        
+        /// <summary>
+        /// Create the dropdown menu on a defined slot location 
+        /// </summary>
+        /// <param name="slotCoordinate">the coordinates of the location</param>
         public void CreateDropDownMenu(Vector3Int slotCoordinate)
         {
             _isActive = true;
-            _currentLocationSelected = LevelEditorManager.Instance.Board.Data.SlotLocations[slotCoordinate.x, slotCoordinate.y, slotCoordinate.z];
-            _currentLocationSelected.SetSelected(true);
+            LevelEditorManager.Instance.CurrentSelectedLocation = 
+                LevelEditorManager.Instance.Board.Data.SlotLocations[slotCoordinate.x, slotCoordinate.y, slotCoordinate.z];
 
             SlotView slotView = _currentLocationSelected.SlotView;
             
@@ -62,11 +91,18 @@ namespace LevelEditor
             SetMenuSize();
         }
 
+        /// <summary>
+        /// Create the dropdown menu on a defined slot location 
+        /// </summary>
+        /// <param name="slotLocation">the slot to create the menu on</param>
         public void CreateDropDownMenu(SlotLocation slotLocation)
         {
             CreateDropDownMenu(slotLocation.Coordinates);
         }
 
+        /// <summary>
+        /// Remove the dropdown menu
+        /// </summary>
         private void ClearDropDownMenu()
         {
             if (_isActive == false)
@@ -83,10 +119,12 @@ namespace LevelEditor
             
             SetMenuSize();
             
-            _currentLocationSelected.SetSelected(false);
-            _currentLocationSelected = null;
+            LevelEditorManager.Instance.CurrentSelectedLocation = null;
         }
 
+        /// <summary>
+        /// Check if when the user click it needs to remove the dropdown menu or not
+        /// </summary>
         private void ClickTapCheckToClearDropDownMenu()
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -96,38 +134,58 @@ namespace LevelEditor
             ClearDropDownMenu();
         }
         
+        /// <summary>
+        /// Set the menu size depending on the number of actions in it
+        /// </summary>
         private void SetMenuSize()
         {
             float size = _currentButtons.Count * BackgroundSizePerButton;
             _menuRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
         }
         
+        /// <summary>
+        /// Get the slot location of a slot view 
+        /// </summary>
+        /// <param name="view">the view to get the location of</param>
+        /// <returns>the slot location of the given slot view</returns>
         private SlotLocation GetViewLocation(SlotView view)
         {
             Vector3Int coordinates = view.Controller.Coordinates;
             return LevelEditorManager.Instance.Board.Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
         }
-
+        
         #region Copy / Cut / Paste slot view actions
 
+        /// <summary>
+        /// Copy and temporary save the data of a slot view
+        /// </summary>
+        /// <param name="view">the view to copy</param>
         private void Copy(SlotView view)
         {
             ClearDropDownMenu();
 
-            if (view.Controller == null)
+            if (view == null || view.Controller == null)
             {
                 return;
             }
             _copiedSlotData = view.Controller.Data;
         }
 
+        /// <summary>
+        /// Cut a defined view by copying its data and destroying it after
+        /// </summary>
+        /// <param name="view">the slot view to cut</param>
         private void Cut(SlotView view)
         {
-            Copy(view);
-            GetViewLocation(view).DestroySlotViewOnLocation();
             ClearDropDownMenu();
+            Copy(view);
+            GetViewLocation(view)?.DestroySlotViewOnLocation();
         }
 
+        /// <summary>
+        /// Paste the copied slot view on a specified slot location, destroying the current slot view on it if necessary
+        /// </summary>
+        /// <param name="location">The slot location to copy the view on</param>
         private void Paste(SlotLocation location)
         {
             if (_copiedSlotData == null)

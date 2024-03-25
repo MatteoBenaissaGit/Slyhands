@@ -80,6 +80,42 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=0.2,pressPoint=0.1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ctrl"",
+                    ""type"": ""Button"",
+                    ""id"": ""63a6b683-5c40-401d-9bed-9253b23b5aca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""C"",
+                    ""type"": ""Button"",
+                    ""id"": ""46225cf1-d7b5-4b83-a7e7-5fbc327c240d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""V"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c04a05f-8a7c-4f89-b195-025adfbb9a94"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""X"",
+                    ""type"": ""Button"",
+                    ""id"": ""d44d5433-769a-4ed5-8421-d49d88d7d53f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -148,6 +184,50 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0c6c2eb8-ce1c-4d72-86e2-c8e5410bcd98"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ctrl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2bc3ffef-084f-4327-9f30-62eb6a8424a8"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""C"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a3e7deb-bb74-40a0-a40a-5e037e14f4f5"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""V"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8115d1f4-45b1-4c9d-9f42-b65758d5d7e1"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -162,6 +242,10 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_ClickTap = m_LevelEditor.FindAction("ClickTap", throwIfNotFound: true);
         m_LevelEditor_RightClick = m_LevelEditor.FindAction("RightClick", throwIfNotFound: true);
         m_LevelEditor_ClickHold = m_LevelEditor.FindAction("ClickHold", throwIfNotFound: true);
+        m_LevelEditor_Ctrl = m_LevelEditor.FindAction("Ctrl", throwIfNotFound: true);
+        m_LevelEditor_C = m_LevelEditor.FindAction("C", throwIfNotFound: true);
+        m_LevelEditor_V = m_LevelEditor.FindAction("V", throwIfNotFound: true);
+        m_LevelEditor_X = m_LevelEditor.FindAction("X", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +313,10 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_ClickTap;
     private readonly InputAction m_LevelEditor_RightClick;
     private readonly InputAction m_LevelEditor_ClickHold;
+    private readonly InputAction m_LevelEditor_Ctrl;
+    private readonly InputAction m_LevelEditor_C;
+    private readonly InputAction m_LevelEditor_V;
+    private readonly InputAction m_LevelEditor_X;
     public struct LevelEditorActions
     {
         private @InputActionScheme m_Wrapper;
@@ -239,6 +327,10 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @ClickTap => m_Wrapper.m_LevelEditor_ClickTap;
         public InputAction @RightClick => m_Wrapper.m_LevelEditor_RightClick;
         public InputAction @ClickHold => m_Wrapper.m_LevelEditor_ClickHold;
+        public InputAction @Ctrl => m_Wrapper.m_LevelEditor_Ctrl;
+        public InputAction @C => m_Wrapper.m_LevelEditor_C;
+        public InputAction @V => m_Wrapper.m_LevelEditor_V;
+        public InputAction @X => m_Wrapper.m_LevelEditor_X;
         public InputActionMap Get() { return m_Wrapper.m_LevelEditor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -266,6 +358,18 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @ClickHold.started += instance.OnClickHold;
             @ClickHold.performed += instance.OnClickHold;
             @ClickHold.canceled += instance.OnClickHold;
+            @Ctrl.started += instance.OnCtrl;
+            @Ctrl.performed += instance.OnCtrl;
+            @Ctrl.canceled += instance.OnCtrl;
+            @C.started += instance.OnC;
+            @C.performed += instance.OnC;
+            @C.canceled += instance.OnC;
+            @V.started += instance.OnV;
+            @V.performed += instance.OnV;
+            @V.canceled += instance.OnV;
+            @X.started += instance.OnX;
+            @X.performed += instance.OnX;
+            @X.canceled += instance.OnX;
         }
 
         private void UnregisterCallbacks(ILevelEditorActions instance)
@@ -288,6 +392,18 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @ClickHold.started -= instance.OnClickHold;
             @ClickHold.performed -= instance.OnClickHold;
             @ClickHold.canceled -= instance.OnClickHold;
+            @Ctrl.started -= instance.OnCtrl;
+            @Ctrl.performed -= instance.OnCtrl;
+            @Ctrl.canceled -= instance.OnCtrl;
+            @C.started -= instance.OnC;
+            @C.performed -= instance.OnC;
+            @C.canceled -= instance.OnC;
+            @V.started -= instance.OnV;
+            @V.performed -= instance.OnV;
+            @V.canceled -= instance.OnV;
+            @X.started -= instance.OnX;
+            @X.performed -= instance.OnX;
+            @X.canceled -= instance.OnX;
         }
 
         public void RemoveCallbacks(ILevelEditorActions instance)
@@ -313,5 +429,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnClickTap(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
         void OnClickHold(InputAction.CallbackContext context);
+        void OnCtrl(InputAction.CallbackContext context);
+        void OnC(InputAction.CallbackContext context);
+        void OnV(InputAction.CallbackContext context);
+        void OnX(InputAction.CallbackContext context);
     }
 }

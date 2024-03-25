@@ -18,12 +18,13 @@ namespace LevelEditor
         [SerializeField, Required] private LevelEditorActionButtonController _selectionButton;
         [SerializeField, Required] private LevelEditorActionButtonController _paintButton;
 
+        private SlotLocation _currentHoveredLocation => LevelEditorManager.Instance.CurrentHoveredLocation;
+        
         private List<LevelEditorActionButtonController> _buttons;
         private LevelEditorActionButtonController _currentButton;
         private bool _isHoldingClick;
         private RaycastHit[] _mouseClickRaycastHits;
-        private SlotLocation _currentHoveredLocation;
-        
+
         private void Awake()
         {
             _mouseClickRaycastHits = new RaycastHit[32];
@@ -59,11 +60,9 @@ namespace LevelEditor
             SlotLocation location = GetClickedSlotLocation();
             if (location != _currentHoveredLocation)
             {
-                _currentHoveredLocation?.SetHovered(false);
-                location?.SetHovered(true);
+                LevelEditorManager.Instance.CurrentHoveredLocation = location;
             }
-            _currentHoveredLocation = location;
-            
+
             if (_isHoldingClick)
             {
                 ClickHoldAction();
@@ -88,12 +87,14 @@ namespace LevelEditor
         {
             if (_currentButton == null || _currentHoveredLocation == null)
             {
+                LevelEditorManager.Instance.CurrentSelectedLocation = null;
                 return;
             }
             
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
+                    LevelEditorManager.Instance.CurrentSelectedLocation = _currentHoveredLocation;
                     break;
                 case LevelEditorActionButtonType.Paint:
                     LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
