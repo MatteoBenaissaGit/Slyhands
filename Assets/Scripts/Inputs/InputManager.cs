@@ -41,6 +41,7 @@ namespace Inputs
         public Action OnClickTap { get; set; }
         public Action OnRightClick { get; set; }
         public Action<bool> OnClickHold { get; set; }
+        public Action<bool> OnRightClickHold { get; set; }
         public Action<ControlShortcutAction> OnControlShortcut { get; set; }
 
         private bool _isControlPressed;
@@ -62,6 +63,9 @@ namespace Inputs
             
             manager.Scheme.LevelEditor.ClickHold.performed += context => OnClickHold?.Invoke(context.performed);
             manager.Scheme.LevelEditor.ClickHold.canceled += context => OnClickHold?.Invoke(context.performed);
+            
+            manager.Scheme.LevelEditor.RightClickHold.performed += context => OnRightClickHold?.Invoke(context.performed);
+            manager.Scheme.LevelEditor.RightClickHold.canceled += context => OnRightClickHold?.Invoke(context.performed);
 
             manager.Scheme.LevelEditor.Ctrl.started += _ => _isControlPressed = true;
             manager.Scheme.LevelEditor.Ctrl.canceled += _ => _isControlPressed = false;

@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RightClickHold",
+                    "type": "Button",
+                    "id": "64500449-ab2e-4f50-90ca-3a5fdfdcf636",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.2,pressPoint=0.1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Ctrl",
                     "type": "Button",
                     "id": "63a6b683-5c40-401d-9bed-9253b23b5aca",
@@ -204,6 +213,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53bc9245-1a3c-43a1-a2ed-f880ad301951",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightClickHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

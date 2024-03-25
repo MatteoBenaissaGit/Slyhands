@@ -82,6 +82,15 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""RightClickHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""64500449-ab2e-4f50-90ca-3a5fdfdcf636"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.2,pressPoint=0.1)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Ctrl"",
                     ""type"": ""Button"",
                     ""id"": ""63a6b683-5c40-401d-9bed-9253b23b5aca"",
@@ -228,6 +237,17 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""X"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53bc9245-1a3c-43a1-a2ed-f880ad301951"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -242,6 +262,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_ClickTap = m_LevelEditor.FindAction("ClickTap", throwIfNotFound: true);
         m_LevelEditor_RightClick = m_LevelEditor.FindAction("RightClick", throwIfNotFound: true);
         m_LevelEditor_ClickHold = m_LevelEditor.FindAction("ClickHold", throwIfNotFound: true);
+        m_LevelEditor_RightClickHold = m_LevelEditor.FindAction("RightClickHold", throwIfNotFound: true);
         m_LevelEditor_Ctrl = m_LevelEditor.FindAction("Ctrl", throwIfNotFound: true);
         m_LevelEditor_C = m_LevelEditor.FindAction("C", throwIfNotFound: true);
         m_LevelEditor_V = m_LevelEditor.FindAction("V", throwIfNotFound: true);
@@ -313,6 +334,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_ClickTap;
     private readonly InputAction m_LevelEditor_RightClick;
     private readonly InputAction m_LevelEditor_ClickHold;
+    private readonly InputAction m_LevelEditor_RightClickHold;
     private readonly InputAction m_LevelEditor_Ctrl;
     private readonly InputAction m_LevelEditor_C;
     private readonly InputAction m_LevelEditor_V;
@@ -327,6 +349,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @ClickTap => m_Wrapper.m_LevelEditor_ClickTap;
         public InputAction @RightClick => m_Wrapper.m_LevelEditor_RightClick;
         public InputAction @ClickHold => m_Wrapper.m_LevelEditor_ClickHold;
+        public InputAction @RightClickHold => m_Wrapper.m_LevelEditor_RightClickHold;
         public InputAction @Ctrl => m_Wrapper.m_LevelEditor_Ctrl;
         public InputAction @C => m_Wrapper.m_LevelEditor_C;
         public InputAction @V => m_Wrapper.m_LevelEditor_V;
@@ -358,6 +381,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @ClickHold.started += instance.OnClickHold;
             @ClickHold.performed += instance.OnClickHold;
             @ClickHold.canceled += instance.OnClickHold;
+            @RightClickHold.started += instance.OnRightClickHold;
+            @RightClickHold.performed += instance.OnRightClickHold;
+            @RightClickHold.canceled += instance.OnRightClickHold;
             @Ctrl.started += instance.OnCtrl;
             @Ctrl.performed += instance.OnCtrl;
             @Ctrl.canceled += instance.OnCtrl;
@@ -392,6 +418,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @ClickHold.started -= instance.OnClickHold;
             @ClickHold.performed -= instance.OnClickHold;
             @ClickHold.canceled -= instance.OnClickHold;
+            @RightClickHold.started -= instance.OnRightClickHold;
+            @RightClickHold.performed -= instance.OnRightClickHold;
+            @RightClickHold.canceled -= instance.OnRightClickHold;
             @Ctrl.started -= instance.OnCtrl;
             @Ctrl.performed -= instance.OnCtrl;
             @Ctrl.canceled -= instance.OnCtrl;
@@ -429,6 +458,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnClickTap(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
         void OnClickHold(InputAction.CallbackContext context);
+        void OnRightClickHold(InputAction.CallbackContext context);
         void OnCtrl(InputAction.CallbackContext context);
         void OnC(InputAction.CallbackContext context);
         void OnV(InputAction.CallbackContext context);

@@ -193,7 +193,7 @@ namespace LevelEditor
                 return;
             }
 
-            if (location.SlotView != null)
+            if (_currentLocationSelected.SlotView != null)
             {
                 location.DestroySlotViewOnLocation();
             }

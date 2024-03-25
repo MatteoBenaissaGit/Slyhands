@@ -25,7 +25,6 @@ namespace LevelEditor
             
             _slider.minValue = 0;
             _slider.maxValue = LevelEditorManager.Instance.Board.Data.Height - 1;
-            Debug.Log(_slider.maxValue);
             
             SetSliderHeight(0);
             

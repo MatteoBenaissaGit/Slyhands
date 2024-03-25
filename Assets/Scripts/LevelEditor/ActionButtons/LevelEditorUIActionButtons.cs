@@ -1,51 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using Inputs;
 using Sirenix.OdinInspector;
 using Slots;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-namespace LevelEditor
+namespace LevelEditor.ActionButtons
 {
     /// <summary>
     /// This class manage all the action buttons in the level editor
     /// </summary>
     public class LevelEditorUIActionButtons : MonoBehaviour
     {
-        [SerializeField, Required] private LevelEditorActionButtonController _selectionButton;
-        [SerializeField, Required] private LevelEditorActionButtonController _paintButton;
+        [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
         private SlotLocation _currentHoveredLocation => LevelEditorManager.Instance.CurrentHoveredLocation;
         
-        private List<LevelEditorActionButtonController> _buttons;
         private LevelEditorActionButtonController _currentButton;
         private bool _isHoldingClick;
+        private bool _isHoldingRightClick;
         private RaycastHit[] _mouseClickRaycastHits;
 
         private void Awake()
         {
             _mouseClickRaycastHits = new RaycastHit[32];
-            
-            _buttons = new List<LevelEditorActionButtonController>()
-            {
-                _selectionButton,
-                _paintButton
-            };
-            
-            _selectionButton.Button.onClick.AddListener(() => SetCurrentButton(_selectionButton));
-            _paintButton.Button.onClick.AddListener(() => SetCurrentButton(_paintButton));
 
-            _currentButton = _selectionButton;
+            _buttons.ForEach(x => x.Button.onClick.AddListener(() => SetCurrentButton(x)));
+
+            _currentButton = _buttons[0];
             _currentButton.SetSelected(true, true);
         }
 
         private void OnDestroy()
         {
-            _selectionButton.Button.onClick.RemoveListener(() => SetCurrentButton(_selectionButton));
-            _paintButton.Button.onClick.RemoveListener(() => SetCurrentButton(_paintButton));
+            _buttons.ForEach(x => x.Button.onClick.RemoveListener(() => SetCurrentButton(x)));
         }
 
         private void Start()
@@ -53,6 +42,7 @@ namespace LevelEditor
             InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapAction;
             InputManager.Instance.LevelEditorInput.OnRightClick += RightClickAction;
             InputManager.Instance.LevelEditorInput.OnClickHold += (bool doHold) => _isHoldingClick = doHold;
+            InputManager.Instance.LevelEditorInput.OnRightClickHold += (bool doHold) => _isHoldingRightClick = doHold;
         }
 
         private void Update()
@@ -66,6 +56,10 @@ namespace LevelEditor
             if (_isHoldingClick)
             {
                 ClickHoldAction();
+            }
+            else if (_isHoldingRightClick)
+            {
+                RightClickHoldAction();
             }
         }
 
@@ -81,13 +75,21 @@ namespace LevelEditor
         }
 
         /// <summary>
+        /// Set the default action button as current
+        /// </summary>
+        public void SetCurrentButton()
+        {
+            SetCurrentButton(_buttons[0]);
+        }
+
+        /// <summary>
         /// Handle the action made when the user tap click 
         /// </summary>
         private void ClickTapAction()
         {
             if (_currentButton == null || _currentHoveredLocation == null)
             {
-                LevelEditorManager.Instance.CurrentSelectedLocation = null;
+                CheckForDeselectionOfCurrentSlot();
                 return;
             }
             
@@ -98,6 +100,8 @@ namespace LevelEditor
                     break;
                 case LevelEditorActionButtonType.Paint:
                     LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
+                    break;
+                case LevelEditorActionButtonType.Add:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -111,6 +115,7 @@ namespace LevelEditor
         {
             if (_currentButton == null || _currentHoveredLocation == null)
             {
+                CheckForDeselectionOfCurrentSlot();
                 return;
             }
             
@@ -121,6 +126,8 @@ namespace LevelEditor
                     break;
                 case LevelEditorActionButtonType.Paint:
                     _currentHoveredLocation.DestroySlotViewOnLocation();
+                    break;
+                case LevelEditorActionButtonType.Add:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -144,11 +151,41 @@ namespace LevelEditor
                 case LevelEditorActionButtonType.Paint:
                     LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
                     break;
+                case LevelEditorActionButtonType.Add:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
+        /// <summary>
+        /// Handle the action made when the user hold right click
+        /// </summary>
+        private void RightClickHoldAction()
+        {
+            if (_currentButton == null || _currentHoveredLocation == null)
+            {
+                return;
+            }
+            
+            switch (_currentButton.Type)
+            {
+                case LevelEditorActionButtonType.Selection:
+                    break;
+                case LevelEditorActionButtonType.Paint:
+                    _currentHoveredLocation.DestroySlotViewOnLocation();
+                    break;
+                case LevelEditorActionButtonType.Add:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// Get the slot location under the current mouse when the user clicked
+        /// </summary>
+        /// <returns>The slot location clicked on</returns>
         private SlotLocation GetClickedSlotLocation()
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -169,6 +206,22 @@ namespace LevelEditor
             }
 
             return null;
+        }
+        
+        /// <summary>
+        /// Check if it is needed to deselect the current selected location
+        /// </summary>
+        private void CheckForDeselectionOfCurrentSlot()
+        {
+            if (LevelEditorManager.Instance.CurrentSelectedLocation == null)
+            {
+                return;
+            }
+            
+            if (_currentHoveredLocation == null && EventSystem.current.IsPointerOverGameObject() == false)
+            {
+                LevelEditorManager.Instance.CurrentSelectedLocation = null;
+            }
         }
     }
 }

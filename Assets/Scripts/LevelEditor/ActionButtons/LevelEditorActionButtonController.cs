@@ -1,16 +1,15 @@
-using System;
 using DG.Tweening;
-using ResourceManagement;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace LevelEditor
+namespace LevelEditor.ActionButtons
 {
     public enum LevelEditorActionButtonType
     {
         Selection = 0,
-        Paint = 1
+        Paint = 1,
+        Add = 2
     }
     
     /// <summary>
@@ -39,10 +38,9 @@ namespace LevelEditor
         /// </summary>
         /// <param name="isSelected">is button selected ?</param>
         /// <param name="doInstant">make animation instant ?</param>
-        public void SetSelected(bool isSelected, bool doInstant = false)
+        public virtual void SetSelected(bool isSelected, bool doInstant = false)
         {
-            SelectedEffect(_icon, isSelected, doInstant);
-            SelectedEffect(_background, isSelected, doInstant);
+            SelectedEffect(isSelected, doInstant);
             
             Cursor.SetCursor(_cursorTexture, _cursorHotSpot, CursorMode.Auto);
 
@@ -59,10 +57,21 @@ namespace LevelEditor
         /// <param name="image">the image to apply the effect to</param>
         /// <param name="isSelected">is button selected ?</param>
         /// <param name="doInstant">make animation instant ?</param>
-        private void SelectedEffect(Image image, bool isSelected, bool doInstant)
+        protected void SelectedEffect(Image image, bool isSelected, bool doInstant)
         {
             image.DOKill();
             image.DOFade(isSelected ? 1 : 0.6f, doInstant ? 0f : 0.1f);
+        }
+
+        /// <summary>
+        /// Make the selection effect on all the button
+        /// </summary>
+        /// <param name="isSelected">is button selected ?</param>
+        /// <param name="doInstant">make animation instant ?</param>
+        protected void SelectedEffect(bool isSelected, bool doInstant = false)
+        {
+            SelectedEffect(_icon, isSelected, doInstant);
+            SelectedEffect(_background, isSelected, doInstant);
         }
     }
 }
