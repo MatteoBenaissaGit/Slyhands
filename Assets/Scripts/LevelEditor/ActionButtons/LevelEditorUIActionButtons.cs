@@ -103,7 +103,7 @@ namespace LevelEditor.ActionButtons
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
                     LevelEditorActionButtonControllerExtended extendedActionButton = _currentButton as LevelEditorActionButtonControllerExtended;
-                    //TODO place obstacle
+                    _currentHoveredLocation.SlotView?.SetObstacle(extendedActionButton?.CurrentChoice);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

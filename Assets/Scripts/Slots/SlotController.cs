@@ -25,6 +25,7 @@ namespace Slots
     public class SlotData
     {
         public bool HasObstacle { get; set; }
+        public GameObject ObstaclePrefab { get; set; }
     }
     
     /// <summary>

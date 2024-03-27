@@ -55,14 +55,20 @@ namespace Slots
         /// <summary>
         /// Set the obstacle object on the slot
         /// </summary>
-        /// <param name="obstacle">The object to put as obstacle</param>
-        public void SetObstacle(GameObject obstacle)
+        /// <param name="obstaclePrefab">The object prefab to put as obstacle</param>
+        public void SetObstacle(GameObject obstaclePrefab)
         {
+            if (obstaclePrefab == null)
+            {
+                return;
+            }
+            
             _obstacleParent.gameObject.SetActive(true);
             Controller.Data.HasObstacle = true;
-            
-            obstacle.transform.parent = _obstacleParent;
-            obstacle.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            Controller.Data.ObstaclePrefab = obstaclePrefab;
+
+            GameObject obstacle = Instantiate(obstaclePrefab, _obstacleParent, true);
+            obstacle.transform.SetLocalPositionAndRotation(Vector3.up, Quaternion.identity);
         }
 
         /// <summary>
