@@ -1,4 +1,5 @@
 using Board;
+using Camera;
 using Common;
 using Sirenix.OdinInspector;
 using Slots;
@@ -13,7 +14,7 @@ namespace LevelEditor
     {
         [field:SerializeField] [field:Required] public LevelEditorUI UI { get; private set; }
         [field:SerializeField] [field:Required] public BoardController Board { get; private set; }
-        [field:SerializeField] [field:Required] public LevelEditorCameraController Camera { get; private set; }
+        [field:SerializeField] [field:Required] public CameraController Camera { get; private set; }
 
         public SlotLocation CurrentSelectedLocation
         {

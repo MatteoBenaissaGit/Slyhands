@@ -1,18 +1,16 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Inputs;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace LevelEditor
+namespace Camera
 {
     /// <summary>
     /// This class manage the camera used in the level editor
     /// </summary>
-    public class LevelEditorCameraController : MonoBehaviour
+    public class CameraController : MonoBehaviour
     {
-        [field:SerializeField, Required] public Camera Camera { get; private set; }
+        [field:SerializeField, Required] public UnityEngine.Camera Camera { get; private set; }
         
         [SerializeField] private float _moveSpeed = 1f;
         [SerializeField] private float _zoomSpeed = 0.1f;

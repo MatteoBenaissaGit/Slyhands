@@ -9,7 +9,7 @@ namespace LevelEditor.ActionButtons
     {
         Selection = 0,
         Paint = 1,
-        Add = 2
+        AddObstacle = 2
     }
     
     /// <summary>

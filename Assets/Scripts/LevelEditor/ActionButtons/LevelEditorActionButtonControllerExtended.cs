@@ -15,6 +15,7 @@ namespace LevelEditor.ActionButtons
         
         [SerializeField] private GameObject _choicesTab;
         [SerializeField] private List<GameObject> _choicesList = new List<GameObject>();
+        [SerializeField] private List<LevelEditorUIActionChoiceButton> _choiceButtons = new List<LevelEditorUIActionChoiceButton>();
 
         private bool _areChoicesDisplayed;
 
@@ -24,6 +25,8 @@ namespace LevelEditor.ActionButtons
             InputManager.Instance.LevelEditorInput.OnRightClick += CheckForClickTapClearChoiceTab;
             
             DisplayChoices(false);
+            
+            _choiceButtons.ForEach(x => x.Initialize(this));
         }
 
         public override void SetSelected(bool isSelected, bool doInstant = false)

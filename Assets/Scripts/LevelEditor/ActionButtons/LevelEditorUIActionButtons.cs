@@ -101,7 +101,9 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.Paint:
                     LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
                     break;
-                case LevelEditorActionButtonType.Add:
+                case LevelEditorActionButtonType.AddObstacle:
+                    LevelEditorActionButtonControllerExtended extendedActionButton = _currentButton as LevelEditorActionButtonControllerExtended;
+                    //TODO place obstacle
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -127,7 +129,7 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.Paint:
                     _currentHoveredLocation.DestroySlotViewOnLocation();
                     break;
-                case LevelEditorActionButtonType.Add:
+                case LevelEditorActionButtonType.AddObstacle:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -151,7 +153,7 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.Paint:
                     LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
                     break;
-                case LevelEditorActionButtonType.Add:
+                case LevelEditorActionButtonType.AddObstacle:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -175,7 +177,7 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.Paint:
                     _currentHoveredLocation.DestroySlotViewOnLocation();
                     break;
-                case LevelEditorActionButtonType.Add:
+                case LevelEditorActionButtonType.AddObstacle:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

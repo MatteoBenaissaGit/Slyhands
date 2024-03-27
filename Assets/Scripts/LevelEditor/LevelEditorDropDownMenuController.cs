@@ -150,6 +150,10 @@ namespace LevelEditor
         /// <returns>the slot location of the given slot view</returns>
         private SlotLocation GetViewLocation(SlotView view)
         {
+            if (view == null)
+            {
+                return null;
+            }
             Vector3Int coordinates = view.Controller.Coordinates;
             return LevelEditorManager.Instance.Board.Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
         }
