@@ -18,7 +18,13 @@ MonoBehaviour:
   CardDescription: 
   CardPrice: 0
   MovingDist: 0
-  VialString: 
-  ParchmentInt: 0
-  UtilityBool: 0
-  EnchantmentFloat: 0
+  TestVariableVial1: 
+  TestVariableVial2: 0
+  TestVariableParchment1: 0
+  TestVariableParchment2: 
+  TestVariableParchment3: 0
+  TestVariableUtility1: 0
+  TestVariableUtility2: 0
+  TestVariableEnchantment1: 
+  TestVariableEnchantment2: 
+  TestVariableEnchantment3: 0
