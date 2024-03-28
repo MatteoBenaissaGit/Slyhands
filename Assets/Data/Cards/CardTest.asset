@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8a39be3e3220c47a38d990b4cfb4f8, type: 3}
   m_Name: CardTest
   m_EditorClassIdentifier: 
-  CardType: 0
-  CardTitle: 
-  CardSprite: {fileID: 0}
-  CardDescription: 
-  CardPrice: 0
-  MovingDist: 0
-  TestVariableVial1: 
-  TestVariableVial2: 0
-  TestVariableParchment1: 0
-  TestVariableParchment2: 
-  TestVariableParchment3: 0
-  TestVariableUtility1: 0
-  TestVariableUtility2: 0
-  TestVariableEnchantment1: 
-  TestVariableEnchantment2: 
-  TestVariableEnchantment3: 0
+  cardType: 0
+  <CardTitle>k__BackingField: 
+  <CardSprite>k__BackingField: {fileID: 0}
+  <CardDescription>k__BackingField: 
+  <CardPrice>k__BackingField: 0
+  <MovingDist>k__BackingField: 0
+  <TestVariableVial1>k__BackingField: 
+  <TestVariableVial2>k__BackingField: 0
+  <TestVariableParchment1>k__BackingField: 0
+  <TestVariableParchment2>k__BackingField: 
+  <TestVariableParchment3>k__BackingField: 0
+  <TestVariableUtility1>k__BackingField: 0
+  <TestVariableUtility2>k__BackingField: 0
+  <TestVariableEnchantment1>k__BackingField: 
+  <TestVariableEnchantment2>k__BackingField: 
+  <TestVariableEnchantment3>k__BackingField: 0
