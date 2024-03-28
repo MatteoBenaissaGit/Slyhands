@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9780f8826dd40e64f91280df35fa4edc, type: 3}
   m_Name: CardTest1
   m_EditorClassIdentifier: 
+  <CardName>k__BackingField: Compagnon Arton
+  <CardDescription>k__BackingField: Ajoute +5 points d'attaque
+  <PlayerCost>k__BackingField: 7
+  <CardSprite>k__BackingField: {fileID: 21300000, guid: 5c13fc5f250daf640b900f78c0a31963,
+    type: 3}
+  <CardOrnament>k__BackingField: {fileID: 21300000, guid: 8d55a98577e8a80478d1b82bc3cb1b1b,
+    type: 3}
+  <EffectType>k__BackingField: 2
