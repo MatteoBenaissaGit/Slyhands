@@ -130,6 +130,7 @@ namespace LevelEditor.ActionButtons
                     _currentHoveredLocation.DestroySlotViewOnLocation();
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
+                    _currentHoveredLocation.SlotView?.SetObstacle(null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

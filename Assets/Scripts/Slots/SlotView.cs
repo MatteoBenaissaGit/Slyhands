@@ -58,27 +58,33 @@ namespace Slots
         /// <param name="obstaclePrefab">The object prefab to put as obstacle</param>
         public void SetObstacle(GameObject obstaclePrefab)
         {
+            if (obstaclePrefab == null || _obstacleParent.childCount > 0)
+            {
+                DestroyCurrentObstacle();
+            }
+            
+            _obstacleParent.gameObject.SetActive(obstaclePrefab != null);
+            Controller.Data.HasObstacle = obstaclePrefab != null;
+            Controller.Data.ObstaclePrefab = obstaclePrefab;
+
             if (obstaclePrefab == null)
             {
                 return;
             }
             
-            _obstacleParent.gameObject.SetActive(true);
-            Controller.Data.HasObstacle = true;
-            Controller.Data.ObstaclePrefab = obstaclePrefab;
-
             GameObject obstacle = Instantiate(obstaclePrefab, _obstacleParent, true);
             obstacle.transform.SetLocalPositionAndRotation(Vector3.up, Quaternion.identity);
         }
 
         /// <summary>
-        /// Set if there is an obstacle or not
+        /// This method destroy all child objects beneath the obstacle parent transform
         /// </summary>
-        /// <param name="isThereObstacle">Is there an obstacle ?</param>
-        public void SetObstacle(bool isThereObstacle)
+        private void DestroyCurrentObstacle()
         {
-            _obstacleParent.gameObject.SetActive(isThereObstacle);
-            Controller.Data.HasObstacle = isThereObstacle;
+            for (int i = 0; i < _obstacleParent.childCount; i++)
+            {
+                Destroy(_obstacleParent.GetChild(i).gameObject);
+            }
         }
         
         #region Actions
