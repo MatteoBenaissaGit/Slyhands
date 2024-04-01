@@ -249,4 +249,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 3527814715394248364}
-  _choiceIndex: 0
+  _choiceObject: {fileID: 7116932582942882436, guid: d5a6a5466d004934da405be9bffa430b,
+    type: 3}

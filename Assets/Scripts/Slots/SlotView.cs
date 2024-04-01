@@ -73,7 +73,7 @@ namespace Slots
             }
             
             GameObject obstacle = Instantiate(obstaclePrefab, _obstacleParent, true);
-            obstacle.transform.SetLocalPositionAndRotation(Vector3.up, Quaternion.identity);
+            obstacle.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
 
         /// <summary>

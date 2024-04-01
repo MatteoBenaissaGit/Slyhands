@@ -9,15 +9,15 @@ namespace LevelEditor.ActionButtons
     public class LevelEditorUIActionChoiceButton : MonoBehaviour
     {
         [SerializeField] private Button _button;
-        [SerializeField] private int _choiceIndex;
-
+        [SerializeField] private GameObject _choiceObject;
+        
         /// <summary>
         /// Initialize the button for the desired action button extended
         /// </summary>
         /// <param name="actionButtonExtended">the action button extended to initialize with</param>
         public void Initialize(LevelEditorActionButtonControllerExtended actionButtonExtended)
         {
-            _button.onClick.AddListener(() => actionButtonExtended.SetButtonChoice(_choiceIndex));
+            _button.onClick.AddListener(() => actionButtonExtended.SetButtonChoice(_choiceObject));
         }
     }
 }

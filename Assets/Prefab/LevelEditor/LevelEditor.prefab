@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b3aeca86a412b45b417a9c183fd27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ActionButtons>k__BackingField: {fileID: 1035006017453076481}
+  <ActionButtonsManager>k__BackingField: {fileID: 1035006017453076481}
   <DropDownMenuController>k__BackingField: {fileID: 1353266349328671049}
   _loadMenu: {fileID: 647142855640273546}
   _saveMenu: {fileID: 7261655664997705264}
@@ -844,7 +844,7 @@ Transform:
   - {fileID: 4961015677131810871}
   - {fileID: 4308639762329277391}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5382473377780604658
 MonoBehaviour:
@@ -1486,6 +1486,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3292561653538665997, guid: 371858887bae80f44bbc2f8ff942da44,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292561653538665997, guid: 371858887bae80f44bbc2f8ff942da44,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292561653538665997, guid: 371858887bae80f44bbc2f8ff942da44,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292561653538665997, guid: 371858887bae80f44bbc2f8ff942da44,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3316250357344025994, guid: 371858887bae80f44bbc2f8ff942da44,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2017,7 +2037,7 @@ PrefabInstance:
     - target: {fileID: 1667554191143636441, guid: 9e61db7c792e0104b843b9ef3fd93e6a,
         type: 3}
       propertyPath: m_Size
-      value: 0.9994682
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1667554191143636441, guid: 9e61db7c792e0104b843b9ef3fd93e6a,
         type: 3}
