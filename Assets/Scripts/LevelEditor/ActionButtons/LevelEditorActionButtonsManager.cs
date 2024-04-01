@@ -11,7 +11,7 @@ namespace LevelEditor.ActionButtons
     /// <summary>
     /// This class manage all the action buttons in the level editor
     /// </summary>
-    public class LevelEditorUIActionButtons : MonoBehaviour
+    public class LevelEditorActionButtonsManager : MonoBehaviour
     {
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 

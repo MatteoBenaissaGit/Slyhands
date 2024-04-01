@@ -14,7 +14,7 @@ namespace LevelEditor
     public class LevelEditorUI : MonoBehaviour
     {
         [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]
-        public LevelEditorUIActionButtons ActionButtons { get; private set; }
+        public LevelEditorActionButtonsManager ActionButtonsManager { get; private set; }
         [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]
         public LevelEditorDropDownMenuController DropDownMenuController { get; private set; }
         

@@ -18,8 +18,6 @@ namespace LevelEditor
 
         private const float BackgroundSizePerButton = 109f;
 
-        private SlotLocation _currentLocationSelected => LevelEditorManager.Instance.CurrentSelectedLocation;
-        
         private bool _isActive;
         private List<LevelEditorUIDropDownButton> _currentButtons = new List<LevelEditorUIDropDownButton>();
         private SlotData _copiedSlotData;
@@ -47,16 +45,17 @@ namespace LevelEditor
         /// <param name="shortcutAction">the shortcut action to execute</param>
         private void DropDownShortcutAction(InputLevelEditor.ControlShortcutAction shortcutAction)
         {
+            SlotLocation currentLocation = LevelEditorManager.Instance.CurrentSelectedLocation;
             switch (shortcutAction)
             {
                 case InputLevelEditor.ControlShortcutAction.Copy:
-                    Copy(_currentLocationSelected.SlotView);
+                    Copy(currentLocation.SlotView);
                     break;
                 case InputLevelEditor.ControlShortcutAction.Paste:
-                    Paste(_currentLocationSelected);
+                    Paste(currentLocation);
                     break;
                 case InputLevelEditor.ControlShortcutAction.Cut:
-                    Cut(_currentLocationSelected.SlotView);
+                    Cut(currentLocation.SlotView);
                     break;
             }
         }
@@ -71,7 +70,8 @@ namespace LevelEditor
             LevelEditorManager.Instance.CurrentSelectedLocation = 
                 LevelEditorManager.Instance.Board.Data.SlotLocations[slotCoordinate.x, slotCoordinate.y, slotCoordinate.z];
 
-            SlotView slotView = _currentLocationSelected.SlotView;
+            SlotLocation currentLocationSelected = LevelEditorManager.Instance.CurrentSelectedLocation;
+            SlotView slotView = currentLocationSelected.SlotView;
             
             LevelEditorUIDropDownButton copyButton = Instantiate(_dropDownButtonPrefab, _layout, true);
             copyButton.Initialize(() => Copy(slotView), "Copy", slotView != null);
@@ -80,7 +80,7 @@ namespace LevelEditor
             cutButton.Initialize(() => Cut(slotView), "Cut", slotView != null);
 
             LevelEditorUIDropDownButton pastButton = Instantiate(_dropDownButtonPrefab, _layout, true);
-            pastButton.Initialize(() => Paste(_currentLocationSelected), "Paste", _copiedSlotData != null);
+            pastButton.Initialize(() => Paste(currentLocationSelected), "Paste", _copiedSlotData != null);
 
             _currentButtons.Add(copyButton);
             _currentButtons.Add(cutButton);
@@ -197,7 +197,7 @@ namespace LevelEditor
                 return;
             }
 
-            if (_currentLocationSelected.SlotView != null)
+            if (LevelEditorManager.Instance.CurrentSelectedLocation.SlotView != null)
             {
                 location.DestroySlotViewOnLocation();
             }

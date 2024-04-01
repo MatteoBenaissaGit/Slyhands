@@ -150,6 +150,7 @@ namespace Board
         /// Create a slot at defined coordinates
         /// </summary>
         /// <param name="coordinates">The coordinates to create the slot at</param>
+        /// <param name="data">The data to put on the slot created, create a new one if null</param>
         /// <returns>The slot created</returns>
         public SlotController CreateSlotAt(Vector3Int coordinates, SlotData data = null)
         {

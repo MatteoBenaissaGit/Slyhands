@@ -42,8 +42,8 @@ namespace Slots
             _actionFeedbackSpriteRenderer.color = transparentBaseColor;
             _selectionFeedbackSpriteRenderer.color = transparentBaseColor;
             _arrowFeedbackSpriteRenderer.color = transparentBaseColor;
-            
-            _obstacleParent.gameObject.SetActive(Controller.Data.HasObstacle);
+
+            SetObstacle(Controller.Data.HasObstacle ? Controller.Data.ObstaclePrefab : null);
         }
 
         private void OnDestroy()
