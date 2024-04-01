@@ -145,7 +145,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4719343573923843061}
+  - {fileID: 1715051031471497313}
   - {fileID: 8998938019526437386}
   - {fileID: 1498519853491537019}
   - {fileID: 6483027433898799191}
@@ -241,6 +241,43 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!1 &2247353121450047274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1715051031471497313}
+  m_Layer: 0
+  m_Name: MenusButtons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1715051031471497313
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2247353121450047274}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4719343573923843061}
+  m_Father: {fileID: 4961015677131810871}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -770.55164, y: 282.91998}
+  m_SizeDelta: {x: 378.8953, y: 514.16}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2572128903104060749
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,6 +858,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2496616733447243810}
   - component: {fileID: 5382473377780604658}
+  - component: {fileID: 7399754491400540911}
   m_Layer: 0
   m_Name: LevelEditor
   m_TagString: Untagged
@@ -862,6 +900,19 @@ MonoBehaviour:
   <UI>k__BackingField: {fileID: 4795315964691730650}
   <Board>k__BackingField: {fileID: 4386948183803038824}
   <Camera>k__BackingField: {fileID: 7841478749800259305}
+  <SaveLoadManager>k__BackingField: {fileID: 7399754491400540911}
+--- !u!114 &7399754491400540911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197805985384182703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf45936001df4c5db3de5c1d60f50bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6600221895059025937
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,7 +1030,7 @@ GameObject:
   - component: {fileID: 4719343573923843061}
   - component: {fileID: 87221721425663380}
   m_Layer: 0
-  m_Name: MenuButtons
+  m_Name: LeftLayout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -992,7 +1043,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7575999652578597015}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1000,12 +1051,12 @@ RectTransform:
   - {fileID: 4855042993286046727}
   - {fileID: 157461483777385442}
   - {fileID: 2049554230464781666}
-  m_Father: {fileID: 4961015677131810871}
+  m_Father: {fileID: 1715051031471497313}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -726.5421, y: 270}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 466.9143, y: 540}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &87221721425663380
@@ -1692,6 +1743,11 @@ PrefabInstance:
       propertyPath: m_text
       value: LOAD
       objectReference: {fileID: 0}
+    - target: {fileID: 200688217286192506, guid: 82d18f65cf01a3c4cbc3840bf010508f,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 57.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1730,12 +1786,12 @@ PrefabInstance:
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 404.7254
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 125.47
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
@@ -1896,12 +1952,12 @@ PrefabInstance:
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 404.7254
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 125.47
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
@@ -2427,6 +2483,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4719343573923843061}
     m_Modifications:
+    - target: {fileID: 200688217286192506, guid: 82d18f65cf01a3c4cbc3840bf010508f,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 57.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2465,12 +2526,12 @@ PrefabInstance:
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 404.7254
+      value: 340
       objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 125.47
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: 3332863681113315409, guid: 82d18f65cf01a3c4cbc3840bf010508f,
         type: 3}

@@ -22,6 +22,7 @@ namespace Slots
     /// <summary>
     /// This class stores the slot data
     /// </summary>
+    [System.Serializable]
     public class SlotData
     {
         public bool HasObstacle { get; set; }

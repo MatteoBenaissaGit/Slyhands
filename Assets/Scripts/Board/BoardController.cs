@@ -106,9 +106,9 @@ namespace Board
         /// <summary>
         /// Create a new blank board filled with slots
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="length"></param>
-        /// <param name="height"></param>
+        /// <param name="width">the width of the board</param>
+        /// <param name="length">the length of the board</param>
+        /// <param name="height">the height of the board</param>
         public void CreateBlankBoard(int width, int length, int height)
         {
             ClearBoard();

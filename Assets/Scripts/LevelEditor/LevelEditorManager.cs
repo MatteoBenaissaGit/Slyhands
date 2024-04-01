@@ -15,6 +15,7 @@ namespace LevelEditor
         [field:SerializeField] [field:Required] public LevelEditorUI UI { get; private set; }
         [field:SerializeField] [field:Required] public BoardController Board { get; private set; }
         [field:SerializeField] [field:Required] public CameraController Camera { get; private set; }
+        [field:SerializeField] [field:Required] public LevelSaveLoadManager SaveLoadManager { get; private set; }
 
         public SlotLocation CurrentSelectedLocation
         {

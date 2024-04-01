@@ -46,7 +46,8 @@ namespace Camera
 
             float zoomFactor = Camera.orthographicSize / _baseSize;
             float zoomFactorSpeed = zoomFactor * _moveSpeedMultiplierPerZoom;
-            float deltaTime = Time.deltaTime * 350;
+            Debug.Log(Screen.dpi);
+            float deltaTime = Time.deltaTime * Screen.dpi;
             Vector3 xMovement = Camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed * deltaTime);
             Vector3 yMovement = Camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
             Camera.transform.localPosition += xMovement + yMovement;
