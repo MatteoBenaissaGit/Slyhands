@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Inputs;
 using Slots;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace LevelEditor
         {
             InputLevelEditor levelEditorInput = InputManager.Instance.LevelEditorInput;
             
-            levelEditorInput.OnRightClick += ClearDropDownMenu;
+            levelEditorInput.OnRightClick += RightClickTapCheckToClearDropDownMenu;
             levelEditorInput.OnClickTap += ClickTapCheckToClearDropDownMenu;
             levelEditorInput.OnCameraZoomed += context =>  ClearDropDownMenu();
             levelEditorInput.OnCameraMoveButtonPressed += context =>  ClearDropDownMenu();
@@ -128,6 +129,18 @@ namespace LevelEditor
         private void ClickTapCheckToClearDropDownMenu()
         {
             if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+            ClearDropDownMenu();
+        }
+        
+        /// <summary>
+        /// Check if when the user right click it needs to remove the dropdown menu or not
+        /// </summary>
+        private void RightClickTapCheckToClearDropDownMenu()
+        {
+            if (EventSystem.current.IsPointerOverGameObject() || _isActive == false)
             {
                 return;
             }

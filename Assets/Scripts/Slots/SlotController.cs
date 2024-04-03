@@ -22,11 +22,12 @@ namespace Slots
     /// <summary>
     /// This class stores the slot data
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public class SlotData
     {
-        public bool HasObstacle { get; set; }
-        public GameObject ObstaclePrefab { get; set; }
+        [field:SerializeField] public Vector3Int Coordinates { get; set; }
+        public bool HasObstacle { get => ObstaclePrefab != null; }
+        [field:SerializeField] public GameObject ObstaclePrefab { get; set; }
     }
     
     /// <summary>
@@ -40,10 +41,13 @@ namespace Slots
         public Action<SlotAction, bool> OnSlotAction { get; set; }
         public SlotData Data { get; set; }
 
-        public SlotController(BoardController board, Vector3Int coordinates) : base(board, coordinates)
+        public SlotController(BoardController board, Vector3Int coordinates, SlotData predefinedData = null) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Slot;
-            Data = new SlotData();
+            
+            Data = predefinedData ?? new SlotData();
+            Data.Coordinates = coordinates;
+            
             OnSlotAction += SlotActionController;
         }
 

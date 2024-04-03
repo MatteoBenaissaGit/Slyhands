@@ -46,7 +46,7 @@ namespace LevelEditor.ActionButtons
             {
                 return;
             }
-            LevelEditorManager.Instance.UI.ActionButtonsManager.SetCurrentButton();
+            LevelEditorManager.Instance.UI.InputActionsManager.SetCurrentButton();
             DisplayChoices(false);
         }
 

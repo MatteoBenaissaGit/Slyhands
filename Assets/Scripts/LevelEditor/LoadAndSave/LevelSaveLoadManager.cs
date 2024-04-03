@@ -6,12 +6,15 @@ using Sirenix.OdinInspector;
 using Slots;
 using UnityEngine;
 
-namespace LevelEditor
+namespace LevelEditor.LoadAndSave
 {
+    /// <summary>
+    /// This class handle the saved data of all maps
+    /// </summary>
     [Serializable]
     public class LevelsData
     {
-        public List<LevelData> Datas;
+        [field:SerializeField] public List<LevelData> Datas;
         
         public LevelsData()
         {
@@ -19,30 +22,37 @@ namespace LevelEditor
         }
     }
     
+    /// <summary>
+    /// This class handle the saved data of a map
+    /// </summary>
     [Serializable]
     public class LevelData
     {
-        public string Name;
-        public BoardData BoardData;
-        public SlotData[,,] SlotDataArray;
+        [field:SerializeField] public string Name { get; private set; }
+        [field:SerializeField] public BoardData BoardData { get; private set; }
+        [field:SerializeField] public List<SlotData> SlotDataList { get; private set; }
         
         public LevelData(BoardData boardData, string name)
         {
             Name = name;
             BoardData = boardData;
-            SlotDataArray = new SlotData[BoardData.Width, BoardData.Height, BoardData.Length];
+
+            SlotDataList = new List<SlotData>(boardData.Width * boardData.Length * boardData.Height);
             foreach (SlotLocation slotLocation in BoardData.SlotLocations)
             {
-                SlotData slotData = slotLocation?.SlotView?.Controller?.Data;
-                if (slotData == null)
+                SlotData data = slotLocation?.SlotView?.Controller?.Data;
+                if (data == null)
                 {
                     continue;
                 }
-                SlotDataArray[slotLocation.Coordinates.x, slotLocation.Coordinates.y, slotLocation.Coordinates.z] = slotData;
+                SlotDataList.Add(data);
             }
         }
     }
     
+    /// <summary>
+    /// This class handle the loading and saving of levels
+    /// </summary>
     public class LevelSaveLoadManager : MonoBehaviour
     {
         private string _filePath => Path.Combine(Application.persistentDataPath, "levelsData.json");
@@ -58,20 +68,31 @@ namespace LevelEditor
             Debug.Log($"Loaded {loadedData.Datas.Count} Levels data in {_filePath}");
         }
 
+        /// <summary>
+        /// Reset and erase all saved data
+        /// </summary>
         [Button("Reset all levels data")]
         private void ResetData()
         {
             WriteToJson(new LevelsData());
         }
         
-        private void WriteToJson(LevelsData levelData)
+        /// <summary>
+        /// Write a levels data into the json file
+        /// </summary>
+        /// <param name="levelsData">The levels data to save</param>
+        private void WriteToJson(LevelsData levelsData)
         {
-            string json = JsonUtility.ToJson(levelData);
+            string json = JsonUtility.ToJson(levelsData, true);
             File.WriteAllText(_filePath, json);
             
-            Debug.Log($"Saved {levelData.Datas.Count} Levels data in {_filePath}");
+            Debug.Log($"Saved {levelsData.Datas.Count} Levels data in {_filePath}");
         }
 
+        /// <summary>
+        /// Read the levels data from the json file
+        /// </summary>
+        /// <returns></returns>
         private LevelsData ReadFromJson()
         {
             if (File.Exists(_filePath))
@@ -87,6 +108,11 @@ namespace LevelEditor
             }
         }
 
+        /// <summary>
+        /// Save a level in the game data
+        /// </summary>
+        /// <param name="boardData">The board data to save</param>
+        /// <param name="levelName">The level's name</param>
         public void SaveLevelData(BoardData boardData, string levelName)
         {
             LevelData levelData = new LevelData(boardData, levelName);
@@ -95,6 +121,10 @@ namespace LevelEditor
             WriteToJson(loadedData);
         }
 
+        /// <summary>
+        /// Get the levels data of the game
+        /// </summary>
+        /// <returns></returns>
         public LevelsData GetLevelsData()
         {
             return ReadFromJson();

@@ -2,6 +2,7 @@
 using Inputs;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Camera
 {
@@ -34,6 +35,11 @@ namespace Camera
 
         private void Update()
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+            
             Camera.DOKill();
             float size = Camera.orthographicSize - _cameraZoom * _zoomSpeed;
             size = Mathf.Clamp(size, _cameraSizeMin, _cameraSizeMax);
@@ -46,7 +52,6 @@ namespace Camera
 
             float zoomFactor = Camera.orthographicSize / _baseSize;
             float zoomFactorSpeed = zoomFactor * _moveSpeedMultiplierPerZoom;
-            Debug.Log(Screen.dpi);
             float deltaTime = Time.deltaTime * Screen.dpi;
             Vector3 xMovement = Camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed * deltaTime);
             Vector3 yMovement = Camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);

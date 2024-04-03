@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace Board
 {
+    /// <summary>
+    /// This class hold the board data and the slot locations in it
+    /// </summary>
+    [Serializable]
     public class BoardData
     {
         public BoardData(Vector3Int dimensions)
@@ -17,9 +21,9 @@ namespace Board
             SlotLocations = new SlotLocation[Width, Height, Length];
         }
         
-        public int Width { get; private set; } //X
-        public int Length { get; private set; } //Z
-        public int Height { get; private set; } //Y
+        [field:SerializeField] public int Width { get; private set; } //X
+        [field:SerializeField] public int Length { get; private set; } //Z
+        [field:SerializeField] public int Height { get; private set; } //Y
         
         public Vector3Int BoardSize => new Vector3Int(Width, Height, Length);
 

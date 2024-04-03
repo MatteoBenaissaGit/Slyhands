@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Inputs;
 using Sirenix.OdinInspector;
 using Slots;
@@ -11,7 +12,7 @@ namespace LevelEditor.ActionButtons
     /// <summary>
     /// This class manage all the action buttons in the level editor
     /// </summary>
-    public class LevelEditorActionButtonsManager : MonoBehaviour
+    public class LevelEditorInputActionsManager : MonoBehaviour
     {
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
@@ -113,7 +114,7 @@ namespace LevelEditor.ActionButtons
         /// <summary>
         /// Handle the action made when the user right click 
         /// </summary>
-        private void RightClickAction()
+        private async void RightClickAction()
         {
             if (_currentButton == null || _currentHoveredLocation == null)
             {
@@ -124,6 +125,7 @@ namespace LevelEditor.ActionButtons
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
+                    await Task.Delay(1);
                     LevelEditorManager.Instance.UI.DropDownMenuController.CreateDropDownMenu(_currentHoveredLocation);
                     break;
                 case LevelEditorActionButtonType.Paint:

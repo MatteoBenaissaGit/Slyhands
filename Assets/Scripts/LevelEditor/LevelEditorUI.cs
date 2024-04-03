@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using LevelEditor.ActionButtons;
+using LevelEditor.LoadAndSave;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ namespace LevelEditor
     public class LevelEditorUI : MonoBehaviour
     {
         [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]
-        public LevelEditorActionButtonsManager ActionButtonsManager { get; private set; }
+        public LevelEditorInputActionsManager InputActionsManager { get; private set; }
         [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]
         public LevelEditorDropDownMenuController DropDownMenuController { get; private set; }
         
@@ -84,6 +85,7 @@ namespace LevelEditor
             menu.CanvasGroup.blocksRaycasts = true;
 
             _currentMenu = menu;
+            _currentMenu.OpenMenu();
         }
         
         /// <summary>
@@ -96,6 +98,7 @@ namespace LevelEditor
                 return;
             }
             
+            _currentMenu.CloseMenu();
             _currentMenu.transform.DOKill();
             _currentMenu.transform.DOScale(new Vector3(0, 1, 1), 0.2f)
                 .OnComplete(() => _currentMenu.CanvasGroup.alpha = 1f)

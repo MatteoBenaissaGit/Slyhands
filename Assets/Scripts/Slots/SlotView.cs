@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -64,7 +65,6 @@ namespace Slots
             }
             
             _obstacleParent.gameObject.SetActive(obstaclePrefab != null);
-            Controller.Data.HasObstacle = obstaclePrefab != null;
             Controller.Data.ObstaclePrefab = obstaclePrefab;
 
             if (obstaclePrefab == null)
@@ -74,6 +74,10 @@ namespace Slots
             
             GameObject obstacle = Instantiate(obstaclePrefab, _obstacleParent, true);
             obstacle.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            obstacle.transform.DOComplete();
+            Vector3 scale = obstacle.transform.localScale;
+            obstacle.transform.localScale = Vector3.zero;
+            obstacle.transform.DOScale(scale, 0.2f);
         }
 
         /// <summary>
@@ -83,7 +87,9 @@ namespace Slots
         {
             for (int i = 0; i < _obstacleParent.childCount; i++)
             {
-                Destroy(_obstacleParent.GetChild(i).gameObject);
+                GameObject child = _obstacleParent.GetChild(i).gameObject;
+                child.transform.DOComplete();
+                child.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() => Destroy(child));
             }
         }
         
