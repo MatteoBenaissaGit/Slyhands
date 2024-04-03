@@ -1,5 +1,6 @@
 ﻿using System;
 using LevelEditor;
+using LevelEditor.LoadAndSave;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Slots;
@@ -120,11 +121,31 @@ namespace Board
             ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
         }
 
+        /// <summary>
+        /// Create a slot location at the desired position
+        /// </summary>
+        /// <param name="x">x coordinate</param>
+        /// <param name="y">y coordinate</param>
+        /// <param name="z">z coordinate</param>
         private void CreateSlotLocationAt(int x, int y, int z)
         {
             Data.SlotLocations[x, y, z] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector3Int(x,y,z)), Quaternion.identity);
             Data.SlotLocations[x, y, z].transform.parent = _slotParent;
             Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
+        }
+
+        /// <summary>
+        /// Load a level data and create its board 
+        /// </summary>
+        /// <param name="data"></param>
+        public void LoadBoardFromLevelData(LevelData data)
+        {
+            //TODO clear slot ???
+            CreateBlankBoard(data.BoardData.Width, data.BoardData.Height, data.BoardData.Width);
+            foreach (SlotData slotData in data.SlotDataList)
+            {
+                CreateSlotAt(slotData.Coordinates, slotData);
+            }
         }
         
         /// <summary>

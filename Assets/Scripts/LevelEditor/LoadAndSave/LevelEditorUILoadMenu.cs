@@ -21,7 +21,7 @@ namespace LevelEditor.LoadAndSave
         protected override void Awake()
         {
             base.Awake();
-            
+            _loadButton.onClick.AddListener(LoadLevel);
         }
 
         public override void OpenMenu()
@@ -45,7 +45,8 @@ namespace LevelEditor.LoadAndSave
                 return;
             }
             
-            LevelEditorManager.Instance.UI.HideMenu();
+            LevelEditorManager.Instance.Board.LoadBoardFromLevelData(_selectedLevelButton.Data);
+            LevelEditorManager.Instance.UI.HideMenu(); //TODO doesnt hide ???
         }
         
         private void ShowSavedLevels()
