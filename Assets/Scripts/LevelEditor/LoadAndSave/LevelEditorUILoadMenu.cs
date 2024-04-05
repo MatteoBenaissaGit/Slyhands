@@ -34,6 +34,10 @@ namespace LevelEditor.LoadAndSave
             for (int i = 0; i < _content.childCount; i++)
             {
                 GameObject child =  _content.GetChild(i).gameObject;
+                if (child.TryGetComponent(out LevelToLoadButtonController loadButton))
+                {
+                    loadButton.GetButton().onClick.RemoveListener(() => SetSelectedLevel(loadButton));
+                }
                 Destroy(child);
             }
         }
@@ -60,7 +64,6 @@ namespace LevelEditor.LoadAndSave
             }
 
             float contentHeight = (_levelToLoadButtonPrefab.Rect.rect.height + 40) * levelDataList.Count;
-            Debug.Log(contentHeight);
             _content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentHeight);
         }
 

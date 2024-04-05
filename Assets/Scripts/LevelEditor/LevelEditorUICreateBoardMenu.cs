@@ -40,7 +40,7 @@ namespace LevelEditor
                 return;
             }
             
-            LevelEditorManager.Instance.UI.CreateNewBoard(width, height, length);
+            LevelEditorManager.Instance.Board.CreateBlankBoard(width, height, length);
         }
     }
 }

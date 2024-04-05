@@ -106,9 +106,8 @@ namespace LevelEditor
                 .OnComplete(() => _currentMenu.CanvasGroup.blocksRaycasts = true);
         }
 
-        public void CreateNewBoard(int width, int height, int length)
+        public void SetHeightSlider(int height)
         {
-            LevelEditorManager.Instance.Board.CreateBlankBoard(width,length,height);
             _heightSlider.SetSlider(height > 1);
         }
 

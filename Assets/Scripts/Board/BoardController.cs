@@ -23,8 +23,8 @@ namespace Board
         }
         
         [field:SerializeField] public int Width { get; private set; } //X
-        [field:SerializeField] public int Length { get; private set; } //Z
         [field:SerializeField] public int Height { get; private set; } //Y
+        [field:SerializeField] public int Length { get; private set; } //Z
         
         public Vector3Int BoardSize => new Vector3Int(Width, Height, Length);
 
@@ -114,11 +114,13 @@ namespace Board
         /// <param name="width">the width of the board</param>
         /// <param name="length">the length of the board</param>
         /// <param name="height">the height of the board</param>
-        public void CreateBlankBoard(int width, int length, int height)
+        public void CreateBlankBoard(int width, int height, int length)
         {
             ClearBoard();
             InitializeBoardData(width, length, height);
             ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
+            
+            LevelEditorManager.Instance.UI.SetHeightSlider(height);
         }
 
         /// <summary>
@@ -140,8 +142,7 @@ namespace Board
         /// <param name="data"></param>
         public void LoadBoardFromLevelData(LevelData data)
         {
-            //TODO clear slot ???
-            CreateBlankBoard(data.BoardData.Width, data.BoardData.Height, data.BoardData.Width);
+            CreateBlankBoard(data.BoardData.Width, data.BoardData.Height, data.BoardData.Length);
             foreach (SlotData slotData in data.SlotDataList)
             {
                 CreateSlotAt(slotData.Coordinates, slotData);

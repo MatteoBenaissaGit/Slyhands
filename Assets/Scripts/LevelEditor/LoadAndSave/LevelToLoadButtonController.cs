@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -27,7 +28,17 @@ namespace LevelEditor.LoadAndSave
 
         public void SetSelected(bool isSelected)
         {
+            if (_button == null || _button.image == null || _button.image.gameObject == null)
+            {
+                return;
+            }
             _button.image.color = isSelected ? Color.white : new Color(1f, 1f, 1f, 0.6f);
+            _nameText.color = isSelected ? Color.black : new Color(0f, 0f, 0f, 0.51f);
+        }
+
+        public Button GetButton()
+        {
+            return _button;
         }
     }
 }
