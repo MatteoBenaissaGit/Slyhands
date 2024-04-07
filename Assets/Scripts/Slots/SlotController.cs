@@ -28,6 +28,8 @@ namespace Slots
         [field:SerializeField] public Vector3Int Coordinates { get; set; }
         public bool HasObstacle { get => ObstaclePrefab != null; }
         [field:SerializeField] public GameObject ObstaclePrefab { get; set; }
+        public bool HasEntity { get => EntityPrefab != null; }
+        [field:SerializeField] public GameObject EntityPrefab { get; set; }
     }
     
     /// <summary>

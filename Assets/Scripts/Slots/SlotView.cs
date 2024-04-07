@@ -16,7 +16,7 @@ namespace Slots
         /// </summary>
         public SlotController Controller { get; private set; }
 
-        #region Private values
+        #region Private fields
 
         [TabGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
         private SpriteRenderer _actionFeedbackSpriteRenderer;
@@ -29,6 +29,8 @@ namespace Slots
         private Transform _obstacleParent;
 
         #endregion
+
+        private GameObject _entityOnSlot;
 
         /// <summary>
         /// This method initialize the slot view
@@ -52,6 +54,8 @@ namespace Slots
             Controller.OnSlotAction -= SlotActionView;
             Controller = null;
         }
+
+        #region Obstacles
 
         /// <summary>
         /// Set the obstacle object on the slot
@@ -92,6 +96,30 @@ namespace Slots
                 child.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() => Destroy(child));
             }
         }
+
+        /// <summary>
+        /// This method set a new entity on the slot and destroy the current if there was one
+        /// </summary>
+        /// <param name="entityPrefab">the prefab of the entity to put</param>
+        public void SetEntity(GameObject entityPrefab)
+        {
+            if (_entityOnSlot != null)
+            {
+                Destroy(_entityOnSlot);
+            }
+
+            if (entityPrefab == null)
+            {
+                return;
+            }
+            
+            _entityOnSlot = Instantiate(entityPrefab, transform);
+            _entityOnSlot.transform.SetLocalPositionAndRotation(new Vector3(0,0.5f,0), Quaternion.identity);
+
+            Controller.Data.EntityPrefab = entityPrefab;
+        }
+        
+        #endregion
         
         #region Actions
 

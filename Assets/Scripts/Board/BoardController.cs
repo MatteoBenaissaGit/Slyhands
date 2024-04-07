@@ -25,13 +25,9 @@ namespace Board
         [field:SerializeField] public int Width { get; private set; } //X
         [field:SerializeField] public int Height { get; private set; } //Y
         [field:SerializeField] public int Length { get; private set; } //Z
-        
         public Vector3Int BoardSize => new Vector3Int(Width, Height, Length);
-
-        /// <summary>
-        /// The array containing all board's slots
-        /// </summary>
         public SlotLocation[,,] SlotLocations { get; set; }
+        [field:SerializeField] public Vector3Int PlayerStartCoordinates { get; set; }
     }
     
     /// <summary>
