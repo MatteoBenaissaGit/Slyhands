@@ -73,6 +73,8 @@ namespace LevelEditor.ActionButtons
             _currentButton.SetSelected(false);
             _currentButton = buttonToSet;
             _currentButton.SetSelected(true);
+
+            LevelEditorManager.Instance.CurrentSelectedLocation = null;
         }
 
         /// <summary>
@@ -104,12 +106,12 @@ namespace LevelEditor.ActionButtons
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
                     LevelEditorActionButtonControllerExtended obstacleButton = _currentButton as LevelEditorActionButtonControllerExtended;
-                    _currentHoveredLocation.SlotView?.SetObstacle(obstacleButton?.CurrentChoice);
+                    _currentHoveredLocation.SlotView?.CreateObstacle(obstacleButton?.CurrentChoice);
                     break;
                 case LevelEditorActionButtonType.AddEntity:
                     LevelEditorActionButtonControllerExtended entityButton = _currentButton as LevelEditorActionButtonControllerExtended;
                     GameObject entityToAdd = entityButton?.CurrentChoice;
-                    _currentHoveredLocation.SlotView?.SetEntity(entityToAdd);
+                    _currentHoveredLocation.SlotView?.CreateCharacterOnSlot(entityToAdd);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -137,10 +139,10 @@ namespace LevelEditor.ActionButtons
                     _currentHoveredLocation.DestroySlotViewOnLocation();
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
-                    _currentHoveredLocation.SlotView?.SetObstacle(null);
+                    _currentHoveredLocation.SlotView?.CreateObstacle(null);
                     break;
                 case LevelEditorActionButtonType.AddEntity:
-                    _currentHoveredLocation.SlotView?.SetEntity(null);
+                    _currentHoveredLocation.SlotView?.CreateCharacterOnSlot(null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -166,7 +168,7 @@ namespace LevelEditor.ActionButtons
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
                     LevelEditorActionButtonControllerExtended extendedActionButton = _currentButton as LevelEditorActionButtonControllerExtended;
-                    _currentHoveredLocation.SlotView?.SetObstacle(extendedActionButton?.CurrentChoice);
+                    _currentHoveredLocation.SlotView?.CreateObstacle(extendedActionButton?.CurrentChoice);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -191,7 +193,7 @@ namespace LevelEditor.ActionButtons
                     _currentHoveredLocation.DestroySlotViewOnLocation();
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
-                    _currentHoveredLocation.SlotView?.SetObstacle(null);
+                    _currentHoveredLocation.SlotView?.CreateObstacle(null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

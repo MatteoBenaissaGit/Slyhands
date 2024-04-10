@@ -32,8 +32,8 @@ namespace LevelEditor.LoadAndSave
             {
                 return;
             }
-            _button.image.color = isSelected ? Color.white : new Color(1f, 1f, 1f, 0.6f);
-            _nameText.color = isSelected ? Color.black : new Color(0f, 0f, 0f, 0.51f);
+            _button.image.color = isSelected ? Color.white : new Color(1f, 1f, 1f, 0.5f);
+            _nameText.color = isSelected ? Color.black : new Color(0f, 0f, 0f, 0.5f);
         }
 
         public Button GetButton()

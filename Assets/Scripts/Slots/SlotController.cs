@@ -1,6 +1,7 @@
 ﻿using System;
 using Board;
 using LevelEditor;
+using LevelEditor.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -28,8 +29,8 @@ namespace Slots
         [field:SerializeField] public Vector3Int Coordinates { get; set; }
         public bool HasObstacle { get => ObstaclePrefab != null; }
         [field:SerializeField] public GameObject ObstaclePrefab { get; set; }
-        public bool HasEntity { get => EntityPrefab != null; }
-        [field:SerializeField] public GameObject EntityPrefab { get; set; }
+        public bool HasCharacter { get => CharacterPrefab != null; }
+        [field:SerializeField] public GameObject CharacterPrefab { get; set; }
     }
     
     /// <summary>
