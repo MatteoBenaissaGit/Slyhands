@@ -21,11 +21,35 @@ namespace Slots
     }
 
     /// <summary>
+    /// The different types of slot
+    /// </summary>
+    public enum SlotType
+    {
+        Base = 0,
+        Ramp = 1,
+        NotWalkable = 2
+    }
+
+    /// <summary>
+    /// The four orientation of an entity
+    /// </summary>
+    public enum Orientation
+    {
+        North = 0, // y + 1
+        South = 1, // y -1
+        East = 2, // x + 1
+        West = 3 // x - 1
+    }
+
+    /// <summary>
     /// This class stores the slot data
     /// </summary>
     [Serializable]
     public class SlotData
     {
+        [field:SerializeField] public SlotType Type { get; set; }
+        [field:SerializeField] public string SlotTypeReferenceId { get; set; }
+        [field:SerializeField] public Orientation Orientation { get; set; }
         [field:SerializeField] public Vector3Int Coordinates { get; set; }
         public bool HasObstacle { get => ObstaclePrefab != null; }
         [field:SerializeField] public GameObject ObstaclePrefab { get; set; }

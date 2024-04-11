@@ -256,10 +256,11 @@ MonoBehaviour:
   _cursorTexture: {fileID: 2800000, guid: 746f10f311644e145bb6808130546e2a, type: 3}
   _cursorHotSpot: {x: 0, y: 0}
   _background: {fileID: 2150895892526650794}
+  <UseIdInsteadOfObject>k__BackingField: 0
   _choicesTab: {fileID: 5377129769890272281}
   _choiceButtons: []
-  _previsualisation: {fileID: 2404823730757791097}
-  _previsualisationIcon: {fileID: 7864800456468017550}
+  _preview: {fileID: 2404823730757791097}
+  _previewImage: {fileID: 7864800456468017550}
 --- !u!1 &2404823730757791097
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9140718810565659855}
   m_Layer: 0
-  m_Name: Previsualisation
+  m_Name: Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Board;
 using Inputs;
 using Sirenix.OdinInspector;
 using Slots;
@@ -102,22 +103,19 @@ namespace LevelEditor.ActionButtons
                     LevelEditorManager.Instance.CurrentSelectedLocation = _currentHoveredLocation;
                     break;
                 case LevelEditorActionButtonType.Paint:
-                    LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
+                    PaintCurrentHoveredSlot();
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
-                    LevelEditorActionButtonControllerExtended obstacleButton = _currentButton as LevelEditorActionButtonControllerExtended;
-                    _currentHoveredLocation.SlotView?.CreateObstacle(obstacleButton?.CurrentChoice);
+                    AddObstacleOnCurrentHoveredSlot();
                     break;
                 case LevelEditorActionButtonType.AddEntity:
-                    LevelEditorActionButtonControllerExtended entityButton = _currentButton as LevelEditorActionButtonControllerExtended;
-                    GameObject entityToAdd = entityButton?.CurrentChoice;
-                    _currentHoveredLocation.SlotView?.CreateCharacterOnSlot(entityToAdd);
+                    AddEntityOnCurrentHoveredSlot();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-
+        
         /// <summary>
         /// Handle the action made when the user right click 
         /// </summary>
@@ -164,11 +162,13 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.Selection:
                     break;
                 case LevelEditorActionButtonType.Paint:
-                    LevelEditorManager.Instance.Board.CreateSlotAt(_currentHoveredLocation.Coordinates);
+                    PaintCurrentHoveredSlot();
                     break;
                 case LevelEditorActionButtonType.AddObstacle:
-                    LevelEditorActionButtonControllerExtended extendedActionButton = _currentButton as LevelEditorActionButtonControllerExtended;
-                    _currentHoveredLocation.SlotView?.CreateObstacle(extendedActionButton?.CurrentChoice);
+                    AddObstacleOnCurrentHoveredSlot();
+                    break;
+                case LevelEditorActionButtonType.AddEntity:
+                    AddEntityOnCurrentHoveredSlot();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -241,5 +241,42 @@ namespace LevelEditor.ActionButtons
                 LevelEditorManager.Instance.CurrentSelectedLocation = null;
             }
         }
+
+        #region Actions
+
+        /// <summary>
+        /// Add the selected entity of the entity add button on the current slot
+        /// </summary>
+        private void AddEntityOnCurrentHoveredSlot()
+        {
+            LevelEditorActionButtonControllerExtended entityButton = _currentButton as LevelEditorActionButtonControllerExtended;
+            GameObject entityToAdd = entityButton?.CurrentChoice;
+            _currentHoveredLocation.SlotView?.CreateCharacterOnSlot(entityToAdd);
+        }
+
+        /// <summary>
+        /// Add the selected slot of the paint button on the current slot
+        /// </summary>
+        private void PaintCurrentHoveredSlot()
+        {
+            LevelEditorActionButtonControllerExtended paintButton = _currentButton as LevelEditorActionButtonControllerExtended;
+            string slotTypeId = paintButton?.CurrentChoiceID;
+            
+            Vector3Int coordinates = _currentHoveredLocation.Coordinates;
+            BoardController board = LevelEditorManager.Instance.Board;
+            board.CreateSlotAt(coordinates);
+            board.Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SlotView.SetSlotTypeReference(slotTypeId);
+        }
+        
+        /// <summary>
+        /// Add the selected obstacle of the obstacle add button on the current slot
+        /// </summary>
+        private void AddObstacleOnCurrentHoveredSlot()
+        {
+            LevelEditorActionButtonControllerExtended obstacleButton = _currentButton as LevelEditorActionButtonControllerExtended;
+            _currentHoveredLocation.SlotView?.CreateObstacle(obstacleButton?.CurrentChoice);
+        }
+        
+        #endregion
     }
 }

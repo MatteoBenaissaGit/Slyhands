@@ -1,11 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using LevelEditor.Entities;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Slots
 {
+    /// <summary>
+    /// This class handle a reference and the id of a slot type in the slot view
+    /// </summary>
+    [Serializable]
+    public class SlotTypeReference
+    {
+        [field:SerializeField] public string ID { get; private set; }
+        [field:SerializeField] public GameObject SlotGameObject { get; private set; }
+        [field:SerializeField] public SlotType SlotType { get; private set; }
+
+        public void SetSlotGameObject(bool isActive)
+        {
+            SlotGameObject.SetActive(isActive);
+        }
+    }
+
     /// <summary>
     /// This class handle the view and the visual feedbacks of the slot
     /// </summary>
@@ -28,6 +46,9 @@ namespace Slots
 
         [TabGroup("References"), SerializeField, Required, ChildGameObjectsOnly]
         private Transform _obstacleParent;
+        
+        [SerializeField]
+        private List<SlotTypeReference> _slotTypeReferences = new List<SlotTypeReference>();
 
         #endregion
 
@@ -49,6 +70,11 @@ namespace Slots
 
             CreateObstacle(Controller.Data.HasObstacle ? Controller.Data.ObstaclePrefab : null);
             CreateCharacterOnSlot(Controller.Data.HasCharacter ? Controller.Data.CharacterPrefab : null);
+
+            if (Controller.Data.SlotTypeReferenceId != null)
+            {
+                SetSlotTypeReference(Controller.Data.SlotTypeReferenceId);
+            }
         }
 
         private void OnDestroy()
@@ -186,6 +212,29 @@ namespace Slots
 
         #endregion
 
+        #region Slot parameters
+
+        /// <summary>
+        /// Set the type and type id of the slot
+        /// </summary>
+        /// <param name="slotId">the id of the slot to place</param>
+        public void SetSlotTypeReference(string slotId)
+        {
+            _slotTypeReferences.ForEach(x => x.SetSlotGameObject(false));
+            
+            SlotTypeReference slot = _slotTypeReferences.Find(x => x.ID == slotId);
+            if (slot == null)
+            {
+                return;
+            }
+            slot.SetSlotGameObject(true);
+            
+            Controller.Data.Type = slot.SlotType;
+            Controller.Data.SlotTypeReferenceId = slot.ID;
+        }
+
+        #endregion
+        
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
