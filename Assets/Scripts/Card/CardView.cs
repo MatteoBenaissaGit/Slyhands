@@ -1,5 +1,7 @@
-using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CardView : MonoBehaviour
 {
@@ -7,14 +9,11 @@ public class CardView : MonoBehaviour
 
     private Card _card;
 
-    [Header("Prefab Elements")]
-    [SerializeField] private TMP_Text _cardNameText;
-    [SerializeField] private TMP_Text _cardDescriptionText;
-    [SerializeField] private TMP_Text _playerCostText;
+    [Header("Prefab Elements")] [SerializeField]
+    private TMP_Text _cardNameText;
 
-    [Header("Card Visual")] 
+    [SerializeField] private TMP_Text _cardDescriptionText;
     [SerializeField] private SpriteRenderer _subjectSpriteRenderer;
-    [SerializeField] private SpriteRenderer _cardOrnamentRenderer;
 
     #endregion
 
@@ -24,27 +23,15 @@ public class CardView : MonoBehaviour
         SetCard();
     }
 
-    private void OnValidate()
-    {
-        Awake();
-    }
-
     private void SetCard()
     {
         SetCardProperties();
-        SetCardVisual();
     }
 
     private void SetCardProperties()
     {
         _cardNameText.text = _card.CardDataScriptable.CardName;
         _cardDescriptionText.text = _card.CardDataScriptable.CardDescription;
-        _playerCostText.text = _card.CardDataScriptable.PlayerCost.ToString();
-    }
-
-    private void SetCardVisual()
-    {
         _subjectSpriteRenderer.sprite = _card.CardDataScriptable.SubjectSprite;
-        _cardOrnamentRenderer.sprite = _card.CardDataScriptable.CardOrnament;
     }
 }

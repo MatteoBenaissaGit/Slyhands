@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Compagnon Arton
   <CardDescription>k__BackingField: Ajoute +5 points d'attaque
-  <PlayerCost>k__BackingField: 7
   <SubjectSprite>k__BackingField: {fileID: 21300000, guid: 5c13fc5f250daf640b900f78c0a31963,
-    type: 3}
-  <CardOrnament>k__BackingField: {fileID: 21300000, guid: 45e27be3f8572dc488bc219adc6b56a4,
     type: 3}
   <EffectType>k__BackingField: 2

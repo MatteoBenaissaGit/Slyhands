@@ -9,9 +9,7 @@ namespace Data.Cards
     
         [field: SerializeField] public string CardName { get; private set; }
         [field: SerializeField] public string CardDescription { get; private set; }
-        [field: SerializeField] public int PlayerCost { get; private set; }
         [field: SerializeField] public Sprite SubjectSprite { get; private set; }
-        [field: SerializeField] public Sprite CardOrnament { get; private set; }
         [field : SerializeField] public CardEffectType EffectType { get; private set; }
     
         #endregion

@@ -22,6 +22,8 @@ public class Card : MonoBehaviour
     #region Field and Properties
 
     [field: SerializeField] public CardDataScriptable CardDataScriptable { get; private set; }
+
+    public CardAction cardStatus;
     
     /// <summary>
     /// This action get invoked on any card actions
