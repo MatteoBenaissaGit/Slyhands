@@ -55,9 +55,10 @@ public class CardController : MonoBehaviour
         if (_card.cardStatus == CardAction.None)
         {
             toPosition = new Vector3(_cardManager.Deck.transform.position.x, _cardManager.Deck.transform.position.y,
-                _cardManager.Deck.transform.position.z + 0.2f);
-            toRotation = Quaternion.Euler(0, 180, 0);
-            toScale = new Vector3(0.25f, 0.25f, 0.25f);
+                _cardManager.Deck.transform.position.z + 0.02f);
+            toRotation = Quaternion.Euler(0,180,0);
+            toScale = new Vector3(_cardManager.Deck.transform.localScale.x - 0.1f, _cardManager.Deck.transform.localScale.y - 0.1f,
+                _cardManager.Deck.transform.localScale.z - 0.1f);
         }
         else if (_card.cardStatus == CardAction.Drawed)
         {
