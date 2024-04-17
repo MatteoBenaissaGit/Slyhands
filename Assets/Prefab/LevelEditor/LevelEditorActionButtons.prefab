@@ -356,6 +356,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7185087195674316396, guid: 03723fe04bcc0474aa23020b82b7ef52,
         type: 3}
+      propertyPath: _cursorHotSpot.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185087195674316396, guid: 03723fe04bcc0474aa23020b82b7ef52,
+        type: 3}
+      propertyPath: _cursorHotSpot.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185087195674316396, guid: 03723fe04bcc0474aa23020b82b7ef52,
+        type: 3}
       propertyPath: _choiceButtons.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -997,7 +1007,22 @@ PrefabInstance:
     - target: {fileID: 2209601123916660750, guid: 03723fe04bcc0474aa23020b82b7ef52,
         type: 3}
       propertyPath: m_Name
-      value: AddButton
+      value: AddObstacleButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185087195674316396, guid: 03723fe04bcc0474aa23020b82b7ef52,
+        type: 3}
+      propertyPath: _cursorHotSpot.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185087195674316396, guid: 03723fe04bcc0474aa23020b82b7ef52,
+        type: 3}
+      propertyPath: _cursorHotSpot.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7185087195674316396, guid: 03723fe04bcc0474aa23020b82b7ef52,
+        type: 3}
+      propertyPath: <Type>k__BackingField
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7185087195674316396, guid: 03723fe04bcc0474aa23020b82b7ef52,
         type: 3}

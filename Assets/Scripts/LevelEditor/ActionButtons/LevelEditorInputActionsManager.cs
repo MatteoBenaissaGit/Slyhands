@@ -15,6 +15,7 @@ namespace LevelEditor.ActionButtons
     /// </summary>
     public class LevelEditorInputActionsManager : MonoBehaviour
     {
+        [SerializeField] private LevelEditorActionPreview _preview;
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
         private SlotLocation _currentHoveredLocation => LevelEditorManager.Instance.CurrentHoveredLocation;
@@ -53,6 +54,7 @@ namespace LevelEditor.ActionButtons
             if (location != _currentHoveredLocation)
             {
                 LevelEditorManager.Instance.CurrentHoveredLocation = location;
+                _preview.UpdatePreview(location);
             }
 
             if (_isHoldingClick)
@@ -85,6 +87,8 @@ namespace LevelEditor.ActionButtons
         {
             SetCurrentButton(_buttons[0]);
         }
+
+        #region Click actions
 
         /// <summary>
         /// Handle the action made when the user tap click 
@@ -199,6 +203,8 @@ namespace LevelEditor.ActionButtons
                     throw new ArgumentOutOfRangeException();
             }
         }
+        
+        #endregion
 
         /// <summary>
         /// Get the slot location under the current mouse when the user clicked
@@ -266,6 +272,13 @@ namespace LevelEditor.ActionButtons
             BoardController board = LevelEditorManager.Instance.Board;
             board.CreateSlotAt(coordinates);
             board.Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SlotView.SetSlotTypeReference(slotTypeId);
+            
+            //if there is a character or an obstacle on the slot under the painted slot, destroy it
+            if (coordinates.y - 1 >= 0 && board.Data.SlotLocations[coordinates.x, coordinates.y - 1, coordinates.z].SlotView != null)
+            {
+                board.Data.SlotLocations[coordinates.x, coordinates.y - 1, coordinates.z].SlotView.DestroyObstacleOnSlot();
+                board.Data.SlotLocations[coordinates.x, coordinates.y - 1, coordinates.z].SlotView.DestroyCharacterOnSlot();
+            }
         }
         
         /// <summary>

@@ -130,6 +130,8 @@ namespace Board
             Data.SlotLocations[x, y, z] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector3Int(x,y,z)), Quaternion.identity);
             Data.SlotLocations[x, y, z].transform.parent = _slotParent;
             Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
+            Data.SlotLocations[x, y, z].name = $"SlotLocation {x},{y},{z}";
+
         }
 
         /// <summary>

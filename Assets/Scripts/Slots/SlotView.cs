@@ -68,8 +68,8 @@ namespace Slots
             _selectionFeedbackSpriteRenderer.color = transparentBaseColor;
             _arrowFeedbackSpriteRenderer.color = transparentBaseColor;
 
-            CreateObstacle(Controller.Data.HasObstacle ? Controller.Data.ObstaclePrefab : null);
-            CreateCharacterOnSlot(Controller.Data.HasCharacter ? Controller.Data.CharacterPrefab : null);
+            CreateObstacle(Controller.Data.Obstacle.Has ? Controller.Data.Obstacle.Prefab : null);
+            CreateCharacterOnSlot(Controller.Data.Character.Has ? Controller.Data.Character.Prefab : null);
 
             if (Controller.Data.SlotTypeReferenceId != null)
             {
@@ -91,29 +91,32 @@ namespace Slots
         /// <param name="obstaclePrefab">The object prefab to put as obstacle</param>
         public void CreateObstacle(GameObject obstaclePrefab)
         {
-            if (obstaclePrefab == Controller.Data.ObstaclePrefab && _obstacleParent.childCount > 0)
+            //if the obstacle is the same as the current one, return
+            if (obstaclePrefab == Controller.Data.Obstacle.Prefab && _obstacleParent.childCount > 0)
             {
                 return;
             }
             
             _obstacleParent.gameObject.SetActive(obstaclePrefab != null);
             
+            //if the prefab is null and there is an obstacle, destroy the current obstacle
             if (obstaclePrefab == null || _obstacleParent.childCount > 0)
             {
-                DestroyCurrentObstacle();
+                DestroyObstacleOnSlot();
             }
 
-            if (obstaclePrefab == null)
+            //if the slot is not a base slot or the prefab is null, return
+            if (obstaclePrefab == null || Controller.Data.Type != SlotType.Base)
             {
                 return;
             }
 
-            if (Controller.Data.HasCharacter)
+            if (Controller.Data.Character.Has)
             {
                 CreateCharacterOnSlot(null);
             }
-            
-            Controller.Data.ObstaclePrefab = obstaclePrefab;
+
+            Controller.Data.Obstacle.Prefab = obstaclePrefab;
 
             GameObject obstacle = Instantiate(obstaclePrefab, _obstacleParent, true);
             obstacle.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -126,7 +129,7 @@ namespace Slots
         /// <summary>
         /// This method destroy all child objects beneath the obstacle parent transform
         /// </summary>
-        private void DestroyCurrentObstacle()
+        public void DestroyObstacleOnSlot()
         {
             for (int i = 0; i < _obstacleParent.childCount; i++)
             {
@@ -134,7 +137,7 @@ namespace Slots
                 child.transform.DOComplete();
                 child.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() => Destroy(child));
             }
-            Controller.Data.ObstaclePrefab = null;
+            Controller.Data.Obstacle.Prefab = null;
         }
 
         /// <summary>
@@ -143,34 +146,52 @@ namespace Slots
         /// <param name="levelEditorCharacterPrefab">the prefab of the entity to put</param>
         public void CreateCharacterOnSlot(GameObject levelEditorCharacterPrefab)
         {
-            if (levelEditorCharacterPrefab == Controller.Data.CharacterPrefab && _levelEditorCharacterOnSlotGameObject != null)
+            //if the character is the same as the current one, return
+            if (levelEditorCharacterPrefab == Controller.Data.Character.Prefab && _levelEditorCharacterOnSlotGameObject != null)
             {
                 return;
             }
             
+            //if there is a character on the slot, destroy it
             if (_levelEditorCharacterOnSlotGameObject != null)
             {
-                Destroy(_levelEditorCharacterOnSlotGameObject);
+                DestroyCharacterOnSlot();
             }
 
+            //if the prefab is null or the prefab is not a character, return
             if (levelEditorCharacterPrefab == null || levelEditorCharacterPrefab.TryGetComponent(out LevelEditorCharacter character) == false)
             {
-                Controller.Data.CharacterPrefab = null;
+                Controller.Data.Character.Prefab = null;
                 return;
             }
 
-            if (Controller.Data.HasObstacle)
+            //if the slot has an obstacle, destroy it
+            if (Controller.Data.Obstacle.Has)
             {
-                DestroyCurrentObstacle();
+                DestroyObstacleOnSlot();
             }
             
+            //if the slot is not a base slot, return
+            if (Controller.Data.Type != SlotType.Base)
+            {
+                return;
+            }
+
             _levelEditorCharacterOnSlotGameObject = Instantiate(levelEditorCharacterPrefab, transform);
             _levelEditorCharacterOnSlotGameObject.transform.SetLocalPositionAndRotation(new Vector3(0,0.5f,0), Quaternion.identity);
             
-            Controller.Data.CharacterPrefab = levelEditorCharacterPrefab;
+            Controller.Data.Character.Prefab = levelEditorCharacterPrefab;
             character.Initialize(Controller);
         }
         
+        /// <summary>
+        /// This method destroy the character on the slot
+        /// </summary>
+        public void DestroyCharacterOnSlot()
+        {
+            Destroy(_levelEditorCharacterOnSlotGameObject);
+        }
+
         #endregion
         
         #region Actions

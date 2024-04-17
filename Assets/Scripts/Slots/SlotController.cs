@@ -35,10 +35,10 @@ namespace Slots
     /// </summary>
     public enum Orientation
     {
-        North = 0, // y + 1
-        South = 1, // y -1
-        East = 2, // x + 1
-        West = 3 // x - 1
+        North = 0, // 0° // z+1
+        South = 1, // 90° // z-1
+        East = 2, // 180° // x+1
+        West = 3 // 270° // x-1
     }
 
     /// <summary>
@@ -47,14 +47,35 @@ namespace Slots
     [Serializable]
     public class SlotData
     {
+        public SlotData()
+        {
+            Obstacle = new TileElement();
+            Character = new TileElement();
+        }
+        
         [field:SerializeField] public SlotType Type { get; set; }
         [field:SerializeField] public string SlotTypeReferenceId { get; set; }
         [field:SerializeField] public Orientation Orientation { get; set; }
         [field:SerializeField] public Vector3Int Coordinates { get; set; }
-        public bool HasObstacle { get => ObstaclePrefab != null; }
-        [field:SerializeField] public GameObject ObstaclePrefab { get; set; }
-        public bool HasCharacter { get => CharacterPrefab != null; }
-        [field:SerializeField] public GameObject CharacterPrefab { get; set; }
+        
+        [field:SerializeField] public TileElement Obstacle { get; set; }
+        [field:SerializeField] public TileElement Character { get; set; }
+    }
+    
+    /// <summary>
+    /// This class stores the data of an element on the tile
+    /// </summary>
+    [Serializable]
+    public class TileElement
+    {
+        public TileElement()
+        {
+            Orientation = Orientation.North; //all objects must face north by default
+        }
+        
+        public bool Has { get => Prefab != null; }
+        [field:SerializeField] public GameObject Prefab { get; set; } 
+        [field:SerializeField] public Orientation Orientation { get; set; }
     }
     
     /// <summary>
