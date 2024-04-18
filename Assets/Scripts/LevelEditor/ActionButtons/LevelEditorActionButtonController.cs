@@ -10,7 +10,7 @@ namespace LevelEditor.ActionButtons
         Selection = 0,
         Paint = 1,
         AddObstacle = 2,
-        AddEntity = 3,
+        AddCharacter = 3,
     }
     
     /// <summary>

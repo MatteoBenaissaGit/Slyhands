@@ -1,4 +1,5 @@
 ﻿using System;
+using Board;
 using LevelEditor;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -122,6 +123,34 @@ namespace Slots
         public void SetSelected(bool isSelected)
         {
             _selectedSprite.gameObject.SetActive(isSelected);
+        }
+
+        /// <summary>
+        /// Check if an entity type can be placed on the slot location
+        /// </summary>
+        /// <param name="superType">The super type to check for</param>
+        public bool CanEntityBePlaceHere(BoardEntitySuperType superType)
+        {
+            if (SlotView == null)
+            {
+                return superType == BoardEntitySuperType.Slot;
+            }
+            
+            bool canBePlaced = true;
+            
+            switch (superType)
+            {
+                case BoardEntitySuperType.Character:
+                    canBePlaced = SlotView.Controller.Data.Type == SlotType.Base;
+                    break;
+                case BoardEntitySuperType.Building:
+                    break;
+                case BoardEntitySuperType.Obstacle:
+                    canBePlaced = SlotView.Controller.Data.Type != SlotType.Ramp;
+                    break;
+            }
+            
+            return canBePlaced;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Board;
 using Inputs;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -30,7 +31,7 @@ namespace LevelEditor.ActionButtons
             InputManager.Instance.LevelEditorInput.OnRightClick += CheckForClickTapClearChoiceTab;
             
             DisplayChoices(false);
-            SetPreview(null);
+            SetButtonIconPreview(null);
 
             for (int i = 0; i < _choiceButtons.Count; i++)
             {
@@ -48,7 +49,7 @@ namespace LevelEditor.ActionButtons
             DisplayChoices(isSelected);
             if (isSelected == false)
             {
-                SetPreview(null);
+                SetButtonIconPreview(null);
                 base.SetSelected(false, doInstant);
             }
         }
@@ -85,6 +86,7 @@ namespace LevelEditor.ActionButtons
         public void SetButtonChoice(GameObject choiceGameObject, Sprite choiceObjectSprite = null)
         {
             SetButtonChoiceAction(() => CurrentChoice = choiceGameObject, choiceObjectSprite);
+            SetActionPreview();
         }
         
         /// <summary>
@@ -104,15 +106,15 @@ namespace LevelEditor.ActionButtons
         /// <param name="choiceObjectSprite">the icon of the chosen object</param>
         private void SetButtonChoiceAction(Action action, Sprite choiceObjectSprite = null)
         {
-            if (_areChoicesDisplayed == false)
-            {
-                return;
-            }
+            // if (_areChoicesDisplayed == false)
+            // {
+            //     return;
+            // }
             
             action.Invoke();
             
             DisplayChoices(false);
-            SetPreview(choiceObjectSprite);
+            SetButtonIconPreview(choiceObjectSprite);
             base.SetSelected(true);
         }
 
@@ -120,10 +122,51 @@ namespace LevelEditor.ActionButtons
         /// Set the preview of the chosen object
         /// </summary>
         /// <param name="sprite">the icon to show, if null deactivate the preview</param>
-        private void SetPreview(Sprite sprite)
+        private void SetButtonIconPreview(Sprite sprite)
         {
             _preview.SetActive(sprite != null);
             _previewImage.sprite = sprite;
+        }
+
+        /// <summary>
+        /// Set the preview mesh for the current action
+        /// </summary>
+        private void SetActionPreview()
+        {
+            if (CurrentChoice == null && Type != LevelEditorActionButtonType.Selection)
+            {
+                Debug.LogError("No object referenced as current choice for preview !");
+                return;
+            }
+            
+            GameObject objectToPreview = Type switch
+            {
+                LevelEditorActionButtonType.Selection => null,
+                LevelEditorActionButtonType.Paint => CurrentChoice,
+                LevelEditorActionButtonType.AddObstacle => CurrentChoice,
+                LevelEditorActionButtonType.AddCharacter => CurrentChoice,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            float offset = Type switch
+            {
+                LevelEditorActionButtonType.Selection => 0,
+                LevelEditorActionButtonType.Paint => -1f,
+                LevelEditorActionButtonType.AddObstacle => -0.5f,
+                LevelEditorActionButtonType.AddCharacter => 0,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            BoardEntitySuperType superType = Type switch
+            {
+                LevelEditorActionButtonType.Selection => BoardEntitySuperType.None,
+                LevelEditorActionButtonType.Paint => BoardEntitySuperType.Slot,
+                LevelEditorActionButtonType.AddObstacle => BoardEntitySuperType.Obstacle,
+                LevelEditorActionButtonType.AddCharacter => BoardEntitySuperType.Character,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            LevelEditorManager.Instance.UI.InputActionsManager.Preview.SetGameObjectToPreview(objectToPreview, superType, offset);
         }
     }
 }

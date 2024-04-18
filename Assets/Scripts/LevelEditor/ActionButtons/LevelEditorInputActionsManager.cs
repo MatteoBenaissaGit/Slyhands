@@ -15,7 +15,8 @@ namespace LevelEditor.ActionButtons
     /// </summary>
     public class LevelEditorInputActionsManager : MonoBehaviour
     {
-        [SerializeField] private LevelEditorActionPreview _preview;
+        [field:Required] [field:SerializeField] public LevelEditorActionPreview Preview { get; private set; }
+        
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
         private SlotLocation _currentHoveredLocation => LevelEditorManager.Instance.CurrentHoveredLocation;
@@ -54,7 +55,7 @@ namespace LevelEditor.ActionButtons
             if (location != _currentHoveredLocation)
             {
                 LevelEditorManager.Instance.CurrentHoveredLocation = location;
-                _preview.UpdatePreview(location);
+                Preview.UpdatePreview(location);
             }
 
             if (_isHoldingClick)
@@ -112,7 +113,7 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.AddObstacle:
                     AddObstacleOnCurrentHoveredSlot();
                     break;
-                case LevelEditorActionButtonType.AddEntity:
+                case LevelEditorActionButtonType.AddCharacter:
                     AddEntityOnCurrentHoveredSlot();
                     break;
                 default:
@@ -143,7 +144,7 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.AddObstacle:
                     _currentHoveredLocation.SlotView?.CreateObstacle(null);
                     break;
-                case LevelEditorActionButtonType.AddEntity:
+                case LevelEditorActionButtonType.AddCharacter:
                     _currentHoveredLocation.SlotView?.CreateCharacterOnSlot(null);
                     break;
                 default:
@@ -171,7 +172,7 @@ namespace LevelEditor.ActionButtons
                 case LevelEditorActionButtonType.AddObstacle:
                     AddObstacleOnCurrentHoveredSlot();
                     break;
-                case LevelEditorActionButtonType.AddEntity:
+                case LevelEditorActionButtonType.AddCharacter:
                     AddEntityOnCurrentHoveredSlot();
                     break;
                 default:

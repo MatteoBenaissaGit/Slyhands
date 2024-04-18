@@ -174,7 +174,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: dee04c18c3645eb4781023ff228d6800, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -977,6 +977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558737b360944fc294bd449b9891b9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _previewMaterial: {fileID: 2100000, guid: dee04c18c3645eb4781023ff228d6800, type: 2}
 --- !u!1 &6197805985384182703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1689,6 +1690,11 @@ PrefabInstance:
     - target: {fileID: 1267122973292327172, guid: 371858887bae80f44bbc2f8ff942da44,
         type: 3}
       propertyPath: _preview
+      value: 
+      objectReference: {fileID: 4645811261495509398}
+    - target: {fileID: 1267122973292327172, guid: 371858887bae80f44bbc2f8ff942da44,
+        type: 3}
+      propertyPath: <Preview>k__BackingField
       value: 
       objectReference: {fileID: 4645811261495509398}
     - target: {fileID: 1405994663178962793, guid: 371858887bae80f44bbc2f8ff942da44,

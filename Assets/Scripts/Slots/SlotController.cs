@@ -36,9 +36,9 @@ namespace Slots
     public enum Orientation
     {
         North = 0, // 0° // z+1
-        South = 1, // 90° // z-1
-        East = 2, // 180° // x+1
-        West = 3 // 270° // x-1
+        South = 180, // 180° // z-1
+        East = 90, // 90° // x+1
+        West = 270 // 270° // x-1
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ namespace Slots
     {
         public TileElement()
         {
-            Orientation = Orientation.North; //all objects must face north by default
+            Orientation = Orientation.North; //all objects face north by default
         }
         
         public bool Has { get => Prefab != null; }

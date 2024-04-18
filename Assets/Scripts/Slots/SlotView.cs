@@ -268,6 +268,7 @@ namespace Slots
         /// </summary>
         private void DrawSquareGizmo()
         {
+            //square
             Gizmos.color = Color.red;
             float height = 0.5f;
             float lenght = 0.5f;
@@ -275,6 +276,18 @@ namespace Slots
             Gizmos.DrawLine(transform.position + new Vector3(-lenght,height,lenght), transform.position + new Vector3(lenght,height,lenght));
             Gizmos.DrawLine(transform.position + new Vector3(lenght,height,lenght), transform.position + new Vector3(lenght,height,-lenght));
             Gizmos.DrawLine(transform.position + new Vector3(lenght,height,-lenght), transform.position + new Vector3(-lenght,height,-lenght));
+            
+            //orientation
+            Vector2 orientationVector = Controller.Data.Orientation switch
+            {
+                Orientation.North => new Vector2(0,1),
+                Orientation.South => new Vector2(0,-1),
+                Orientation.East => new Vector2(1, 0),
+                Orientation.West => new Vector2(-1, 0),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            Gizmos.DrawLine(transform.position + new Vector3(0,0.5f,0), 
+                transform.position + new Vector3(orientationVector.x, 1f, orientationVector.y) * 0.5f);
         }
 
 #endif

@@ -11,7 +11,8 @@ namespace Board
         None = 0,
         Slot = 1,
         Character = 2,
-        Building = 3
+        Building = 3,
+        Obstacle = 4
     }
 
     /// <summary>
