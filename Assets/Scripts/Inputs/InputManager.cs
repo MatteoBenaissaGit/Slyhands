@@ -43,6 +43,7 @@ namespace Inputs
         public Action<bool> OnClickHold { get; set; }
         public Action<bool> OnRightClickHold { get; set; }
         public Action<ControlShortcutAction> OnControlShortcut { get; set; }
+        public Action OnRotation { get; set; }
 
         private bool _isControlPressed;
         
@@ -72,6 +73,8 @@ namespace Inputs
             manager.Scheme.LevelEditor.C.started += _ => PressedControlShortcut(ControlShortcutAction.Copy);
             manager.Scheme.LevelEditor.V.started += _ => PressedControlShortcut(ControlShortcutAction.Paste);
             manager.Scheme.LevelEditor.X.started += _ => PressedControlShortcut(ControlShortcutAction.Cut);
+            
+            manager.Scheme.LevelEditor.Rotation.started += _ => OnRotation?.Invoke();
         }
 
         private void PressedControlShortcut(ControlShortcutAction shortcut)

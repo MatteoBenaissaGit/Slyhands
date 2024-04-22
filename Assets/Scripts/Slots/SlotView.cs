@@ -144,12 +144,12 @@ namespace Slots
         /// This method set a new entity on the slot and destroy the current if there was one
         /// </summary>
         /// <param name="levelEditorCharacterPrefab">the prefab of the entity to put</param>
-        public void CreateCharacterOnSlot(GameObject levelEditorCharacterPrefab)
+        public LevelEditorCharacter CreateCharacterOnSlot(GameObject levelEditorCharacterPrefab)
         {
             //if the character is the same as the current one, return
             if (levelEditorCharacterPrefab == Controller.Data.Character.Prefab && _levelEditorCharacterOnSlotGameObject != null)
             {
-                return;
+                return null;
             }
             
             //if there is a character on the slot, destroy it
@@ -162,7 +162,7 @@ namespace Slots
             if (levelEditorCharacterPrefab == null || levelEditorCharacterPrefab.TryGetComponent(out LevelEditorCharacter character) == false)
             {
                 Controller.Data.Character.Prefab = null;
-                return;
+                return null;
             }
 
             //if the slot has an obstacle, destroy it
@@ -174,14 +174,16 @@ namespace Slots
             //if the slot is not a base slot, return
             if (Controller.Data.Type != SlotType.Base)
             {
-                return;
+                return null;
             }
 
             _levelEditorCharacterOnSlotGameObject = Instantiate(levelEditorCharacterPrefab, transform);
-            _levelEditorCharacterOnSlotGameObject.transform.SetLocalPositionAndRotation(new Vector3(0,0.5f,0), Quaternion.identity);
+            _levelEditorCharacterOnSlotGameObject.transform.localPosition = new Vector3(0, 0.5f, 0);
             
             Controller.Data.Character.Prefab = levelEditorCharacterPrefab;
             character.Initialize(Controller);
+
+            return character;
         }
         
         /// <summary>
@@ -239,19 +241,32 @@ namespace Slots
         /// Set the type and type id of the slot
         /// </summary>
         /// <param name="slotId">the id of the slot to place</param>
-        public void SetSlotTypeReference(string slotId)
+        public SlotView SetSlotTypeReference(string slotId)
         {
             _slotTypeReferences.ForEach(x => x.SetSlotGameObject(false));
             
             SlotTypeReference slot = _slotTypeReferences.Find(x => x.ID == slotId);
             if (slot == null)
             {
-                return;
+                return this;
             }
             slot.SetSlotGameObject(true);
             
             Controller.Data.Type = slot.SlotType;
             Controller.Data.SlotTypeReferenceId = slot.ID;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the slot orientation to the data and rotate the view to match it
+        /// </summary>
+        /// <param name="orientation">The orientation to set for the slot view</param>
+        public SlotView SetSlotOrientation(Orientation orientation)
+        {
+            transform.rotation = Quaternion.Euler(0, (int) orientation * 90, 0);
+            Controller.Data.Orientation = orientation;
+            return this;
         }
 
         #endregion
@@ -281,8 +296,8 @@ namespace Slots
             Vector2 orientationVector = Controller.Data.Orientation switch
             {
                 Orientation.North => new Vector2(0,1),
-                Orientation.South => new Vector2(0,-1),
                 Orientation.East => new Vector2(1, 0),
+                Orientation.South => new Vector2(0,-1),
                 Orientation.West => new Vector2(-1, 0),
                 _ => throw new ArgumentOutOfRangeException()
             };

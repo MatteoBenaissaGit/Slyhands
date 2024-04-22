@@ -125,6 +125,15 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation"",
+                    ""type"": ""Button"",
+                    ""id"": ""6cf3b5d6-ee0e-46a2-845a-12c9ad3b9cbe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -248,6 +257,17 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""RightClickHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""163b5ebe-b267-4d4e-b9d6-470840ae6478"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -267,6 +287,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_C = m_LevelEditor.FindAction("C", throwIfNotFound: true);
         m_LevelEditor_V = m_LevelEditor.FindAction("V", throwIfNotFound: true);
         m_LevelEditor_X = m_LevelEditor.FindAction("X", throwIfNotFound: true);
+        m_LevelEditor_Rotation = m_LevelEditor.FindAction("Rotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -339,6 +360,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_C;
     private readonly InputAction m_LevelEditor_V;
     private readonly InputAction m_LevelEditor_X;
+    private readonly InputAction m_LevelEditor_Rotation;
     public struct LevelEditorActions
     {
         private @InputActionScheme m_Wrapper;
@@ -354,6 +376,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @C => m_Wrapper.m_LevelEditor_C;
         public InputAction @V => m_Wrapper.m_LevelEditor_V;
         public InputAction @X => m_Wrapper.m_LevelEditor_X;
+        public InputAction @Rotation => m_Wrapper.m_LevelEditor_Rotation;
         public InputActionMap Get() { return m_Wrapper.m_LevelEditor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -396,6 +419,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @X.started += instance.OnX;
             @X.performed += instance.OnX;
             @X.canceled += instance.OnX;
+            @Rotation.started += instance.OnRotation;
+            @Rotation.performed += instance.OnRotation;
+            @Rotation.canceled += instance.OnRotation;
         }
 
         private void UnregisterCallbacks(ILevelEditorActions instance)
@@ -433,6 +459,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @X.started -= instance.OnX;
             @X.performed -= instance.OnX;
             @X.canceled -= instance.OnX;
+            @Rotation.started -= instance.OnRotation;
+            @Rotation.performed -= instance.OnRotation;
+            @Rotation.canceled -= instance.OnRotation;
         }
 
         public void RemoveCallbacks(ILevelEditorActions instance)
@@ -463,5 +492,6 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnC(InputAction.CallbackContext context);
         void OnV(InputAction.CallbackContext context);
         void OnX(InputAction.CallbackContext context);
+        void OnRotation(InputAction.CallbackContext context);
     }
 }

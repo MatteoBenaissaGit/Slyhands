@@ -176,7 +176,7 @@ namespace Board
         /// <param name="coordinates">The coordinates to create the slot at</param>
         /// <param name="data">The data to put on the slot created, create a new one if null</param>
         /// <returns>The slot created</returns>
-        public SlotController CreateSlotAt(Vector3Int coordinates, SlotData data = null)
+        public (SlotController controller, SlotView view) CreateSlotAt(Vector3Int coordinates, SlotData data = null)
         {
             SlotController slot = new SlotController(this, coordinates);
             if (data != null)
@@ -191,7 +191,7 @@ namespace Board
             
             Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SetSlotViewOnLocation(slotView);
             
-            return slot;
+            return (slot,slotView);
         }
 
         /// <summary>

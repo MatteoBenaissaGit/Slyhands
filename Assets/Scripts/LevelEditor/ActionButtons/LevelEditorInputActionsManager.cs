@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Board;
 using Inputs;
+using LevelEditor.Entities;
 using Sirenix.OdinInspector;
 using Slots;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace LevelEditor.ActionButtons
     public class LevelEditorInputActionsManager : MonoBehaviour
     {
         [field:Required] [field:SerializeField] public LevelEditorActionPreview Preview { get; private set; }
+        
+        public Orientation CurrentPlacingOrientation { get; private set; }
         
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
@@ -45,8 +48,11 @@ namespace LevelEditor.ActionButtons
         {
             InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapAction;
             InputManager.Instance.LevelEditorInput.OnRightClick += RightClickAction;
+            
             InputManager.Instance.LevelEditorInput.OnClickHold += (bool doHold) => _isHoldingClick = doHold;
             InputManager.Instance.LevelEditorInput.OnRightClickHold += (bool doHold) => _isHoldingRightClick = doHold;
+            
+            InputManager.Instance.LevelEditorInput.OnRotation += ChangeRotation;
         }
 
         private void Update()
@@ -256,9 +262,18 @@ namespace LevelEditor.ActionButtons
         /// </summary>
         private void AddEntityOnCurrentHoveredSlot()
         {
+            if (_currentHoveredLocation.SlotView == null)
+            {
+                return;
+            }
+            
             LevelEditorActionButtonControllerExtended entityButton = _currentButton as LevelEditorActionButtonControllerExtended;
             GameObject entityToAdd = entityButton?.CurrentChoice;
-            _currentHoveredLocation.SlotView?.CreateCharacterOnSlot(entityToAdd);
+            LevelEditorCharacter character = _currentHoveredLocation.SlotView.CreateCharacterOnSlot(entityToAdd);
+            if (character != null)
+            {
+                character.SetCharacterOrientation(CurrentPlacingOrientation);
+            }
         }
 
         /// <summary>
@@ -271,8 +286,9 @@ namespace LevelEditor.ActionButtons
             
             Vector3Int coordinates = _currentHoveredLocation.Coordinates;
             BoardController board = LevelEditorManager.Instance.Board;
-            board.CreateSlotAt(coordinates);
-            board.Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SlotView.SetSlotTypeReference(slotTypeId);
+            board.CreateSlotAt(coordinates).view
+                .SetSlotTypeReference(slotTypeId)
+                .SetSlotOrientation(CurrentPlacingOrientation);
             
             //if there is a character or an obstacle on the slot under the painted slot, destroy it
             if (coordinates.y - 1 >= 0 && board.Data.SlotLocations[coordinates.x, coordinates.y - 1, coordinates.z].SlotView != null)
@@ -292,5 +308,23 @@ namespace LevelEditor.ActionButtons
         }
         
         #endregion
+
+        /// <summary>
+        /// Change the rotation variable to the next orientation
+        /// </summary>
+        private void ChangeRotation()
+        {
+            Orientation newOrientation = CurrentPlacingOrientation switch
+            {
+                Orientation.North => Orientation.East,
+                Orientation.East => Orientation.South,
+                Orientation.South => Orientation.West,
+                Orientation.West => Orientation.North,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            CurrentPlacingOrientation = newOrientation;
+            Preview.SetOrientation(CurrentPlacingOrientation);
+        }
     }
 }

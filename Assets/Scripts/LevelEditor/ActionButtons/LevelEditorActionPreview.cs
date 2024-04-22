@@ -81,7 +81,7 @@ namespace LevelEditor.ActionButtons
         {
             _orientationAngle = (int)orientation;
             Vector3 localRotationEuler = _gameObjectToPreview.transform.localRotation.eulerAngles;
-            _gameObjectToPreview.transform.localRotation = Quaternion.Euler(new Vector3(localRotationEuler.x,_orientationAngle, localRotationEuler.z));
+            _gameObjectToPreview.transform.localRotation = Quaternion.Euler(new Vector3(localRotationEuler.x,_orientationAngle * 90, localRotationEuler.z));
         }
     }
 }

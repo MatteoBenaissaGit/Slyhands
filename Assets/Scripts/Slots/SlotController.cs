@@ -36,9 +36,9 @@ namespace Slots
     public enum Orientation
     {
         North = 0, // 0° // z+1
-        South = 180, // 180° // z-1
-        East = 90, // 90° // x+1
-        West = 270 // 270° // x-1
+        East = 1, // 90° // x+1
+        South = 2, // 180° // z-1
+        West = 3 // 270° // x-1
     }
 
     /// <summary>
