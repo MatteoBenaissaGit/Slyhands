@@ -22,6 +22,10 @@ namespace LevelEditor.ActionButtons
         [SerializeField] private List<LevelEditorUIActionChoiceButton> _choiceButtons = new List<LevelEditorUIActionChoiceButton>();
         [SerializeField] private GameObject _preview;
         [SerializeField] private Image _previewImage;
+        [SerializeField] private float _widthPerChoice;
+        [SerializeField] private RectTransform _choiceContent;
+        [SerializeField] private RectTransform _choiceTabRect;
+        [SerializeField] private float _backgroundMaxWidth;
 
         private bool _areChoicesDisplayed;
 
@@ -76,6 +80,12 @@ namespace LevelEditor.ActionButtons
             SelectedEffect(doShow);
             _areChoicesDisplayed = doShow;
             _choicesTab.SetActive(doShow);
+            
+            float contentWidth = _widthPerChoice * _choiceButtons.Count + 125;
+            Rect rect = _choiceContent.rect;
+            _choiceContent.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, contentWidth - 125);
+            
+            _choiceTabRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Mathf.Min(contentWidth, _backgroundMaxWidth)); 
         }
 
         /// <summary>

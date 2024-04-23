@@ -22,6 +22,7 @@ namespace LevelEditor.LoadAndSave
         {
             base.Awake();
             _loadButton.onClick.AddListener(LoadLevel);
+            _searchInputField.onValueChanged.AddListener(input => FilterSaves(input));
         }
 
         public override void OpenMenu()
@@ -72,6 +73,18 @@ namespace LevelEditor.LoadAndSave
             _selectedLevelButton?.SetSelected(false);
             _selectedLevelButton = levelButtonSelected;
             _selectedLevelButton?.SetSelected(true);
+        }
+        
+        private void FilterSaves(string filter)
+        {
+            for (int i = 0; i < _content.childCount; i++)
+            {
+                GameObject child =  _content.GetChild(i).gameObject;
+                if (child.TryGetComponent(out LevelToLoadButtonController loadButton))
+                {
+                    loadButton.gameObject.SetActive(loadButton.Data.Name.Contains(filter));
+                }
+            }
         }
     }
 }
