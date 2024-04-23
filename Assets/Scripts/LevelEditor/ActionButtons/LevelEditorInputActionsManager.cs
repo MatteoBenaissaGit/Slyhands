@@ -46,6 +46,8 @@ namespace LevelEditor.ActionButtons
 
         private void Start()
         {
+            LevelEditorManager.Instance.UI.Shortcuts.SetShortcuts(_currentButton.Type);
+
             InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapAction;
             InputManager.Instance.LevelEditorInput.OnRightClick += RightClickAction;
             
@@ -83,6 +85,7 @@ namespace LevelEditor.ActionButtons
             _currentButton.SetSelected(false);
             _currentButton = buttonToSet;
             _currentButton.SetSelected(true);
+            LevelEditorManager.Instance.UI.Shortcuts.SetShortcuts(_currentButton.Type);
 
             LevelEditorManager.Instance.CurrentSelectedLocation = null;
         }

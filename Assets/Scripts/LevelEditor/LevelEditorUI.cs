@@ -18,6 +18,8 @@ namespace LevelEditor
         public LevelEditorInputActionsManager InputActionsManager { get; private set; }
         [field:SerializeField] [field:BoxGroup("Action Buttons")] [field:Required]
         public LevelEditorDropDownMenuController DropDownMenuController { get; private set; }
+        [field:SerializeField] [field:BoxGroup("Other")] [field:Required]
+        public LevelEditorUIShortcuts Shortcuts { get; private set; }
         
         [SerializeField, BoxGroup("Menus"), Required]
         private LevelEditorUILoadMenu _loadMenu;

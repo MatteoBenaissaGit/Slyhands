@@ -23,6 +23,11 @@ namespace LevelEditor.Entities
         {
             Slot = slot;
             SetCharacterOrientation(Slot.Data.Character.Orientation);
+
+            transform.DOKill();
+            Vector3 scale = transform.localScale;
+            transform.localScale = Vector3.zero;
+            transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
         }
         
         /// <summary>

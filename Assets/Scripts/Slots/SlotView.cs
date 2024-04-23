@@ -52,7 +52,7 @@ namespace Slots
 
         #endregion
 
-        private LevelEditorCharacter _levelEditorCharacterOnSlotGameObject;
+        private LevelEditorCharacter _levelEditorCharacterOnSlot;
 
         /// <summary>
         /// This method initialize the slot view
@@ -73,10 +73,16 @@ namespace Slots
 
             SetSlotOrientation(Controller.Data.Orientation);
 
+            //slot type setup
             if (Controller.Data.SlotTypeReferenceId != null)
             {
                 SetSlotTypeReference(Controller.Data.SlotTypeReferenceId);
             }
+            
+            //initialize scale tween
+            transform.DOKill();
+            transform.localScale = Vector3.zero;
+            transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
         }
 
         private void OnDestroy()
@@ -115,6 +121,7 @@ namespace Slots
 
             if (Controller.Data.Character.Has)
             {
+                Debug.Log("destroy chara");
                 CreateCharacterOnSlot(null);
             }
 
@@ -125,7 +132,7 @@ namespace Slots
             obstacle.transform.DOComplete();
             Vector3 scale = obstacle.transform.localScale;
             obstacle.transform.localScale = Vector3.zero;
-            obstacle.transform.DOScale(scale, 0.2f);
+            obstacle.transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
         }
 
         /// <summary>
@@ -149,14 +156,15 @@ namespace Slots
         public LevelEditorCharacter CreateCharacterOnSlot(GameObject levelEditorCharacterPrefab)
         {
             //if the character is the same as the current one, return
-            if (levelEditorCharacterPrefab == Controller.Data.Character.Prefab && _levelEditorCharacterOnSlotGameObject != null)
+            if (levelEditorCharacterPrefab == Controller.Data.Character.Prefab && _levelEditorCharacterOnSlot != null)
             {
                 return null;
             }
             
             //if there is a character on the slot, destroy it
-            if (_levelEditorCharacterOnSlotGameObject != null)
+            if (_levelEditorCharacterOnSlot != null)
             {
+                Debug.Log("Destroy character on slot");
                 DestroyCharacterOnSlot();
             }
 
@@ -179,13 +187,13 @@ namespace Slots
                 return null;
             }
 
-            _levelEditorCharacterOnSlotGameObject = Instantiate(levelEditorCharacter, transform);
-            _levelEditorCharacterOnSlotGameObject.transform.localPosition = new Vector3(0, 0.5f, 0);
+            _levelEditorCharacterOnSlot = Instantiate(levelEditorCharacter, transform);
+            _levelEditorCharacterOnSlot.transform.localPosition = new Vector3(0, 0.5f, 0);
             
             Controller.Data.Character.Prefab = levelEditorCharacterPrefab;
-            _levelEditorCharacterOnSlotGameObject.Initialize(Controller);
+            _levelEditorCharacterOnSlot.Initialize(Controller);
 
-            return _levelEditorCharacterOnSlotGameObject;
+            return _levelEditorCharacterOnSlot;
         }
         
         /// <summary>
@@ -193,7 +201,7 @@ namespace Slots
         /// </summary>
         public void DestroyCharacterOnSlot()
         {
-            Destroy(_levelEditorCharacterOnSlotGameObject);
+            Destroy(_levelEditorCharacterOnSlot.gameObject);
         }
 
         #endregion

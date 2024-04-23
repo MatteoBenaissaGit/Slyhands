@@ -65,7 +65,7 @@ namespace LevelEditor.LoadAndSave
             }
             LevelsData loadedData = ReadFromJson();
 
-            Debug.Log($"Loaded {loadedData.Datas.Count} Levels data in {_filePath}");
+            //Debug.Log($"Loaded {loadedData.Datas.Count} Levels data in {_filePath}");
         }
 
         /// <summary>
