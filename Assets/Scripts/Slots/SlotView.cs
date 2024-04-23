@@ -201,6 +201,10 @@ namespace Slots
         /// </summary>
         public void DestroyCharacterOnSlot()
         {
+            if (_levelEditorCharacterOnSlot == null || _levelEditorCharacterOnSlot.gameObject == null)
+            {
+                return;
+            }
             Destroy(_levelEditorCharacterOnSlot.gameObject);
         }
 

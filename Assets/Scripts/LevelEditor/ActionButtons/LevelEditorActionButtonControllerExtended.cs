@@ -54,6 +54,7 @@ namespace LevelEditor.ActionButtons
             if (isSelected == false)
             {
                 SetButtonIconPreview(null);
+                LevelEditorManager.Instance?.UI.InputActionsManager.Preview.DestroyPreview();
                 base.SetSelected(false, doInstant);
             }
         }
