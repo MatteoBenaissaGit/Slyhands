@@ -127,12 +127,20 @@ namespace Slots
 
             Controller.Data.Obstacle.Prefab = obstaclePrefab;
 
-            GameObject obstacle = Instantiate(obstaclePrefab, _obstacleParent, true);
-            obstacle.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            obstacle.transform.DOComplete();
-            Vector3 scale = obstacle.transform.localScale;
-            obstacle.transform.localScale = Vector3.zero;
-            obstacle.transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
+            GameObject obstacleInstantiated = Instantiate(obstaclePrefab, _obstacleParent, true);
+            obstacleInstantiated.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            obstacleInstantiated.transform.DOComplete();
+            Vector3 scale = obstacleInstantiated.transform.localScale;
+            obstacleInstantiated.transform.localScale = Vector3.zero;
+            obstacleInstantiated.transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
+
+            SetObstacleOrientation(Controller.Data.Obstacle.Orientation);
+        }
+
+        public void SetObstacleOrientation(Orientation orientation)
+        {
+            Controller.Data.Obstacle.Orientation = orientation;
+            _obstacleParent.rotation = Quaternion.Euler(0, (int) orientation * 90, 0);
         }
 
         /// <summary>

@@ -309,6 +309,7 @@ namespace LevelEditor.ActionButtons
         {
             LevelEditorActionButtonControllerExtended obstacleButton = _currentButton as LevelEditorActionButtonControllerExtended;
             _currentHoveredLocation.SlotView?.CreateObstacle(obstacleButton?.CurrentChoice);
+            _currentHoveredLocation.SlotView?.SetObstacleOrientation(CurrentPlacingOrientation);
         }
         
         #endregion
