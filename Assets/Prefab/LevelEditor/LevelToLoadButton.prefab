@@ -389,6 +389,7 @@ MonoBehaviour:
   <Rect>k__BackingField: {fileID: 2531262118925280976}
   _button: {fileID: 4462923796300916171}
   _nameText: {fileID: 3916747344181798258}
+  _deleteButton: {fileID: 857616466066006985}
 --- !u!114 &4462923796300916171
 MonoBehaviour:
   m_ObjectHideFlags: 0

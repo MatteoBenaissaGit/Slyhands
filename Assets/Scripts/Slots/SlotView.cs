@@ -52,7 +52,7 @@ namespace Slots
 
         #endregion
 
-        private GameObject _levelEditorCharacterOnSlotGameObject;
+        private LevelEditorCharacter _levelEditorCharacterOnSlotGameObject;
 
         /// <summary>
         /// This method initialize the slot view
@@ -70,6 +70,8 @@ namespace Slots
 
             CreateObstacle(Controller.Data.Obstacle.Has ? Controller.Data.Obstacle.Prefab : null);
             CreateCharacterOnSlot(Controller.Data.Character.Has ? Controller.Data.Character.Prefab : null);
+
+            SetSlotOrientation(Controller.Data.Orientation);
 
             if (Controller.Data.SlotTypeReferenceId != null)
             {
@@ -159,7 +161,7 @@ namespace Slots
             }
 
             //if the prefab is null or the prefab is not a character, return
-            if (levelEditorCharacterPrefab == null || levelEditorCharacterPrefab.TryGetComponent(out LevelEditorCharacter character) == false)
+            if (levelEditorCharacterPrefab == null || levelEditorCharacterPrefab.TryGetComponent(out LevelEditorCharacter levelEditorCharacter) == false)
             {
                 Controller.Data.Character.Prefab = null;
                 return null;
@@ -177,13 +179,13 @@ namespace Slots
                 return null;
             }
 
-            _levelEditorCharacterOnSlotGameObject = Instantiate(levelEditorCharacterPrefab, transform);
+            _levelEditorCharacterOnSlotGameObject = Instantiate(levelEditorCharacter, transform);
             _levelEditorCharacterOnSlotGameObject.transform.localPosition = new Vector3(0, 0.5f, 0);
             
             Controller.Data.Character.Prefab = levelEditorCharacterPrefab;
-            character.Initialize(Controller);
+            _levelEditorCharacterOnSlotGameObject.Initialize(Controller);
 
-            return character;
+            return _levelEditorCharacterOnSlotGameObject;
         }
         
         /// <summary>

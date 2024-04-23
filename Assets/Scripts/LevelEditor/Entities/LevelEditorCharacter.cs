@@ -12,21 +12,28 @@ namespace LevelEditor.Entities
     public class LevelEditorCharacter : MonoBehaviour
     {
         [field:SerializeField] public int Team { get; private set; }
-        
         public Vector3Int Coordinates => Slot == null ? Vector3Int.zero : Slot.Coordinates;
         public SlotController Slot { get; private set; }
-        public Orientation Orientation { get; private set; }
 
+        /// <summary>
+        /// Initialize the character with the slot he's on
+        /// </summary>
+        /// <param name="slot">the slot on which the character is</param>
         public void Initialize(SlotController slot)
         {
             Slot = slot;
+            SetCharacterOrientation(Slot.Data.Character.Orientation);
         }
-
+        
+        /// <summary>
+        /// Set the character's orientation and change its rotation to match it
+        /// </summary>
+        /// <param name="orientation">The orientation to put the character in</param>
+        /// <returns>The character</returns>
         public LevelEditorCharacter SetCharacterOrientation(Orientation orientation)
         {
-            Orientation = orientation;
-            //TODO not working properly
-            //transform.rotation = Quaternion.Euler(0, (int) orientation * 90, 0);
+            Slot.Data.Character.Orientation = orientation;
+            transform.rotation = Quaternion.Euler(0, ((int)orientation) * 90, 0);
             return this;
         }
     }

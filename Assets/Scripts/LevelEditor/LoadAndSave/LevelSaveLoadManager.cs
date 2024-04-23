@@ -122,9 +122,20 @@ namespace LevelEditor.LoadAndSave
         }
 
         /// <summary>
+        /// Remove a level data from game data
+        /// </summary>
+        /// <param name="levelData">level data to remove</param>
+        public void RemoveLevelData(LevelData levelData)
+        {
+            LevelsData loadedData = GetLevelsData();
+            loadedData.Datas.Remove(loadedData.Datas.Find(x => x.Name == levelData.Name));
+            WriteToJson(loadedData);
+        }
+
+        /// <summary>
         /// Get the levels data of the game
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the levels data of the game</returns>
         public LevelsData GetLevelsData()
         {
             return ReadFromJson();

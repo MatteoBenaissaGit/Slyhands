@@ -260,7 +260,7 @@ namespace LevelEditor.ActionButtons
         /// <summary>
         /// Add the selected entity of the entity add button on the current slot
         /// </summary>
-        private void AddEntityOnCurrentHoveredSlot()
+        private async void AddEntityOnCurrentHoveredSlot()
         {
             if (_currentHoveredLocation.SlotView == null)
             {
@@ -269,10 +269,11 @@ namespace LevelEditor.ActionButtons
             
             LevelEditorActionButtonControllerExtended entityButton = _currentButton as LevelEditorActionButtonControllerExtended;
             GameObject entityToAdd = entityButton?.CurrentChoice;
-            LevelEditorCharacter character = _currentHoveredLocation.SlotView.CreateCharacterOnSlot(entityToAdd);
-            if (character != null)
+            LevelEditorCharacter characterInstantiated = _currentHoveredLocation.SlotView.CreateCharacterOnSlot(entityToAdd);
+
+            if (characterInstantiated != null)
             {
-                character.SetCharacterOrientation(CurrentPlacingOrientation);
+                characterInstantiated.SetCharacterOrientation(CurrentPlacingOrientation);
             }
         }
 
