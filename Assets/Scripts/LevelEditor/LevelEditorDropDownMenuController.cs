@@ -46,7 +46,7 @@ namespace LevelEditor
         /// <param name="shortcutAction">the shortcut action to execute</param>
         private void DropDownShortcutAction(InputLevelEditor.ControlShortcutAction shortcutAction)
         {
-            SlotLocation currentLocation = LevelEditorManager.Instance.CurrentSelectedLocation;
+            SlotLocation currentLocation = LevelEditorManager.Instance.Board.CurrentSelectedLocation;
             switch (shortcutAction)
             {
                 case InputLevelEditor.ControlShortcutAction.Copy:
@@ -68,10 +68,10 @@ namespace LevelEditor
         public void CreateDropDownMenu(Vector3Int slotCoordinate)
         {
             _isActive = true;
-            LevelEditorManager.Instance.CurrentSelectedLocation = 
+            LevelEditorManager.Instance.Board.CurrentSelectedLocation = 
                 LevelEditorManager.Instance.Board.Data.SlotLocations[slotCoordinate.x, slotCoordinate.y, slotCoordinate.z];
 
-            SlotLocation currentLocationSelected = LevelEditorManager.Instance.CurrentSelectedLocation;
+            SlotLocation currentLocationSelected = LevelEditorManager.Instance.Board.CurrentSelectedLocation;
             SlotView slotView = currentLocationSelected.SlotView;
             
             LevelEditorUIDropDownButton copyButton = Instantiate(_dropDownButtonPrefab, _layout, true);
@@ -120,7 +120,7 @@ namespace LevelEditor
             
             SetMenuSize();
             
-            LevelEditorManager.Instance.CurrentSelectedLocation = null;
+            LevelEditorManager.Instance.Board.CurrentSelectedLocation = null;
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace LevelEditor
                 return;
             }
 
-            if (LevelEditorManager.Instance.CurrentSelectedLocation.SlotView != null)
+            if (LevelEditorManager.Instance.Board.CurrentSelectedLocation.SlotView != null)
             {
                 location.DestroySlotViewOnLocation();
             }

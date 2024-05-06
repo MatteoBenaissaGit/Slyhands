@@ -38,6 +38,30 @@ namespace Board
         #region Properties
         
         public BoardData Data { get; private set; }
+        
+        public SlotLocation CurrentSelectedLocation
+        {
+            get => _currentSelectedLocation;
+            set
+            {
+                _currentSelectedLocation?.SetSelected(false);
+                _currentSelectedLocation = value;
+                _currentSelectedLocation?.SetSelected(true);
+            }
+        }
+        private SlotLocation _currentSelectedLocation;
+
+        public SlotLocation CurrentHoveredLocation
+        {
+            get => _currentHoveredLocation;
+            set
+            {
+                _currentHoveredLocation?.SetHovered(false);
+                _currentHoveredLocation = value;
+                _currentHoveredLocation?.SetHovered(true);
+            }
+        }
+        private SlotLocation _currentHoveredLocation;
 
         #endregion
 
@@ -96,7 +120,7 @@ namespace Board
         /// <param name="width">the width of the board</param>
         /// <param name="length">the length of the board</param>
         /// <param name="height">the height of the board</param>
-        private void InitializeBoardData(int width, int length, int height)
+        protected void InitializeBoardData(int width, int length, int height)
         {
             Data = new BoardData(new Vector3Int(width,height, length));
             
@@ -116,7 +140,7 @@ namespace Board
             InitializeBoardData(width, length, height);
             ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
             
-            LevelEditorManager.Instance.UI.SetHeightSlider(height);
+            LevelEditorManager.Instance?.UI.SetHeightSlider(height);
         }
 
         /// <summary>
@@ -131,7 +155,6 @@ namespace Board
             Data.SlotLocations[x, y, z].transform.parent = _slotParent;
             Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
             Data.SlotLocations[x, y, z].name = $"SlotLocation {x},{y},{z}";
-
         }
 
         /// <summary>
@@ -156,10 +179,10 @@ namespace Board
         }
 
         /// <summary>
-        /// Cleat a slot at defined coordinates
+        /// Clear a slot at defined coordinates
         /// </summary>
         /// <param name="coordinates">The coordinates of the slot to clear</param>
-        private void ClearBoardSlot(Vector3Int coordinates)
+        protected void ClearBoardSlot(Vector3Int coordinates)
         {
             SlotLocation slot = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
             if (slot == null)
@@ -201,7 +224,37 @@ namespace Board
         {
             ForEachCoordinatesOnBoard(
                 coordinate => 
-                    Data.SlotLocations[coordinate.x,coordinate.y,coordinate.z].SetEditable(coordinate.y == height));
+                    Data.SlotLocations[coordinate.x,coordinate.y,coordinate.z].SetUsable(coordinate.y == height));
         }
+
+        #region Game methods
+
+        public void LoadGameLevel(LevelData level)
+        {
+            LoadBoardFromLevelData(level);
+            ClearAllUnusedSlotLocation();
+            SetSlotLocationsUsable(true);
+        }
+        
+        private void ClearAllUnusedSlotLocation()
+        {
+            ForEachCoordinatesOnBoard(coordinates =>
+            {
+                SlotLocation slotLocation = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
+                if (slotLocation.SlotView != null)
+                {
+                    return;
+                }
+                ClearBoardSlot(slotLocation.Coordinates);
+            });
+        }
+        
+        private void SetSlotLocationsUsable(bool isUsable)
+        {
+            ForEachCoordinatesOnBoard(
+                coordinates => Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z]?.SetUsable(isUsable));
+        }
+
+        #endregion
     }
 }

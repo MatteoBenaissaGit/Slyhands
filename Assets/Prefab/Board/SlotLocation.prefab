@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13feede7773e434ab00618fee007451a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _emptyEditableSprite: {fileID: 7675796831197025348}
+  _usableSprite: {fileID: 7675796831197025348}
   _selectedSprite: {fileID: 3917636702692981581}
   _clickRaycastCollider: {fileID: 2093966138885732976}
   _hoveredFeedback: {fileID: 354439662548337163}

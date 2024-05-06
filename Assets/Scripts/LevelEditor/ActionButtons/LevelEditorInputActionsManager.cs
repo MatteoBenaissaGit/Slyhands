@@ -22,7 +22,7 @@ namespace LevelEditor.ActionButtons
         
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
-        private SlotLocation _currentHoveredLocation => LevelEditorManager.Instance.CurrentHoveredLocation;
+        private SlotLocation _currentHoveredLocation => LevelEditorManager.Instance.Board.CurrentHoveredLocation;
         
         private LevelEditorActionButtonController _currentButton;
         private bool _isHoldingClick;
@@ -62,7 +62,7 @@ namespace LevelEditor.ActionButtons
             SlotLocation location = GetClickedSlotLocation();
             if (location != _currentHoveredLocation)
             {
-                LevelEditorManager.Instance.CurrentHoveredLocation = location;
+                LevelEditorManager.Instance.Board.CurrentHoveredLocation = location;
                 Preview.UpdatePreview(location);
             }
 
@@ -87,7 +87,7 @@ namespace LevelEditor.ActionButtons
             _currentButton.SetSelected(true);
             LevelEditorManager.Instance.UI.Shortcuts.SetShortcuts(_currentButton.Type);
 
-            LevelEditorManager.Instance.CurrentSelectedLocation = null;
+            LevelEditorManager.Instance.Board.CurrentSelectedLocation = null;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace LevelEditor.ActionButtons
             switch (_currentButton.Type)
             {
                 case LevelEditorActionButtonType.Selection:
-                    LevelEditorManager.Instance.CurrentSelectedLocation = _currentHoveredLocation;
+                    LevelEditorManager.Instance.Board.CurrentSelectedLocation = _currentHoveredLocation;
                     break;
                 case LevelEditorActionButtonType.Paint:
                     PaintCurrentHoveredSlot();
@@ -232,7 +232,7 @@ namespace LevelEditor.ActionButtons
             for (int i = 0; i < hits; i++)
             {
                 if (_mouseClickRaycastHits[i].collider.TryGetComponent(out SlotLocation location) == false
-                    || location.IsEditable == false)
+                    || location.IsUsable == false)
                 {
                     continue;
                 }
@@ -247,14 +247,14 @@ namespace LevelEditor.ActionButtons
         /// </summary>
         private void CheckForDeselectionOfCurrentSlot()
         {
-            if (LevelEditorManager.Instance.CurrentSelectedLocation == null)
+            if (LevelEditorManager.Instance.Board.CurrentSelectedLocation == null)
             {
                 return;
             }
             
             if (_currentHoveredLocation == null && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                LevelEditorManager.Instance.CurrentSelectedLocation = null;
+                LevelEditorManager.Instance.Board.CurrentSelectedLocation = null;
             }
         }
 

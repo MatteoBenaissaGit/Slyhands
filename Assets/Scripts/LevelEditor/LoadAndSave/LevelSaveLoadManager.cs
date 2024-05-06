@@ -55,6 +55,8 @@ namespace LevelEditor.LoadAndSave
     /// </summary>
     public class LevelSaveLoadManager : MonoBehaviour
     {
+        [SerializeField] private bool _hideResetDataButton;
+        
         private string _filePath => Path.Combine(Application.persistentDataPath, "levelsData.json");
 
         public void Start()
@@ -71,7 +73,7 @@ namespace LevelEditor.LoadAndSave
         /// <summary>
         /// Reset and erase all saved data
         /// </summary>
-        [Button("Reset all levels data")]
+        [HideIf("_hideResetDataButton"), Button("Reset all levels data")]
         private void ResetData()
         {
             WriteToJson(new LevelsData());

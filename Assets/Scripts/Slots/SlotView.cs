@@ -315,6 +315,10 @@ namespace Slots
             Gizmos.DrawLine(transform.position + new Vector3(lenght,height,-lenght), transform.position + new Vector3(-lenght,height,-lenght));
             
             //orientation
+            if (Controller == null)
+            {
+                return;
+            }
             Vector2 orientationVector = Controller.Data.Orientation switch
             {
                 Orientation.North => new Vector2(0,1),

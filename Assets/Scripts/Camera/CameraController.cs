@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using Inputs;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -28,6 +29,10 @@ namespace Camera
         {
             _baseSize = Camera.orthographicSize;
             
+            if (InputManager.Instance == null)
+            {
+                throw new Exception("no input manager");
+            }
             InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += (bool doMove) => _doMoveCamera = doMove;
             InputManager.Instance.LevelEditorInput.OnCameraMoved += (Vector2 movementValue) => _cameraMovement = movementValue;
             InputManager.Instance.LevelEditorInput.OnCameraZoomed += (float zoomValue) => _cameraZoom = zoomValue;

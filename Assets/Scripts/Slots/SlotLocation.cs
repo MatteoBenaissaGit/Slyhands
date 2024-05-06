@@ -14,10 +14,10 @@ namespace Slots
     public class SlotLocation : MonoBehaviour
     {
         public Vector3Int Coordinates { get; set; }
-        public bool IsEditable { get; private set; } = true;
+        public bool IsUsable { get; private set; } = true;
         public SlotView SlotView { get; private set; }
         
-        [SerializeField, TabGroup("References"), Required] private SpriteRenderer _emptyEditableSprite;
+        [SerializeField, TabGroup("References"), Required] private SpriteRenderer _usableSprite;
         [SerializeField, TabGroup("References"), Required] private SpriteRenderer _selectedSprite;
         [SerializeField, TabGroup("References"), Required] private Collider _clickRaycastCollider;
         [SerializeField, TabGroup("References"), Required] private GameObject _hoveredFeedback;
@@ -28,7 +28,7 @@ namespace Slots
 
         private void Awake()
         {
-            _baseColor = _emptyEditableSprite.color;
+            _baseColor = _usableSprite.color;
             _hoveredColor = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 1f);
             _notEditableColor = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 0f);
             
@@ -49,7 +49,7 @@ namespace Slots
 
             SlotView = view;
             SlotView.transform.parent = transform;
-            _emptyEditableSprite.gameObject.SetActive(false);
+            _usableSprite.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -62,20 +62,20 @@ namespace Slots
                 return;
             }
             Destroy(SlotView.gameObject);
-            _emptyEditableSprite.gameObject.SetActive(IsEditable);
+            _usableSprite.gameObject.SetActive(IsUsable);
         }
 
         /// <summary>
         /// Set the editable property of the location
         /// </summary>
         /// <param name="isEditable">is the slot location editable ?</param>
-        public void SetEditable(bool isEditable)
+        public void SetUsable(bool isEditable)
         {
-            IsEditable = isEditable;
+            IsUsable = isEditable;
             
-            _clickRaycastCollider.enabled = IsEditable;
-            _emptyEditableSprite.gameObject.SetActive(SlotView == null);
-            _emptyEditableSprite.color = IsEditable ? _baseColor : _notEditableColor;
+            _clickRaycastCollider.enabled = IsUsable;
+            _usableSprite.gameObject.SetActive(SlotView == null);
+            _usableSprite.color = IsUsable ? _baseColor : _notEditableColor;
         }
 
         /// <summary>
@@ -85,14 +85,14 @@ namespace Slots
         public void SetHovered(bool isHovered)
         {
             //empty editable sprite
-            _emptyEditableSprite.color = isHovered ? _hoveredColor : _baseColor;
+            _usableSprite.color = isHovered ? _hoveredColor : _baseColor;
             if (isHovered)
             {
-                _emptyEditableSprite.gameObject.SetActive(true);
+                _usableSprite.gameObject.SetActive(true);
             }
             else if (SlotView != null)
             {
-                _emptyEditableSprite.gameObject.SetActive(false);
+                _usableSprite.gameObject.SetActive(false);
             }
             
             if (Coordinates.y == 0)
