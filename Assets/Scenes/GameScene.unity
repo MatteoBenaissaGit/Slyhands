@@ -603,7 +603,7 @@ MonoBehaviour:
   <Camera>k__BackingField: {fileID: 812085617}
   <SaveLoadManager>k__BackingField: {fileID: 1083410811}
   <InputActionsManager>k__BackingField: {fileID: 1083410813}
-  _levelToLoad: classic
+  _levelToLoad: south
 --- !u!4 &1083410810
 Transform:
   m_ObjectHideFlags: 0

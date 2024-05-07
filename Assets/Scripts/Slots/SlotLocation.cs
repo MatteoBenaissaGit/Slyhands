@@ -1,5 +1,6 @@
 ﻿using System;
 using Board;
+using GameEngine;
 using LevelEditor;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -101,10 +102,11 @@ namespace Slots
             }
 
             //feedback placement
-            Vector3 position = LevelEditorManager.Instance.Board.GetCoordinatesToWorldPosition(new Vector3Int(Coordinates.x, 0, Coordinates.z));
+            BoardController board = LevelEditorManager.Instance == null ? GameManager.Instance.Board : LevelEditorManager.Instance.Board;
+            Vector3 position = board.GetCoordinatesToWorldPosition(new Vector3Int(Coordinates.x, 0, Coordinates.z));
             for (int y = Coordinates.y - 1; y >= 0 ; y--)
             {
-                SlotLocation location = LevelEditorManager.Instance.Board.Data.SlotLocations[Coordinates.x, y, Coordinates.z];
+                SlotLocation location = board.Data.SlotLocations[Coordinates.x, y, Coordinates.z];
                 if (location.SlotView == null)
                 {
                     continue;

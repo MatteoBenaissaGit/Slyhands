@@ -1,7 +1,6 @@
 ﻿using System;
 using Board;
 using LevelEditor;
-using LevelEditor.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

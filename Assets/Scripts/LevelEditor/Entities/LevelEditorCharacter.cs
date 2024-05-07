@@ -1,7 +1,5 @@
-using Board;
 using DG.Tweening;
 using Slots;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LevelEditor.Entities

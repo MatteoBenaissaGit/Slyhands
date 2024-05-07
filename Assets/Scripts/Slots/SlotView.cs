@@ -68,8 +68,8 @@ namespace Slots
             _selectionFeedbackSpriteRenderer.color = transparentBaseColor;
             _arrowFeedbackSpriteRenderer.color = transparentBaseColor;
 
-            CreateObstacle(Controller.Data.Obstacle.Has ? Controller.Data.Obstacle.Prefab : null);
-            CreateCharacterOnSlot(Controller.Data.Character.Has ? Controller.Data.Character.Prefab : null);
+            CreateObstacle(Controller.Data.Obstacle.Prefab);
+            CreateCharacterOnSlot(Controller.Data.Character.Prefab);
 
             SetSlotOrientation(Controller.Data.Orientation);
 
@@ -121,7 +121,7 @@ namespace Slots
 
             if (Controller.Data.Character.Has)
             {
-                Debug.Log("destroy chara");
+                Debug.Log("destroy character");
                 CreateCharacterOnSlot(null);
             }
 
