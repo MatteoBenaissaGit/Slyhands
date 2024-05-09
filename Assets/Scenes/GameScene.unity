@@ -605,7 +605,7 @@ MonoBehaviour:
   <InputActionsManager>k__BackingField: {fileID: 1083410813}
   <PrefabsData>k__BackingField: {fileID: 11400000, guid: 31f57ab3fe9ad9f469e4d4d5c5d5c033,
     type: 2}
-  _levelToLoad: classic
+  _levelToLoad: test_level_0905
 --- !u!4 &1083410810
 Transform:
   m_ObjectHideFlags: 0
@@ -636,6 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf45936001df4c5db3de5c1d60f50bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _saveAndLoadLocally: 0
   _hideResetDataButton: 1
 --- !u!114 &1083410812
 MonoBehaviour:
