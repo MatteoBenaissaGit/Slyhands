@@ -605,7 +605,11 @@ MonoBehaviour:
   <InputActionsManager>k__BackingField: {fileID: 1083410813}
   <PrefabsData>k__BackingField: {fileID: 11400000, guid: 31f57ab3fe9ad9f469e4d4d5c5d5c033,
     type: 2}
-  _levelToLoad: test_level_0905
+  <Teams>k__BackingField:
+  - <TeamNumber>k__BackingField: 0
+    _numberOfPlayers: 1
+    _teamType: 0
+  _levelToLoad: test_level_chara
 --- !u!4 &1083410810
 Transform:
   m_ObjectHideFlags: 0

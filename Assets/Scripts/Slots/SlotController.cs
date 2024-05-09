@@ -1,5 +1,6 @@
 ﻿using System;
 using Board;
+using Board.Characters;
 using LevelEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -48,8 +49,8 @@ namespace Slots
     {
         public SlotData()
         {
-            Obstacle = new TileElement();
-            Character = new TileElement();
+            Obstacle = new SlotElement();
+            LevelEditorCharacter = new SlotElement();
         }
         
         [field:SerializeField] public SlotType Type { get; set; }
@@ -57,17 +58,19 @@ namespace Slots
         [field:SerializeField] public Orientation Orientation { get; set; }
         [field:SerializeField] public Vector3Int Coordinates { get; set; }
         
-        [field:SerializeField] public TileElement Obstacle { get; set; }
-        [field:SerializeField] public TileElement Character { get; set; }
+        [field:SerializeField] public SlotElement Obstacle { get; set; }
+        [field:SerializeField] public SlotElement LevelEditorCharacter { get; set; }
+        
+        public BoardCharacterController Character { get; set; }
     }
     
     /// <summary>
     /// This class stores the data of an element on the tile
     /// </summary>
     [Serializable]
-    public class TileElement
+    public class SlotElement
     {
-        public TileElement()
+        public SlotElement()
         {
             Orientation = Orientation.North; //all objects face north by default
         }
@@ -82,10 +85,6 @@ namespace Slots
     /// </summary>
     public class SlotController : BoardEntity
     {
-        /// <summary>
-        /// This action get invoked on any slot actions
-        /// </summary>
-        public Action<SlotAction, bool> OnSlotAction { get; set; }
         public SlotData Data { get; set; }
 
         public SlotController(BoardController board, Vector3Int coordinates, SlotData predefinedData = null) : base(board, coordinates)
@@ -94,29 +93,6 @@ namespace Slots
             
             Data = predefinedData ?? new SlotData();
             Data.Coordinates = coordinates;
-            
-            OnSlotAction += SlotActionController;
-        }
-
-        private void SlotActionController(SlotAction action, bool isValid)
-        {
-            switch (action)
-            {
-                case SlotAction.None:
-                    break;
-                case SlotAction.Hovered:
-                    break;
-                case SlotAction.Selected:
-                    break;
-                case SlotAction.Walkable:
-                    break;
-                case SlotAction.Attackable:
-                    break;
-                case SlotAction.GetDestroyed:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
-            }
         }
     }
 }

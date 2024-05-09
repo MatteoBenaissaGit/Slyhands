@@ -19,6 +19,9 @@ MonoBehaviour:
   - <Id>k__BackingField: Rock
     <Prefab>k__BackingField: {fileID: 7116932582942882436, guid: d5a6a5466d004934da405be9bffa430b,
       type: 3}
-  - <Id>k__BackingField: LevelEditorPlayer
+  - <Id>k__BackingField: LevelEditorCharacter
     <Prefab>k__BackingField: {fileID: 8730673350232980854, guid: 0e0949cc4fed01a47a43053675c7a255,
+      type: 3}
+  - <Id>k__BackingField: Character
+    <Prefab>k__BackingField: {fileID: 8136586877080995798, guid: a29722e6dd2026a46a541bfc80586ef8,
       type: 3}

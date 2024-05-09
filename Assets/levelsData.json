@@ -26,9 +26,9 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorPlayer",
-                        "<Orientation>k__BackingField": 3
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
                     }
                 },
                 {
@@ -44,7 +44,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -62,7 +62,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -80,7 +80,7 @@
                         "<PrefabId>k__BackingField": "Rock",
                         "<Orientation>k__BackingField": 3
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -98,7 +98,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -116,7 +116,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -134,7 +134,7 @@
                         "<PrefabId>k__BackingField": "Rock",
                         "<Orientation>k__BackingField": 3
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -152,7 +152,7 @@
                         "<PrefabId>k__BackingField": "Barrel",
                         "<Orientation>k__BackingField": 3
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -170,7 +170,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -188,7 +188,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -206,7 +206,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -224,7 +224,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -242,7 +242,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -260,7 +260,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -278,7 +278,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -296,7 +296,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -314,7 +314,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -332,7 +332,7 @@
                         "<PrefabId>k__BackingField": "Barrel",
                         "<Orientation>k__BackingField": 2
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -350,7 +350,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -368,7 +368,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -386,7 +386,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -404,7 +404,7 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }
@@ -422,7 +422,436 @@
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     },
-                    "<Character>k__BackingField": {
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                }
+            ]
+        },
+        {
+            "<Name>k__BackingField": "test_level_chara",
+            "<BoardData>k__BackingField": {
+                "<Width>k__BackingField": 6,
+                "<Height>k__BackingField": 2,
+                "<Length>k__BackingField": 6,
+                "<PlayerStartCoordinates>k__BackingField": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "<SlotDataList>k__BackingField": [
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "LevelEditorCharacter",
+                        "<Orientation>k__BackingField": 2
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Rock",
+                        "<Orientation>k__BackingField": 3
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 0,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Rock",
+                        "<Orientation>k__BackingField": 3
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Barrel",
+                        "<Orientation>k__BackingField": 3
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 0,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 0,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 0,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 0,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 1,
+                    "<SlotTypeReferenceId>k__BackingField": "Stairs",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 1,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 0
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Barrel",
+                        "<Orientation>k__BackingField": 2
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0
                     }

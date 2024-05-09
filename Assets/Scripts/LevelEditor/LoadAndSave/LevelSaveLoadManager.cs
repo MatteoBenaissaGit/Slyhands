@@ -55,13 +55,22 @@ namespace LevelEditor.LoadAndSave
     /// </summary>
     public class LevelSaveLoadManager : MonoBehaviour
     {
+        [SerializeField] private bool _saveAndLoadLocally;
         [SerializeField] private bool _hideResetDataButton;
         
-        private string _filePath => Path.Combine(Application.persistentDataPath, "levelsData.json");
+        private string FilePath
+        {
+            get
+            {
+                return _saveAndLoadLocally ? 
+                    Path.Combine(Application.persistentDataPath, "levelsData.json") : 
+                    Path.Combine(Application.dataPath, "levelsData.json");
+            }
+        }
 
         public void Start()
         {
-            if (File.Exists(_filePath) == false)
+            if (File.Exists(FilePath) == false)
             {
                 ResetData();
             }
@@ -86,9 +95,9 @@ namespace LevelEditor.LoadAndSave
         private void WriteToJson(LevelsData levelsData)
         {
             string json = JsonUtility.ToJson(levelsData, true);
-            File.WriteAllText(_filePath, json);
+            File.WriteAllText(FilePath, json);
             
-            Debug.Log($"Saved {levelsData.Datas.Count} Levels data in {_filePath}");
+            Debug.Log($"Saved {levelsData.Datas.Count} Levels data in {FilePath}");
         }
 
         /// <summary>
@@ -97,15 +106,15 @@ namespace LevelEditor.LoadAndSave
         /// <returns></returns>
         private LevelsData ReadFromJson()
         {
-            if (File.Exists(_filePath))
+            if (File.Exists(FilePath))
             {
-                string json = File.ReadAllText(_filePath);
+                string json = File.ReadAllText(FilePath);
                 LevelsData data = JsonUtility.FromJson<LevelsData>(json);
                 return data;
             }
             else
             {
-                Debug.LogError("JSON file not found at: " + _filePath);
+                Debug.LogError("JSON file not found at: " + FilePath);
                 return null;
             }
         }
@@ -146,7 +155,7 @@ namespace LevelEditor.LoadAndSave
         [Button("Open in explorer")]
         public void OpenInExplorer()
         {
-            System.Diagnostics.Process.Start(Application.persistentDataPath);
+            System.Diagnostics.Process.Start(_saveAndLoadLocally ? Application.persistentDataPath : Application.dataPath);
         }
     }
 }

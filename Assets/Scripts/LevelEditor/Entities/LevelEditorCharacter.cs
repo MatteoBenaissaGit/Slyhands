@@ -9,7 +9,7 @@ namespace LevelEditor.Entities
     /// </summary>
     public class LevelEditorCharacter : MonoBehaviour
     {
-        [field:SerializeField] public int Team { get; private set; }
+        [field: SerializeField] public int Team { get; private set; }
         public Vector3Int Coordinates => Slot == null ? Vector3Int.zero : Slot.Coordinates;
         public SlotController Slot { get; private set; }
 
@@ -20,7 +20,7 @@ namespace LevelEditor.Entities
         public void Initialize(SlotController slot)
         {
             Slot = slot;
-            SetCharacterOrientation(Slot.Data.Character.Orientation);
+            SetCharacterOrientation(Slot.Data.LevelEditorCharacter.Orientation);
 
             transform.DOKill();
             Vector3 scale = transform.localScale;
@@ -35,7 +35,7 @@ namespace LevelEditor.Entities
         /// <returns>The character</returns>
         public LevelEditorCharacter SetCharacterOrientation(Orientation orientation)
         {
-            Slot.Data.Character.Orientation = orientation;
+            Slot.Data.LevelEditorCharacter.Orientation = orientation;
             transform.rotation = Quaternion.Euler(0, ((int)orientation) * 90, 0);
             return this;
         }

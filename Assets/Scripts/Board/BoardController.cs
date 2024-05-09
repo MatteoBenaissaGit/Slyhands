@@ -1,6 +1,10 @@
 ﻿using System;
+using Board.Characters;
+using GameEngine;
 using LevelEditor;
+using LevelEditor.Entities;
 using LevelEditor.LoadAndSave;
+using Players;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Slots;
@@ -234,6 +238,7 @@ namespace Board
             LoadBoardFromLevelData(level);
             ClearAllUnusedSlotLocation();
             SetSlotLocationsUsable(true);
+            SetGameCharacters();
         }
         
         private void ClearAllUnusedSlotLocation()
@@ -253,6 +258,52 @@ namespace Board
         {
             ForEachCoordinatesOnBoard(
                 coordinates => Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z]?.SetUsable(isUsable));
+        }
+
+        private void SetGameCharacters()
+        {
+            ForEachCoordinatesOnBoard(coordinates =>
+            {
+                //check if the slot has a character
+                SlotLocation slotLocation = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
+                if (slotLocation.SlotView == null)
+                {
+                    return;
+                }
+                if (slotLocation.SlotView.Controller.Data.LevelEditorCharacter.Has == false)
+                {
+                    return;
+                }
+                
+                //create character controller & view
+                SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
+                BoardCharacterController characterController = new BoardCharacterController(this, coordinates);
+                characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
+                GameObject characterPrefab = GameManager.Instance.PrefabsData.GetPrefab("Character");
+                BoardCharacterView characterView = Instantiate(characterPrefab, slotLocation.transform.position, Quaternion.identity).GetComponent<BoardCharacterView>();
+                if (characterView == null)
+                {
+                    throw new Exception("Character prefab has no BoardCharacterView component");
+                }
+                characterView.Initialize(characterController);
+
+                //manage team & player
+                int characterTeam = GameManager.Instance.PrefabsData
+                    .GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId)
+                    .GetComponent<LevelEditorCharacter>().Team;
+                Team team = GameManager.Instance.Teams.Find(x => x.TeamNumber == characterTeam);
+                if (team == null)
+                {
+                    throw new Exception($"Team {characterTeam} not found");
+                }
+                team.Characters.Add(characterController);
+                
+                //manage slot data & remove level editor character
+                slotLocation.SlotView.DestroyCharacterOnSlot();
+                slotLocation.SlotView.Controller.Data.Character = characterController;
+                
+                Debug.Log("character set");
+            });
         }
 
         #endregion

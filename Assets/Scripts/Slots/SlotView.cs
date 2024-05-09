@@ -64,7 +64,6 @@ namespace Slots
         public void Initialize(SlotController controller)
         {
             Controller = controller;
-            Controller.OnSlotAction += SlotActionView;
 
             Color transparentBaseColor = new Color(1f, 1f, 1f, 0f);
             _actionFeedbackSpriteRenderer.color = transparentBaseColor;
@@ -72,7 +71,7 @@ namespace Slots
             _arrowFeedbackSpriteRenderer.color = transparentBaseColor;
 
             CreateObstacle(GetPrefabsData().GetPrefab(Controller.Data.Obstacle.PrefabId));
-            CreateCharacterOnSlot(GetPrefabsData().GetPrefab(Controller.Data.Character.PrefabId));
+            CreateCharacterOnSlot(GetPrefabsData().GetPrefab(Controller.Data.LevelEditorCharacter.PrefabId));
 
             SetSlotOrientation(Controller.Data.Orientation);
 
@@ -97,7 +96,6 @@ namespace Slots
 
         private void OnDestroy()
         {
-            Controller.OnSlotAction -= SlotActionView;
             Controller = null;
         }
 
@@ -129,7 +127,7 @@ namespace Slots
                 return;
             }
 
-            if (Controller.Data.Character.Has)
+            if (Controller.Data.LevelEditorCharacter.Has)
             {
                 Debug.Log("destroy character");
                 CreateCharacterOnSlot(null);
@@ -174,7 +172,7 @@ namespace Slots
         public LevelEditorCharacter CreateCharacterOnSlot(GameObject levelEditorCharacterPrefab)
         {
             //if the character is the same as the current one, return
-            if (levelEditorCharacterPrefab == GetPrefabsData().GetPrefab(Controller.Data.Character.PrefabId) && _levelEditorCharacterOnSlot != null)
+            if (levelEditorCharacterPrefab == GetPrefabsData().GetPrefab(Controller.Data.LevelEditorCharacter.PrefabId) && _levelEditorCharacterOnSlot != null)
             {
                 return null;
             }
@@ -189,7 +187,7 @@ namespace Slots
             //if the prefab is null or the prefab is not a character, return
             if (levelEditorCharacterPrefab == null || levelEditorCharacterPrefab.TryGetComponent(out LevelEditorCharacter levelEditorCharacter) == false)
             {
-                Controller.Data.Character.PrefabId = null;
+                Controller.Data.LevelEditorCharacter.PrefabId = null;
                 return null;
             }
 
@@ -208,7 +206,7 @@ namespace Slots
             _levelEditorCharacterOnSlot = Instantiate(levelEditorCharacter, transform);
             _levelEditorCharacterOnSlot.transform.localPosition = new Vector3(0, 0.5f, 0);
             
-            Controller.Data.Character.PrefabId = GetPrefabsData().GetPrefabId(levelEditorCharacterPrefab);
+            Controller.Data.LevelEditorCharacter.PrefabId = GetPrefabsData().GetPrefabId(levelEditorCharacterPrefab);
             _levelEditorCharacterOnSlot.Initialize(Controller);
 
             return _levelEditorCharacterOnSlot;
@@ -224,45 +222,6 @@ namespace Slots
                 return;
             }
             Destroy(_levelEditorCharacterOnSlot.gameObject);
-        }
-
-        #endregion
-        
-        #region Actions
-
-        private void SlotActionView(SlotAction action, bool isValid)
-        {
-            switch (action)
-            {
-                case SlotAction.None:
-                    break;
-                case SlotAction.Hovered:
-                    break;
-                case SlotAction.Selected:
-                    break;
-                case SlotAction.Walkable:
-                    break;
-                case SlotAction.Attackable:
-                    break;
-                case SlotAction.GetDestroyed:
-                    DestroySlot();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
-            }
-        }
-
-        /// <summary>
-        /// Destroy the slot either in editor or in game
-        /// </summary>
-        private void DestroySlot()
-        {
-            if (Application.isPlaying)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            DestroyImmediate(gameObject);
         }
 
         #endregion
