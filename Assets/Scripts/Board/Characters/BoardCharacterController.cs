@@ -15,12 +15,22 @@ namespace Board.Characters
         Idle = 0,
         MoveTo = 1,
         GetHit = 2,
-        Die = 3
+        Die = 3,
+        IsSelected = 5,
+        IsUnselected = 6,
     }
 
     public class CharacterControllerData
     {
+        public CharacterControllerData(int maxLife = 3)
+        {
+            MaxLife = maxLife;
+            CurrentLife = MaxLife;
+        }
+        
         public Orientation Orientation {get; set;}
+        public int MaxLife { get; private set; }
+        public int CurrentLife { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity
@@ -53,17 +63,20 @@ namespace Board.Characters
                 case Characters.CharacterAction.Idle:
                     break;
                 case Characters.CharacterAction.MoveTo:
-                    CurrentSlot.Data.Character = null;
-                    Coordinates = targetCoordinates;
-                    CurrentSlot.Data.Character = this;
+                    MoveTo(targetCoordinates);
                     break;
                 case Characters.CharacterAction.GetHit:
                     break;
                 case Characters.CharacterAction.Die:
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
+        }
+
+        private void MoveTo(Vector3Int targetCoordinates)
+        {
+            CurrentSlot.Data.Character = null;
+            Coordinates = targetCoordinates;
+            CurrentSlot.Data.Character = this;
         }
     }
 }

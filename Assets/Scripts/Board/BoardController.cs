@@ -301,8 +301,6 @@ namespace Board
                 //manage slot data & remove level editor character
                 slotLocation.SlotView.DestroyCharacterOnSlot();
                 slotLocation.SlotView.Controller.Data.Character = characterController;
-                
-                Debug.Log("character set");
             });
         }
 

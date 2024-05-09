@@ -1,4 +1,7 @@
 ﻿using System;
+using GameEngine;
+using LevelEditor;
+using Slots;
 using UnityEngine;
 
 namespace Board.Characters
@@ -6,9 +9,21 @@ namespace Board.Characters
     public class BoardCharacterView : MonoBehaviour
     {
         public BoardCharacterController Controller { get; private set; }
-
-        [SerializeField] private float _yOffset;
         
+        public SlotLocation CurrentSlotLocation
+        {
+            get
+            {
+                BoardController board = GameManager.Instance == null ? LevelEditorManager.Instance.Board : GameManager.Instance.Board;
+                SlotLocation slotLocation = board.Data.SlotLocations[Controller.Coordinates.x, Controller.Coordinates.y, Controller.Coordinates.z];
+                if (slotLocation == null)
+                {
+                    throw new Exception("no slot location found for the current slot coordinates");
+                }
+                return slotLocation;
+            }
+        }
+
         public void Initialize(BoardCharacterController controller)
         {
             Controller = controller;
@@ -35,14 +50,18 @@ namespace Board.Characters
                     break;
                 case CharacterAction.Die:
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+                case CharacterAction.IsSelected:
+                    CurrentSlotLocation.SetSelected(true);
+                    break;
+                case CharacterAction.IsUnselected:
+                    CurrentSlotLocation.SetSelected(false);
+                    break;
             }
         }
 
         private void MoveTo(Vector3Int targetCoordinates)
         {
-            transform.position = Controller.Board.GetCoordinatesToWorldPosition(targetCoordinates) + new Vector3(0,_yOffset,0);
+            transform.position = Controller.Board.GetCoordinatesToWorldPosition(targetCoordinates);
         }
     }
 }
