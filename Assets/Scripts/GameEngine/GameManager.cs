@@ -2,6 +2,7 @@
 using Board;
 using Camera;
 using Common;
+using Data.Prefabs;
 using LevelEditor.LoadAndSave;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -21,6 +22,9 @@ namespace GameEngine
         
         [field:SerializeField] [field:TabGroup("TabGroup1", "References")] [field:Required] 
         public GameInputActionsManager InputActionsManager { get; private set; }
+        
+        [field:SerializeField] [field:TabGroup("TabGroup1", "References")] [field:Required] 
+        public PrefabsData PrefabsData { get; private set; }
 
         [SerializeField] private string _levelToLoad;
 

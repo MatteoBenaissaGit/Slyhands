@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data.Prefabs;
 using DG.Tweening;
+using GameEngine;
+using LevelEditor;
 using LevelEditor.Entities;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -68,8 +71,8 @@ namespace Slots
             _selectionFeedbackSpriteRenderer.color = transparentBaseColor;
             _arrowFeedbackSpriteRenderer.color = transparentBaseColor;
 
-            CreateObstacle(Controller.Data.Obstacle.Prefab);
-            CreateCharacterOnSlot(Controller.Data.Character.Prefab);
+            CreateObstacle(GetPrefabsData().GetPrefab(Controller.Data.Obstacle.PrefabId));
+            CreateCharacterOnSlot(GetPrefabsData().GetPrefab(Controller.Data.Character.PrefabId));
 
             SetSlotOrientation(Controller.Data.Orientation);
 
@@ -83,6 +86,13 @@ namespace Slots
             transform.DOKill();
             transform.localScale = Vector3.zero;
             transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+        }
+
+        private PrefabsData GetPrefabsData()
+        {
+            return LevelEditorManager.Instance == null
+                ? GameManager.Instance.PrefabsData
+                : LevelEditorManager.Instance.PrefabsData;
         }
 
         private void OnDestroy()
@@ -100,7 +110,7 @@ namespace Slots
         public void CreateObstacle(GameObject obstaclePrefab)
         {
             //if the obstacle is the same as the current one, return
-            if (obstaclePrefab == Controller.Data.Obstacle.Prefab && _obstacleParent.childCount > 0)
+            if (obstaclePrefab == GetPrefabsData().GetPrefab(Controller.Data.Obstacle.PrefabId) && _obstacleParent.childCount > 0)
             {
                 return;
             }
@@ -125,7 +135,7 @@ namespace Slots
                 CreateCharacterOnSlot(null);
             }
 
-            Controller.Data.Obstacle.Prefab = obstaclePrefab;
+            Controller.Data.Obstacle.PrefabId = GetPrefabsData().GetPrefabId(obstaclePrefab);
 
             GameObject obstacleInstantiated = Instantiate(obstaclePrefab, _obstacleParent, true);
             obstacleInstantiated.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -154,7 +164,7 @@ namespace Slots
                 child.transform.DOComplete();
                 child.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() => Destroy(child));
             }
-            Controller.Data.Obstacle.Prefab = null;
+            Controller.Data.Obstacle.PrefabId = null;
         }
 
         /// <summary>
@@ -164,7 +174,7 @@ namespace Slots
         public LevelEditorCharacter CreateCharacterOnSlot(GameObject levelEditorCharacterPrefab)
         {
             //if the character is the same as the current one, return
-            if (levelEditorCharacterPrefab == Controller.Data.Character.Prefab && _levelEditorCharacterOnSlot != null)
+            if (levelEditorCharacterPrefab == GetPrefabsData().GetPrefab(Controller.Data.Character.PrefabId) && _levelEditorCharacterOnSlot != null)
             {
                 return null;
             }
@@ -179,7 +189,7 @@ namespace Slots
             //if the prefab is null or the prefab is not a character, return
             if (levelEditorCharacterPrefab == null || levelEditorCharacterPrefab.TryGetComponent(out LevelEditorCharacter levelEditorCharacter) == false)
             {
-                Controller.Data.Character.Prefab = null;
+                Controller.Data.Character.PrefabId = null;
                 return null;
             }
 
@@ -198,7 +208,7 @@ namespace Slots
             _levelEditorCharacterOnSlot = Instantiate(levelEditorCharacter, transform);
             _levelEditorCharacterOnSlot.transform.localPosition = new Vector3(0, 0.5f, 0);
             
-            Controller.Data.Character.Prefab = levelEditorCharacterPrefab;
+            Controller.Data.Character.PrefabId = GetPrefabsData().GetPrefabId(levelEditorCharacterPrefab);
             _levelEditorCharacterOnSlot.Initialize(Controller);
 
             return _levelEditorCharacterOnSlot;

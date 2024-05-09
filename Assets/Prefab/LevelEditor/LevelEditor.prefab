@@ -877,6 +877,8 @@ MonoBehaviour:
   <Board>k__BackingField: {fileID: 4386948183803038824}
   <Camera>k__BackingField: {fileID: 7841478749800259305}
   <SaveLoadManager>k__BackingField: {fileID: 7399754491400540911}
+  <PrefabsData>k__BackingField: {fileID: 11400000, guid: 31f57ab3fe9ad9f469e4d4d5c5d5c033,
+    type: 2}
 --- !u!114 &7399754491400540911
 MonoBehaviour:
   m_ObjectHideFlags: 0

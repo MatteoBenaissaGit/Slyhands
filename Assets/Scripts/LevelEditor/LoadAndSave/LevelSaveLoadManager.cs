@@ -142,5 +142,11 @@ namespace LevelEditor.LoadAndSave
         {
             return ReadFromJson();
         }
+        
+        [Button("Open in explorer")]
+        public void OpenInExplorer()
+        {
+            System.Diagnostics.Process.Start(Application.persistentDataPath);
+        }
     }
 }

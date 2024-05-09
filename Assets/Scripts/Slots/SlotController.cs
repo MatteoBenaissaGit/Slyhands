@@ -72,8 +72,8 @@ namespace Slots
             Orientation = Orientation.North; //all objects face north by default
         }
         
-        public bool Has { get => Prefab != null; }
-        [field:SerializeField] public GameObject Prefab { get; set; } 
+        public bool Has { get => string.IsNullOrEmpty(PrefabId) == false; }
+        [field:SerializeField] public string PrefabId { get; set; } 
         [field:SerializeField] public Orientation Orientation { get; set; }
     }
     

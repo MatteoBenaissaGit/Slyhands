@@ -1,6 +1,7 @@
 using Board;
 using Camera;
 using Common;
+using Data.Prefabs;
 using LevelEditor.LoadAndSave;
 using Sirenix.OdinInspector;
 using Slots;
@@ -17,5 +18,6 @@ namespace LevelEditor
         [field:SerializeField] [field:Required] public BoardController Board { get; private set; }
         [field:SerializeField] [field:Required] public CameraController Camera { get; private set; }
         [field:SerializeField] [field:Required] public LevelSaveLoadManager SaveLoadManager { get; private set; }
+        [field:SerializeField] [field:Required] public PrefabsData PrefabsData { get; private set; }
     }
 }

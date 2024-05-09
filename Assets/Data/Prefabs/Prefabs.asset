@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92b6e838e348f5abba93c0fa0f9b30, type: 3}
+  m_Name: Prefabs
+  m_EditorClassIdentifier: 
+  _prefabsDatas:
+  - <Id>k__BackingField: Barrel
+    <Prefab>k__BackingField: {fileID: 3731731872344259961, guid: 617b133058f0f9a4bbd4315f942622d5,
+      type: 3}
+  - <Id>k__BackingField: Rock
+    <Prefab>k__BackingField: {fileID: 7116932582942882436, guid: d5a6a5466d004934da405be9bffa430b,
+      type: 3}
+  - <Id>k__BackingField: LevelEditorPlayer
+    <Prefab>k__BackingField: {fileID: 8730673350232980854, guid: 0e0949cc4fed01a47a43053675c7a255,
+      type: 3}

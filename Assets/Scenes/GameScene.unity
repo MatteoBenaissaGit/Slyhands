@@ -603,7 +603,9 @@ MonoBehaviour:
   <Camera>k__BackingField: {fileID: 812085617}
   <SaveLoadManager>k__BackingField: {fileID: 1083410811}
   <InputActionsManager>k__BackingField: {fileID: 1083410813}
-  _levelToLoad: south
+  <PrefabsData>k__BackingField: {fileID: 11400000, guid: 31f57ab3fe9ad9f469e4d4d5c5d5c033,
+    type: 2}
+  _levelToLoad: classic
 --- !u!4 &1083410810
 Transform:
   m_ObjectHideFlags: 0
