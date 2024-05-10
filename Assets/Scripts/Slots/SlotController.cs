@@ -86,6 +86,19 @@ namespace Slots
     public class SlotController : BoardEntity
     {
         public SlotData Data { get; set; }
+        
+        public SlotLocation Location
+        {
+            get
+            {
+                SlotLocation slotLocation = Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z];
+                if (slotLocation == null)
+                {
+                    throw new Exception("no slot location found for the current slot coordinates");
+                }
+                return slotLocation;
+            }
+        }
 
         public SlotController(BoardController board, Vector3Int coordinates, SlotData predefinedData = null) : base(board, coordinates)
         {

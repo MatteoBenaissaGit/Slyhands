@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Board;
 using Camera;
 using Common;
+using Data.Characters;
 using Data.Prefabs;
 using LevelEditor.LoadAndSave;
 using Players;
@@ -27,8 +28,12 @@ namespace GameEngine
         [field:SerializeField] [field:TabGroup("TabGroup1", "References")] [field:Required] 
         public GameInputActionsManager InputActionsManager { get; private set; }
         
-        [field:SerializeField] [field:TabGroup("TabGroup1", "References")] [field:Required] 
+        
+        [field:SerializeField] [field:TabGroup("TabGroup1", "Data", SdfIconType.Bank, TextColor = "orange")] [field:Required] 
         public PrefabsData PrefabsData { get; private set; }
+        [field:SerializeField] [field:TabGroup("TabGroup1", "Data")] [field:Required] 
+        public CharactersData CharactersData { get; private set; }
+        
 
         [field:SerializeField] [field:TabGroup("TabGroup2", "Game Parameters", SdfIconType.Award, TextColor = "blue")] [field:Required]
         public List<Team> Teams { get; set; } = new List<Team>();

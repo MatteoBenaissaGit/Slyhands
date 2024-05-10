@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Data.Cards
 {
-    [CreateAssetMenu(fileName = "Data", menuName = "Card/CardData", order = 1)]
+    [CreateAssetMenu(fileName = "Data", menuName = "Data/Card/CardData", order = 1)]
     public class CardDataScriptable : ScriptableObject
     {
         #region Fields and Properties

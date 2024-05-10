@@ -1,4 +1,5 @@
 ﻿using System;
+using Board;
 using Board.Characters;
 using Inputs;
 using LevelEditor;
@@ -100,14 +101,18 @@ namespace GameEngine
         {
             _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
 
-            Vector3Int coordinates = _selectedCharacter.Coordinates;
-            SlotController targetSlot = _selectedCharacter.Board.Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SlotView.Controller;
-            if (targetSlot.Data.Obstacle.Has || targetSlot.Data.Character != null || targetSlot.Data.Type != SlotType.Base)
+            BoardController board = GameManager.Instance.Board;
+            Vector3Int targetCoordinates = board.CurrentHoveredLocation.Coordinates;
+            SlotController targetSlot = board.Data.SlotLocations[targetCoordinates.x, targetCoordinates.y, targetCoordinates.z].SlotView.Controller;
+            
+            if (targetSlot.Data.Obstacle.Has || targetSlot.Data.Character != null || targetSlot.Data.Type != SlotType.Base 
+                || GameManager.Instance.Board.GetAccessibleSlotsByCharacter(_selectedCharacter).Contains(targetSlot) == false)
             {
+                ResetSelection();
                 return;
             }
 
-            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, GameManager.Instance.Board.CurrentHoveredLocation.Coordinates);
+            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, board.CurrentHoveredLocation.Coordinates);
 
             ResetSelection();
         }

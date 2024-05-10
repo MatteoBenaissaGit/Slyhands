@@ -51,10 +51,10 @@ namespace Board.Characters
                 case CharacterAction.Die:
                     break;
                 case CharacterAction.IsSelected:
-                    CurrentSlotLocation.SetSelected(true);
+                    Controller.Board.GetAccessibleSlotsByCharacter(Controller).ForEach(x => x.Location.SetSelected(true));
                     break;
                 case CharacterAction.IsUnselected:
-                    CurrentSlotLocation.SetSelected(false);
+                    Controller.Board.GetAccessibleSlotsByCharacter(Controller).ForEach(x => x.Location.SetSelected(false));
                     break;
             }
         }

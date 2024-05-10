@@ -1,4 +1,6 @@
 ﻿using System;
+using Data.Characters;
+using GameEngine;
 using Slots;
 using UnityEngine;
 
@@ -22,7 +24,7 @@ namespace Board.Characters
 
     public class CharacterControllerData
     {
-        public CharacterControllerData(int maxLife = 3)
+        public CharacterControllerData(int maxLife)
         {
             MaxLife = maxLife;
             CurrentLife = MaxLife;
@@ -38,6 +40,7 @@ namespace Board.Characters
         public CharacterActionDelegate OnCharacterAction { get; set; }
         public CharacterType Type { get; private set; }
         public CharacterControllerData GameplayData { get; private set; }
+        public CharacterData Data { get; private set; }
         
         public SlotController CurrentSlot
         {
@@ -49,7 +52,8 @@ namespace Board.Characters
             SuperType = BoardEntitySuperType.Character;
             Type = CharacterType.PlayerMainCharacter;
 
-            GameplayData = new CharacterControllerData();
+            Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
+            GameplayData = new CharacterControllerData(Data.Life);
             
             OnCharacterAction += CharacterAction;
         }
@@ -68,6 +72,10 @@ namespace Board.Characters
                 case Characters.CharacterAction.GetHit:
                     break;
                 case Characters.CharacterAction.Die:
+                    break;
+                case Characters.CharacterAction.IsSelected:
+                    break;
+                case Characters.CharacterAction.IsUnselected:
                     break;
             }
         }

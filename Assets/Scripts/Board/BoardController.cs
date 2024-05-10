@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Board.Characters;
 using GameEngine;
 using LevelEditor;
@@ -71,13 +72,17 @@ namespace Board
 
         #region Private values
         
-        
-        [SerializeField, TabGroup("TabGroup1", "References", SdfIconType.Archive, TextColor = "red"), Required]
-        private SlotView _slotViewPrefab;
-        [SerializeField, TabGroup("TabGroup1", "References"), Required] 
-        private SlotLocation _slotLocationPrefab;
+        [SerializeField, TabGroup("TabGroup1", "References", SdfIconType.Archive, TextColor = "red"), Required] private SlotView _slotViewPrefab;
+        [SerializeField, TabGroup("TabGroup1", "References"), Required] private SlotLocation _slotLocationPrefab;
 
         private Transform _slotParent;
+        private Vector2Int[] _directions = new Vector2Int[]
+        {
+            new Vector2Int(0,1),
+            new Vector2Int(0,-1),
+            new Vector2Int(1,0),
+            new Vector2Int(-1,0),
+        };
         
         #endregion
 
@@ -233,6 +238,10 @@ namespace Board
 
         #region Game methods
 
+        /// <summary>
+        /// Load a game level to be played in the game scene
+        /// </summary>
+        /// <param name="level">The level to load</param>
         public void LoadGameLevel(LevelData level)
         {
             LoadBoardFromLevelData(level);
@@ -241,6 +250,9 @@ namespace Board
             SetGameCharacters();
         }
         
+        /// <summary>
+        /// Clear all of the slot locations where there is no slot view
+        /// </summary>
         private void ClearAllUnusedSlotLocation()
         {
             ForEachCoordinatesOnBoard(coordinates =>
@@ -254,12 +266,19 @@ namespace Board
             });
         }
         
+        /// <summary>
+        /// Set all of the slot locations usable or not
+        /// </summary>
+        /// <param name="isUsable">Are they usable or not ?</param>
         private void SetSlotLocationsUsable(bool isUsable)
         {
             ForEachCoordinatesOnBoard(
                 coordinates => Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z]?.SetUsable(isUsable));
         }
 
+        /// <summary>
+        /// Replace the level editor characters on the board with board characters
+        /// </summary>
         private void SetGameCharacters()
         {
             ForEachCoordinatesOnBoard(coordinates =>
@@ -302,6 +321,80 @@ namespace Board
                 slotLocation.SlotView.DestroyCharacterOnSlot();
                 slotLocation.SlotView.Controller.Data.Character = characterController;
             });
+        }
+
+        public List<SlotController> GetAccessibleSlotsByCharacter(BoardCharacterController characterController)
+        {
+            Debug.Log("acc");
+            List<SlotController> accessibleSlots = new List<SlotController>();
+
+            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.Data.Movement, ref accessibleSlots, true);
+            
+            return accessibleSlots;
+        }
+
+        private void FindAccessibleSlotFromSlot(SlotController slot, int movementAmount, ref List<SlotController> slotAccessibleList, bool isBaseSlot = false)
+        {
+            if (slotAccessibleList.Contains(slot) || movementAmount <= 0)
+            {
+                return;
+            }
+            
+            movementAmount--;
+            
+            //if its the base slot, add it and continue searching neighbors
+            if (isBaseSlot)
+            {
+                slotAccessibleList.Add(slot);
+                goto NeighborsSearch;
+            }
+            
+            //if im blocking, dont add me and stop
+            if (slot.Data.Character != null || slot.Data.Obstacle.Has || slot.Data.Type == SlotType.NotWalkable)
+            {
+                return;
+            } 
+            
+            //if im a ramp, dont add me but continue searching neighbors on the level im leading to
+            if (slot.Data.Type == SlotType.Ramp)
+            {
+                //TODO FindAccessibleSlotFromSlot(GetSlotInDirection(slot, slot.Data.Obstacle.Orientation), movementAmount, ref slotAccessibleList);
+                return;
+            }
+            
+            slotAccessibleList.Add(slot);
+            
+            //search the neighbors
+            NeighborsSearch:
+            List<SlotController> neighbors = GetNeighborsOfSlot(slot);
+            foreach (SlotController neighbor in neighbors)
+            {
+                FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleList);
+            }
+        }
+
+        private List<SlotController> GetNeighborsOfSlot(SlotController slot)
+        {
+            List<SlotController> neighborsSlots = new List<SlotController>();
+            foreach (Vector2Int direction in _directions)
+            {
+                Vector3Int nextCoordinates = new Vector3Int(slot.Coordinates.x + direction.x, slot.Coordinates.y, slot.Coordinates.z + direction.y);
+                if (Data.BoardSize.x <= nextCoordinates.x || nextCoordinates.x < 0 ||
+                    Data.BoardSize.y <= nextCoordinates.y || nextCoordinates.y < 0 ||
+                    Data.BoardSize.z <= nextCoordinates.z || nextCoordinates.z < 0)
+                {
+                    continue;
+                }
+                
+                SlotController neighborSlot = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y, nextCoordinates.z]?.SlotView?.Controller;
+                if (neighborSlot == null)
+                {
+                    continue;
+                }
+                
+                neighborsSlots.Add(neighborSlot);
+            }
+            return neighborsSlots;
         }
 
         #endregion
