@@ -62,6 +62,10 @@ namespace Slots
         [field:SerializeField] public SlotElement LevelEditorCharacter { get; set; }
         
         public BoardCharacterController Character { get; set; }
+        
+        //values for pathfinding search
+        public SlotController PathfindingParent { get; set; }
+        public int PathfindingCost { get; set; }
     }
     
     /// <summary>

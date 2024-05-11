@@ -89,7 +89,7 @@ namespace GameEngine
         {
             BoardCharacterController characterOnSlot =
                 GameManager.Instance.Board.CurrentHoveredLocation.SlotView.Controller.Data.Character;
-            if (characterOnSlot != null)
+            if (characterOnSlot != null && characterOnSlot.GameplayData.CanGetSelected)
             {
                 _selectedCharacter = characterOnSlot;
                 _currentInputActionState = GameInputActionState.SelectedCharacter;

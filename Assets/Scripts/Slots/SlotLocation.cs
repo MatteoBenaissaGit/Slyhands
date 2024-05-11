@@ -124,7 +124,17 @@ namespace Slots
         /// <param name="isSelected">show the feedback ?</param>
         public void SetSelected(bool isSelected)
         {
+            _selectedSprite.color = _baseColor;
             _selectedSprite.gameObject.SetActive(isSelected);
+        }
+        
+        public void SetAccessible(bool isAccessible)
+        {
+            _selectedSprite.color = new Color(0.4f, 1f, 0.5f);
+            if (isAccessible == false)
+            {
+                SetSelected(false);
+            }
         }
 
         /// <summary>

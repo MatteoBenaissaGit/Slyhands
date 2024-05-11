@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Data.Characters;
 using GameEngine;
 using Slots;
@@ -30,6 +31,7 @@ namespace Board.Characters
             CurrentLife = MaxLife;
         }
         
+        public bool CanGetSelected { get; set; } = true;
         public Orientation Orientation {get; set;}
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
@@ -41,6 +43,7 @@ namespace Board.Characters
         public CharacterType Type { get; private set; }
         public CharacterControllerData GameplayData { get; private set; }
         public CharacterData Data { get; private set; }
+        public List<SlotController> AccessibleSlots { get; set; }
         
         public SlotController CurrentSlot
         {
@@ -67,7 +70,6 @@ namespace Board.Characters
                 case Characters.CharacterAction.Idle:
                     break;
                 case Characters.CharacterAction.MoveTo:
-                    MoveTo(targetCoordinates);
                     break;
                 case Characters.CharacterAction.GetHit:
                     break;
@@ -80,7 +82,7 @@ namespace Board.Characters
             }
         }
 
-        private void MoveTo(Vector3Int targetCoordinates)
+        public void MoveTo(Vector3Int targetCoordinates)
         {
             CurrentSlot.Data.Character = null;
             Coordinates = targetCoordinates;
