@@ -70,6 +70,10 @@ namespace Board.Characters
             }
         }
 
+        /// <summary>
+        /// Move the player's view into the target coordinates finding the path to reach it
+        /// </summary>
+        /// <param name="targetCoordinates">the coordinates to reach</param>
         private async Task MoveTo(Vector3Int targetCoordinates)
         {
             Controller.GameplayData.CanGetSelected = false;
@@ -90,7 +94,9 @@ namespace Board.Characters
                 
                 //rotation
                 Vector3 direction = slot.Coordinates - previousCoordinates;
+                direction.y = 0;
                 previousCoordinates = slot.Coordinates;
+                previousCoordinates.y = 0;
                 sequence.Join(transform.DOLookAt(previousPosition + direction, moveTime)).SetEase(Ease.Linear);
                 
                 previousPosition = targetPosition;

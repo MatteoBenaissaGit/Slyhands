@@ -111,5 +111,54 @@ namespace Slots
             Data = predefinedData ?? new SlotData();
             Data.Coordinates = coordinates;
         }
+
+        /// <summary>
+        /// Return if the slot is accessible from the given slot
+        /// </summary>
+        /// <param name="fromSlot">The slot to check the accessibility from</param>
+        /// <returns>is the slot accessible from this slot ?</returns>
+        public bool IsAccessibleFromSlot(SlotController fromSlot)
+        {
+            bool isThereAnObstacle = Data.Obstacle.Has;
+            bool isThereACharacter = Data.Character != null;
+            if (isThereACharacter || isThereAnObstacle || Data.Type == SlotType.NotWalkable)
+            {
+                return false;
+            }
+
+            if (fromSlot == null)
+            {
+                return true;
+            }
+            
+            bool isSlotOnOtherHeight = Data.Coordinates.y != fromSlot.Data.Coordinates.y && fromSlot.Data.Type != SlotType.Ramp && Data.Type != SlotType.Ramp;
+            if (isSlotOnOtherHeight)
+            {
+                return false;
+            }
+            
+            if (Data.Type == SlotType.Ramp || fromSlot.Data.Type == SlotType.Ramp)
+            {
+                Orientation orientation = Data.Orientation;
+                if (fromSlot.Data.Type == SlotType.Ramp)
+                {
+                    orientation = fromSlot.Data.Orientation;
+                }
+                int xDirectionFromSlotToMe = Mathf.Abs(Coordinates.x - fromSlot.Coordinates.x);
+                int zDirectionFromSlotToMe = Mathf.Abs(Coordinates.z - fromSlot.Coordinates.z);
+
+                bool isOrientationXAccessible = (orientation == Orientation.East && xDirectionFromSlotToMe == 1) ||
+                                                (orientation == Orientation.West && xDirectionFromSlotToMe == 1);
+                bool isOrientationZAccessible = (orientation == Orientation.North && zDirectionFromSlotToMe == 1) ||
+                                                (orientation == Orientation.South && zDirectionFromSlotToMe == 1);
+
+                if (isOrientationXAccessible == false && isOrientationZAccessible == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

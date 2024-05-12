@@ -7,6 +7,7 @@ using LevelEditor;
 using LevelEditor.Entities;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEditor;
 using UnityEngine;
 
 namespace Slots
@@ -274,6 +275,9 @@ namespace Slots
         /// </summary>
         private void DrawSquareGizmo()
         {
+            //location
+            Handles.Label(transform.position, $"{Controller.Data.Coordinates.x},{Controller.Data.Coordinates.y},{Controller.Data.Coordinates.z}");
+            
             //square
             Gizmos.color = Color.red;
             float height = 0.5f;
