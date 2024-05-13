@@ -80,7 +80,8 @@ namespace Board.Characters
             
             SlotController targetSlot = Controller.Board.Data.SlotLocations[targetCoordinates.x, targetCoordinates.y, targetCoordinates.z].SlotView.Controller;
             List<SlotController> pathToTarget = Controller.Board.GetPathFromCharacterToSlot(Controller, targetSlot);
-
+            Controller.GameplayData.CurrentMovementPoints -= pathToTarget.Count;
+            
             float totalTime = 0;
             float moveTime = 0.2f;
             Sequence sequence = DOTween.Sequence();

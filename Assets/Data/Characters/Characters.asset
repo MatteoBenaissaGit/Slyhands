@@ -15,7 +15,7 @@ MonoBehaviour:
   Characters:
   - <Type>k__BackingField: 0
     <Life>k__BackingField: 3
-    <Movement>k__BackingField: 4
+    <MovementPoints>k__BackingField: 4
   - <Type>k__BackingField: 1
     <Life>k__BackingField: 3
-    <Movement>k__BackingField: 3
+    <MovementPoints>k__BackingField: 4

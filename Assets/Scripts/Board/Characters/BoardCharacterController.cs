@@ -30,7 +30,7 @@ namespace Board.Characters
         {
             MaxLife = maxLife;
             CurrentLife = MaxLife;
-            
+
             Team = GameManager.Instance.Teams.Find(x => x.TeamNumber == teamNumber);
         }
 
@@ -39,6 +39,7 @@ namespace Board.Characters
         public Orientation Orientation {get; set;}
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
+        public int CurrentMovementPoints { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity
@@ -61,8 +62,10 @@ namespace Board.Characters
             Type = CharacterType.PlayerMainCharacter;
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
-            GameplayData = new CharacterControllerData(Data.Life, (int)Type); //TODO set team from level editor character parameter
             
+            GameplayData = new CharacterControllerData(Data.Life, (int)Type); //TODO set team from level editor character parameter
+            GameplayData.Team.Characters.Add(this);
+
             OnCharacterAction += CharacterAction;
         }
         
@@ -103,6 +106,11 @@ namespace Board.Characters
             return GameplayData.IsSelectable 
                    && GameManager.Instance.Data.CurrentTurnTeam == GameplayData.Team 
                    && GameplayData.Team.Player.Type == PlayerType.Local;
+        }
+
+        public void SetForNewTurn()
+        {
+            GameplayData.CurrentMovementPoints = Data.MovementPoints;
         }
     }
 }

@@ -71,8 +71,6 @@ namespace GameEngine
             
             Task = new TaskManager();
             Data = new GameData(this);
-            
-            Teams.ForEach(x => x.Initialize());
         }
 
         private void Start()
@@ -83,6 +81,8 @@ namespace GameEngine
                 throw new Exception($"no level with name {_levelToLoad}");
             }
             Board.LoadGameLevel(levelToLoad);
+            
+            Teams.ForEach(x => x.Initialize());
             
             UI.SetTurnForTeam(Data.CurrentTurnTeam);
             Data.CurrentTurnTeam.MakeTurn();

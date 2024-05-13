@@ -494,8 +494,8 @@ namespace Board
         {
             List<SlotController> accessibleSlots = new List<SlotController>();
 
-            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.Data.Movement, ref accessibleSlots, true);
-            accessibleSlots.RemoveAll(x => GetPathFromCharacterToSlot(characterController, x).Count > characterController.Data.Movement);
+            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints, ref accessibleSlots, true);
+            accessibleSlots.RemoveAll(x => GetPathFromCharacterToSlot(characterController, x).Count > characterController.GameplayData.CurrentMovementPoints);
             
             return accessibleSlots;
         }

@@ -68,7 +68,9 @@ namespace GameEngine
         /// </summary>
         public void ResetSelection()
         {
+            _selectedCharacter?.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
             _selectedCharacter = null;
+            
             _currentInputActionState = GameInputActionState.Neutral;
         }
         

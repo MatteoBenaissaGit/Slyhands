@@ -23,6 +23,7 @@ namespace Players
 
         public void MakeTurn()
         {
+            Characters.ForEach(x => x.SetForNewTurn());
             Player.PlayBehavior?.StartTurn();
         }
     }
