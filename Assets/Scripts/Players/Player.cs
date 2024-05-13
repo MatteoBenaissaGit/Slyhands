@@ -21,21 +21,21 @@ namespace Players
     {
         public PlayerType Type { get; private set; }
         public string ID { get; private set; }
-        public int Team { get; private set; }
+        public Team Team { get; private set; }
         public PlayerPlayBehavior PlayBehavior { get; private set; }
 
-        public Player(PlayerType type, int team)
+        public Player(PlayerType type, Team team)
         {
             Type = type;
             Team = team;
             ID = Guid.NewGuid().ToString();
             
-            Debug.Log($"{Type} player {ID} created for team {Team}");
+            //Debug.Log($"{Type} player {ID} created for team {Team}");
 
             PlayBehavior = type switch
             {
-                PlayerType.Local => new LocalPlayerPlayBehavior(),
-                PlayerType.AI => new AIPlayerPlayBehavior(),
+                PlayerType.Local => new LocalPlayerPlayBehavior(this),
+                PlayerType.AI => new AIPlayerPlayBehavior(this),
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
         }

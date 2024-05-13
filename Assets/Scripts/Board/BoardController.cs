@@ -539,7 +539,6 @@ namespace Board
                     //if its a ramp continue searching neighbors on the level im leading to
                     if (upperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
                     {
-                        //TODO check orientation  
                         List<SlotController> upSlotNeighbors = GetNeighborsOfSlot(upperSlotLocation.SlotView.Controller);
                         foreach (SlotController upSlotNeighbor in upSlotNeighbors)
                         {
@@ -556,7 +555,6 @@ namespace Board
                 SlotLocation lowerSlotLocation = Data.SlotLocations[slot.Coordinates.x, slot.Coordinates.y - 1, slot.Coordinates.z];
                 if (lowerSlotLocation != null && lowerSlotLocation.SlotView != null)
                 {
-                    //TODO check orientation
                     List<SlotController> lowerSlotNeighbors = GetNeighborsOfSlot(lowerSlotLocation.SlotView.Controller);
                     foreach (SlotController lowerSlotNeighbor in lowerSlotNeighbors)
                     {

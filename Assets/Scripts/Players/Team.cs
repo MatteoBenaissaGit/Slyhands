@@ -9,20 +9,21 @@ namespace Players
     public class Team
     {
         [field:SerializeField] public int TeamNumber { get; private set; }
+        [field:SerializeField] public Color TeamColor { get; private set; }
         
-        public List<Player> Players { get; private set; }
+        public Player Player { get; private set; }
         public List<BoardCharacterController> Characters { get; set; } = new List<BoardCharacterController>();
         
-        [SerializeField] private int _numberOfPlayers;
         [SerializeField] private PlayerType _teamType;
 
         public void Initialize()
         {
-            Players = new List<Player>();
-            for (int i = 0; i < _numberOfPlayers; i++)
-            {
-                Players.Add(new Player(_teamType, TeamNumber));
-            }
+            Player = new Player(_teamType, this);
+        }
+
+        public void MakeTurn()
+        {
+            Player.PlayBehavior?.StartTurn();
         }
     }
 }

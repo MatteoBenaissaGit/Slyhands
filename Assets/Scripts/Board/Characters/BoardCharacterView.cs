@@ -76,7 +76,7 @@ namespace Board.Characters
         /// <param name="targetCoordinates">the coordinates to reach</param>
         private async Task MoveTo(Vector3Int targetCoordinates)
         {
-            Controller.GameplayData.CanGetSelected = false;
+            Controller.GameplayData.IsSelectable = false;
             
             SlotController targetSlot = Controller.Board.Data.SlotLocations[targetCoordinates.x, targetCoordinates.y, targetCoordinates.z].SlotView.Controller;
             List<SlotController> pathToTarget = Controller.Board.GetPathFromCharacterToSlot(Controller, targetSlot);
@@ -110,7 +110,7 @@ namespace Board.Characters
             
             await Task.Delay((int)(totalTime * 1000));
             
-            Controller.GameplayData.CanGetSelected = true;
+            Controller.GameplayData.IsSelectable = true;
             Controller.MoveTo(targetCoordinates);
             
             _animator.SetBool(IsWalking, false);

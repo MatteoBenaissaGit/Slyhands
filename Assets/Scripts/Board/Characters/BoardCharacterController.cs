@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Data.Characters;
 using GameEngine;
+using Players;
 using Slots;
 using UnityEngine;
 
@@ -25,13 +26,16 @@ namespace Board.Characters
 
     public class CharacterControllerData
     {
-        public CharacterControllerData(int maxLife)
+        public CharacterControllerData(int maxLife, int teamNumber)
         {
             MaxLife = maxLife;
             CurrentLife = MaxLife;
+            
+            Team = GameManager.Instance.Teams.Find(x => x.TeamNumber == teamNumber);
         }
-        
-        public bool CanGetSelected { get; set; } = true;
+
+        public Team Team { get; set; }
+        public bool IsSelectable { get; set; } = true;
         public Orientation Orientation {get; set;}
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
@@ -39,10 +43,11 @@ namespace Board.Characters
     
     public class BoardCharacterController : BoardEntity
     {
-        public CharacterActionDelegate OnCharacterAction { get; set; }
         public CharacterType Type { get; private set; }
         public CharacterControllerData GameplayData { get; private set; }
         public CharacterData Data { get; private set; }
+        
+        public CharacterActionDelegate OnCharacterAction { get; set; }
         public List<SlotController> AccessibleSlots { get; set; }
         
         public SlotController CurrentSlot
@@ -56,7 +61,7 @@ namespace Board.Characters
             Type = CharacterType.PlayerMainCharacter;
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
-            GameplayData = new CharacterControllerData(Data.Life);
+            GameplayData = new CharacterControllerData(Data.Life, (int)Type); //TODO set team from level editor character parameter
             
             OnCharacterAction += CharacterAction;
         }
@@ -87,6 +92,17 @@ namespace Board.Characters
             CurrentSlot.Data.Character = null;
             Coordinates = targetCoordinates;
             CurrentSlot.Data.Character = this;
+        }
+        
+        /// <summary>
+        /// Tell if this character can be selected and played by a local player
+        /// </summary>
+        /// <returns>Can the character be played by the current local player ?</returns>
+        public bool CanGetPlayed()
+        {
+            return GameplayData.IsSelectable 
+                   && GameManager.Instance.Data.CurrentTurnTeam == GameplayData.Team 
+                   && GameplayData.Team.Player.Type == PlayerType.Local;
         }
     }
 }

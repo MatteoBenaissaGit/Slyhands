@@ -13,6 +13,7 @@ namespace GameEngine
     {
         Neutral = 0,
         SelectedCharacter = 1,
+        SelectedCard = 2,
     }
     
     public class GameInputActionsManager : MonoBehaviour
@@ -36,6 +37,10 @@ namespace GameEngine
             }
         }
         
+        /// <summary>
+        /// Get the current slot hovered by the mouse
+        /// </summary>
+        /// <returns>The current slot hovered by the mouse</returns>
         private SlotLocation GetCurrentHoveredSlotLocation()
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -58,12 +63,18 @@ namespace GameEngine
             return null;
         }
 
+        /// <summary>
+        /// Reset the selection and state of the input action manager
+        /// </summary>
         public void ResetSelection()
         {
             _selectedCharacter = null;
             _currentInputActionState = GameInputActionState.Neutral;
         }
         
+        /// <summary>
+        /// Handle the click action to do when the player click depending on the current state of the input action manager
+        /// </summary>
         private void HandleClick()
         {
             if (GameManager.Instance.Board.CurrentHoveredLocation == null)
@@ -80,16 +91,23 @@ namespace GameEngine
                 case GameInputActionState.SelectedCharacter:
                     HandleClickInCharacterSelectionState();
                     break;
+                case GameInputActionState.SelectedCard:
+                    HandleClickInSelectedCardState();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-
+        
+        /// <summary>
+        /// Handle the click action to do when the player click in the neutral state
+        /// </summary>
         private void HandleClickInNeutralState()
         {
-            BoardCharacterController characterOnSlot =
-                GameManager.Instance.Board.CurrentHoveredLocation.SlotView.Controller.Data.Character;
-            if (characterOnSlot != null && characterOnSlot.GameplayData.CanGetSelected)
+            BoardCharacterController characterOnSlot = GameManager.Instance.Board.CurrentHoveredLocation.SlotView.Controller.Data.Character;
+            
+            // If the slot has a character and the character can be played
+            if (characterOnSlot != null && characterOnSlot.CanGetPlayed())
             {
                 _selectedCharacter = characterOnSlot;
                 _currentInputActionState = GameInputActionState.SelectedCharacter;
@@ -97,6 +115,9 @@ namespace GameEngine
             }
         }
 
+        /// <summary>
+        /// Handle the click action to do when the player click in the character selection state
+        /// </summary>
         private void HandleClickInCharacterSelectionState()
         {
             _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
@@ -115,6 +136,14 @@ namespace GameEngine
             _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, board.CurrentHoveredLocation.Coordinates);
 
             ResetSelection();
+        }
+
+        /// <summary>
+        /// Handle the click action to do when the player click in the selected card state
+        /// </summary>
+        private void HandleClickInSelectedCardState()
+        {
+            //TODO implement card selection
         }
     }
 }
