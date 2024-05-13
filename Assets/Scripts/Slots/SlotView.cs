@@ -82,10 +82,13 @@ namespace Slots
                 SetSlotTypeReference(Controller.Data.SlotTypeReferenceId);
             }
             
-            //initialize scale tween
-            transform.DOKill();
-            transform.localScale = Vector3.zero;
-            transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+            //initialize scale tween if level editor
+            if (LevelEditorManager.Instance != null)
+            {
+                transform.DOKill();
+                transform.localScale = Vector3.zero;
+                transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+            }
         }
 
         private PrefabsData GetPrefabsData()
@@ -138,10 +141,13 @@ namespace Slots
 
             GameObject obstacleInstantiated = Instantiate(obstaclePrefab, _obstacleParent, true);
             obstacleInstantiated.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            obstacleInstantiated.transform.DOComplete();
-            Vector3 scale = obstacleInstantiated.transform.localScale;
-            obstacleInstantiated.transform.localScale = Vector3.zero;
-            obstacleInstantiated.transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
+            if (LevelEditorManager.Instance != null) //tween if level editor
+            {
+                obstacleInstantiated.transform.DOComplete();
+                Vector3 scale = obstacleInstantiated.transform.localScale;
+                obstacleInstantiated.transform.localScale = Vector3.zero;
+                obstacleInstantiated.transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
+            }
 
             SetObstacleOrientation(Controller.Data.Obstacle.Orientation);
         }
