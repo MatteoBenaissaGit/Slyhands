@@ -56,15 +56,14 @@ namespace Board.Characters
             get { return Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller; }
         }
 
-        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team) : base(board, coordinates)
+        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Character;
-            Type = CharacterType.PlayerMainCharacter;
+            Type = type;
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
             
             GameplayData = new CharacterControllerData(Data.Life, team);
-            GameplayData.Team.Characters.Add(this);
 
             OnCharacterAction += CharacterAction;
         }

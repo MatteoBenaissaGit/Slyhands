@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Board.Characters;
 using GameEngine;
+using Slots;
 using UnityEngine;
 
 namespace Players.Behaviors
@@ -12,7 +15,7 @@ namespace Players.Behaviors
         
         public override void StartTurn()
         {
-            GameManager.Instance.Task.EnqueueTask(PlayTurn);
+            GameManager.Instance.TaskManager.EnqueueTask(PlayTurn);
         }
 
         public override void EndTurn()
@@ -21,8 +24,20 @@ namespace Players.Behaviors
 
         private async Task PlayTurn()
         {
+            foreach (BoardCharacterController character in Player.Team.Characters)
+            {
+                character.OnCharacterAction.Invoke(CharacterAction.IsSelected);
+                
+                List<SlotController> accessibleSlots = character.AccessibleSlots;
+                SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
+                character.OnCharacterAction.Invoke(CharacterAction.MoveTo, targetSlot.Coordinates);
+                
+                character.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
+            }
+
             await Task.Delay(1000);
-            GameManager.Instance.SetNextTurn();
+            
+            GameManager.Instance.TaskManager.EnqueueTask(GameManager.Instance.SetNextTurn);
         }
     }
 }

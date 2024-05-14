@@ -457,13 +457,18 @@ namespace Board
                     return;
                 }
                 
-                //create character controller & view
-                SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
-                Team team = GameManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == levelEditorCharacterElement.Team.TeamNumber);
-                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team);
-                characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
                 PrefabsData prefabsData = GameManager.Instance.PrefabsData;
-                string characterPrefabId = prefabsData.GetPrefabSecondId(prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId));
+                
+                //character controller
+                SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
+                GameObject levelEditorCharacterPrefab = prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId);
+                Team team = GameManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == levelEditorCharacterElement.Team.TeamNumber);
+                CharacterType type = levelEditorCharacterPrefab.GetComponent<LevelEditorCharacter>().Type;
+                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type);
+                characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
+                
+                //character view
+                string characterPrefabId = prefabsData.GetPrefabSecondId(levelEditorCharacterPrefab);
                 GameObject characterPrefab = prefabsData.GetPrefab(characterPrefabId);
                 BoardCharacterView characterView = Instantiate(characterPrefab, slotLocation.transform.position, Quaternion.identity).GetComponent<BoardCharacterView>();
                 if (characterView == null)

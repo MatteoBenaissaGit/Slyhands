@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using GameEngine;
 using LevelEditor;
+using Players;
 using Slots;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ namespace Board.Characters
                 case CharacterAction.Idle:
                     break;
                 case CharacterAction.MoveTo:
-                    GameManager.Instance.Task.EnqueueTask(() => MoveTo(targetCoordinates));
+                    GameManager.Instance.TaskManager.EnqueueTask(() => MoveTo(targetCoordinates));
                     break;
                 case CharacterAction.GetHit:
                     break;
@@ -58,6 +59,10 @@ namespace Board.Characters
                     break;
                 case CharacterAction.IsSelected:
                     Controller.AccessibleSlots = Controller.Board.GetAccessibleSlotsByCharacter(Controller);
+                    if (Controller.GameplayData.Team.Player.Type != PlayerType.Local)
+                    {
+                        break;
+                    }
                     foreach (SlotController slot in Controller.AccessibleSlots)
                     {
                         slot.Location.SetSelected(true);
@@ -65,6 +70,10 @@ namespace Board.Characters
                     }
                     break;
                 case CharacterAction.IsUnselected:
+                    if (Controller.GameplayData.Team.Player.Type != PlayerType.Local)
+                    {
+                        break;
+                    }
                     Controller.AccessibleSlots.ForEach(x => x.Location.SetSelected(false));
                     break;
             }

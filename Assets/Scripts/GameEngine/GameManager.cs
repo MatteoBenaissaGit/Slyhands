@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Board;
 using Camera;
 using Common;
@@ -63,7 +64,7 @@ namespace GameEngine
         
         #endregion
 
-        public TaskManager Task { get; private set; }
+        public TaskManager TaskManager { get; private set; }
         public GameData Data { get; private set; }
 
 
@@ -71,7 +72,7 @@ namespace GameEngine
         {
             base.InternalAwake();
             
-            Task = new TaskManager();
+            TaskManager = new TaskManager();
             Data = new GameData(this);
         }
 
@@ -92,15 +93,17 @@ namespace GameEngine
 
         private void Update()
         {
-            Task.UpdateTaskQueue();
+            TaskManager.UpdateTaskQueue();
         }
 
-        public void SetNextTurn()
+        public async Task SetNextTurn()
         {
             Data.CurrentTurnTeam.Player.PlayBehavior?.EndTurn();
             
             Data.Turn++;
             UI.SetTurnForTeam(Data.CurrentTurnTeam);
+
+            await Task.Delay(0);
             
             Data.CurrentTurnTeam.MakeTurn();
         }
