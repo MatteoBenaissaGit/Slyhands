@@ -11,6 +11,7 @@ namespace LevelEditor.LoadAndSave
     {
         [SerializeField, Required] private Button _saveButton;
         [SerializeField, Required] private TMP_Dropdown _dropDown;
+        [SerializeField, Required] private RectTransform _dropDownContent;
 
         private LevelEditorCharacter _character;
         private List<int> _teams = new List<int>();
@@ -27,6 +28,7 @@ namespace LevelEditor.LoadAndSave
             _dropDown.options.Clear();
             _teams.ForEach(x => _dropDown.options.Add(new TMP_Dropdown.OptionData(x.ToString())));
             _dropDown.value = _teams.IndexOf(_character.TeamNumber);
+            _dropDownContent.sizeDelta = new Vector2(_dropDownContent.sizeDelta.x, 70 + (_dropDown.options.Count-1) * 40);
             _dropDown.RefreshShownValue();
             
             base.OpenMenu();
