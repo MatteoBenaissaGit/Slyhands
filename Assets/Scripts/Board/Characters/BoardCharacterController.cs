@@ -26,12 +26,12 @@ namespace Board.Characters
 
     public class CharacterControllerData
     {
-        public CharacterControllerData(int maxLife, int teamNumber)
+        public CharacterControllerData(int maxLife, Team team)
         {
             MaxLife = maxLife;
             CurrentLife = MaxLife;
 
-            Team = GameManager.Instance.Teams.Find(x => x.TeamNumber == teamNumber);
+            Team = team;
         }
 
         public Team Team { get; set; }
@@ -56,14 +56,14 @@ namespace Board.Characters
             get { return Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller; }
         }
 
-        public BoardCharacterController(BoardController board, Vector3Int coordinates) : base(board, coordinates)
+        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Character;
             Type = CharacterType.PlayerMainCharacter;
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
             
-            GameplayData = new CharacterControllerData(Data.Life, (int)Type); //TODO set team from level editor character parameter
+            GameplayData = new CharacterControllerData(Data.Life, team);
             GameplayData.Team.Characters.Add(this);
 
             OnCharacterAction += CharacterAction;

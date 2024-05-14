@@ -1,4 +1,7 @@
+using System;
+using Board.Characters;
 using DG.Tweening;
+using Players;
 using Slots;
 using UnityEngine;
 
@@ -9,9 +12,13 @@ namespace LevelEditor.Entities
     /// </summary>
     public class LevelEditorCharacter : MonoBehaviour
     {
-        [field: SerializeField] public int Team { get; private set; }
+        [field:SerializeField] public int TeamNumber { get; private set; }
+        [field:SerializeField] public CharacterType Type { get; private set; }
+        
         public Vector3Int Coordinates => Slot == null ? Vector3Int.zero : Slot.Coordinates;
         public SlotController Slot { get; private set; }
+
+        [SerializeField] private SpriteRenderer _teamFeedbackSprite;
 
         /// <summary>
         /// Initialize the character with the slot he's on
@@ -22,6 +29,8 @@ namespace LevelEditor.Entities
             Slot = slot;
             SetCharacterOrientation(Slot.Data.LevelEditorCharacter.Orientation);
 
+            SetTeam(TeamNumber);
+            
             transform.DOKill();
             Vector3 scale = transform.localScale;
             transform.localScale = Vector3.zero;
@@ -38,6 +47,28 @@ namespace LevelEditor.Entities
             Slot.Data.LevelEditorCharacter.Orientation = orientation;
             transform.rotation = Quaternion.Euler(0, ((int)orientation) * 90, 0);
             return this;
+        }
+
+        /// <summary>
+        /// Set the team of the level editor character
+        /// </summary>
+        /// <param name="teamNumber">the number of the team to set</param>
+        public void SetTeam(int teamNumber)
+        {
+            if (LevelEditorManager.Instance == null)
+            {
+                return;
+            }
+            
+            TeamNumber = teamNumber;
+            Team team = LevelEditorManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == teamNumber);
+            if (team == null)
+            {
+                throw new Exception("No team found for the given team number");
+            }
+
+            Slot.Data.LevelEditorCharacter.Team = team;
+            _teamFeedbackSprite.color = team.TeamColor;
         }
     }
 }

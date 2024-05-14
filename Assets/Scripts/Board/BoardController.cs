@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Board.Characters;
+using Data.Prefabs;
 using GameEngine;
 using LevelEditor;
 using LevelEditor.Entities;
@@ -458,9 +459,12 @@ namespace Board
                 
                 //create character controller & view
                 SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
-                BoardCharacterController characterController = new BoardCharacterController(this, coordinates);
+                Team team = GameManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == levelEditorCharacterElement.Team.TeamNumber);
+                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team);
                 characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
-                GameObject characterPrefab = GameManager.Instance.PrefabsData.GetPrefab("Character");
+                PrefabsData prefabsData = GameManager.Instance.PrefabsData;
+                string characterPrefabId = prefabsData.GetPrefabSecondId(prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId));
+                GameObject characterPrefab = prefabsData.GetPrefab(characterPrefabId);
                 BoardCharacterView characterView = Instantiate(characterPrefab, slotLocation.transform.position, Quaternion.identity).GetComponent<BoardCharacterView>();
                 if (characterView == null)
                 {
@@ -469,13 +473,9 @@ namespace Board
                 characterView.Initialize(characterController);
 
                 //manage team & player
-                int characterTeam = GameManager.Instance.PrefabsData
-                    .GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId)
-                    .GetComponent<LevelEditorCharacter>().Team;
-                Team team = GameManager.Instance.Teams.Find(x => x.TeamNumber == characterTeam);
                 if (team == null)
                 {
-                    throw new Exception($"Team {characterTeam} not found");
+                    throw new Exception($"Team {team.TeamNumber} not found");
                 }
                 team.Characters.Add(characterController);
                 

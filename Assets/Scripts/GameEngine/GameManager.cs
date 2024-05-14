@@ -5,9 +5,11 @@ using Camera;
 using Common;
 using Data.Characters;
 using Data.Prefabs;
+using Data.Team;
 using LevelEditor.LoadAndSave;
 using Players;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UI;
 using UnityEngine;
 
@@ -21,7 +23,7 @@ namespace GameEngine
         }
         
         public int Turn { get; set; }
-        public Team CurrentTurnTeam { get { return _gameManager.Teams[Turn % _gameManager.Teams.Count]; } }
+        public Team CurrentTurnTeam { get { return _gameManager.TeamsData.Teams[Turn % _gameManager.TeamsData.Teams.Count]; } }
 
         private GameManager _gameManager;
     }
@@ -54,7 +56,7 @@ namespace GameEngine
         
 
         [field:SerializeField] [field:TabGroup("TabGroup2", "Game Parameters", SdfIconType.Award, TextColor = "blue")] [field:Required]
-        public List<Team> Teams { get; set; } = new List<Team>();
+        public TeamsData TeamsData { get; set; }
         
         [SerializeField] [TabGroup("TabGroup2", "Game Parameters", SdfIconType.Award, TextColor = "blue")]
         private string _levelToLoad;
@@ -80,10 +82,10 @@ namespace GameEngine
             {
                 throw new Exception($"no level with name {_levelToLoad}");
             }
+            
+            TeamsData.Teams.ForEach(x => x.Initialize());
             Board.LoadGameLevel(levelToLoad);
-            
-            Teams.ForEach(x => x.Initialize());
-            
+
             UI.SetTurnForTeam(Data.CurrentTurnTeam);
             Data.CurrentTurnTeam.MakeTurn();
         }
