@@ -48,7 +48,7 @@ namespace LevelEditor.ActionButtons
         {
             LevelEditorManager.Instance.UI.Shortcuts.SetShortcuts(_currentButton.Type);
 
-            InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapAction;
+            InputManager.Instance.LevelEditorInput.OnLeftClick += ClickTapAction;
             InputManager.Instance.LevelEditorInput.OnRightClick += RightClickAction;
             
             InputManager.Instance.LevelEditorInput.OnClickHold += (bool doHold) => _isHoldingClick = doHold;

@@ -20,6 +20,8 @@ namespace LevelEditor
         public LevelEditorDropDownMenuController DropDownMenuController { get; private set; }
         [field:SerializeField] [field:BoxGroup("Other")] [field:Required]
         public LevelEditorUIShortcuts Shortcuts { get; private set; }
+        [field:SerializeField] [field:BoxGroup("Menus")] [field:Required]
+        public LevelEditorUISetTeamMenu SetTeamMenu { get; private set; }
         
         [SerializeField, BoxGroup("Menus"), Required]
         private LevelEditorUILoadMenu _loadMenu;
@@ -27,7 +29,7 @@ namespace LevelEditor
         private LevelEditorUISaveMenu _saveMenu;
         [SerializeField, BoxGroup("Menus"), Required]
         private LevelEditorUICreateBoardMenu _createNewBoardMenu;
-        
+
         [SerializeField, BoxGroup("Buttons"), Required]
         private Button _saveButton;
         [SerializeField, BoxGroup("Buttons"), Required]
@@ -47,7 +49,8 @@ namespace LevelEditor
             {
                 _loadMenu,
                 _saveMenu,
-                _createNewBoardMenu
+                _createNewBoardMenu,
+                SetTeamMenu
             };
             
             _menus.ForEach(x => x.CanvasGroup.alpha = 0);

@@ -38,7 +38,7 @@ namespace Inputs
         public Action<bool> OnCameraMoveButtonPressed { get; set; }
         public Action<Vector2> OnCameraMoved { get; set; }
         public Action<float> OnCameraZoomed { get; set; }
-        public Action OnClickTap { get; set; }
+        public Action OnLeftClick { get; set; }
         public Action OnRightClick { get; set; }
         public Action<bool> OnClickHold { get; set; }
         public Action<bool> OnRightClickHold { get; set; }
@@ -58,7 +58,7 @@ namespace Inputs
             manager.Scheme.LevelEditor.CameraZoom.performed += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
             manager.Scheme.LevelEditor.CameraZoom.canceled += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
             
-            manager.Scheme.LevelEditor.ClickTap.started += context => OnClickTap?.Invoke();;
+            manager.Scheme.LevelEditor.ClickTap.started += context => OnLeftClick?.Invoke();;
             
             manager.Scheme.LevelEditor.RightClick.started += context => OnRightClick?.Invoke();;
             

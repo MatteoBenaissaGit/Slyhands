@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Inputs;
+using LevelEditor.Entities;
 using Slots;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,7 +18,7 @@ namespace LevelEditor
         [SerializeField] private RectTransform _menuRectTransform;
         [SerializeField] private Transform _layout;
 
-        private const float BackgroundSizePerButton = 109f;
+        private const float BackgroundSizePerButton = 105f;
 
         private bool _isActive;
         private List<LevelEditorUIDropDownButton> _currentButtons = new List<LevelEditorUIDropDownButton>();
@@ -30,10 +31,12 @@ namespace LevelEditor
 
         private void Start()
         {
+            _copiedSlotData = null;
+            
             InputLevelEditor levelEditorInput = InputManager.Instance.LevelEditorInput;
             
             levelEditorInput.OnRightClick += RightClickTapCheckToClearDropDownMenu;
-            levelEditorInput.OnClickTap += ClickTapCheckToClearDropDownMenu;
+            levelEditorInput.OnLeftClick += ClickTapCheckToClearDropDownMenu;
             levelEditorInput.OnCameraZoomed += context =>  ClearDropDownMenu();
             levelEditorInput.OnCameraMoveButtonPressed += context =>  ClearDropDownMenu();
 
@@ -74,6 +77,7 @@ namespace LevelEditor
             SlotLocation currentLocationSelected = LevelEditorManager.Instance.Board.CurrentSelectedLocation;
             SlotView slotView = currentLocationSelected.SlotView;
             
+            // copy / paste / cut buttons
             LevelEditorUIDropDownButton copyButton = Instantiate(_dropDownButtonPrefab, _layout, true);
             copyButton.Initialize(() => Copy(slotView), "Copy", slotView != null);
 
@@ -82,10 +86,18 @@ namespace LevelEditor
 
             LevelEditorUIDropDownButton pastButton = Instantiate(_dropDownButtonPrefab, _layout, true);
             pastButton.Initialize(() => Paste(currentLocationSelected), "Paste", _copiedSlotData != null);
-
+            
             _currentButtons.Add(copyButton);
             _currentButtons.Add(cutButton);
             _currentButtons.Add(pastButton);
+
+            // set team button
+            if (slotView != null && slotView.Controller.Data.LevelEditorCharacter.Has)
+            {
+                LevelEditorUIDropDownButton setCharacterTeamButton = Instantiate(_dropDownButtonPrefab, _layout, true);
+                setCharacterTeamButton.Initialize(() => OpenSetTeamMenuForCharacter(slotView.LevelEditorCharacterOnSlot), "Set team");
+                _currentButtons.Add(setCharacterTeamButton);
+            }
 
             _menuRectTransform.position = Input.mousePosition + new Vector3(50, 0, 0);
             
@@ -220,5 +232,13 @@ namespace LevelEditor
         }
 
         #endregion
+
+        private void OpenSetTeamMenuForCharacter(LevelEditorCharacter character)
+        {
+            ClearDropDownMenu();
+            
+            LevelEditorManager.Instance.UI.SetTeamMenu.OpenMenu(character);
+            LevelEditorManager.Instance.UI.ShowMenu(LevelEditorManager.Instance.UI.SetTeamMenu);
+        }
     }
 }
