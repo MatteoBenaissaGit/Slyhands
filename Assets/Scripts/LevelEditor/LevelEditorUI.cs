@@ -4,11 +4,22 @@ using DG.Tweening;
 using LevelEditor.ActionButtons;
 using LevelEditor.LoadAndSave;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace LevelEditor
 {
+    [System.Flags]
+    public enum EditorMode
+    {
+        Inactive = 1 << 1,
+        BasicEditor = 1 << 2,
+        SetRoadForCharacter = 1 << 3,
+        
+        All = Inactive | BasicEditor | SetRoadForCharacter
+    }
+
     /// <summary>
     /// This class handle all the ui elements of the level editing
     /// </summary>
@@ -36,10 +47,14 @@ namespace LevelEditor
         private Button _loadButton;
         [SerializeField, BoxGroup("Buttons"), Required]
         private Button _createNewBoardButton;
+        [SerializeField, BoxGroup("Buttons"), Required]
+        private Button _exitSetRoadModeButton;
         
         [SerializeField, BoxGroup("Other"), Required]
         private LevelEditorUIHeightSlider _heightSlider;
 
+        public EditorMode CurrentMode { get; private set; }
+        
         private List<LevelEditorUIMenu> _menus;
         private LevelEditorUIMenu _currentMenu;
 
@@ -60,8 +75,11 @@ namespace LevelEditor
             _saveButton.onClick.AddListener(() => ShowMenu(_saveMenu));
             _loadButton.onClick.AddListener(() => ShowMenu(_loadMenu));
             _createNewBoardButton.onClick.AddListener(() => ShowMenu(_createNewBoardMenu));
+            _exitSetRoadModeButton.onClick.AddListener(() => SetMode(EditorMode.BasicEditor));
 
             _heightSlider.SetSlider(false);
+            
+            SetMode(EditorMode.BasicEditor);
         }
 
         private void OnDestroy()
@@ -71,6 +89,55 @@ namespace LevelEditor
             _createNewBoardButton.onClick.RemoveListener(() => ShowMenu(_createNewBoardMenu));
         }
 
+        public void SetMode(EditorMode mode)
+        {
+            if (mode == CurrentMode)
+            {
+                return;
+            }
+
+            ExitMode(CurrentMode);
+            CurrentMode = mode;
+            StartMode(CurrentMode);
+        }
+
+        private void StartMode(EditorMode mode)
+        {
+            switch (mode)
+            {
+                case EditorMode.Inactive:
+                    break;
+                case EditorMode.BasicEditor:
+                    _loadButton.gameObject.SetActive(true);
+                    _saveButton.gameObject.SetActive(true);
+                    _createNewBoardButton.gameObject.SetActive(true);
+                    break;
+                case EditorMode.SetRoadForCharacter:
+                    _exitSetRoadModeButton.gameObject.SetActive(true);
+                    break;
+            }
+            
+            InputActionsManager.SetButtonsForEditorMode(mode);
+        }
+        
+        private void ExitMode(EditorMode mode)
+        {
+            switch (mode)
+            {
+                case EditorMode.Inactive:
+                    break;
+                case EditorMode.BasicEditor:
+                    _loadButton.gameObject.SetActive(false);
+                    _saveButton.gameObject.SetActive(false);
+                    _createNewBoardButton.gameObject.SetActive(false);
+                    break;
+                case EditorMode.SetRoadForCharacter:
+                    _exitSetRoadModeButton.gameObject.SetActive(false);
+                    LevelEditorManager.Instance.RoadModeManager.ExitMode();
+                    break;
+            }
+        }
+        
         #region Menus
 
         /// <summary>

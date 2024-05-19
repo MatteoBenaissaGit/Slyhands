@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Board.Characters;
 using DG.Tweening;
 using Players;
@@ -17,8 +18,11 @@ namespace LevelEditor.Entities
         
         public Vector3Int Coordinates => Slot == null ? Vector3Int.zero : Slot.Coordinates;
         public SlotController Slot { get; private set; }
+        public bool IsActive { get; private set; }
 
         [SerializeField] private SpriteRenderer _teamFeedbackSprite;
+
+        private Renderer[] _renderers;
 
         /// <summary>
         /// Initialize the character with the slot he's on
@@ -26,6 +30,8 @@ namespace LevelEditor.Entities
         /// <param name="slot">the slot on which the character is</param>
         public void Initialize(SlotController slot)
         {
+            _renderers = GetComponentsInChildren<Renderer>();
+            
             Slot = slot;
             SetCharacterOrientation(Slot.Data.LevelEditorCharacter.Orientation);
 
@@ -69,6 +75,17 @@ namespace LevelEditor.Entities
 
             Slot.Data.LevelEditorCharacter.Team = team;
             _teamFeedbackSprite.color = team.TeamColor;
+        }
+
+        public void SetActive(bool isActive)
+        {
+            IsActive = isActive;
+            
+            foreach (Renderer mesh in _renderers)
+            {
+                Color color = IsActive ? Color.white : new Color(0.26f, 0.26f, 0.26f);
+                mesh.material.color = color;
+            }
         }
     }
 }
