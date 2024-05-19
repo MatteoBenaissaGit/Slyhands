@@ -144,7 +144,7 @@ namespace Slots
         /// Check if an entity type can be placed on the slot location
         /// </summary>
         /// <param name="superType">The super type to check for</param>
-        public bool CanEntityBePlaceHere(BoardEntitySuperType superType)
+        public bool CanEntityBePlacedHere(BoardEntitySuperType superType)
         {
             if (SlotView == null)
             {

@@ -100,6 +100,16 @@ namespace Board
         }
         
         /// <summary>
+        /// Get a slot in the data from a defined coordinates
+        /// </summary>
+        /// <param name="currentRoadPosition">The coordinate to get the slot from</param>
+        /// <returns>The slot controller at this coordinate</returns>
+        public SlotController GetSlotFromCoordinates(Vector3Int currentRoadPosition)
+        {
+            return Data.SlotLocations[currentRoadPosition.x, currentRoadPosition.y, currentRoadPosition.z]?.SlotView?.Controller;
+        }
+        
+        /// <summary>
         /// Make an action for each coordinates of the board
         /// </summary>
         /// <param name="actionToExecute">The action to make</param>
@@ -209,14 +219,13 @@ namespace Board
         /// <summary>
         /// Using the A* algorithm, get the path from a character to a slot
         /// </summary>
-        /// <param name="character">the character from which the path start</param>
+        /// <param name="startSlot">the character from which the path start</param>
         /// <param name="endSlot">the slot to reach</param>
         /// <returns>return a list of the slots composing the path in order</returns>
-        public List<SlotController> GetPathFromCharacterToSlot(BoardCharacterController character, SlotController endSlot)
+        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot)
         {
             List<SlotController> path = new List<SlotController>();
 
-            SlotController startSlot = character.CurrentSlot;
             startSlot.Data.PathfindingCost = 0;
             startSlot.Data.PathfindingParent = null;
             
@@ -500,7 +509,8 @@ namespace Board
             List<SlotController> accessibleSlots = new List<SlotController>();
 
             FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints, ref accessibleSlots, true);
-            accessibleSlots.RemoveAll(x => GetPathFromCharacterToSlot(characterController, x).Count > characterController.GameplayData.CurrentMovementPoints);
+            accessibleSlots.RemoveAll(x => 
+                GetPathFromSlotToSlot(characterController.CurrentSlot, x).Count > characterController.GameplayData.CurrentMovementPoints);
             
             return accessibleSlots;
         }

@@ -68,7 +68,7 @@ namespace LevelEditor.ActionButtons
                 return;
             }
             
-            bool canBePlaced = locationToPlacePreviewOn.CanEntityBePlaceHere(_objectToPreviewSuperType);
+            bool canBePlaced = locationToPlacePreviewOn.CanEntityBePlacedHere(_objectToPreviewSuperType);
             _gameObjectToPreview?.SetActive(locationToPlacePreviewOn != null && canBePlaced);
             transform.position = locationToPlacePreviewOn.transform.position;
         }

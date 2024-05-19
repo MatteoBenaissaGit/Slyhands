@@ -67,7 +67,7 @@ namespace LevelEditor.Entities
             }
             
             TeamNumber = teamNumber;
-            Team team = LevelEditorManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == teamNumber);
+            Team team = GetTeam();
             if (team == null)
             {
                 throw new Exception("No team found for the given team number");
@@ -75,6 +75,15 @@ namespace LevelEditor.Entities
 
             Slot.Data.LevelEditorCharacter.Team = team;
             _teamFeedbackSprite.color = team.TeamColor;
+        }
+
+        /// <summary>
+        /// Get the team of this level editor character
+        /// </summary>
+        /// <returns>The team of the character</returns>
+        public Team GetTeam()
+        {
+            return LevelEditorManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == TeamNumber);
         }
 
         public void SetActive(bool isActive)

@@ -88,7 +88,7 @@ namespace Board.Characters
             Controller.GameplayData.IsSelectable = false;
             
             SlotController targetSlot = Controller.Board.Data.SlotLocations[targetCoordinates.x, targetCoordinates.y, targetCoordinates.z].SlotView.Controller;
-            List<SlotController> pathToTarget = Controller.Board.GetPathFromCharacterToSlot(Controller, targetSlot);
+            List<SlotController> pathToTarget = Controller.Board.GetPathFromSlotToSlot(Controller.CurrentSlot, targetSlot);
             Controller.GameplayData.CurrentMovementPoints -= pathToTarget.Count;
             
             float totalTime = 0;

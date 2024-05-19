@@ -22,6 +22,7 @@ namespace LevelEditor
         [field:SerializeField] [field:Required] public LevelSaveLoadManager SaveLoadManager { get; private set; }
         [field:SerializeField] [field:Required] public PrefabsData PrefabsData { get; private set; }
         [field:SerializeField] [field:Required] public TeamsData TeamsData { get; private set; }
+        [field:SerializeField] [field:Required] public LineRenderer RoadLinePrefab { get; private set; }
         
         public LevelEditorSetRoadModeManager RoadModeManager { get; private set; }
 
