@@ -270,6 +270,34 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""CardController"",
+            ""id"": ""554074db-e9d3-4e23-bb0d-42a652d3600d"",
+            ""actions"": [
+                {
+                    ""name"": ""ClickTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""b5c807da-9532-4c20-8b23-06a3ec401bf4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7617b6ed-27cb-4376-bde7-698f284e695d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClickTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -288,6 +316,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_V = m_LevelEditor.FindAction("V", throwIfNotFound: true);
         m_LevelEditor_X = m_LevelEditor.FindAction("X", throwIfNotFound: true);
         m_LevelEditor_Rotation = m_LevelEditor.FindAction("Rotation", throwIfNotFound: true);
+        // CardController
+        m_CardController = asset.FindActionMap("CardController", throwIfNotFound: true);
+        m_CardController_ClickTap = m_CardController.FindAction("ClickTap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -479,6 +510,52 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         }
     }
     public LevelEditorActions @LevelEditor => new LevelEditorActions(this);
+
+    // CardController
+    private readonly InputActionMap m_CardController;
+    private List<ICardControllerActions> m_CardControllerActionsCallbackInterfaces = new List<ICardControllerActions>();
+    private readonly InputAction m_CardController_ClickTap;
+    public struct CardControllerActions
+    {
+        private @InputActionScheme m_Wrapper;
+        public CardControllerActions(@InputActionScheme wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ClickTap => m_Wrapper.m_CardController_ClickTap;
+        public InputActionMap Get() { return m_Wrapper.m_CardController; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CardControllerActions set) { return set.Get(); }
+        public void AddCallbacks(ICardControllerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CardControllerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CardControllerActionsCallbackInterfaces.Add(instance);
+            @ClickTap.started += instance.OnClickTap;
+            @ClickTap.performed += instance.OnClickTap;
+            @ClickTap.canceled += instance.OnClickTap;
+        }
+
+        private void UnregisterCallbacks(ICardControllerActions instance)
+        {
+            @ClickTap.started -= instance.OnClickTap;
+            @ClickTap.performed -= instance.OnClickTap;
+            @ClickTap.canceled -= instance.OnClickTap;
+        }
+
+        public void RemoveCallbacks(ICardControllerActions instance)
+        {
+            if (m_Wrapper.m_CardControllerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICardControllerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CardControllerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CardControllerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CardControllerActions @CardController => new CardControllerActions(this);
     public interface ILevelEditorActions
     {
         void OnCameraMoveButton(InputAction.CallbackContext context);
@@ -493,5 +570,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnV(InputAction.CallbackContext context);
         void OnX(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
+    }
+    public interface ICardControllerActions
+    {
+        void OnClickTap(InputAction.CallbackContext context);
     }
 }

@@ -248,6 +248,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CardController",
+            "id": "554074db-e9d3-4e23-bb0d-42a652d3600d",
+            "actions": [
+                {
+                    "name": "ClickTap",
+                    "type": "Button",
+                    "id": "b5c807da-9532-4c20-8b23-06a3ec401bf4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7617b6ed-27cb-4376-bde7-698f284e695d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClickTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

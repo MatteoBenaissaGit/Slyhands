@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Card Test 1
   <CardDescription>k__BackingField: This is a description.
-  <Type>k__BackingField: 0
+  <Type>k__BackingField: 1
   <CardSprite>k__BackingField: {fileID: 21300000, guid: 3f4f6041577431f4eb4b17a258f6a26e,
     type: 3}

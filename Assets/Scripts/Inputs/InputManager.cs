@@ -14,12 +14,15 @@ namespace Inputs
         public InputActionScheme Scheme { get; private set; }
         public InputLevelEditor LevelEditorInput { get; private set; }
 
+        public InputCardController CardControllerInput { get; private set; }
+        
         protected override void InternalAwake()
         {
             Scheme = new InputActionScheme();
             Scheme.Enable();
 
             LevelEditorInput = new InputLevelEditor(this);
+            CardControllerInput = new InputCardController(this);
         }
     }
 
@@ -84,6 +87,19 @@ namespace Inputs
                 return;
             }
             OnControlShortcut?.Invoke(shortcut);
+        }
+    }
+    
+    /// <summary>
+    /// This class handle the inputs related to cards control
+    /// </summary>
+    public class InputCardController
+    {
+        public Action OnClickTap { get; set; }
+
+        public InputCardController(InputManager manager)
+        {
+            manager.Scheme.CardController.ClickTap.started += context => OnClickTap?.Invoke();
         }
     }
 }
