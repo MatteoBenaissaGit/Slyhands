@@ -43,3 +43,13 @@ MonoBehaviour:
     <Prefab>k__BackingField: {fileID: 8136586877080995798, guid: a29722e6dd2026a46a541bfc80586ef8,
       type: 3}
     _hasSecondId: 0
+  - <Id>k__BackingField: LevelEditorRoadLine
+    <SecondId>k__BackingField: 
+    <Prefab>k__BackingField: {fileID: 4289169533767003806, guid: 3b128a318e0c8674e85279d0e1e88b50,
+      type: 3}
+    _hasSecondId: 0
+  - <Id>k__BackingField: LevelEditorRoadBeacon
+    <SecondId>k__BackingField: 
+    <Prefab>k__BackingField: {fileID: 8765981566081758641, guid: eb147d25bf9974040a9722aa6ff12bcf,
+      type: 3}
+    _hasSecondId: 0

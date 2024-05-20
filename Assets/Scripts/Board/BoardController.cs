@@ -137,7 +137,7 @@ namespace Board
         /// </summary>
         /// <param name="slot">the slot to check from</param>
         /// <returns>The list of its neighbors</returns>
-        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRamps = false)
+        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false)
         {
             List<SlotController> neighborsSlots = new List<SlotController>();
             foreach (Vector2Int direction in _directions)
@@ -178,22 +178,27 @@ namespace Board
                             slot.Coordinates.y - 1, 
                             slot.Coordinates.z + rampDirection.y];
                         
-                        if (rampLeadingLocation != null && rampLeadingLocation.SlotView != null)
+                        if (rampLeadingLocation != null 
+                            && rampLeadingLocation.SlotView != null 
+                            && neighborsSlots.Contains(rampLeadingLocation.SlotView.Controller) == false)
                         {
                             neighborsSlots.Add(rampLeadingLocation.SlotView.Controller);
                         }
                     }
-                    
-                    continue;
+
+                    if (checkForRampsUp == false)
+                    {
+                        continue;
+                    }
                 }
                 
-                if (checkForRamps)
+                if (checkForRampsUp)
                 {
                     //if there is a slot up 
-                    if (neighborSlot.Coordinates.y + 1 < Data.BoardSize.y)
+                    if (nextCoordinates.y + 1 < Data.BoardSize.y)
                     {
                         //if its a ramp, add neighbor on the level up
-                        SlotLocation upperSlotLocation = Data.SlotLocations[neighborSlot.Coordinates.x, neighborSlot.Coordinates.y + 1, neighborSlot.Coordinates.z];
+                        SlotLocation upperSlotLocation = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y + 1, nextCoordinates.z];
                         if (upperSlotLocation != null 
                             && upperSlotLocation.SlotView != null 
                             && upperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
@@ -204,14 +209,17 @@ namespace Board
                     }
             
                     //if the neighbor slot is a ramp, add neighbor on the level down
-                    if (neighborSlot.Data.Type == SlotType.Ramp && neighborSlot.Coordinates.y - 1 >= 0)
+                    if (neighborSlot != null && neighborSlot.Data.Type == SlotType.Ramp && neighborSlot.Coordinates.y - 1 >= 0)
                     {
                         neighborsSlots.Add(neighborSlot);
                         continue;
                     }
                 }
-                
-                neighborsSlots.Add(neighborSlot);
+
+                if (neighborSlot != null)
+                {
+                    neighborsSlots.Add(neighborSlot);
+                }
             }
             return neighborsSlots;
         }
