@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 2391081662153855058}
   - component: {fileID: 2265391104205339091}
   - component: {fileID: 1596177738997644431}
-  - component: {fileID: 6469866750512170203}
   - component: {fileID: 2758163198405249869}
   - component: {fileID: 1805808229698309137}
   m_Layer: 7
@@ -277,6 +276,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 087c995fed9c3694b8f3cd73696191e3, type: 2}
   CardVisual: {fileID: 1596177738997644431}
+  CardPlacement: 0
+  IsHovered: 0
+  IdlePosition: {x: 0, y: 0, z: 0}
+  OveredPosition: {x: 0, y: 0, z: 0}
+  MinorPosition: {x: 0, y: 0, z: 0}
+  IdleScale: {x: 0, y: 0, z: 0}
+  OveredScale: {x: 0, y: 0, z: 0}
+  MinorScale: {x: 0, y: 0, z: 0}
 --- !u!114 &1596177738997644431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,23 +300,6 @@ MonoBehaviour:
   _cardDescription: {fileID: 4368289225062634491}
   _typeMaterial: {fileID: 0}
   _cardSpriteRenderer: {fileID: 2022596985432761948}
---- !u!114 &6469866750512170203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2463307884006586798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f2ae103af8174841bc4591be4067291, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsOvered: 0
-  _bumpScale: 0.1
-  _effectDuration: 0.2
-  _bumpNumber: 1
-  _moveY: 0.5
 --- !u!65 &2758163198405249869
 BoxCollider:
   m_ObjectHideFlags: 0

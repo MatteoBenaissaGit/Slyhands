@@ -95,11 +95,13 @@ namespace Inputs
     /// </summary>
     public class InputCardController
     {
-        public Action OnClickTap { get; set; }
+        public Action OnLeftClickDown { get; set; }
+        public Action OnLeftClickUp { get; set; }
 
         public InputCardController(InputManager manager)
         {
-            manager.Scheme.CardController.ClickTap.started += context => OnClickTap?.Invoke();
+            manager.Scheme.CardController.LeftClickPress.started += context => OnLeftClickDown?.Invoke();
+            manager.Scheme.CardController.LeftClickPress.canceled += context => OnLeftClickUp?.Invoke();
         }
     }
 }

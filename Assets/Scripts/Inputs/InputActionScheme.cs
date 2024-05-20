@@ -276,12 +276,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             ""id"": ""554074db-e9d3-4e23-bb0d-42a652d3600d"",
             ""actions"": [
                 {
-                    ""name"": ""ClickTap"",
+                    ""name"": ""LeftClickPress"",
                     ""type"": ""Button"",
                     ""id"": ""b5c807da-9532-4c20-8b23-06a3ec401bf4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -293,7 +293,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ClickTap"",
+                    ""action"": ""LeftClickPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -318,7 +318,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_Rotation = m_LevelEditor.FindAction("Rotation", throwIfNotFound: true);
         // CardController
         m_CardController = asset.FindActionMap("CardController", throwIfNotFound: true);
-        m_CardController_ClickTap = m_CardController.FindAction("ClickTap", throwIfNotFound: true);
+        m_CardController_LeftClickPress = m_CardController.FindAction("LeftClickPress", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -514,12 +514,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     // CardController
     private readonly InputActionMap m_CardController;
     private List<ICardControllerActions> m_CardControllerActionsCallbackInterfaces = new List<ICardControllerActions>();
-    private readonly InputAction m_CardController_ClickTap;
+    private readonly InputAction m_CardController_LeftClickPress;
     public struct CardControllerActions
     {
         private @InputActionScheme m_Wrapper;
         public CardControllerActions(@InputActionScheme wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ClickTap => m_Wrapper.m_CardController_ClickTap;
+        public InputAction @LeftClickPress => m_Wrapper.m_CardController_LeftClickPress;
         public InputActionMap Get() { return m_Wrapper.m_CardController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -529,16 +529,16 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_CardControllerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_CardControllerActionsCallbackInterfaces.Add(instance);
-            @ClickTap.started += instance.OnClickTap;
-            @ClickTap.performed += instance.OnClickTap;
-            @ClickTap.canceled += instance.OnClickTap;
+            @LeftClickPress.started += instance.OnLeftClickPress;
+            @LeftClickPress.performed += instance.OnLeftClickPress;
+            @LeftClickPress.canceled += instance.OnLeftClickPress;
         }
 
         private void UnregisterCallbacks(ICardControllerActions instance)
         {
-            @ClickTap.started -= instance.OnClickTap;
-            @ClickTap.performed -= instance.OnClickTap;
-            @ClickTap.canceled -= instance.OnClickTap;
+            @LeftClickPress.started -= instance.OnLeftClickPress;
+            @LeftClickPress.performed -= instance.OnLeftClickPress;
+            @LeftClickPress.canceled -= instance.OnLeftClickPress;
         }
 
         public void RemoveCallbacks(ICardControllerActions instance)
@@ -573,6 +573,6 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     }
     public interface ICardControllerActions
     {
-        void OnClickTap(InputAction.CallbackContext context);
+        void OnLeftClickPress(InputAction.CallbackContext context);
     }
 }

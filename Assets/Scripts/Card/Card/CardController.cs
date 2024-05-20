@@ -1,67 +1,76 @@
-using System;
-using DG.Tweening;
 using UnityEngine;
+using Data.Cards;
 
 public class CardController : MonoBehaviour
 {
-    [Header("Overed Behavior")] [SerializeField]
-    private bool IsOvered;
-    
-    private Vector3 _idleScale;
-    private Vector3 _overedScale;
-    [SerializeField] private float _bumpScale;
-    [SerializeField] private float _effectDuration;
-    [SerializeField] private int _bumpNumber;
+    public CardData Data;
+    [field: SerializeField] public CardVisual CardVisual { get; private set; }
 
-    [HideInInspector] public Vector3 IdlePosition;
-    [SerializeField] private float _moveY;
-    private float _overedPositionY;
-    
-    public Action MouseEnter;
-    public Action MouseExit;
+    [Header("Hovered Behavior")] public CardPlacement CardPlacement;
+    public bool IsHovered;
 
-    private void Awake()
-    {
-        MouseEnter += DoEnterTween;
-        MouseExit += DoExitTween;
-    }
+    [Header("Debug Position")] public Vector3 IdlePosition;
+    public Vector3 HoveredPosition;
+    public Vector3 MinorPosition;
+    public Vector3 DiscardPosition;
+
+    [Header("Debug Scale")] public Vector3 IdleScale;
+    public Vector3 HoveredScale;
+    public Vector3 MinorScale;
+    public Vector3 DiscardScale;
+
+    [Header("Debug Rotation")] public Vector3 DiscardRotation;
 
     private void Start()
     {
-        IdlePosition = transform.position;
-        _overedPositionY = IdlePosition.y + _moveY;
+        CardVisual = GetComponent<CardVisual>();
+        CardVisual.Initialize(Data);
 
-        _idleScale = transform.localScale;
-        _overedScale = transform.localScale * _bumpScale;
+        IdleScale = transform.localScale;
+        MinorScale = transform.localScale;
     }
 
-    private void OnMouseEnter()
+    private void Update()
     {
-        if (IsOvered == false)
+        if (CardManager.Instance.CardHand.cards.Contains(transform))
         {
-            CardManager.Instance.CardSelected = gameObject;
-            MouseEnter.Invoke();
+            switch (CardPlacement)
+            {
+                case CardPlacement.Idle:
+                    transform.position = Vector3.Lerp(transform.position, IdlePosition,
+                        Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    transform.localScale = Vector3.Lerp(transform.localScale, IdleScale,
+                        Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    break;
+                case CardPlacement.Overed:
+                    transform.position = Vector3.Lerp(transform.position, HoveredPosition,
+                        Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    transform.localScale = Vector3.Lerp(transform.localScale, HoveredScale,
+                        Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    break;
+                case CardPlacement.Minor:
+                    transform.position = Vector3.Lerp(transform.position, MinorPosition,
+                        Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    transform.localScale = Vector3.Lerp(transform.localScale, MinorScale,
+                        Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    break;
+            }
         }
-    }
 
-    private void OnMouseExit()
-    {
-        MouseExit.Invoke();
-    }
-    
-    private void DoEnterTween()
-    {
-        IsOvered = true;
-        
-        transform.DOPunchScale(_overedScale - (transform.localScale - _idleScale - _overedScale), _effectDuration, _bumpNumber);
+        if (CardPlacement == CardPlacement.Discard)
+        {
+            IsHovered = false;
 
-        transform.DOLocalMoveY(_overedPositionY, _effectDuration);
-    }
+            transform.position = Vector3.Lerp(transform.position, DiscardPosition,
+                Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+            transform.localScale = Vector3.Lerp(transform.localScale, DiscardScale,
+                Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+            
+            
+            Quaternion toRotation = Quaternion.Euler(DiscardRotation.x, DiscardRotation.y, DiscardRotation.z);
 
-    private void DoExitTween()
-    {
-        IsOvered = false;
-
-        transform.DOMove(IdlePosition, _effectDuration);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation,
+                Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+        }
     }
 }
