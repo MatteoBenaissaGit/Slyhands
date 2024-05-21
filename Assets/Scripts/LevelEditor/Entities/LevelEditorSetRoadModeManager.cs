@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Board;
 using DG.Tweening;
 using Inputs;
@@ -62,11 +63,14 @@ namespace LevelEditor.Entities
             
             Object.Destroy(_roadLineRenderer);
             _currentRoadPositions = null;
+            _currentBeacons.FindAll(x => x != null).ForEach(x => Object.Destroy(x.gameObject));
             
             InputManager.Instance.LevelEditorInput.OnCameraMoved -= _ => UpdateRoad();
             InputManager.Instance.LevelEditorInput.OnLeftClick -= AddBeacon;
             InputManager.Instance.LevelEditorInput.OnRightClick -= RemoveBeacon;
 
+            CurrentCharacter = null;
+            
             LevelEditorManager.Instance.UI.Shortcuts.SetRoadShortcuts.ForEach(x => x.SetActive(false));
         }
 
@@ -126,38 +130,20 @@ namespace LevelEditor.Entities
             BoardController board = LevelEditorManager.Instance.Board;
             
             if (_currentRoadPositions == null 
-                || _currentRoadPositions.Count == 0 
-                || board.CurrentHoveredLocation == null
-                || board.CurrentHoveredLocation.CanEntityBePlacedHere(BoardEntitySuperType.Character) == false
-                || board.CurrentHoveredLocation.SlotView.Controller.Data.Obstacle.Has)
+                || _currentRoadPositions.Count == 0)
             {
                 return;
             }
 
-            List<Vector3> positions = new List<Vector3>();
-            for (int i = 0; i < _currentRoadPositions.Count; i++)
-            {
-                if (i > 0)
-                {
-                    positions.RemoveAt(positions.Count - 1);
-                }
-                positions.Add(board.GetCoordinatesToWorldPosition(_currentRoadPositions[i]));
-                if (i + 1 < _currentRoadPositions.Count)
-                {
-                    SlotController startSlot = board.GetSlotFromCoordinates(_currentRoadPositions[i]);
-                    SlotController endSlot = board.GetSlotFromCoordinates(_currentRoadPositions[i+1]);
-                    List<SlotController> pathSlots = board.GetPathFromSlotToSlot(startSlot, endSlot);
-                    
-                    pathSlots.ForEach(x => positions.Add(board.GetCoordinatesToWorldPosition(x.Coordinates)));
-                }
-            }
-            SlotController currentHoveredStartSlot = board.GetSlotFromCoordinates(_currentRoadPositions[^1]);
-            List<SlotController> currentHoveredPathSlots = board.GetPathFromSlotToSlot(currentHoveredStartSlot, board.CurrentHoveredLocation.SlotView.Controller);
-            currentHoveredPathSlots.ForEach(x => positions.Add(board.GetCoordinatesToWorldPosition(x.Coordinates)));
-            
-            _roadLineRenderer.positionCount = positions.Count;
-            
-            Dictionary<Vector3,int> numberOfOccurence = new Dictionary<Vector3, int>();
+            SetLineRendererForWorldRoad(_currentRoadPositions, _roadLineRenderer);
+        }
+
+        public void SetLineRendererForWorldRoad(List<Vector3Int> roadPositions, LineRenderer lineRenderer)
+        {
+            List<Vector3> positions = GetRoadInWorldForPositions(roadPositions);
+            lineRenderer.positionCount = positions.Count;
+
+            Dictionary<Vector3, int> numberOfOccurence = new Dictionary<Vector3, int>();
             for (int i = 0; i < positions.Count; i++)
             {
                 if (numberOfOccurence.TryAdd(positions[i], 1) == false)
@@ -165,13 +151,75 @@ namespace LevelEditor.Entities
                     numberOfOccurence[positions[i]]++;
                 }
 
-                _roadLineRenderer.SetPosition(i, positions[i] + new Vector3(0,0.1f + (0.2f * (numberOfOccurence[positions[i]]-1)),0));
+                lineRenderer.SetPosition(i,
+                    positions[i] + new Vector3(0, 0.1f + (0.2f * (numberOfOccurence[positions[i]] - 1)), 0));
             }
+        }
+
+        private List<Vector3> GetRoadInWorldForPositions(List<Vector3Int> roadPositions)
+        {
+            BoardController board = LevelEditorManager.Instance.Board;
+            
+            List<Vector3> positions = new List<Vector3>();
+            for (int i = 0; i < roadPositions.Count; i++)
+            {
+                if (i > 0)
+                {
+                    positions.RemoveAt(positions.Count - 1);
+                }
+
+                positions.Add(board.GetCoordinatesToWorldPosition(roadPositions[i]));
+                if (i + 1 < roadPositions.Count)
+                {
+                    SlotController startSlot = board.GetSlotFromCoordinates(roadPositions[i]);
+                    SlotController endSlot = board.GetSlotFromCoordinates(roadPositions[i + 1]);
+                    List<SlotController> pathSlots = board.GetPathFromSlotToSlot(startSlot, endSlot);
+
+                    pathSlots.ForEach(x => positions.Add(board.GetCoordinatesToWorldPosition(x.Coordinates)));
+                }
+            }
+
+            SlotController lastRoadPositionSlot = board.GetSlotFromCoordinates(roadPositions[^1]);
+            
+            bool isCurrentHoveredSlotUsable = board.CurrentHoveredLocation != null
+                                              && board.CurrentHoveredLocation.CanEntityBePlacedHere(BoardEntitySuperType.Character)
+                                              && board.CurrentHoveredLocation.SlotView.Controller.Data.Obstacle.Has == false;
+            
+            //if there is a current hovered slot and if it's usable, show the path to it 
+            if (isCurrentHoveredSlotUsable && CurrentCharacter != null) 
+            {
+                List<SlotController> currentHoveredPathSlots =
+                    board.GetPathFromSlotToSlot(lastRoadPositionSlot, board.CurrentHoveredLocation.SlotView.Controller);
+                currentHoveredPathSlots.ForEach(x => positions.Add(board.GetCoordinatesToWorldPosition(x.Coordinates)));
+            }
+
+            if (_currentMode == RoadFollowMode.Loop && CurrentCharacter != null)
+            {
+                SlotController loopStartSlot = board.GetSlotFromCoordinates(isCurrentHoveredSlotUsable ? board.CurrentHoveredLocation.Coordinates : roadPositions[^1]);
+                SlotController loopEndSlot = CurrentCharacter.Slot;
+                List<Vector3> loopPath = board.GetPathFromSlotToSlot(loopStartSlot, loopEndSlot).ConvertAll(x => board.GetCoordinatesToWorldPosition(x.Coordinates));
+                
+                positions.AddRange(loopPath);
+            }
+
+            return positions;
         }
 
         public void SaveRoad()
         {
-            //TODO save road for character
+            if (_currentRoadPositions.Count <= 1)
+            {
+                return;
+            }
+            
+            List<Vector3Int> roadToSave = new List<Vector3Int>(_currentRoadPositions){};
+            if (_currentMode == RoadFollowMode.Loop)
+            {
+                roadToSave.Add(CurrentCharacter.Coordinates);
+            }
+            CurrentCharacter.SetRoad(roadToSave.ToArray());
+            
+            LevelEditorManager.Instance.UI.SetMode(EditorMode.BasicEditor);
         }
 
         public void ChangeRoadMode(Button buttonMode)
@@ -186,6 +234,9 @@ namespace LevelEditor.Entities
             _currentMode = newMode;
             
             buttonMode.GetComponentInChildren<TMP_Text>().text = $"change mode :\n{newMode.ToString()}";
+
+            buttonMode.interactable = false;
+            buttonMode.interactable = true;
         }
     }
 }

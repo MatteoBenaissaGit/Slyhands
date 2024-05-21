@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Board;
+using LevelEditor.Entities;
 using Slots;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace LevelEditor.ActionButtons
         private GameObject _gameObjectToPreview;
         private BoardEntitySuperType _objectToPreviewSuperType;
         private float _orientationAngle;
+
+        private LevelEditorCharacter _levelEditorCharacterPreviewing;
 
         /// <summary>
         /// Set the game object to preview
@@ -59,6 +62,20 @@ namespace LevelEditor.ActionButtons
         /// <param name="locationToPlacePreviewOn">the slot location to put the preview on</param>
         public void UpdatePreview(SlotLocation locationToPlacePreviewOn)
         {
+            if (locationToPlacePreviewOn != null 
+                && locationToPlacePreviewOn.SlotView != null 
+                && locationToPlacePreviewOn.SlotView.LevelEditorCharacterOnSlot != null
+                && locationToPlacePreviewOn.SlotView.LevelEditorCharacterOnSlot != LevelEditorManager.Instance.RoadModeManager.CurrentCharacter)
+            {
+                _levelEditorCharacterPreviewing = locationToPlacePreviewOn.SlotView.LevelEditorCharacterOnSlot;
+                _levelEditorCharacterPreviewing.ShowRoadPreview(true);
+            }
+            else if (_levelEditorCharacterPreviewing != null)
+            {
+                _levelEditorCharacterPreviewing?.ShowRoadPreview(false);
+                _levelEditorCharacterPreviewing = null;
+            }
+            
             if (locationToPlacePreviewOn == null || _gameObjectToPreview == null)
             {
                 if (_gameObjectToPreview != null)
@@ -67,7 +84,7 @@ namespace LevelEditor.ActionButtons
                 }
                 return;
             }
-            
+
             bool canBePlaced = locationToPlacePreviewOn.CanEntityBePlacedHere(_objectToPreviewSuperType);
             _gameObjectToPreview?.SetActive(locationToPlacePreviewOn != null && canBePlaced);
             transform.position = locationToPlacePreviewOn.transform.position;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Board.Characters;
 using DG.Tweening;
@@ -19,10 +20,12 @@ namespace LevelEditor.Entities
         public Vector3Int Coordinates => Slot == null ? Vector3Int.zero : Slot.Coordinates;
         public SlotController Slot { get; private set; }
         public bool IsActive { get; private set; }
+        public Vector3Int[] Road { get; private set; }
 
         [SerializeField] private SpriteRenderer _teamFeedbackSprite;
 
         private Renderer[] _renderers;
+        private LineRenderer _roadLineRenderer;
 
         /// <summary>
         /// Initialize the character with the slot he's on
@@ -41,6 +44,9 @@ namespace LevelEditor.Entities
             Vector3 scale = transform.localScale;
             transform.localScale = Vector3.zero;
             transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
+            
+            _roadLineRenderer = Instantiate(LevelEditorManager.Instance.PrefabsData.GetPrefab("LevelEditorRoadLine")).GetComponent<LineRenderer>();
+            _roadLineRenderer.gameObject.SetActive(false);
         }
         
         /// <summary>
@@ -95,6 +101,28 @@ namespace LevelEditor.Entities
                 Color color = IsActive ? Color.white : new Color(0.26f, 0.26f, 0.26f);
                 mesh.material.color = color;
             }
+        }
+
+        public void SetRoad(params Vector3Int[] road)
+        {
+            Road = road;
+            LevelEditorManager.Instance.RoadModeManager.SetLineRendererForWorldRoad(road.ToList(), _roadLineRenderer);
+            ShowRoadPreview(false);
+        }
+
+        public void ShowRoadPreview(bool doShow)
+        {
+            _roadLineRenderer.gameObject.SetActive(doShow);
+            if (doShow == false)
+            {
+                return;
+            }
+
+            Debug.Log("Show road preview");
+            Color color = GetTeam().TeamColor;
+            color.a = 0.25f;
+            _roadLineRenderer.startColor = color;
+            _roadLineRenderer.endColor = color;
         }
     }
 }

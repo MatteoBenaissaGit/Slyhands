@@ -53,6 +53,8 @@ namespace LevelEditor
         private Button _exitSetRoadModeButton;
         [SerializeField, BoxGroup("Buttons"), Required]
         private Button _changeRoadModeButton;
+        [SerializeField, BoxGroup("Buttons"), Required]
+        private Button _saveRoadButton;
         
         [SerializeField, BoxGroup("Other"), Required]
         private LevelEditorUIHeightSlider _heightSlider;
@@ -81,6 +83,7 @@ namespace LevelEditor
             _createNewBoardButton.onClick.AddListener(() => ShowMenu(_createNewBoardMenu));
             _exitSetRoadModeButton.onClick.AddListener(() => SetMode(EditorMode.BasicEditor));
             _changeRoadModeButton.onClick.AddListener(() => LevelEditorManager.Instance.RoadModeManager.ChangeRoadMode(_changeRoadModeButton));
+            _saveRoadButton.onClick.AddListener(() => LevelEditorManager.Instance.RoadModeManager.SaveRoad());
 
             _heightSlider.SetSlider(false);
             
@@ -94,6 +97,7 @@ namespace LevelEditor
             _createNewBoardButton.onClick.RemoveListener(() => ShowMenu(_createNewBoardMenu));
             _exitSetRoadModeButton.onClick.RemoveListener(() => SetMode(EditorMode.BasicEditor));
             _changeRoadModeButton.onClick.RemoveListener(() => LevelEditorManager.Instance.RoadModeManager.ChangeRoadMode(_changeRoadModeButton));
+            _saveRoadButton.onClick.RemoveListener(() => LevelEditorManager.Instance.RoadModeManager.SaveRoad());
         }
 
         public void SetMode(EditorMode mode)
@@ -122,6 +126,7 @@ namespace LevelEditor
                 case EditorMode.SetRoadForCharacter:
                     _exitSetRoadModeButton.gameObject.SetActive(true);
                     _changeRoadModeButton.gameObject.SetActive(true);
+                    _saveRoadButton.gameObject.SetActive(true);
                     break;
             }
             
@@ -142,6 +147,7 @@ namespace LevelEditor
                 case EditorMode.SetRoadForCharacter:
                     _exitSetRoadModeButton.gameObject.SetActive(false);
                     _changeRoadModeButton.gameObject.SetActive(false);
+                    _saveRoadButton.gameObject.SetActive(false);
                     LevelEditorManager.Instance.RoadModeManager.ExitMode();
                     break;
             }
