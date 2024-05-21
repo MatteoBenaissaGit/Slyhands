@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ClickTap",
+                    "name": "LeftClick",
                     "type": "Button",
                     "id": "4255ad11-24fd-4333-82f1-7975d4a42ef2",
                     "expectedControlType": "Button",
@@ -155,7 +155,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ClickTap",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
