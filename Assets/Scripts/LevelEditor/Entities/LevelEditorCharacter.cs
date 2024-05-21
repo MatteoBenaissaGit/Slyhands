@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Board.Characters;
+using Data.Team;
 using DG.Tweening;
+using GameEngine;
 using Players;
 using Slots;
 using UnityEngine;
@@ -35,10 +37,13 @@ namespace LevelEditor.Entities
         public void Initialize(SlotController slot)
         {
             _renderers = GetComponentsInChildren<Renderer>();
-            
-            _roadLineRenderer = Instantiate(LevelEditorManager.Instance.PrefabsData.GetPrefab("LevelEditorRoadLine")).GetComponent<LineRenderer>();
-            ShowRoadPreview(false, 0f);
-            
+
+            if (LevelEditorManager.Instance != null)
+            {
+                _roadLineRenderer = Instantiate(LevelEditorManager.Instance.PrefabsData.GetPrefab("LevelEditorRoadLine")).GetComponent<LineRenderer>();
+                ShowRoadPreview(false, 0f);
+            }
+
             Slot = slot;
             SetCharacterOrientation(Slot.Data.LevelEditorCharacter.Orientation);
             SetTeam(TeamNumber);
@@ -89,7 +94,8 @@ namespace LevelEditor.Entities
         /// <returns>The team of the character</returns>
         public Team GetTeam()
         {
-            return LevelEditorManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == TeamNumber);
+            TeamsData data = LevelEditorManager.Instance != null ? LevelEditorManager.Instance.TeamsData : GameManager.Instance.TeamsData;
+            return data.Teams.Find(x => x.TeamNumber == TeamNumber);
         }
 
         /// <summary>
@@ -116,7 +122,7 @@ namespace LevelEditor.Entities
             Road = road;
             Slot.Data.LevelEditorCharacter.Road = Road;
             
-            if (road == null || road.Length == 0)
+            if (road == null || road.Length == 0 || LevelEditorManager.Instance == null)
             {
                 ShowRoadPreview(false);
                 return;
@@ -133,7 +139,7 @@ namespace LevelEditor.Entities
         /// <param name="time">the time to show it</param>
         public void ShowRoadPreview(bool doShow, float time = 0.2f)
         {
-            if (_isLineRendererShown == doShow)
+            if (_isLineRendererShown == doShow || _roadLineRenderer == null)
             {
                 return;
             }

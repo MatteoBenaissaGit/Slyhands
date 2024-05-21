@@ -10,6 +10,7 @@ using Players;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Slots;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Board
@@ -151,28 +152,14 @@ namespace Board
                 }
                 
                 SlotController neighborSlot = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y, nextCoordinates.z]?.SlotView?.Controller;
+                
                 //if there is no neighbor slot
                 if (neighborSlot == null)
                 {
                     //but if slot is a ramp, check below where the ramp is leading
                     if (slot.Data.Type == SlotType.Ramp && slot.Coordinates.y - 1 >= 0)
                     {
-                        Vector2Int rampDirection = new Vector2Int(0,0);
-                        switch (slot.Data.Orientation)
-                        {
-                            case Orientation.North:
-                                rampDirection = new Vector2Int(0,1);
-                                break;
-                            case Orientation.South:
-                                rampDirection = new Vector2Int(0,-1);
-                                break;
-                            case Orientation.East:
-                                rampDirection = new Vector2Int(1,0);
-                                break;
-                            case Orientation.West:
-                                rampDirection = new Vector2Int(-1,0);
-                                break;
-                        }
+                        Vector2Int rampDirection = GetDirectionOfOrientation(slot);
                         SlotLocation rampLeadingLocation = Data.SlotLocations[
                             slot.Coordinates.x + rampDirection.x, 
                             slot.Coordinates.y - 1, 
@@ -194,25 +181,23 @@ namespace Board
                 
                 if (checkForRampsUp)
                 {
-                    //if there is a slot up 
+                    //if there is a ramp up above the next direction, add it to the neighbors
                     if (nextCoordinates.y + 1 < Data.BoardSize.y)
                     {
-                        //if its a ramp, add neighbor on the level up
-                        SlotLocation upperSlotLocation = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y + 1, nextCoordinates.z];
-                        if (upperSlotLocation != null 
-                            && upperSlotLocation.SlotView != null 
-                            && upperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
+                        SlotLocation nextCoordinatesUpperSlotLocation = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y + 1, nextCoordinates.z];
+                        if (nextCoordinatesUpperSlotLocation != null 
+                            && nextCoordinatesUpperSlotLocation.SlotView != null 
+                            && nextCoordinatesUpperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
                         {
-                            neighborsSlots.Add(upperSlotLocation.SlotView.Controller);
+                            if (slot.Data.Type == SlotType.Ramp)
+                            {
+                                //TODO check if im also a slot that slot direction == upperSlot direction (double stairs)
+                            }
+                            
+                            neighborsSlots.Add(nextCoordinatesUpperSlotLocation.SlotView.Controller);
+                            
                             continue;
                         }
-                    }
-            
-                    //if the neighbor slot is a ramp, add neighbor on the level down
-                    if (neighborSlot != null && neighborSlot.Data.Type == SlotType.Ramp && neighborSlot.Coordinates.y - 1 >= 0)
-                    {
-                        neighborsSlots.Add(neighborSlot);
-                        continue;
                     }
                 }
 
@@ -221,6 +206,7 @@ namespace Board
                     neighborsSlots.Add(neighborSlot);
                 }
             }
+            
             return neighborsSlots;
         }
 
@@ -290,6 +276,28 @@ namespace Board
             closedSlots.ForEach(x => x.Data.PathfindingParent = null);
             closedSlots.ForEach(x => x.Data.PathfindingCost = int.MaxValue);
             return path;
+        }
+        
+        private static Vector2Int GetDirectionOfOrientation(SlotController slot)
+        {
+            Vector2Int rampDirection = new Vector2Int(0, 0);
+            switch (slot.Data.Orientation)
+            {
+                case Orientation.North:
+                    rampDirection = new Vector2Int(0, 1);
+                    break;
+                case Orientation.South:
+                    rampDirection = new Vector2Int(0, -1);
+                    break;
+                case Orientation.East:
+                    rampDirection = new Vector2Int(1, 0);
+                    break;
+                case Orientation.West:
+                    rampDirection = new Vector2Int(-1, 0);
+                    break;
+            }
+
+            return rampDirection;
         }
         
         #endregion
@@ -527,6 +535,7 @@ namespace Board
             List<SlotController> accessibleSlots = new List<SlotController>();
 
             FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints, ref accessibleSlots, true);
+            
             accessibleSlots.RemoveAll(x => 
                 GetPathFromSlotToSlot(characterController.CurrentSlot, x).Count > characterController.GameplayData.CurrentMovementPoints);
             
@@ -569,7 +578,7 @@ namespace Board
                 SlotLocation upperSlotLocation = Data.SlotLocations[slot.Coordinates.x, slot.Coordinates.y + 1, slot.Coordinates.z];
                 if (upperSlotLocation != null && upperSlotLocation.SlotView != null )
                 {
-                    //if its a ramp continue searching neighbors on the level im leading to
+                    //if its a ramp continue searching neighbors on the level its leading to
                     if (upperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
                     {
                         List<SlotController> upSlotNeighbors = GetNeighborsOfSlot(upperSlotLocation.SlotView.Controller);
@@ -581,31 +590,15 @@ namespace Board
                     return;
                 }
             }
-            
-            //if im a ramp, continue searching neighbors on the level down
-            if (slot.Data.Type == SlotType.Ramp && slot.Coordinates.y - 1 >= 0)
-            {
-                SlotLocation lowerSlotLocation = Data.SlotLocations[slot.Coordinates.x, slot.Coordinates.y - 1, slot.Coordinates.z];
-                if (lowerSlotLocation != null && lowerSlotLocation.SlotView != null)
-                {
-                    List<SlotController> lowerSlotNeighbors = GetNeighborsOfSlot(lowerSlotLocation.SlotView.Controller);
-                    foreach (SlotController lowerSlotNeighbor in lowerSlotNeighbors)
-                    {
-                        if (lowerSlotNeighbor.IsAccessibleFromSlot(slot) == false)
-                        {
-                            continue;
-                        }
-                        FindAccessibleSlotFromSlot(lowerSlotNeighbor, movementAmount, ref slotAccessibleList);
-                    }
-                }
-                return;
-            }
 
-            slotAccessibleList.Add(slot);
+            if (slot.Data.Type == SlotType.Base)
+            {
+                slotAccessibleList.Add(slot);
+            }
             
             //search the neighbors
             NeighborsSearch:
-            List<SlotController> neighbors = GetNeighborsOfSlot(slot);
+            List<SlotController> neighbors = GetNeighborsOfSlot(slot, true);
             foreach (SlotController neighbor in neighbors)
             {
                 FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleList);
