@@ -58,9 +58,9 @@ namespace Inputs
             manager.Scheme.LevelEditor.CameraZoom.performed += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
             manager.Scheme.LevelEditor.CameraZoom.canceled += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
             
-            manager.Scheme.LevelEditor.LeftClick.started += context => OnLeftClick?.Invoke();;
+            manager.Scheme.LevelEditor.LeftClick.started += context => OnLeftClick?.Invoke();
             
-            manager.Scheme.LevelEditor.RightClick.started += context => OnRightClick?.Invoke();;
+            manager.Scheme.LevelEditor.RightClick.started += context => OnRightClick?.Invoke();
             
             manager.Scheme.LevelEditor.ClickHold.performed += context => OnClickHold?.Invoke(context.performed);
             manager.Scheme.LevelEditor.ClickHold.canceled += context => OnClickHold?.Invoke(context.performed);
