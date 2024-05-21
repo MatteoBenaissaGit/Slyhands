@@ -155,15 +155,16 @@ public class CardManager : MonoBehaviour
             null) //Check if there is a card hovered. In this case, the card hovered become the selected card.
         {
             CardSelected = CardHovered; //Set CardSelected with CardHovered
-            
+
             _offsetZCardCamera =
                 CardSelected.transform.position.z -
                 CardCamera.transform.position.z; //Get distance between card selected and card camera
 
-            _cardSelectedIndex = CardHand.cards.IndexOf(CardHovered.transform); //Get index of card selected in the hand if it go back in
-            
+            _cardSelectedIndex =
+                CardHand.cards.IndexOf(CardHovered.transform); //Get index of card selected in the hand if it go back in
+
             CardHand.cards.Remove(CardHovered.transform); //Remove card selected from the cards in hand list
-            
+
             CardHovered = null; //Reset CardHovered
         }
     }
@@ -194,28 +195,38 @@ public class CardManager : MonoBehaviour
 
             int hits = Physics.RaycastNonAlloc(ray, _slotHits);
 
-            for (int i = 0; i < hits; i++)
+            if (hits != 0)
             {
-                if (_slotHits[i].collider.TryGetComponent(out SlotLocation slot) == false)
+                for (int i = 0; i < hits; i++)
                 {
-                    Debug.Log("Not a slot");
-                    AddCardFromMouseToHand();
+                    if (_slotHits[i].collider.TryGetComponent(out SlotLocation slot) == false)
+                    {
+                        Debug.Log("Not a slot");
+                        AddCardFromMouseToHand();
+                        return;
+                    }
+
+                    Debug.Log("Slot Detected !");
+
+                    CardSelected.cardStatus = CardStatus.Discarded;
+                    
+                    DeckManager.Instance.PlayCardOnLocation(CardSelected, slot);
+
+                    CardSelected = null;
+
                     return;
                 }
-
-                Debug.Log("Slot Detected !");
-                
-                DeckManager.Instance.PlayCardOnLocation(CardSelected, slot);
-
-                CardSelected = null;
-
-                return;
+            }
+            else
+            {
+                Debug.Log("No objects detected on drop");
+                AddCardFromMouseToHand();
             }
         }
     }
 
     //Called when left mouse click up and there is no slot location under the card selected
-    private void AddCardFromMouseToHand() 
+    private void AddCardFromMouseToHand()
     {
         CardHand.cards.Insert(_cardSelectedIndex, CardSelected.transform);
         CardSelected.cardStatus = CardStatus.InHand;
