@@ -35,18 +35,17 @@ namespace LevelEditor.Entities
         {
             _renderers = GetComponentsInChildren<Renderer>();
             
+            _roadLineRenderer = Instantiate(LevelEditorManager.Instance.PrefabsData.GetPrefab("LevelEditorRoadLine")).GetComponent<LineRenderer>();
+            _roadLineRenderer.gameObject.SetActive(false);
+            
             Slot = slot;
             SetCharacterOrientation(Slot.Data.LevelEditorCharacter.Orientation);
-
             SetTeam(TeamNumber);
-            
+
             transform.DOKill();
             Vector3 scale = transform.localScale;
             transform.localScale = Vector3.zero;
             transform.DOScale(scale, 0.3f).SetEase(Ease.OutBack);
-            
-            _roadLineRenderer = Instantiate(LevelEditorManager.Instance.PrefabsData.GetPrefab("LevelEditorRoadLine")).GetComponent<LineRenderer>();
-            _roadLineRenderer.gameObject.SetActive(false);
         }
         
         /// <summary>
@@ -92,6 +91,10 @@ namespace LevelEditor.Entities
             return LevelEditorManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == TeamNumber);
         }
 
+        /// <summary>
+        /// Set the character visual as active or not
+        /// </summary>
+        /// <param name="isActive">is character active ?</param>
         public void SetActive(bool isActive)
         {
             IsActive = isActive;
@@ -103,13 +106,29 @@ namespace LevelEditor.Entities
             }
         }
 
+        /// <summary>
+        /// Set the road for the character
+        /// </summary>
+        /// <param name="road">The road to set</param>
         public void SetRoad(params Vector3Int[] road)
         {
             Road = road;
+            Slot.Data.LevelEditorCharacter.Road = Road;
+            
+            if (road == null || road.Length == 0)
+            {
+                ShowRoadPreview(false);
+                return;
+            }
+            
             LevelEditorManager.Instance.RoadModeManager.SetLineRendererForWorldRoad(road.ToList(), _roadLineRenderer);
             ShowRoadPreview(false);
         }
 
+        /// <summary>
+        /// Show the saved road preview
+        /// </summary>
+        /// <param name="doShow">show the preview ?</param>
         public void ShowRoadPreview(bool doShow)
         {
             _roadLineRenderer.gameObject.SetActive(doShow);
@@ -118,7 +137,6 @@ namespace LevelEditor.Entities
                 return;
             }
 
-            Debug.Log("Show road preview");
             Color color = GetTeam().TeamColor;
             color.a = 0.25f;
             _roadLineRenderer.startColor = color;

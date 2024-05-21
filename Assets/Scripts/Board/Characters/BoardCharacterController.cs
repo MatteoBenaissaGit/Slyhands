@@ -40,6 +40,7 @@ namespace Board.Characters
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
         public int CurrentMovementPoints { get; set; }
+        public Vector3Int[] Road { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity
@@ -62,8 +63,9 @@ namespace Board.Characters
             Type = type;
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
-            
+
             GameplayData = new CharacterControllerData(Data.Life, team);
+            GameplayData.Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road;
 
             OnCharacterAction += CharacterAction;
         }

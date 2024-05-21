@@ -350,6 +350,16 @@ namespace Board
             {
                 CreateSlotAt(slotData.Coordinates, slotData);
             }
+            
+            //load roads
+            foreach (SlotLocation location in  Data.SlotLocations)
+            {
+                if (location.SlotView == null || location.SlotView.LevelEditorCharacterOnSlot == null)
+                {
+                    continue;
+                }
+                location.SlotView.LevelEditorCharacterOnSlot.SetRoad(location.SlotView.Controller.Data.LevelEditorCharacter.Road);
+            }
         }
         
         /// <summary>

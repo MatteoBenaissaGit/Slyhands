@@ -19,6 +19,9 @@ namespace LevelEditor.Entities
         Loop = 1,
     }
     
+    /// <summary>
+    /// This class handle all the road related things in the level editor
+    /// </summary>
     public class LevelEditorSetRoadModeManager
     {
         public LevelEditorCharacter CurrentCharacter { get; private set; }
@@ -29,6 +32,10 @@ namespace LevelEditor.Entities
         private LineRenderer _roadLineRenderer;
         private RoadFollowMode _currentMode;
 
+        /// <summary>
+        /// Start the "set road" mode fot the desired character
+        /// </summary>
+        /// <param name="character">The character to set the road for</param>
         public void StartMode(LevelEditorCharacter character)
         {
             CurrentCharacter = character;
@@ -54,6 +61,9 @@ namespace LevelEditor.Entities
             LevelEditorManager.Instance.UI.Shortcuts.SetRoadShortcuts.ForEach(x => x.SetActive(true));
         }
 
+        /// <summary>
+        /// Exit the "set road" mode in the level editor
+        /// </summary>
         public void ExitMode()
         {
             foreach (SlotLocation slotLocation in LevelEditorManager.Instance.Board.Data.SlotLocations)
@@ -74,6 +84,9 @@ namespace LevelEditor.Entities
             LevelEditorManager.Instance.UI.Shortcuts.SetRoadShortcuts.ForEach(x => x.SetActive(false));
         }
 
+        /// <summary>
+        /// Add a road beacon to the current road
+        /// </summary>
         private void AddBeacon()
         {
             SlotLocation slotLocation = LevelEditorManager.Instance.Board.CurrentHoveredLocation;
@@ -105,6 +118,9 @@ namespace LevelEditor.Entities
             beacon.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.InOutBounce);
         }
 
+        /// <summary>
+        /// Remove the last placed beacon
+        /// </summary>
         private void RemoveBeacon()
         {
             if (_currentRoadPositions.Count <= 1)
@@ -125,6 +141,9 @@ namespace LevelEditor.Entities
             UpdateRoad();
         }
         
+        /// <summary>
+        /// Update the preview of the current road based from the placed beacon, the current mode and the current hovered slot 
+        /// </summary>
         private void UpdateRoad()
         {
             BoardController board = LevelEditorManager.Instance.Board;
@@ -138,6 +157,11 @@ namespace LevelEditor.Entities
             SetLineRendererForWorldRoad(_currentRoadPositions, _roadLineRenderer);
         }
 
+        /// <summary>
+        /// Set a desired line renderer to follow a desired list of positions coordinates
+        /// </summary>
+        /// <param name="roadPositions">The position to set for the road</param>
+        /// <param name="lineRenderer">The line renderer to manipulate</param>
         public void SetLineRendererForWorldRoad(List<Vector3Int> roadPositions, LineRenderer lineRenderer)
         {
             List<Vector3> positions = GetRoadInWorldForPositions(roadPositions);
@@ -156,6 +180,11 @@ namespace LevelEditor.Entities
             }
         }
 
+        /// <summary>
+        /// Return a specific list of road positions in world coordinates with the correct path to navigate
+        /// </summary>
+        /// <param name="roadPositions">The road to follow</param>
+        /// <returns>A list of world position making the road</returns>
         private List<Vector3> GetRoadInWorldForPositions(List<Vector3Int> roadPositions)
         {
             BoardController board = LevelEditorManager.Instance.Board;
@@ -205,6 +234,9 @@ namespace LevelEditor.Entities
             return positions;
         }
 
+        /// <summary>
+        /// Save the current road for the current character
+        /// </summary>
         public void SaveRoad()
         {
             if (_currentRoadPositions.Count <= 1)
@@ -222,6 +254,10 @@ namespace LevelEditor.Entities
             LevelEditorManager.Instance.UI.SetMode(EditorMode.BasicEditor);
         }
 
+        /// <summary>
+        /// Change the current road mode
+        /// </summary>
+        /// <param name="buttonMode">the button that is used to change the mode</param>
         public void ChangeRoadMode(Button buttonMode)
         {
             RoadFollowMode newMode = _currentMode switch
