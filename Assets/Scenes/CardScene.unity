@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -544,7 +544,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -615,7 +615,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d294fe9a45dc5e498c12d7305766ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DiscardPile: {fileID: 1026765603}
   BoardCamera: {fileID: 133794254}
   CardCamera: {fileID: 997120424}
   <CardHand>k__BackingField: {fileID: 1655519251}
@@ -625,6 +624,8 @@ MonoBehaviour:
   <OffsetZCardSelected>k__BackingField: 2
   <SmoothMovementSpeed>k__BackingField: 70
   <SmoothRotationSpeed>k__BackingField: 10
+  _offsetZCardCamera: 0
+  DiscardPile: {fileID: 1026765603}
 --- !u!4 &306004758
 Transform:
   m_ObjectHideFlags: 0
@@ -1207,10 +1208,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardPrefab: {fileID: 2463307884006586798, guid: 51f4a7254fb4ba14fa1c1dffe12be5ee,
     type: 3}
-  _cardSpacingInHand: {x: 1.5, y: 0, z: -0.1}
-  _overedOffsetPosition: {x: 0, y: 2, z: -0.5}
+  _cardSpacingInHand: {x: 2, y: 0, z: -0.1}
+  _hoveredOffsetPosition: {x: 0, y: 1, z: -0.5}
   _overedOffsetScale: 1.5
   cards: []
+  _currentCardControllerHovered: {fileID: 0}
 --- !u!4 &1655519252
 Transform:
   m_ObjectHideFlags: 0
@@ -1219,7 +1221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1655519250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.5, y: -6.47, z: -72.27}
+  m_LocalPosition: {x: 10.5, y: -5.5, z: -72.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

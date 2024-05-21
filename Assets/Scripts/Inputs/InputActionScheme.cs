@@ -283,6 +283,15 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""b7473a4b-aa91-408a-990f-5bcf84dbfb55"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -294,6 +303,17 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LeftClickPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c061710-b6f6-46ec-ae0f-0105aebb87c7"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -319,6 +339,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         // CardController
         m_CardController = asset.FindActionMap("CardController", throwIfNotFound: true);
         m_CardController_LeftClickPress = m_CardController.FindAction("LeftClickPress", throwIfNotFound: true);
+        m_CardController_MouseMove = m_CardController.FindAction("MouseMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -515,11 +536,13 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_CardController;
     private List<ICardControllerActions> m_CardControllerActionsCallbackInterfaces = new List<ICardControllerActions>();
     private readonly InputAction m_CardController_LeftClickPress;
+    private readonly InputAction m_CardController_MouseMove;
     public struct CardControllerActions
     {
         private @InputActionScheme m_Wrapper;
         public CardControllerActions(@InputActionScheme wrapper) { m_Wrapper = wrapper; }
         public InputAction @LeftClickPress => m_Wrapper.m_CardController_LeftClickPress;
+        public InputAction @MouseMove => m_Wrapper.m_CardController_MouseMove;
         public InputActionMap Get() { return m_Wrapper.m_CardController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -532,6 +555,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @LeftClickPress.started += instance.OnLeftClickPress;
             @LeftClickPress.performed += instance.OnLeftClickPress;
             @LeftClickPress.canceled += instance.OnLeftClickPress;
+            @MouseMove.started += instance.OnMouseMove;
+            @MouseMove.performed += instance.OnMouseMove;
+            @MouseMove.canceled += instance.OnMouseMove;
         }
 
         private void UnregisterCallbacks(ICardControllerActions instance)
@@ -539,6 +565,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @LeftClickPress.started -= instance.OnLeftClickPress;
             @LeftClickPress.performed -= instance.OnLeftClickPress;
             @LeftClickPress.canceled -= instance.OnLeftClickPress;
+            @MouseMove.started -= instance.OnMouseMove;
+            @MouseMove.performed -= instance.OnMouseMove;
+            @MouseMove.canceled -= instance.OnMouseMove;
         }
 
         public void RemoveCallbacks(ICardControllerActions instance)
@@ -574,5 +603,6 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     public interface ICardControllerActions
     {
         void OnLeftClickPress(InputAction.CallbackContext context);
+        void OnMouseMove(InputAction.CallbackContext context);
     }
 }

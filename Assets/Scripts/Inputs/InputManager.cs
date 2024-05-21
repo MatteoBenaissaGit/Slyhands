@@ -97,11 +97,14 @@ namespace Inputs
     {
         public Action OnLeftClickDown { get; set; }
         public Action OnLeftClickUp { get; set; }
+        public Action OnMouseMoved { get; set; }
 
         public InputCardController(InputManager manager)
         {
             manager.Scheme.CardController.LeftClickPress.started += context => OnLeftClickDown?.Invoke();
             manager.Scheme.CardController.LeftClickPress.canceled += context => OnLeftClickUp?.Invoke();
+            
+            manager.Scheme.CardController.MouseMove.started += context => OnMouseMoved?.Invoke();
         }
     }
 }
