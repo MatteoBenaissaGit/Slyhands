@@ -26,6 +26,7 @@ namespace LevelEditor.Entities
 
         private Renderer[] _renderers;
         private LineRenderer _roadLineRenderer;
+        private bool _isLineRendererShown = true;
 
         /// <summary>
         /// Initialize the character with the slot he's on
@@ -36,7 +37,7 @@ namespace LevelEditor.Entities
             _renderers = GetComponentsInChildren<Renderer>();
             
             _roadLineRenderer = Instantiate(LevelEditorManager.Instance.PrefabsData.GetPrefab("LevelEditorRoadLine")).GetComponent<LineRenderer>();
-            _roadLineRenderer.gameObject.SetActive(false);
+            ShowRoadPreview(false, 0f);
             
             Slot = slot;
             SetCharacterOrientation(Slot.Data.LevelEditorCharacter.Orientation);
@@ -129,18 +130,25 @@ namespace LevelEditor.Entities
         /// Show the saved road preview
         /// </summary>
         /// <param name="doShow">show the preview ?</param>
-        public void ShowRoadPreview(bool doShow)
+        /// <param name="time">the time to show it</param>
+        public void ShowRoadPreview(bool doShow, float time = 0.2f)
         {
-            _roadLineRenderer.gameObject.SetActive(doShow);
-            if (doShow == false)
+            if (_isLineRendererShown == doShow)
             {
                 return;
             }
 
-            Color color = GetTeam().TeamColor;
-            color.a = 0.25f;
-            _roadLineRenderer.startColor = color;
-            _roadLineRenderer.endColor = color;
+            _isLineRendererShown = doShow;
+
+            Color teamColor = GetTeam().TeamColor;
+            Color teamColorAlphaZero = new Color(teamColor.r, teamColor.g, teamColor.b, 0);
+            Color teamColorAlphaOne = new Color(teamColor.r, teamColor.g, teamColor.b, 0.35f);
+            
+            Color2 currentColor = new Color2(_roadLineRenderer.startColor, _roadLineRenderer.endColor);
+            _roadLineRenderer.DOColor(
+                currentColor, 
+                doShow ? new Color2(teamColorAlphaOne,teamColorAlphaOne) : new Color2(teamColorAlphaZero,teamColorAlphaZero), 
+                time);
         }
     }
 }
