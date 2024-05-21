@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using Data.Cards;
 
 public class CardController : MonoBehaviour
 {
+    public bool IsDiscarded;
+    
     public CardData Data;
     [field: SerializeField] public CardVisual CardVisual { get; private set; }
 
@@ -31,6 +34,8 @@ public class CardController : MonoBehaviour
 
         IdleScale = transform.localScale;
         MinorScale = transform.localScale;
+
+        IsDiscarded = true;
     }
 
     private void Update()
@@ -43,12 +48,14 @@ public class CardController : MonoBehaviour
                 transform.localScale = Vector3.Lerp(transform.localScale, IdleScale,
                     Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
                 break;
+            
             case CardStatus.InHandHovered:
                 transform.position = Vector3.Lerp(transform.position, HoveredPosition,
                     Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
                 transform.localScale = Vector3.Lerp(transform.localScale, HoveredScale,
                     Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
                 break;
+            
             case CardStatus.InHandMinor:
                 transform.position = Vector3.Lerp(transform.position, MinorPosition,
                     Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
@@ -77,5 +84,11 @@ public class CardController : MonoBehaviour
                     Time.deltaTime * CardManager.Instance.SmoothRotationSpeed);
                 break;
         }
+    }
+
+    public IEnumerator WaitingForDestroy()
+    {
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
     }
 }

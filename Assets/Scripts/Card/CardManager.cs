@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Inputs;
 using Slots;
@@ -34,7 +33,7 @@ public class CardManager : MonoBehaviour
     
     public UnityEngine.Camera BoardCamera;
     public UnityEngine.Camera CardCamera;
-    public float _offsetZCardCamera;
+    private float _offsetZCardCamera;
     
     private int _cardSelectedIndex;
     private RaycastHit[] _slotHits = new RaycastHit[16];
@@ -78,7 +77,7 @@ public class CardManager : MonoBehaviour
             //Check if ray hits a different card than the current hovered card
             for (int i = 0; i < hits; i++)
             {
-                if (_cardHits[i].collider.TryGetComponent(out CardController card))
+                if (_cardHits[i].collider.TryGetComponent(out CardController card) && _cardHits[i].collider.GetComponent<CardController>().IsDiscarded)
                 {
                     // Debug.Log($"{card.name} has found on the ray way");
 
@@ -171,7 +170,6 @@ public class CardManager : MonoBehaviour
         float clampValue = 0.1f;
         float yDifference = Mathf.Clamp(newPosition.y - CardSelected.transform.position.y, -clampValue, clampValue);
         float xDifference = Mathf.Clamp(newPosition.x - CardSelected.transform.position.x, -clampValue, clampValue);
-        Debug.Log(yDifference);
         
         Quaternion toRotation = Quaternion.Euler(-90 + (yDifference) * 90, -(xDifference) * 90, 0);
 
@@ -209,6 +207,8 @@ public class CardManager : MonoBehaviour
                     Debug.Log("Slot Detected !");
 
                     CardSelected.cardStatus = CardStatus.Discarded;
+
+                    CardSelected.IsDiscarded = false;
                     
                     DeckManager.Instance.PlayCardOnLocation(CardSelected, slot);
 

@@ -7,6 +7,7 @@ public class CardHand : MonoBehaviour
 
     [SerializeField] private Vector3 _cardSpacingInHand;
     [SerializeField] private Vector3 _hoveredOffsetPosition;
+    [SerializeField] private Vector3 _minorOffsetPosition;
     [SerializeField] private float _overedOffsetScale;
 
     public List<Transform> cards = new List<Transform>();
@@ -80,18 +81,19 @@ public class CardHand : MonoBehaviour
             if (_currentCardControllerHovered != null && cards[i].gameObject != _currentCardControllerHovered.gameObject)
             {
                 //Basic spacing + spacing by card index difference
-                float cardMinorPositionX;
+                Vector3 cardMinorPosition;
                 if (i < cards.IndexOf(_currentCardControllerHovered.transform))
                 {
-                    cardMinorPositionX = cardController.IdlePosition.x - _cardSpacingInHand.x / 2;
+                    cardMinorPosition = cardController.IdlePosition - _minorOffsetPosition;
                 }
                 else
                 {
-                    cardMinorPositionX = cardController.IdlePosition.x + _cardSpacingInHand.x / 2;
+                    cardMinorPosition = cardController.IdlePosition + _minorOffsetPosition;
                 }
 
-                cardController.MinorPosition = new Vector3(cardMinorPositionX, cardController.IdlePosition.y,
-                    cardController.IdlePosition.z);
+                cardMinorPosition.y = cardController.IdlePosition.y + _minorOffsetPosition.y;
+
+                cardController.MinorPosition = cardMinorPosition;
             }
 
 
