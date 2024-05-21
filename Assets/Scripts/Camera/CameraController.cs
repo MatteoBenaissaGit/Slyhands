@@ -24,6 +24,8 @@ namespace Camera
         private Vector2 _cameraMovement;
         private float _cameraZoom;
         private float _baseSize;
+
+        private UnityEngine.Camera _cardCamera;
         
         private void Start()
         {

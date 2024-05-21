@@ -23,15 +23,18 @@ namespace Slots
         [SerializeField, TabGroup("References"), Required] private Collider _clickRaycastCollider;
         [SerializeField, TabGroup("References"), Required] private GameObject _hoveredFeedback;
 
-        private Color _baseColor;
+        private Color _baseUsableSpriteColor;
+        private Color _baseSelectedSpriteColor;
         private Color _hoveredColor;
         private Color _notEditableColor;
 
         private void Awake()
         {
-            _baseColor = _usableSprite.color;
-            _hoveredColor = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 1f);
-            _notEditableColor = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 0f);
+            _baseUsableSpriteColor = _usableSprite.color;
+            _hoveredColor = new Color(_baseUsableSpriteColor.r, _baseUsableSpriteColor.g, _baseUsableSpriteColor.b, 1f);
+            _notEditableColor = new Color(_baseUsableSpriteColor.r, _baseUsableSpriteColor.g, _baseUsableSpriteColor.b, 0f);
+            
+            _baseSelectedSpriteColor = _selectedSprite.color;
             
             _hoveredFeedback.SetActive(false);
             _selectedSprite.gameObject.SetActive(false);
@@ -76,7 +79,7 @@ namespace Slots
             
             _clickRaycastCollider.enabled = IsUsable;
             _usableSprite.gameObject.SetActive(SlotView == null);
-            _usableSprite.color = IsUsable ? _baseColor : _notEditableColor;
+            _usableSprite.color = IsUsable ? _baseUsableSpriteColor : _notEditableColor;
         }
 
         /// <summary>
@@ -86,7 +89,7 @@ namespace Slots
         public void SetHovered(bool isHovered)
         {
             //empty editable sprite
-            _usableSprite.color = isHovered ? _hoveredColor : _baseColor;
+            _usableSprite.color = isHovered ? _hoveredColor : _baseUsableSpriteColor;
             if (isHovered)
             {
                 _usableSprite.gameObject.SetActive(true);
@@ -124,7 +127,7 @@ namespace Slots
         /// <param name="isSelected">show the feedback ?</param>
         public void SetSelected(bool isSelected)
         {
-            _selectedSprite.color = _baseColor;
+            _selectedSprite.color = _baseSelectedSpriteColor;
             _selectedSprite.gameObject.SetActive(isSelected);
         }
         
@@ -141,7 +144,7 @@ namespace Slots
         /// Check if an entity type can be placed on the slot location
         /// </summary>
         /// <param name="superType">The super type to check for</param>
-        public bool CanEntityBePlaceHere(BoardEntitySuperType superType)
+        public bool CanEntityBePlacedHere(BoardEntitySuperType superType)
         {
             if (SlotView == null)
             {

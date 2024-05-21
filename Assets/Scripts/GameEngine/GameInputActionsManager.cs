@@ -25,7 +25,7 @@ namespace GameEngine
 
         private void Start()
         {
-            InputManager.Instance.LevelEditorInput.OnClickTap += HandleClick;
+            InputManager.Instance.LevelEditorInput.OnLeftClick += HandleClick;
         }
 
         private void Update()

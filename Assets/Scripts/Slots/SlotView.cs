@@ -34,10 +34,8 @@ namespace Slots
     [SelectionBase]
     public class SlotView : MonoBehaviour
     {
-        /// <summary>
-        /// The slot controller related to the slot view
-        /// </summary>
         public SlotController Controller { get; private set; }
+        public LevelEditorCharacter LevelEditorCharacterOnSlot { get; private set; }
 
         #region Private fields
 
@@ -55,8 +53,6 @@ namespace Slots
         private List<SlotTypeReference> _slotTypeReferences = new List<SlotTypeReference>();
 
         #endregion
-
-        private LevelEditorCharacter _levelEditorCharacterOnSlot;
 
         /// <summary>
         /// This method initialize the slot view
@@ -179,13 +175,13 @@ namespace Slots
         public LevelEditorCharacter CreateCharacterOnSlot(GameObject levelEditorCharacterPrefab)
         {
             //if the character is the same as the current one, return
-            if (levelEditorCharacterPrefab == GetPrefabsData().GetPrefab(Controller.Data.LevelEditorCharacter.PrefabId) && _levelEditorCharacterOnSlot != null)
+            if (levelEditorCharacterPrefab == GetPrefabsData().GetPrefab(Controller.Data.LevelEditorCharacter.PrefabId) && LevelEditorCharacterOnSlot != null)
             {
                 return null;
             }
             
             //if there is a character on the slot, destroy it
-            if (_levelEditorCharacterOnSlot != null)
+            if (LevelEditorCharacterOnSlot != null)
             {
                 Debug.Log("Destroy character on slot");
                 DestroyCharacterOnSlot();
@@ -210,13 +206,13 @@ namespace Slots
                 return null;
             }
 
-            _levelEditorCharacterOnSlot = Instantiate(levelEditorCharacter, transform);
-            _levelEditorCharacterOnSlot.transform.localPosition = new Vector3(0, 0.5f, 0);
+            LevelEditorCharacterOnSlot = Instantiate(levelEditorCharacter, transform);
+            LevelEditorCharacterOnSlot.transform.localPosition = new Vector3(0, 0.5f, 0);
             
             Controller.Data.LevelEditorCharacter.PrefabId = GetPrefabsData().GetPrefabId(levelEditorCharacterPrefab);
-            _levelEditorCharacterOnSlot.Initialize(Controller);
+            LevelEditorCharacterOnSlot.Initialize(Controller);
 
-            return _levelEditorCharacterOnSlot;
+            return LevelEditorCharacterOnSlot;
         }
         
         /// <summary>
@@ -224,11 +220,11 @@ namespace Slots
         /// </summary>
         public void DestroyCharacterOnSlot()
         {
-            if (_levelEditorCharacterOnSlot == null || _levelEditorCharacterOnSlot.gameObject == null)
+            if (LevelEditorCharacterOnSlot == null || LevelEditorCharacterOnSlot.gameObject == null)
             {
                 return;
             }
-            Destroy(_levelEditorCharacterOnSlot.gameObject);
+            Destroy(LevelEditorCharacterOnSlot.gameObject);
         }
 
         #endregion

@@ -368,7 +368,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @CameraMoveButton => m_Wrapper.m_LevelEditor_CameraMoveButton;
         public InputAction @CameraMoveVector => m_Wrapper.m_LevelEditor_CameraMoveVector;
         public InputAction @CameraZoom => m_Wrapper.m_LevelEditor_CameraZoom;
-        public InputAction @ClickTap => m_Wrapper.m_LevelEditor_ClickTap;
+        public InputAction LeftClick => m_Wrapper.m_LevelEditor_ClickTap;
         public InputAction @RightClick => m_Wrapper.m_LevelEditor_RightClick;
         public InputAction @ClickHold => m_Wrapper.m_LevelEditor_ClickHold;
         public InputAction @RightClickHold => m_Wrapper.m_LevelEditor_RightClickHold;
@@ -395,9 +395,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @CameraZoom.started += instance.OnCameraZoom;
             @CameraZoom.performed += instance.OnCameraZoom;
             @CameraZoom.canceled += instance.OnCameraZoom;
-            @ClickTap.started += instance.OnClickTap;
-            @ClickTap.performed += instance.OnClickTap;
-            @ClickTap.canceled += instance.OnClickTap;
+            LeftClick.started += instance.OnClickTap;
+            LeftClick.performed += instance.OnClickTap;
+            LeftClick.canceled += instance.OnClickTap;
             @RightClick.started += instance.OnRightClick;
             @RightClick.performed += instance.OnRightClick;
             @RightClick.canceled += instance.OnRightClick;
@@ -435,9 +435,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @CameraZoom.started -= instance.OnCameraZoom;
             @CameraZoom.performed -= instance.OnCameraZoom;
             @CameraZoom.canceled -= instance.OnCameraZoom;
-            @ClickTap.started -= instance.OnClickTap;
-            @ClickTap.performed -= instance.OnClickTap;
-            @ClickTap.canceled -= instance.OnClickTap;
+            LeftClick.started -= instance.OnClickTap;
+            LeftClick.performed -= instance.OnClickTap;
+            LeftClick.canceled -= instance.OnClickTap;
             @RightClick.started -= instance.OnRightClick;
             @RightClick.performed -= instance.OnRightClick;
             @RightClick.canceled -= instance.OnRightClick;

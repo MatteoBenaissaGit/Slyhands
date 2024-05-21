@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Board.Characters;
+using Data.Prefabs;
 using GameEngine;
 using LevelEditor;
 using LevelEditor.Entities;
@@ -99,6 +100,16 @@ namespace Board
         }
         
         /// <summary>
+        /// Get a slot in the data from a defined coordinates
+        /// </summary>
+        /// <param name="currentRoadPosition">The coordinate to get the slot from</param>
+        /// <returns>The slot controller at this coordinate</returns>
+        public SlotController GetSlotFromCoordinates(Vector3Int currentRoadPosition)
+        {
+            return Data.SlotLocations[currentRoadPosition.x, currentRoadPosition.y, currentRoadPosition.z]?.SlotView?.Controller;
+        }
+        
+        /// <summary>
         /// Make an action for each coordinates of the board
         /// </summary>
         /// <param name="actionToExecute">The action to make</param>
@@ -126,7 +137,7 @@ namespace Board
         /// </summary>
         /// <param name="slot">the slot to check from</param>
         /// <returns>The list of its neighbors</returns>
-        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRamps = false)
+        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false)
         {
             List<SlotController> neighborsSlots = new List<SlotController>();
             foreach (Vector2Int direction in _directions)
@@ -167,22 +178,27 @@ namespace Board
                             slot.Coordinates.y - 1, 
                             slot.Coordinates.z + rampDirection.y];
                         
-                        if (rampLeadingLocation != null && rampLeadingLocation.SlotView != null)
+                        if (rampLeadingLocation != null 
+                            && rampLeadingLocation.SlotView != null 
+                            && neighborsSlots.Contains(rampLeadingLocation.SlotView.Controller) == false)
                         {
                             neighborsSlots.Add(rampLeadingLocation.SlotView.Controller);
                         }
                     }
-                    
-                    continue;
+
+                    if (checkForRampsUp == false)
+                    {
+                        continue;
+                    }
                 }
                 
-                if (checkForRamps)
+                if (checkForRampsUp)
                 {
                     //if there is a slot up 
-                    if (neighborSlot.Coordinates.y + 1 < Data.BoardSize.y)
+                    if (nextCoordinates.y + 1 < Data.BoardSize.y)
                     {
                         //if its a ramp, add neighbor on the level up
-                        SlotLocation upperSlotLocation = Data.SlotLocations[neighborSlot.Coordinates.x, neighborSlot.Coordinates.y + 1, neighborSlot.Coordinates.z];
+                        SlotLocation upperSlotLocation = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y + 1, nextCoordinates.z];
                         if (upperSlotLocation != null 
                             && upperSlotLocation.SlotView != null 
                             && upperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
@@ -193,14 +209,17 @@ namespace Board
                     }
             
                     //if the neighbor slot is a ramp, add neighbor on the level down
-                    if (neighborSlot.Data.Type == SlotType.Ramp && neighborSlot.Coordinates.y - 1 >= 0)
+                    if (neighborSlot != null && neighborSlot.Data.Type == SlotType.Ramp && neighborSlot.Coordinates.y - 1 >= 0)
                     {
                         neighborsSlots.Add(neighborSlot);
                         continue;
                     }
                 }
-                
-                neighborsSlots.Add(neighborSlot);
+
+                if (neighborSlot != null)
+                {
+                    neighborsSlots.Add(neighborSlot);
+                }
             }
             return neighborsSlots;
         }
@@ -208,14 +227,13 @@ namespace Board
         /// <summary>
         /// Using the A* algorithm, get the path from a character to a slot
         /// </summary>
-        /// <param name="character">the character from which the path start</param>
+        /// <param name="startSlot">the character from which the path start</param>
         /// <param name="endSlot">the slot to reach</param>
         /// <returns>return a list of the slots composing the path in order</returns>
-        public List<SlotController> GetPathFromCharacterToSlot(BoardCharacterController character, SlotController endSlot)
+        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot)
         {
             List<SlotController> path = new List<SlotController>();
 
-            SlotController startSlot = character.CurrentSlot;
             startSlot.Data.PathfindingCost = 0;
             startSlot.Data.PathfindingParent = null;
             
@@ -331,6 +349,16 @@ namespace Board
             foreach (SlotData slotData in data.SlotDataList)
             {
                 CreateSlotAt(slotData.Coordinates, slotData);
+            }
+            
+            //load roads
+            foreach (SlotLocation location in  Data.SlotLocations)
+            {
+                if (location.SlotView == null || location.SlotView.LevelEditorCharacterOnSlot == null)
+                {
+                    continue;
+                }
+                location.SlotView.LevelEditorCharacterOnSlot.SetRoad(location.SlotView.Controller.Data.LevelEditorCharacter.Road);
             }
         }
         
@@ -456,11 +484,19 @@ namespace Board
                     return;
                 }
                 
-                //create character controller & view
+                PrefabsData prefabsData = GameManager.Instance.PrefabsData;
+                
+                //character controller
                 SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
-                BoardCharacterController characterController = new BoardCharacterController(this, coordinates);
+                GameObject levelEditorCharacterPrefab = prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId);
+                Team team = GameManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == levelEditorCharacterElement.Team.TeamNumber);
+                CharacterType type = levelEditorCharacterPrefab.GetComponent<LevelEditorCharacter>().Type;
+                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type);
                 characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
-                GameObject characterPrefab = GameManager.Instance.PrefabsData.GetPrefab("Character");
+                
+                //character view
+                string characterPrefabId = prefabsData.GetPrefabSecondId(levelEditorCharacterPrefab);
+                GameObject characterPrefab = prefabsData.GetPrefab(characterPrefabId);
                 BoardCharacterView characterView = Instantiate(characterPrefab, slotLocation.transform.position, Quaternion.identity).GetComponent<BoardCharacterView>();
                 if (characterView == null)
                 {
@@ -469,13 +505,9 @@ namespace Board
                 characterView.Initialize(characterController);
 
                 //manage team & player
-                int characterTeam = GameManager.Instance.PrefabsData
-                    .GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId)
-                    .GetComponent<LevelEditorCharacter>().Team;
-                Team team = GameManager.Instance.Teams.Find(x => x.TeamNumber == characterTeam);
                 if (team == null)
                 {
-                    throw new Exception($"Team {characterTeam} not found");
+                    throw new Exception($"Team {team.TeamNumber} not found");
                 }
                 team.Characters.Add(characterController);
                 
@@ -495,7 +527,8 @@ namespace Board
             List<SlotController> accessibleSlots = new List<SlotController>();
 
             FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints, ref accessibleSlots, true);
-            accessibleSlots.RemoveAll(x => GetPathFromCharacterToSlot(characterController, x).Count > characterController.GameplayData.CurrentMovementPoints);
+            accessibleSlots.RemoveAll(x => 
+                GetPathFromSlotToSlot(characterController.CurrentSlot, x).Count > characterController.GameplayData.CurrentMovementPoints);
             
             return accessibleSlots;
         }

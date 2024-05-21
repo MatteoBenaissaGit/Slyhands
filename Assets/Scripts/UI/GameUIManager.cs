@@ -18,18 +18,20 @@ namespace UI
         private void Start()
         {
             _gameManager = GameManager.Instance;
-            _nextTurnButton.onClick.AddListener(_gameManager.SetNextTurn);
+            _nextTurnButton.onClick.AddListener(() => GameManager.Instance.TaskManager.EnqueueTask(_gameManager.SetNextTurn));
         }
 
         private void OnDestroy()
         {
-            _nextTurnButton.onClick.RemoveListener(_gameManager.SetNextTurn);
+            _nextTurnButton.onClick.RemoveListener(() => GameManager.Instance.TaskManager.EnqueueTask(_gameManager.SetNextTurn));
         }
 
         public void SetTurnForTeam(Team team)
         {
             _turnTeamNumberText.text = team.TeamNumber.ToString();
             _turnTeamNumberText.color = team.TeamColor;
+            
+            _nextTurnButton.gameObject.SetActive(team.Player.Type == PlayerType.Local);
         }
     }
 }

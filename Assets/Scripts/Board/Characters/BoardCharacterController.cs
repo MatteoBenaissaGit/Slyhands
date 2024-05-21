@@ -26,12 +26,12 @@ namespace Board.Characters
 
     public class CharacterControllerData
     {
-        public CharacterControllerData(int maxLife, int teamNumber)
+        public CharacterControllerData(int maxLife, Team team)
         {
             MaxLife = maxLife;
             CurrentLife = MaxLife;
 
-            Team = GameManager.Instance.Teams.Find(x => x.TeamNumber == teamNumber);
+            Team = team;
         }
 
         public Team Team { get; set; }
@@ -40,6 +40,7 @@ namespace Board.Characters
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
         public int CurrentMovementPoints { get; set; }
+        public Vector3Int[] Road { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity
@@ -56,15 +57,15 @@ namespace Board.Characters
             get { return Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller; }
         }
 
-        public BoardCharacterController(BoardController board, Vector3Int coordinates) : base(board, coordinates)
+        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Character;
-            Type = CharacterType.PlayerMainCharacter;
+            Type = type;
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
-            
-            GameplayData = new CharacterControllerData(Data.Life, (int)Type); //TODO set team from level editor character parameter
-            GameplayData.Team.Characters.Add(this);
+
+            GameplayData = new CharacterControllerData(Data.Life, team);
+            GameplayData.Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road;
 
             OnCharacterAction += CharacterAction;
         }

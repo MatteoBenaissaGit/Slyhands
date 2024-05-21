@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Board;
 using Inputs;
@@ -48,7 +49,7 @@ namespace LevelEditor.ActionButtons
         {
             LevelEditorManager.Instance.UI.Shortcuts.SetShortcuts(_currentButton.Type);
 
-            InputManager.Instance.LevelEditorInput.OnClickTap += ClickTapAction;
+            InputManager.Instance.LevelEditorInput.OnLeftClick += LeftClickAction;
             InputManager.Instance.LevelEditorInput.OnRightClick += RightClickAction;
             
             InputManager.Instance.LevelEditorInput.OnClickHold += (bool doHold) => _isHoldingClick = doHold;
@@ -77,6 +78,16 @@ namespace LevelEditor.ActionButtons
         }
 
         /// <summary>
+        /// Set the buttons for a specific editor mode
+        /// </summary>
+        /// <param name="mode">The mode set for the buttons</param>
+        public void SetButtonsForEditorMode(EditorMode mode)
+        {
+            _buttons.ForEach(x => x.gameObject.SetActive(x.VisibleInMode.HasFlag(mode)));
+            SetCurrentButton();
+        }
+        
+        /// <summary>
         /// Set the current used button
         /// </summary>
         /// <param name="buttonToSet">The button to set as current</param>
@@ -95,7 +106,12 @@ namespace LevelEditor.ActionButtons
         /// </summary>
         public void SetCurrentButton()
         {
-            SetCurrentButton(_buttons[0]);
+            LevelEditorActionButtonController button = _buttons.FindAll(x => x.gameObject.activeInHierarchy).FirstOrDefault();
+            if (button == null)
+            {
+                Debug.LogError("no action button active");
+            }
+            SetCurrentButton(button);
         }
 
         #region Click actions
@@ -103,7 +119,7 @@ namespace LevelEditor.ActionButtons
         /// <summary>
         /// Handle the action made when the user tap click 
         /// </summary>
-        private void ClickTapAction()
+        private void LeftClickAction()
         {
             if (_currentButton == null || _currentHoveredLocation == null)
             {
