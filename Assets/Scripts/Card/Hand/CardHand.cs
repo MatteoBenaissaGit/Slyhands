@@ -1,25 +1,29 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
 public class CardHand : MonoBehaviour
 {
     [SerializeField] private GameObject CardPrefab;
 
     [SerializeField] private Vector3 _cardSpacingInHand;
-    [SerializeField] private Vector3 _overedOffsetPosition;
+    [SerializeField] private Vector3 _hoveredOffsetPosition;
     [SerializeField] private float _overedOffsetScale;
 
     public List<Transform> cards = new List<Transform>();
 
-    private CardController _currentCardControllerOvered;
+    [SerializeField] private CardController _currentCardControllerHovered;
+
+    //Debug
+    private int nbCardsCreate = 1;
 
     public void AddCard()
     {
         GameObject newCard = Instantiate(CardPrefab, transform.position, Quaternion.identity);
         cards.Add(newCard.transform);
 
-        newCard.name = "Card " + cards.Count;
+        newCard.name = "Card " + nbCardsCreate;
+
+        nbCardsCreate++;
     }
 
     public void RemoveCard()
@@ -29,13 +33,22 @@ public class CardHand : MonoBehaviour
 
     private void Update()
     {
-        _currentCardControllerOvered = CardManager.Instance.CardHovered;
+        _currentCardControllerHovered = CardManager.Instance.CardHovered ? CardManager.Instance.CardHovered : null;
 
         foreach (var card in cards)
         {
-            if (card.GetComponent<CardController>() != _currentCardControllerOvered)
+            CardController cardController = card.GetComponent<CardController>();
+
+            if (_currentCardControllerHovered != null)
             {
-                card.GetComponent<CardController>().IsHovered = false;
+                if (cardController != _currentCardControllerHovered)
+                {
+                    cardController.cardStatus = CardStatus.InHandMinor;
+                }
+            }
+            else
+            {
+                cardController.cardStatus = CardStatus.InHand;
             }
         }
 
@@ -58,40 +71,27 @@ public class CardHand : MonoBehaviour
             //POSITION
 
             //Idle position
-            cardController.IdlePosition =
-                new Vector3(xPosition, yPosition, zPosition);
+            cardController.IdlePosition = new Vector3(xPosition, yPosition, zPosition);
 
             //Overed position
-            cardController.HoveredPosition = cardController.IdlePosition + _overedOffsetPosition;
+            cardController.HoveredPosition = cardController.IdlePosition + _hoveredOffsetPosition;
 
             //Minor position
-            if (_currentCardControllerOvered != null)
+            if (_currentCardControllerHovered != null && cards[i].gameObject != _currentCardControllerHovered.gameObject)
             {
-                if (cardController.IsHovered)
+                //Basic spacing + spacing by card index difference
+                float cardMinorPositionX;
+                if (i < cards.IndexOf(_currentCardControllerHovered.transform))
                 {
-                    cardController.MinorPosition = cardController.IdlePosition;
-
-                    cardController.CardPlacement = CardPlacement.Overed;
+                    cardMinorPositionX = cardController.IdlePosition.x - _cardSpacingInHand.x / 2;
                 }
                 else
                 {
-                    //Basic spacing + spacing by card index difference
-                    float cardMinorPositionX;
-                    if (i < cards.IndexOf(CardManager.Instance.CardHovered.transform))
-                    {
-                        cardMinorPositionX = cardController.IdlePosition.x - _cardSpacingInHand.x / 2;
-                    }
-                    else
-                    {
-                        cardMinorPositionX = cardController.IdlePosition.x + _cardSpacingInHand.x / 2;
-                    }
-
-                    cardController.MinorPosition = new Vector3(cardMinorPositionX, cardController.IdlePosition.y,
-                        cardController.IdlePosition.z);
-
-
-                    cardController.CardPlacement = CardPlacement.Minor;
+                    cardMinorPositionX = cardController.IdlePosition.x + _cardSpacingInHand.x / 2;
                 }
+
+                cardController.MinorPosition = new Vector3(cardMinorPositionX, cardController.IdlePosition.y,
+                    cardController.IdlePosition.z);
             }
 
 

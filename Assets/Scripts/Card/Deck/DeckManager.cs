@@ -24,6 +24,6 @@ public class DeckManager : MonoBehaviour
         card.DiscardScale = card.IdleScale;
         card.DiscardRotation = new Vector3(-90, 180, 0);
 
-        card.CardPlacement = CardPlacement.Discard;
+        card.cardStatus = CardStatus.Discarded;
     }
 }
