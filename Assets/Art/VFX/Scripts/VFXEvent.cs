@@ -15,7 +15,12 @@ namespace Art.VFX.Scripts
         {
             LaunchEffect();
         }
-        
+
+        private void OnEnable()
+        {
+            VFXEffects.ForEach(x => x.VFXEvent = this);
+        }
+
         private void LaunchEffect()
         {
             StartCoroutine(Execute(gameObject));
