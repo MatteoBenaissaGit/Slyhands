@@ -417,14 +417,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1655519251}
-        m_TargetAssemblyTypeName: CardHand, Assembly-CSharp
-        m_MethodName: AddCard
-        m_Mode: 1
+      - m_Target: {fileID: 1645735048}
+        m_TargetAssemblyTypeName: CardDrawer, Assembly-CSharp
+        m_MethodName: DrawCards
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -615,16 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d294fe9a45dc5e498c12d7305766ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CardHand>k__BackingField: {fileID: 1655519251}
-  <CardHovered>k__BackingField: {fileID: 0}
-  <HandCardsMovementSpeed>k__BackingField: 10
-  <CardSelected>k__BackingField: {fileID: 0}
-  <OffsetZCardSelected>k__BackingField: 2
-  <SmoothMovementSpeed>k__BackingField: 70
-  <SmoothRotationSpeed>k__BackingField: 10
-  DiscardPile: {fileID: 1026765603}
-  BoardCamera: {fileID: 133794254}
-  CardCamera: {fileID: 997120424}
+  <DeckManager>k__BackingField: {fileID: 1837899081}
 --- !u!4 &306004758
 Transform:
   m_ObjectHideFlags: 0
@@ -638,7 +629,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &306004759
 MonoBehaviour:
@@ -914,6 +905,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1026765604}
+  - component: {fileID: 1026765605}
   m_Layer: 0
   m_Name: DiscardPile
   m_TagString: Untagged
@@ -934,8 +926,21 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1026765605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026765603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5caf5977abb69439d1afd2df93fa9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CardsInDiscardPile>k__BackingField: []
 --- !u!1 &1087452369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,7 +1044,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1349608217
 GameObject:
@@ -1176,6 +1181,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349608217}
   m_CullTransparentMesh: 1
+--- !u!1 &1645735047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1645735049}
+  - component: {fileID: 1645735048}
+  m_Layer: 0
+  m_Name: CardDrawer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1645735048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645735047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5343a5d42321db14c9cd141e6a7c2787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardsInDrawer: []
+  _timeBetweenCardSpawn: 0.3
+--- !u!4 &1645735049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645735047}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12, y: -4.47, z: -72.96999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1655519250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,14 +1256,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05f53d0d49c8a404b8a51af8147cfcc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardPrefab: {fileID: 2463307884006586798, guid: 51f4a7254fb4ba14fa1c1dffe12be5ee,
-    type: 3}
+  <BoardCamera>k__BackingField: {fileID: 133794254}
+  <CardCamera>k__BackingField: {fileID: 997120424}
+  cardsInHand: []
+  NumberMaxCardsInHand: 5
   _cardSpacingInHand: {x: 2, y: 0, z: -0.1}
+  <HandCardsMovementSpeed>k__BackingField: 10
   _hoveredOffsetPosition: {x: 0, y: 1, z: -0.5}
+  _hoveredOffsetScale: 1.5
   _minorOffsetPosition: {x: 1, y: 0, z: 0}
-  _overedOffsetScale: 1.5
-  cards: []
-  _currentCardControllerHovered: {fileID: 0}
+  <OffsetZCardSelected>k__BackingField: 2
+  <SmoothMovementSpeed>k__BackingField: 70
+  <SmoothRotationSpeed>k__BackingField: 10
+  DiscardPile: {fileID: 1026765603}
 --- !u!4 &1655519252
 Transform:
   m_ObjectHideFlags: 0
@@ -1263,6 +1319,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef46c6f44af103e4eaae3ea8cd168e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CardPrefab>k__BackingField: {fileID: 2463307884006586798, guid: 51f4a7254fb4ba14fa1c1dffe12be5ee,
+    type: 3}
+  <DeckData>k__BackingField: {fileID: 11400000, guid: 4d745369dc556d24ea0dd134dcf8b44c,
+    type: 2}
+  <CardHand>k__BackingField: {fileID: 1655519251}
+  <CardDrawer>k__BackingField: {fileID: 1645735048}
+  <DiscardPile>k__BackingField: {fileID: 1026765605}
+  <CardTypeSprite>k__BackingField:
+  - {fileID: 21300000, guid: c33dfb5d539d873488ba422e5d3d3a27, type: 3}
+  - {fileID: 21300000, guid: 5d5437c8152639d4fbc2e79dccf2fe0d, type: 3}
+  - {fileID: 21300000, guid: 819d7cf9ae1999443b28c178f6354b66, type: 3}
+  - {fileID: 21300000, guid: d9bdde2df0a974642abe2497fa95d1f2, type: 3}
 --- !u!4 &1837899082
 Transform:
   m_ObjectHideFlags: 0
@@ -1276,7 +1344,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1975666170
 GameObject:
@@ -1382,7 +1450,7 @@ Transform:
   m_Children:
   - {fileID: 1762361888}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2003278093
 GameObject:
@@ -1481,7 +1549,7 @@ RectTransform:
   - {fileID: 43134075}
   - {fileID: 160686162}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

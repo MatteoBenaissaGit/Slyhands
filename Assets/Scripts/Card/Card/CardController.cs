@@ -4,8 +4,6 @@ using Data.Cards;
 
 public class CardController : MonoBehaviour
 {
-    public bool IsDiscarded;
-    
     public CardData Data;
     [field: SerializeField] public CardVisual CardVisual { get; private set; }
 
@@ -34,8 +32,6 @@ public class CardController : MonoBehaviour
 
         IdleScale = transform.localScale;
         MinorScale = transform.localScale;
-
-        IsDiscarded = true;
     }
 
     private void Update()
@@ -44,51 +40,45 @@ public class CardController : MonoBehaviour
         {
             case CardStatus.InHand:
                 transform.position = Vector3.Lerp(transform.position, IdlePosition,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 transform.localScale = Vector3.Lerp(transform.localScale, IdleScale,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 break;
             
             case CardStatus.InHandHovered:
                 transform.position = Vector3.Lerp(transform.position, HoveredPosition,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 transform.localScale = Vector3.Lerp(transform.localScale, HoveredScale,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 break;
             
             case CardStatus.InHandMinor:
                 transform.position = Vector3.Lerp(transform.position, MinorPosition,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 transform.localScale = Vector3.Lerp(transform.localScale, MinorScale,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 break;
 
             case CardStatus.Discarded:
                 //Position
                 transform.position = Vector3.Lerp(transform.position, DiscardPosition,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 transform.localScale = Vector3.Lerp(transform.localScale, DiscardScale,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
 
                 //Rotation
                 Quaternion toRotation = Quaternion.Euler(DiscardRotation.x, DiscardRotation.y, DiscardRotation.z);
 
                 transform.rotation = Quaternion.Lerp(transform.rotation, toRotation,
-                    Time.deltaTime * CardManager.Instance.HandCardsMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.HandCardsMovementSpeed);
                 break;
             
             case CardStatus.Dragged:
                 transform.position = Vector3.Lerp(transform.position, TargetPosition,
-                    Time.deltaTime * CardManager.Instance.SmoothMovementSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.SmoothMovementSpeed);
                 transform.rotation = Quaternion.Lerp(transform.rotation, TargetRotation,
-                    Time.deltaTime * CardManager.Instance.SmoothRotationSpeed);
+                    Time.deltaTime * CardManager.Instance.DeckManager.CardHand.SmoothRotationSpeed);
                 break;
         }
-    }
-
-    public IEnumerator WaitingForDestroy()
-    {
-        yield return new WaitForSeconds(1);
-        Destroy(gameObject);
     }
 }

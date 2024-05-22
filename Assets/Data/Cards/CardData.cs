@@ -15,7 +15,6 @@ namespace Data.Cards
     {
         [field: SerializeField] public string CardName { get; private set; }
         [field: SerializeField] public string CardDescription { get; private set; }
-        [field: SerializeField] public Sprite CardTypeSprite { get; private set; }
         [field: SerializeField] public Sprite CardSubjectSprite { get; private set; }
         [field : SerializeField] public CardEffectType EffectType { get; private set; }
     }
