@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Board.Characters;
 using Data.Prefabs;
 using GameEngine;
@@ -532,14 +533,21 @@ namespace Board
         /// <returns>A list of all the slots accessible</returns>
         public List<SlotController> GetAccessibleSlotsByCharacter(BoardCharacterController characterController)
         {
-            List<SlotController> accessibleSlots = new List<SlotController>();
+            HashSet<SlotController> accessibleSlots = new HashSet<SlotController>();
 
-            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints, ref accessibleSlots, true);
+            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints + 1, ref accessibleSlots, true);
+
+            List<SlotController> accessibleSlotsList = new List<SlotController>();
+            foreach (SlotController slot in accessibleSlots)
+            {
+                int pathCount = GetPathFromSlotToSlot(characterController.CurrentSlot, slot).Count;
+                if (pathCount <= characterController.GameplayData.CurrentMovementPoints)
+                {
+                    accessibleSlotsList.Add(slot);
+                }
+            }
             
-            accessibleSlots.RemoveAll(x => 
-                GetPathFromSlotToSlot(characterController.CurrentSlot, x).Count > characterController.GameplayData.CurrentMovementPoints);
-            
-            return accessibleSlots;
+            return accessibleSlotsList;
         }
 
         /// <summary>
@@ -547,12 +555,12 @@ namespace Board
         /// </summary>
         /// <param name="slot">the slot to check</param>
         /// <param name="movementAmount">the amount of movement permitted from the slot</param>
-        /// <param name="slotAccessibleList">the current accessible slot list</param>
+        /// <param name="slotAccessibleHashSet">the current accessible slot list</param>
         /// <param name="isBaseSlot">is this the base slot from which the check has started ?</param>
-        private void FindAccessibleSlotFromSlot(SlotController slot, int movementAmount, ref List<SlotController> slotAccessibleList, bool isBaseSlot = false)
+        private void FindAccessibleSlotFromSlot(SlotController slot, int movementAmount, ref HashSet<SlotController> slotAccessibleHashSet, bool isBaseSlot = false)
         {
             //if the slot is already in the list or the movement amount is 0, stop
-            if (slotAccessibleList.Contains(slot) || movementAmount <= 0)
+            if (movementAmount <= 0)
             {
                 return;
             }
@@ -562,7 +570,7 @@ namespace Board
             //if its the base slot, add it and continue searching neighbors
             if (isBaseSlot)
             {
-                slotAccessibleList.Add(slot);
+                slotAccessibleHashSet.Add(slot);
                 goto NeighborsSearch;
             }
             
@@ -584,7 +592,7 @@ namespace Board
                         List<SlotController> upSlotNeighbors = GetNeighborsOfSlot(upperSlotLocation.SlotView.Controller);
                         foreach (SlotController upSlotNeighbor in upSlotNeighbors)
                         {
-                            FindAccessibleSlotFromSlot(upSlotNeighbor, movementAmount, ref slotAccessibleList);
+                            FindAccessibleSlotFromSlot(upSlotNeighbor, movementAmount, ref slotAccessibleHashSet);
                         }
                     }
                     return;
@@ -593,15 +601,15 @@ namespace Board
 
             if (slot.Data.Type == SlotType.Base)
             {
-                slotAccessibleList.Add(slot);
+                slotAccessibleHashSet.Add(slot);
             }
-            
+
             //search the neighbors
             NeighborsSearch:
             List<SlotController> neighbors = GetNeighborsOfSlot(slot, true);
             foreach (SlotController neighbor in neighbors)
             {
-                FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleList);
+                FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleHashSet);
             }
         }
 

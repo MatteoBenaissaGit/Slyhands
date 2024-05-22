@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Data.Characters;
 using GameEngine;
+using LevelEditor.Entities;
 using Players;
 using Slots;
 using UnityEngine;
@@ -37,10 +38,14 @@ namespace Board.Characters
         public Team Team { get; set; }
         public bool IsSelectable { get; set; } = true;
         public Orientation Orientation {get; set;}
+        
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
         public int CurrentMovementPoints { get; set; }
+        
         public Vector3Int[] Road { get; set; }
+        public RoadFollowMode RoadFollowMode => Road[0] == Road[^1] ? RoadFollowMode.Loop : RoadFollowMode.PingPong;
+        public int RoadIndex { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity

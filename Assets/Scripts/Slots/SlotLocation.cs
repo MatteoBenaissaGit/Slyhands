@@ -105,7 +105,11 @@ namespace Slots
             }
 
             //feedback placement
-            BoardController board = LevelEditorManager.Instance == null ? GameManager.Instance.Board : LevelEditorManager.Instance.Board;
+            if (LevelEditorManager.Instance == null)
+            {
+                return;
+            }
+            BoardController board = LevelEditorManager.Instance.Board;
             Vector3 position = board.GetCoordinatesToWorldPosition(new Vector3Int(Coordinates.x, 0, Coordinates.z));
             for (int y = Coordinates.y - 1; y >= 0 ; y--)
             {
