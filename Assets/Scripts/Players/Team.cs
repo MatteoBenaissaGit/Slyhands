@@ -12,12 +12,13 @@ namespace Players
         [field:SerializeField] public Color TeamColor { get; private set; }
         
         public Player Player { get; private set; }
-        public List<BoardCharacterController> Characters { get; set; } = new List<BoardCharacterController>();
+        public List<BoardCharacterController> Characters { get; set; }
         
         [SerializeField] private PlayerType _teamType;
 
         public void Initialize()
         {
+            Characters = new List<BoardCharacterController>();
             Player = new Player(_teamType, this);
         }
 

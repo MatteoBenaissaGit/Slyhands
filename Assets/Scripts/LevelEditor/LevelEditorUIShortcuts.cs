@@ -20,11 +20,14 @@ namespace LevelEditor
     public class LevelEditorUIShortcuts : MonoBehaviour
     {
         [field: SerializeField] public List<ShortcutsGroup> ShortcutsGroups { get; private set; } = new List<ShortcutsGroup>();
+        [field: SerializeField] public List<GameObject> SetRoadShortcuts { get; private set; } = new List<GameObject>();
         
         public void SetShortcuts(LevelEditorActionButtonType actionType)
         {
             ShortcutsGroups.ForEach(x => x.Set(false));
             ShortcutsGroups.Find(x => x.ActionType == actionType)?.Set(true);
+            
+            SetRoadShortcuts.ForEach(x => x.SetActive(false));
         }
     }
 }

@@ -2,6 +2,7 @@
 using Board;
 using Board.Characters;
 using LevelEditor;
+using Players;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -82,6 +83,8 @@ namespace Slots
         public bool Has { get => string.IsNullOrEmpty(PrefabId) == false; }
         [field:SerializeField] public string PrefabId { get; set; } 
         [field:SerializeField] public Orientation Orientation { get; set; }
+        [field:SerializeField] public Team Team { get; set; }
+        [field:SerializeField] public Vector3Int[] Road { get; set; }
     }
     
     /// <summary>

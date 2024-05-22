@@ -11,6 +11,7 @@ namespace LevelEditor.ActionButtons
         Paint = 1,
         AddObstacle = 2,
         AddCharacter = 3,
+        SetRoad = 4,
     }
     
     /// <summary>
@@ -23,6 +24,9 @@ namespace LevelEditor.ActionButtons
         
         [field:SerializeField]
         public LevelEditorActionButtonType Type { get; private set; }
+        
+        [field:SerializeField]
+        public EditorMode VisibleInMode { get; private set; }
         
         [SerializeField, Required] private Image _icon;
         [SerializeField, Required] private Texture2D _cursorTexture;

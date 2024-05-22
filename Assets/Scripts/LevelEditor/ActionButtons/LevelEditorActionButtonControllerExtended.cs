@@ -31,7 +31,7 @@ namespace LevelEditor.ActionButtons
 
         private void Start()
         {
-            InputManager.Instance.LevelEditorInput.OnClickTap += CheckForClickTapClearChoiceTab;
+            InputManager.Instance.LevelEditorInput.OnLeftClick += CheckForClickTapClearChoiceTab;
             InputManager.Instance.LevelEditorInput.OnRightClick += CheckForClickTapClearChoiceTab;
             
             DisplayChoices(false);

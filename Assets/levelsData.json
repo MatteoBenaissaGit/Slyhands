@@ -1,11 +1,11 @@
 {
     "Datas": [
         {
-            "<Name>k__BackingField": "test_level_0905",
+            "<Name>k__BackingField": "road_save",
             "<BoardData>k__BackingField": {
-                "<Width>k__BackingField": 6,
-                "<Height>k__BackingField": 2,
-                "<Length>k__BackingField": 6,
+                "<Width>k__BackingField": 8,
+                "<Height>k__BackingField": 4,
+                "<Length>k__BackingField": 8,
                 "<PlayerStartCoordinates>k__BackingField": {
                     "x": 0,
                     "y": 0,
@@ -16,19 +16,41 @@
                 {
                     "<Type>k__BackingField": 0,
                     "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
+                    "<Orientation>k__BackingField": 3,
                     "<Coordinates>k__BackingField": {
-                        "x": 1,
+                        "x": 0,
                         "y": 0,
-                        "z": 1
+                        "z": 0
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -36,17 +58,79 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 0,
                     "<Coordinates>k__BackingField": {
-                        "x": 1,
+                        "x": 0,
+                        "y": 0,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 0,
                         "y": 0,
                         "z": 2
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -54,233 +138,39 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 0,
                     "<Coordinates>k__BackingField": {
-                        "x": 1,
+                        "x": 0,
                         "y": 0,
                         "z": 3
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 1,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "Rock",
-                        "<Orientation>k__BackingField": 3
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 1,
-                        "y": 1,
-                        "z": 5
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 2,
-                        "y": 0,
-                        "z": 1
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 2,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "Rock",
-                        "<Orientation>k__BackingField": 3
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 2,
-                        "y": 1,
-                        "z": 5
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "Barrel",
-                        "<Orientation>k__BackingField": 3
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 3,
-                        "y": 0,
-                        "z": 1
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 3,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 3,
-                        "y": 1,
-                        "z": 5
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 1
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 2
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 3
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -288,17 +178,39 @@
                     "<SlotTypeReferenceId>k__BackingField": "Stairs",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 4,
+                        "x": 0,
                         "y": 1,
                         "z": 4
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -306,17 +218,1380 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 4,
+                        "x": 0,
                         "y": 1,
                         "z": 5
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 0,
+                        "y": 1,
+                        "z": 6
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Rock",
+                        "<Orientation>k__BackingField": 3,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 0,
+                        "y": 1,
+                        "z": 7
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Rock",
+                        "<Orientation>k__BackingField": 3,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "LevelEditorMainCharacter",
+                        "<Orientation>k__BackingField": 2,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.05724906921386719,
+                                "g": 1.0,
+                                "b": 0.0,
+                                "a": 1.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 6
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Barrel",
+                        "<Orientation>k__BackingField": 3,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 7
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Rock",
+                        "<Orientation>k__BackingField": 3,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 0,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Rock",
+                        "<Orientation>k__BackingField": 3,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 0,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 1,
+                        "z": 6
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 2,
+                        "y": 1,
+                        "z": 7
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 0,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 0,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<Orientation>k__BackingField": 2,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 1,
+                            "<TeamColor>k__BackingField": {
+                                "r": 1.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 1.0
+                            },
+                            "_teamType": 1
+                        },
+                        "<Road>k__BackingField": [
+                            {
+                                "x": 3,
+                                "y": 0,
+                                "z": 2
+                            },
+                            {
+                                "x": 0,
+                                "y": 0,
+                                "z": 0
+                            },
+                            {
+                                "x": 1,
+                                "y": 0,
+                                "z": 3
+                            },
+                            {
+                                "x": 3,
+                                "y": 0,
+                                "z": 2
+                            }
+                        ]
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 0,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 0,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 1,
+                    "<SlotTypeReferenceId>k__BackingField": "Stairs",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 1,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 1,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 1,
+                        "z": 6
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 3,
+                        "y": 1,
+                        "z": 7
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 0,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 0,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 1,
+                    "<SlotTypeReferenceId>k__BackingField": "Stairs",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 1,
+                        "z": 0
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 2,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "Barrel",
+                        "<Orientation>k__BackingField": 3,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 2,
+                        "z": 6
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 1,
+                    "<SlotTypeReferenceId>k__BackingField": "Stairs",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 4,
+                        "y": 2,
+                        "z": 7
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 0,
+                        "z": 3
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 0,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -329,12 +1604,434 @@
                         "z": 0
                     },
                     "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 1
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 1,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 2,
+                        "z": 5
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 2,
+                        "z": 6
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 5,
+                        "y": 2,
+                        "z": 7
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 6,
+                        "y": 1,
+                        "z": 0
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 6,
+                        "y": 1,
+                        "z": 2
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 1,
+                    "<SlotTypeReferenceId>k__BackingField": "Stairs",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 6,
+                        "y": 1,
+                        "z": 4
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 6,
+                        "y": 2,
+                        "z": 6
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 3,
+                    "<Coordinates>k__BackingField": {
+                        "x": 6,
+                        "y": 2,
+                        "z": 7
+                    },
+                    "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "Barrel",
-                        "<Orientation>k__BackingField": 2
+                        "<Orientation>k__BackingField": 3,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -342,17 +2039,79 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 5,
+                        "x": 7,
+                        "y": 1,
+                        "z": 0
+                    },
+                    "<Obstacle>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    },
+                    "<LevelEditorCharacter>k__BackingField": {
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
+                    }
+                },
+                {
+                    "<Type>k__BackingField": 0,
+                    "<SlotTypeReferenceId>k__BackingField": "Base",
+                    "<Orientation>k__BackingField": 2,
+                    "<Coordinates>k__BackingField": {
+                        "x": 7,
                         "y": 1,
                         "z": 1
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -360,17 +2119,39 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 5,
+                        "x": 7,
                         "y": 1,
                         "z": 2
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -378,17 +2159,39 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 5,
+                        "x": 7,
                         "y": 1,
                         "z": 3
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -396,17 +2199,39 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 5,
+                        "x": 7,
                         "y": 1,
                         "z": 4
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -414,302 +2239,39 @@
                     "<SlotTypeReferenceId>k__BackingField": "Base",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 5,
-                        "y": 1,
-                        "z": 5
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                }
-            ]
-        },
-        {
-            "<Name>k__BackingField": "test_level_chara",
-            "<BoardData>k__BackingField": {
-                "<Width>k__BackingField": 6,
-                "<Height>k__BackingField": 2,
-                "<Length>k__BackingField": 6,
-                "<PlayerStartCoordinates>k__BackingField": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                }
-            },
-            "<SlotDataList>k__BackingField": [
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 1,
-                        "y": 0,
-                        "z": 1
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 1,
-                        "y": 0,
-                        "z": 2
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorCharacter",
-                        "<Orientation>k__BackingField": 2
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 1,
-                        "y": 0,
-                        "z": 3
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 1,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "Rock",
-                        "<Orientation>k__BackingField": 3
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 1,
+                        "x": 7,
                         "y": 1,
                         "z": 5
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 2,
-                        "y": 0,
-                        "z": 1
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 2,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "Rock",
-                        "<Orientation>k__BackingField": 3
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 2,
-                        "y": 1,
-                        "z": 5
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "Barrel",
-                        "<Orientation>k__BackingField": 3
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 3,
-                        "y": 0,
-                        "z": 1
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 3,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 3,
-                        "y": 1,
-                        "z": 5
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 1
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 2
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 3
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 0,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 0,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
@@ -717,143 +2279,119 @@
                     "<SlotTypeReferenceId>k__BackingField": "Stairs",
                     "<Orientation>k__BackingField": 2,
                     "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 1,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 4,
-                        "y": 1,
+                        "x": 7,
+                        "y": 2,
                         "z": 5
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
                     "<Type>k__BackingField": 0,
                     "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
+                    "<Orientation>k__BackingField": 3,
                     "<Coordinates>k__BackingField": {
-                        "x": 5,
-                        "y": 1,
-                        "z": 0
+                        "x": 7,
+                        "y": 2,
+                        "z": 6
                     },
                     "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "Barrel",
-                        "<Orientation>k__BackingField": 2
+                        "<PrefabId>k__BackingField": "",
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 },
                 {
                     "<Type>k__BackingField": 0,
                     "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
+                    "<Orientation>k__BackingField": 3,
                     "<Coordinates>k__BackingField": {
-                        "x": 5,
-                        "y": 1,
-                        "z": 1
+                        "x": 7,
+                        "y": 2,
+                        "z": 7
                     },
                     "<Obstacle>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
                         "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 5,
-                        "y": 1,
-                        "z": 2
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 5,
-                        "y": 1,
-                        "z": 3
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 5,
-                        "y": 1,
-                        "z": 4
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    }
-                },
-                {
-                    "<Type>k__BackingField": 0,
-                    "<SlotTypeReferenceId>k__BackingField": "Base",
-                    "<Orientation>k__BackingField": 2,
-                    "<Coordinates>k__BackingField": {
-                        "x": 5,
-                        "y": 1,
-                        "z": 5
-                    },
-                    "<Obstacle>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
-                    },
-                    "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0
+                        "<Orientation>k__BackingField": 0,
+                        "<Team>k__BackingField": {
+                            "<TeamNumber>k__BackingField": 0,
+                            "<TeamColor>k__BackingField": {
+                                "r": 0.0,
+                                "g": 0.0,
+                                "b": 0.0,
+                                "a": 0.0
+                            },
+                            "_teamType": 0
+                        },
+                        "<Road>k__BackingField": []
                     }
                 }
             ]

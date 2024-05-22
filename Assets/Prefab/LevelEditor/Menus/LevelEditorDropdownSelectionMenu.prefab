@@ -129,7 +129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dropDownButtonPrefab: {fileID: 2365343204201510897, guid: a2ca9488cefc09946a34d439ea84877c,
     type: 3}
-  _backgroundRectTransform: {fileID: 2412244306454362737}
+  _menuRectTransform: {fileID: 0}
+  _layout: {fileID: 0}
 --- !u!1 &6422304471621721540
 GameObject:
   m_ObjectHideFlags: 0

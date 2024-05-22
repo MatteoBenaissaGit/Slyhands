@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Board.Characters;
+using Data.Prefabs;
 using GameEngine;
 using LevelEditor;
 using LevelEditor.Entities;
@@ -9,6 +11,7 @@ using Players;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Slots;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Board
@@ -99,6 +102,16 @@ namespace Board
         }
         
         /// <summary>
+        /// Get a slot in the data from a defined coordinates
+        /// </summary>
+        /// <param name="currentRoadPosition">The coordinate to get the slot from</param>
+        /// <returns>The slot controller at this coordinate</returns>
+        public SlotController GetSlotFromCoordinates(Vector3Int currentRoadPosition)
+        {
+            return Data.SlotLocations[currentRoadPosition.x, currentRoadPosition.y, currentRoadPosition.z]?.SlotView?.Controller;
+        }
+        
+        /// <summary>
         /// Make an action for each coordinates of the board
         /// </summary>
         /// <param name="actionToExecute">The action to make</param>
@@ -126,7 +139,7 @@ namespace Board
         /// </summary>
         /// <param name="slot">the slot to check from</param>
         /// <returns>The list of its neighbors</returns>
-        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRamps = false)
+        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false)
         {
             List<SlotController> neighborsSlots = new List<SlotController>();
             foreach (Vector2Int direction in _directions)
@@ -140,82 +153,74 @@ namespace Board
                 }
                 
                 SlotController neighborSlot = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y, nextCoordinates.z]?.SlotView?.Controller;
+                
                 //if there is no neighbor slot
                 if (neighborSlot == null)
                 {
                     //but if slot is a ramp, check below where the ramp is leading
                     if (slot.Data.Type == SlotType.Ramp && slot.Coordinates.y - 1 >= 0)
                     {
-                        Vector2Int rampDirection = new Vector2Int(0,0);
-                        switch (slot.Data.Orientation)
-                        {
-                            case Orientation.North:
-                                rampDirection = new Vector2Int(0,1);
-                                break;
-                            case Orientation.South:
-                                rampDirection = new Vector2Int(0,-1);
-                                break;
-                            case Orientation.East:
-                                rampDirection = new Vector2Int(1,0);
-                                break;
-                            case Orientation.West:
-                                rampDirection = new Vector2Int(-1,0);
-                                break;
-                        }
+                        Vector2Int rampDirection = GetDirectionOfOrientation(slot);
                         SlotLocation rampLeadingLocation = Data.SlotLocations[
                             slot.Coordinates.x + rampDirection.x, 
                             slot.Coordinates.y - 1, 
                             slot.Coordinates.z + rampDirection.y];
                         
-                        if (rampLeadingLocation != null && rampLeadingLocation.SlotView != null)
+                        if (rampLeadingLocation != null 
+                            && rampLeadingLocation.SlotView != null 
+                            && neighborsSlots.Contains(rampLeadingLocation.SlotView.Controller) == false)
                         {
                             neighborsSlots.Add(rampLeadingLocation.SlotView.Controller);
                         }
                     }
-                    
-                    continue;
-                }
-                
-                if (checkForRamps)
-                {
-                    //if there is a slot up 
-                    if (neighborSlot.Coordinates.y + 1 < Data.BoardSize.y)
+
+                    if (checkForRampsUp == false)
                     {
-                        //if its a ramp, add neighbor on the level up
-                        SlotLocation upperSlotLocation = Data.SlotLocations[neighborSlot.Coordinates.x, neighborSlot.Coordinates.y + 1, neighborSlot.Coordinates.z];
-                        if (upperSlotLocation != null 
-                            && upperSlotLocation.SlotView != null 
-                            && upperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
-                        {
-                            neighborsSlots.Add(upperSlotLocation.SlotView.Controller);
-                            continue;
-                        }
-                    }
-            
-                    //if the neighbor slot is a ramp, add neighbor on the level down
-                    if (neighborSlot.Data.Type == SlotType.Ramp && neighborSlot.Coordinates.y - 1 >= 0)
-                    {
-                        neighborsSlots.Add(neighborSlot);
                         continue;
                     }
                 }
                 
-                neighborsSlots.Add(neighborSlot);
+                if (checkForRampsUp)
+                {
+                    //if there is a ramp up above the next direction, add it to the neighbors
+                    if (nextCoordinates.y + 1 < Data.BoardSize.y)
+                    {
+                        SlotLocation nextCoordinatesUpperSlotLocation = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y + 1, nextCoordinates.z];
+                        if (nextCoordinatesUpperSlotLocation != null 
+                            && nextCoordinatesUpperSlotLocation.SlotView != null 
+                            && nextCoordinatesUpperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
+                        {
+                            if (slot.Data.Type == SlotType.Ramp)
+                            {
+                                //TODO check if im also a slot that slot direction == upperSlot direction (double stairs)
+                            }
+                            
+                            neighborsSlots.Add(nextCoordinatesUpperSlotLocation.SlotView.Controller);
+                            
+                            continue;
+                        }
+                    }
+                }
+
+                if (neighborSlot != null)
+                {
+                    neighborsSlots.Add(neighborSlot);
+                }
             }
+            
             return neighborsSlots;
         }
 
         /// <summary>
         /// Using the A* algorithm, get the path from a character to a slot
         /// </summary>
-        /// <param name="character">the character from which the path start</param>
+        /// <param name="startSlot">the character from which the path start</param>
         /// <param name="endSlot">the slot to reach</param>
         /// <returns>return a list of the slots composing the path in order</returns>
-        public List<SlotController> GetPathFromCharacterToSlot(BoardCharacterController character, SlotController endSlot)
+        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot)
         {
             List<SlotController> path = new List<SlotController>();
 
-            SlotController startSlot = character.CurrentSlot;
             startSlot.Data.PathfindingCost = 0;
             startSlot.Data.PathfindingParent = null;
             
@@ -272,6 +277,28 @@ namespace Board
             closedSlots.ForEach(x => x.Data.PathfindingParent = null);
             closedSlots.ForEach(x => x.Data.PathfindingCost = int.MaxValue);
             return path;
+        }
+        
+        private static Vector2Int GetDirectionOfOrientation(SlotController slot)
+        {
+            Vector2Int rampDirection = new Vector2Int(0, 0);
+            switch (slot.Data.Orientation)
+            {
+                case Orientation.North:
+                    rampDirection = new Vector2Int(0, 1);
+                    break;
+                case Orientation.South:
+                    rampDirection = new Vector2Int(0, -1);
+                    break;
+                case Orientation.East:
+                    rampDirection = new Vector2Int(1, 0);
+                    break;
+                case Orientation.West:
+                    rampDirection = new Vector2Int(-1, 0);
+                    break;
+            }
+
+            return rampDirection;
         }
         
         #endregion
@@ -331,6 +358,16 @@ namespace Board
             foreach (SlotData slotData in data.SlotDataList)
             {
                 CreateSlotAt(slotData.Coordinates, slotData);
+            }
+            
+            //load roads
+            foreach (SlotLocation location in  Data.SlotLocations)
+            {
+                if (location.SlotView == null || location.SlotView.LevelEditorCharacterOnSlot == null)
+                {
+                    continue;
+                }
+                location.SlotView.LevelEditorCharacterOnSlot.SetRoad(location.SlotView.Controller.Data.LevelEditorCharacter.Road);
             }
         }
         
@@ -456,11 +493,19 @@ namespace Board
                     return;
                 }
                 
-                //create character controller & view
+                PrefabsData prefabsData = GameManager.Instance.PrefabsData;
+                
+                //character controller
                 SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
-                BoardCharacterController characterController = new BoardCharacterController(this, coordinates);
+                GameObject levelEditorCharacterPrefab = prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId);
+                Team team = GameManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == levelEditorCharacterElement.Team.TeamNumber);
+                CharacterType type = levelEditorCharacterPrefab.GetComponent<LevelEditorCharacter>().Type;
+                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type);
                 characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
-                GameObject characterPrefab = GameManager.Instance.PrefabsData.GetPrefab("Character");
+                
+                //character view
+                string characterPrefabId = prefabsData.GetPrefabSecondId(levelEditorCharacterPrefab);
+                GameObject characterPrefab = prefabsData.GetPrefab(characterPrefabId);
                 BoardCharacterView characterView = Instantiate(characterPrefab, slotLocation.transform.position, Quaternion.identity).GetComponent<BoardCharacterView>();
                 if (characterView == null)
                 {
@@ -469,13 +514,9 @@ namespace Board
                 characterView.Initialize(characterController);
 
                 //manage team & player
-                int characterTeam = GameManager.Instance.PrefabsData
-                    .GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId)
-                    .GetComponent<LevelEditorCharacter>().Team;
-                Team team = GameManager.Instance.Teams.Find(x => x.TeamNumber == characterTeam);
                 if (team == null)
                 {
-                    throw new Exception($"Team {characterTeam} not found");
+                    throw new Exception($"Team {team.TeamNumber} not found");
                 }
                 team.Characters.Add(characterController);
                 
@@ -492,12 +533,21 @@ namespace Board
         /// <returns>A list of all the slots accessible</returns>
         public List<SlotController> GetAccessibleSlotsByCharacter(BoardCharacterController characterController)
         {
-            List<SlotController> accessibleSlots = new List<SlotController>();
+            HashSet<SlotController> accessibleSlots = new HashSet<SlotController>();
 
-            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints, ref accessibleSlots, true);
-            accessibleSlots.RemoveAll(x => GetPathFromCharacterToSlot(characterController, x).Count > characterController.GameplayData.CurrentMovementPoints);
+            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints + 1, ref accessibleSlots, true);
+
+            List<SlotController> accessibleSlotsList = new List<SlotController>();
+            foreach (SlotController slot in accessibleSlots)
+            {
+                int pathCount = GetPathFromSlotToSlot(characterController.CurrentSlot, slot).Count;
+                if (pathCount <= characterController.GameplayData.CurrentMovementPoints)
+                {
+                    accessibleSlotsList.Add(slot);
+                }
+            }
             
-            return accessibleSlots;
+            return accessibleSlotsList;
         }
 
         /// <summary>
@@ -505,12 +555,12 @@ namespace Board
         /// </summary>
         /// <param name="slot">the slot to check</param>
         /// <param name="movementAmount">the amount of movement permitted from the slot</param>
-        /// <param name="slotAccessibleList">the current accessible slot list</param>
+        /// <param name="slotAccessibleHashSet">the current accessible slot list</param>
         /// <param name="isBaseSlot">is this the base slot from which the check has started ?</param>
-        private void FindAccessibleSlotFromSlot(SlotController slot, int movementAmount, ref List<SlotController> slotAccessibleList, bool isBaseSlot = false)
+        private void FindAccessibleSlotFromSlot(SlotController slot, int movementAmount, ref HashSet<SlotController> slotAccessibleHashSet, bool isBaseSlot = false)
         {
             //if the slot is already in the list or the movement amount is 0, stop
-            if (slotAccessibleList.Contains(slot) || movementAmount <= 0)
+            if (movementAmount <= 0)
             {
                 return;
             }
@@ -520,7 +570,7 @@ namespace Board
             //if its the base slot, add it and continue searching neighbors
             if (isBaseSlot)
             {
-                slotAccessibleList.Add(slot);
+                slotAccessibleHashSet.Add(slot);
                 goto NeighborsSearch;
             }
             
@@ -536,46 +586,30 @@ namespace Board
                 SlotLocation upperSlotLocation = Data.SlotLocations[slot.Coordinates.x, slot.Coordinates.y + 1, slot.Coordinates.z];
                 if (upperSlotLocation != null && upperSlotLocation.SlotView != null )
                 {
-                    //if its a ramp continue searching neighbors on the level im leading to
+                    //if its a ramp continue searching neighbors on the level its leading to
                     if (upperSlotLocation.SlotView.Controller.Data.Type == SlotType.Ramp)
                     {
                         List<SlotController> upSlotNeighbors = GetNeighborsOfSlot(upperSlotLocation.SlotView.Controller);
                         foreach (SlotController upSlotNeighbor in upSlotNeighbors)
                         {
-                            FindAccessibleSlotFromSlot(upSlotNeighbor, movementAmount, ref slotAccessibleList);
+                            FindAccessibleSlotFromSlot(upSlotNeighbor, movementAmount, ref slotAccessibleHashSet);
                         }
                     }
                     return;
                 }
             }
-            
-            //if im a ramp, continue searching neighbors on the level down
-            if (slot.Data.Type == SlotType.Ramp && slot.Coordinates.y - 1 >= 0)
+
+            if (slot.Data.Type == SlotType.Base)
             {
-                SlotLocation lowerSlotLocation = Data.SlotLocations[slot.Coordinates.x, slot.Coordinates.y - 1, slot.Coordinates.z];
-                if (lowerSlotLocation != null && lowerSlotLocation.SlotView != null)
-                {
-                    List<SlotController> lowerSlotNeighbors = GetNeighborsOfSlot(lowerSlotLocation.SlotView.Controller);
-                    foreach (SlotController lowerSlotNeighbor in lowerSlotNeighbors)
-                    {
-                        if (lowerSlotNeighbor.IsAccessibleFromSlot(slot) == false)
-                        {
-                            continue;
-                        }
-                        FindAccessibleSlotFromSlot(lowerSlotNeighbor, movementAmount, ref slotAccessibleList);
-                    }
-                }
-                return;
+                slotAccessibleHashSet.Add(slot);
             }
 
-            slotAccessibleList.Add(slot);
-            
             //search the neighbors
             NeighborsSearch:
-            List<SlotController> neighbors = GetNeighborsOfSlot(slot);
+            List<SlotController> neighbors = GetNeighborsOfSlot(slot, true);
             foreach (SlotController neighbor in neighbors)
             {
-                FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleList);
+                FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleHashSet);
             }
         }
 
