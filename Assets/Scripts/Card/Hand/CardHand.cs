@@ -5,46 +5,49 @@ using Slots;
 
 public class CardHand : MonoBehaviour
 {
-    [field:Header("References")]
-    [field: SerializeField] public UnityEngine.Camera BoardCamera { get; set; }
+    [field: Header("References")]
+    [field: SerializeField]
+    public UnityEngine.Camera BoardCamera { get; set; }
+
     [field: SerializeField] public UnityEngine.Camera CardCamera { get; set; }
-    
-    [Space(10)]
-    public List<Transform> cardsInHand = new List<Transform>();
+
+    [Space(10)] public List<Transform> cardsInHand = new List<Transform>();
     private CardController _cardHovered { get; set; }
     private CardController _cardSelected { get; set; }
 
     [Header("Hand Properties")] public int NumberMaxCardsInHand;
-    
+
     [SerializeField] private Vector3 _cardSpacingInHand;
     [field: SerializeField] public float HandCardsMovementSpeed { get; private set; }
-    
-    [field: Header("On Card Hovered")]
 
-    [SerializeField] private Vector3 _hoveredOffsetPosition;
+    [field: Header("On Card Hovered")] [SerializeField]
+    private Vector3 _hoveredOffsetPosition;
+
     [SerializeField] private float _hoveredOffsetScale;
-    
-    [Space(10)]
-    [SerializeField] private Vector3 _minorOffsetPosition;
-    
+
+    [Space(10)] [SerializeField] private Vector3 _minorOffsetPosition;
+
     [field: Header("Card Selected Movement")]
-    [field: SerializeField] public float OffsetZCardSelected { get; private set; }
+    [field: SerializeField]
+    public float OffsetZCardSelected { get; private set; }
+
     [field: SerializeField] public float SmoothMovementSpeed { get; private set; }
     [field: SerializeField] public float SmoothRotationSpeed { get; private set; }
-    
+
     [field: Header("Discard")] public GameObject DiscardPile;
-    
+
     private float _offsetZCardCamera;
     private int _cardSelectedIndex;
     private RaycastHit[] _slotHits = new RaycastHit[16];
     private RaycastHit[] _cardHits = new RaycastHit[8];
-    
+
     private void Start()
     {
         InputCardController cardControllerInput = InputManager.Instance.CardControllerInput;
         cardControllerInput.OnLeftClickDown += SetSelectedCard;
         cardControllerInput.OnLeftClickUp += CheckSlotHovered;
         cardControllerInput.OnMouseMoved += UpdateCardDetection;
+        cardControllerInput.OnMouseStopMoved += ResetCardMoved;
     }
 
     private void Update()
@@ -122,7 +125,7 @@ public class CardHand : MonoBehaviour
             cardsInHand[i].localRotation = Quaternion.Euler(-90, 0, 0);
         }
     }
-    
+
     /// <summary>
     /// Make raycasts to find a card to hovered
     /// </summary>
@@ -141,7 +144,8 @@ public class CardHand : MonoBehaviour
             //Check if ray hits a different card than the current hovered card
             for (int i = 0; i < hits; i++)
             {
-                if (_cardHits[i].collider.TryGetComponent(out CardController card) && card.cardStatus != CardStatus.Discarded)
+                if (_cardHits[i].collider.TryGetComponent(out CardController card) &&
+                    card.cardStatus != CardStatus.Discarded)
                 {
                     // Debug.Log($"{card.name} has found on the ray way");
 
@@ -210,7 +214,8 @@ public class CardHand : MonoBehaviour
     /// </summary>
     private void SetSelectedCard()
     {
-        if (_cardHovered != null) //Check if there is a card hovered. In this case, the card hovered become the selected card.
+        if (_cardHovered !=
+            null) //Check if there is a card hovered. In this case, the card hovered become the selected card.
         {
             _cardSelected = _cardHovered; //Set CardSelected with CardHovered
 
@@ -227,6 +232,19 @@ public class CardHand : MonoBehaviour
         }
     }
 
+    private void ResetCardMoved()
+    {
+        if (_cardSelected != null)
+        {
+            Vector3 newPosition = GetMouseWorldPosition();
+
+            Quaternion toRotation = Quaternion.Euler(-90, 0, 0);
+
+            _cardSelected.TargetPosition = newPosition;
+            _cardSelected.TargetRotation = toRotation;
+        }
+    }
+
     private void SetSelectedCardTransform() //Called when there is a selected card
     {
         Vector3 newPosition = GetMouseWorldPosition(); //Get the mouse position on the screen
@@ -234,7 +252,7 @@ public class CardHand : MonoBehaviour
         float clampValue = 0.1f;
         float yDifference = Mathf.Clamp(newPosition.y - _cardSelected.transform.position.y, -clampValue, clampValue);
         float xDifference = Mathf.Clamp(newPosition.x - _cardSelected.transform.position.x, -clampValue, clampValue);
-        
+
         Quaternion toRotation = Quaternion.Euler(-90 + (yDifference) * 90, -(xDifference) * 90, 0);
 
         //Set target position and rotation to selected card's controller
@@ -271,7 +289,7 @@ public class CardHand : MonoBehaviour
                     Debug.Log("Slot Detected !");
 
                     _cardSelected.cardStatus = CardStatus.Discarded;
-                    
+
                     CardManager.Instance.DeckManager.PlayCardOnLocation(_cardSelected, slot);
 
                     _cardSelected = null;

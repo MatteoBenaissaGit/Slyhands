@@ -98,6 +98,7 @@ namespace Inputs
         public Action OnLeftClickDown { get; set; }
         public Action OnLeftClickUp { get; set; }
         public Action OnMouseMoved { get; set; }
+        public Action OnMouseStopMoved { get; set; }
 
         public InputCardController(InputManager manager)
         {
@@ -105,6 +106,7 @@ namespace Inputs
             manager.Scheme.CardController.LeftClickPress.canceled += context => OnLeftClickUp?.Invoke();
             
             manager.Scheme.CardController.MouseMove.started += context => OnMouseMoved?.Invoke();
+            manager.Scheme.CardController.MouseMove.canceled += context => OnMouseStopMoved?.Invoke();
         }
     }
 }
