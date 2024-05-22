@@ -96,6 +96,10 @@ namespace LevelEditor.ActionButtons
         /// <param name="orientation">the orientation to set the preview to</param>
         public void SetOrientation(Orientation orientation)
         {
+            if (_gameObjectToPreview == null || _gameObjectToPreview.transform == null)
+            {
+                return;
+            }
             _orientationAngle = (int)orientation;
             Vector3 localRotationEuler = _gameObjectToPreview.transform.localRotation.eulerAngles;
             _gameObjectToPreview.transform.localRotation = Quaternion.Euler(new Vector3(localRotationEuler.x,_orientationAngle * 90, localRotationEuler.z));
