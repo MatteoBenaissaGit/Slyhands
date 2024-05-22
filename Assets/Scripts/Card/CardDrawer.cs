@@ -24,7 +24,7 @@ public class CardDrawer : MonoBehaviour
         {
             CardHand cardHand = CardManager.Instance.DeckManager.CardHand;
             
-            if (cardHand.cardsInHand.Count < cardHand.NumberMaxCardsInHand)
+            if (cardHand.cardsInHand.Count < cardHand.MaxCardsInHand)
             {
                 if (CardsInDrawer.Count == 0)
                 {

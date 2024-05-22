@@ -388,6 +388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 781561611}
+  - component: {fileID: 781561612}
   m_Layer: 0
   m_Name: Setup
   m_TagString: Untagged
@@ -413,6 +414,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &781561612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781561610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0749a968ed4973a4ef5f2e466d7fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPersistant: 0
 --- !u!20 &997120424 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2236474657576138228, guid: d054e772570dcd2419b52ed14a4dd91a,
@@ -813,9 +827,89 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
+      propertyPath: CardCamera
+      value: 
+      objectReference: {fileID: 997120424}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: BoardCamera
+      value: 
+      objectReference: {fileID: 133794254}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: MaxCardsInHand
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SmoothMovementSpeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SmoothRotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: _clampValueRotation
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: HandCardsMovementSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SelectedZOffsetPosition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
       propertyPath: <BoardCamera>k__BackingField
       value: 
       objectReference: {fileID: 133794254}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <SmoothMovementSpeed>k__BackingField
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <SmoothRotationSpeed>k__BackingField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <_clampValueRotation>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <SelectedOffsetZPosition>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <SelectedZOffsetPosition>k__BackingField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <SelectedOffsetPosition>k__BackingField.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <SelectedOffsetPosition>k__BackingField.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <SelectedOffsetPosition>k__BackingField.z
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2038773038120479695, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
       propertyPath: m_RootOrder
@@ -870,6 +964,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236086544615964037, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.0219727
       objectReference: {fileID: 0}
     - target: {fileID: 7096563781931701398, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}

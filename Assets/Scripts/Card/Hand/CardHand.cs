@@ -1,40 +1,43 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Inputs;
+using Sirenix.OdinInspector;
 using Slots;
 
 public class CardHand : MonoBehaviour
 {
-    [field: Header("References")]
-    [field: SerializeField]
-    public UnityEngine.Camera BoardCamera { get; set; }
+    [BoxGroup("References")] public UnityEngine.Camera BoardCamera;
 
-    [field: SerializeField] public UnityEngine.Camera CardCamera { get; set; }
+    [BoxGroup("References")] public UnityEngine.Camera CardCamera;
 
-    [Space(10)] public List<Transform> cardsInHand = new List<Transform>();
+    [PropertySpace(SpaceBefore = 30, SpaceAfter = 30)][BoxGroup("References")]
+    public List<Transform> cardsInHand = new List<Transform>();
     private CardController _cardHovered { get; set; }
     private CardController _cardSelected { get; set; }
 
-    [Header("Hand Properties")] public int NumberMaxCardsInHand;
+    [BoxGroup("Hand Properties")]
+    public int MaxCardsInHand;
 
-    [SerializeField] private Vector3 _cardSpacingInHand;
-    [field: SerializeField] public float HandCardsMovementSpeed { get; private set; }
+    [Space][BoxGroup("Hand Properties")][SerializeField] private Vector3 _cardSpacingInHand;
 
-    [field: Header("On Card Hovered")] [SerializeField]
-    private Vector3 _hoveredOffsetPosition;
+    [Space][BoxGroup("Hand Properties")]
+    public float HandCardsMovementSpeed;
 
-    [SerializeField] private float _hoveredOffsetScale;
+    [BoxGroup("On Card Hovered")]
+    [SerializeField] private Vector3 _hoveredOffsetPosition;
 
-    [Space(10)] [SerializeField] private Vector3 _minorOffsetPosition;
+    [Space][BoxGroup("On Card Hovered")][SerializeField] private float _hoveredOffsetScale;
 
-    [field: Header("Card Selected Movement")]
-    [field: SerializeField]
-    public float OffsetZCardSelected { get; private set; }
+    [Space(20)][BoxGroup("On Card Hovered")] [SerializeField] private Vector3 _minorOffsetPosition;
 
-    [field: SerializeField] public float SmoothMovementSpeed { get; private set; }
-    [field: SerializeField] public float SmoothRotationSpeed { get; private set; }
+    [BoxGroup("Card Selected Movement")] [field: SerializeField]
+    private float SelectedZOffsetPosition;
 
-    [field: Header("Discard")] public GameObject DiscardPile;
+    [Space] [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothMovementSpeed;
+    [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothRotationSpeed;
+
+    [Space] [BoxGroup("Card Selected Movement")][field: SerializeField] private float _clampValueRotation;
+    
 
     private float _offsetZCardCamera;
     private int _cardSelectedIndex;
@@ -248,10 +251,9 @@ public class CardHand : MonoBehaviour
     private void SetSelectedCardTransform() //Called when there is a selected card
     {
         Vector3 newPosition = GetMouseWorldPosition(); //Get the mouse position on the screen
-
-        float clampValue = 0.1f;
-        float yDifference = Mathf.Clamp(newPosition.y - _cardSelected.transform.position.y, -clampValue, clampValue);
-        float xDifference = Mathf.Clamp(newPosition.x - _cardSelected.transform.position.x, -clampValue, clampValue);
+        
+        float yDifference = Mathf.Clamp(newPosition.y - _cardSelected.transform.position.y, -_clampValueRotation, _clampValueRotation);
+        float xDifference = Mathf.Clamp(newPosition.x - _cardSelected.transform.position.x, -_clampValueRotation, _clampValueRotation);
 
         Quaternion toRotation = Quaternion.Euler(-90 + (yDifference) * 90, -(xDifference) * 90, 0);
 
@@ -263,7 +265,7 @@ public class CardHand : MonoBehaviour
     private Vector3 GetMouseWorldPosition() //Called in SetSelectedCardTransform
     {
         Vector3 mousePoint = Input.mousePosition;
-        mousePoint.z = _offsetZCardCamera + OffsetZCardSelected; //Apply Z offset on mouse position
+        mousePoint.z = _offsetZCardCamera + SelectedZOffsetPosition; //Apply Z offset on mouse position
         return CardCamera.ScreenToWorldPoint(mousePoint);
     }
 
