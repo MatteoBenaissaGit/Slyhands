@@ -129,6 +129,15 @@ namespace Slots
                 return false;
             }
 
+            if (Coordinates.y + 1 < Board.Data.BoardSize.y)
+            {
+                SlotController slotUp = Board.GetSlotFromCoordinates(Coordinates + new Vector3Int(0, 1, 0));
+                if (slotUp != null)
+                {
+                    return false;
+                }
+            }
+            
             if (fromSlot == null)
             {
                 return true;

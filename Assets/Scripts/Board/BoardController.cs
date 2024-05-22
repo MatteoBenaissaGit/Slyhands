@@ -202,7 +202,7 @@ namespace Board
                     }
                 }
 
-                if (neighborSlot != null)
+                if (neighborSlot != null && neighborSlot.IsAccessibleFromSlot(null))
                 {
                     neighborsSlots.Add(neighborSlot);
                 }
