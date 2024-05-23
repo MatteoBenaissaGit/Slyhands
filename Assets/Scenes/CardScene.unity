@@ -842,8 +842,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
+      propertyPath: SmoothScalingSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SelectedOffsetScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
       propertyPath: SmoothMovementSpeed
-      value: 70
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
@@ -853,7 +863,22 @@ PrefabInstance:
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
       propertyPath: _clampValueRotation
-      value: 15
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SelectedOffsetScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SelectedOffsetScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SelectedOffsetScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
@@ -862,8 +887,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
+      propertyPath: SelectedYOffsetPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
       propertyPath: SelectedZOffsetPosition
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SelectedOffsetPosition.y
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: SelectedOffsetPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}

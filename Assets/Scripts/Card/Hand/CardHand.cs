@@ -29,12 +29,16 @@ public class CardHand : MonoBehaviour
     [Space][BoxGroup("On Card Hovered")][SerializeField] private float _hoveredOffsetScale;
 
     [Space(20)][BoxGroup("On Card Hovered")] [SerializeField] private Vector3 _minorOffsetPosition;
-
-    [BoxGroup("Card Selected Movement")] [field: SerializeField]
-    private float SelectedZOffsetPosition;
+    
+    [BoxGroup("Card Selected Movement")]
+    [field: SerializeField] public Vector3 SelectedOffsetPosition;
+    
+    [BoxGroup("Card Selected Movement")]
+    [field: SerializeField] public float SelectedOffsetScale; 
 
     [Space] [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothMovementSpeed;
     [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothRotationSpeed;
+    [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothScalingSpeed;
 
     [Space] [BoxGroup("Card Selected Movement")][field: SerializeField] private float _clampValueRotation;
     
@@ -225,7 +229,7 @@ public class CardHand : MonoBehaviour
             _offsetZCardCamera =
                 _cardSelected.transform.position.z -
                 CardCamera.transform.position.z; //Get distance between card selected and card camera
-
+            
             _cardSelectedIndex =
                 cardsInHand.IndexOf(_cardHovered.transform); //Get index of card selected in the hand if it go back in
 
@@ -252,8 +256,8 @@ public class CardHand : MonoBehaviour
     {
         Vector3 newPosition = GetMouseWorldPosition(); //Get the mouse position on the screen
         
-        float yDifference = Mathf.Clamp(newPosition.y - _cardSelected.transform.position.y, -_clampValueRotation, _clampValueRotation);
-        float xDifference = Mathf.Clamp(newPosition.x - _cardSelected.transform.position.x, -_clampValueRotation, _clampValueRotation);
+        float yDifference = Mathf.Clamp((newPosition.y - _cardSelected.transform.position.y), -_clampValueRotation / 10, _clampValueRotation / 10);
+        float xDifference = Mathf.Clamp((newPosition.x - _cardSelected.transform.position.x), -_clampValueRotation / 10, _clampValueRotation / 10);
 
         Quaternion toRotation = Quaternion.Euler(-90 + (yDifference) * 90, -(xDifference) * 90, 0);
 
@@ -265,8 +269,8 @@ public class CardHand : MonoBehaviour
     private Vector3 GetMouseWorldPosition() //Called in SetSelectedCardTransform
     {
         Vector3 mousePoint = Input.mousePosition;
-        mousePoint.z = _offsetZCardCamera + SelectedZOffsetPosition; //Apply Z offset on mouse position
-        return CardCamera.ScreenToWorldPoint(mousePoint);
+        mousePoint.z = _offsetZCardCamera + SelectedOffsetPosition.z; //Apply Z offset on mouse position
+        return CardCamera.ScreenToWorldPoint(mousePoint) + SelectedOffsetPosition;
     }
 
     private void CheckSlotHovered() //Check if there is a slot under the card selected

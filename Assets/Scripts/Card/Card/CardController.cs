@@ -25,6 +25,8 @@ public class CardController : MonoBehaviour
     public Vector3 TargetPosition;
     public Quaternion TargetRotation;
 
+    [Header("Debug Selected Properties")] public Vector3 TargetScale;
+
     private void Start()
     {
         CardVisual = GetComponent<CardVisual>();
@@ -32,6 +34,8 @@ public class CardController : MonoBehaviour
 
         IdleScale = transform.localScale;
         MinorScale = transform.localScale;
+        
+        TargetScale = transform.localScale * CardManager.Instance.DeckManager.CardHand.SelectedOffsetScale;
     }
 
     private void Update()
@@ -74,10 +78,17 @@ public class CardController : MonoBehaviour
                 break;
             
             case CardStatus.Dragged:
+                //Position
                 transform.position = Vector3.Lerp(transform.position, TargetPosition,
                     Time.deltaTime * CardManager.Instance.DeckManager.CardHand.SmoothMovementSpeed);
+                
+                //Rotation
                 transform.rotation = Quaternion.Lerp(transform.rotation, TargetRotation,
                     Time.deltaTime * CardManager.Instance.DeckManager.CardHand.SmoothRotationSpeed);
+                
+                //Scale
+                transform.localScale = 
+                    Vector3.Lerp(transform.localScale, TargetScale, Time.deltaTime * CardManager.Instance.DeckManager.CardHand.SmoothScalingSpeed);
                 break;
         }
     }
