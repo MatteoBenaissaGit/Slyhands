@@ -1,6 +1,7 @@
 ﻿using System;
 using Common;
 using LevelEditor;
+using LevelEditor.ActionButtons;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,7 +38,7 @@ namespace Inputs
             Paste = 1,
             Cut = 2
         }
-        
+
         public Action<bool> OnCameraMoveButtonPressed { get; set; }
         public Action<Vector2> OnCameraMoved { get; set; }
         public Action<float> OnCameraZoomed { get; set; }
@@ -47,6 +48,7 @@ namespace Inputs
         public Action<bool> OnClickHold { get; set; }
         public Action<bool> OnRightClickHold { get; set; }
         public Action<ControlShortcutAction> OnControlShortcut { get; set; }
+        public Action<LevelEditorActionButtonType> OnActionShortcut { get; set; }
         public Action OnRotation { get; set; }
 
         private bool _isControlPressed;
@@ -78,9 +80,23 @@ namespace Inputs
             manager.Scheme.LevelEditor.V.started += _ => PressedControlShortcut(ControlShortcutAction.Paste);
             manager.Scheme.LevelEditor.X.started += _ => PressedControlShortcut(ControlShortcutAction.Cut);
             
+            manager.Scheme.LevelEditor.Selection.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Selection);
+            manager.Scheme.LevelEditor.Paint.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Paint);
+            manager.Scheme.LevelEditor.Obstacle.started += _ => PressedActionShortcut(LevelEditorActionButtonType.AddObstacle);
+            manager.Scheme.LevelEditor.Character.started += _ => PressedActionShortcut(LevelEditorActionButtonType.AddCharacter);
+            
             manager.Scheme.LevelEditor.Rotation.started += _ => OnRotation?.Invoke();
         }
 
+        private void PressedActionShortcut(LevelEditorActionButtonType action)
+        {
+            if (_isControlPressed)
+            {
+                return;
+            }
+            OnActionShortcut?.Invoke(action);
+        }
+        
         private void PressedControlShortcut(ControlShortcutAction shortcut)
         {
             if (_isControlPressed == false)

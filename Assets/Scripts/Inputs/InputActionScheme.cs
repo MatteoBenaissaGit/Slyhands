@@ -134,6 +134,42 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Selection"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c66f6ea-09e6-4295-b134-f86569098dd5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Paint"",
+                    ""type"": ""Button"",
+                    ""id"": ""f10a056a-03c3-4168-9a64-19a7207fa1c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Obstacle"",
+                    ""type"": ""Button"",
+                    ""id"": ""299acbac-34be-4f21-b379-10e81eefb387"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Character"",
+                    ""type"": ""Button"",
+                    ""id"": ""9aef3cc5-307e-4ac5-a453-bb2f139b6edb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -268,6 +304,50 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3327759-d8c8-426f-9802-2954f0b2aa6d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Selection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""824865a1-7cf7-446d-bd7e-507441d205c7"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Paint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""857e6b85-469d-4157-8482-b20ff2476bf4"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Obstacle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""079158db-1157-4338-8f42-f55cef71d753"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Character"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -336,6 +416,10 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_V = m_LevelEditor.FindAction("V", throwIfNotFound: true);
         m_LevelEditor_X = m_LevelEditor.FindAction("X", throwIfNotFound: true);
         m_LevelEditor_Rotation = m_LevelEditor.FindAction("Rotation", throwIfNotFound: true);
+        m_LevelEditor_Selection = m_LevelEditor.FindAction("Selection", throwIfNotFound: true);
+        m_LevelEditor_Paint = m_LevelEditor.FindAction("Paint", throwIfNotFound: true);
+        m_LevelEditor_Obstacle = m_LevelEditor.FindAction("Obstacle", throwIfNotFound: true);
+        m_LevelEditor_Character = m_LevelEditor.FindAction("Character", throwIfNotFound: true);
         // CardController
         m_CardController = asset.FindActionMap("CardController", throwIfNotFound: true);
         m_CardController_LeftClickPress = m_CardController.FindAction("LeftClickPress", throwIfNotFound: true);
@@ -413,6 +497,10 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_V;
     private readonly InputAction m_LevelEditor_X;
     private readonly InputAction m_LevelEditor_Rotation;
+    private readonly InputAction m_LevelEditor_Selection;
+    private readonly InputAction m_LevelEditor_Paint;
+    private readonly InputAction m_LevelEditor_Obstacle;
+    private readonly InputAction m_LevelEditor_Character;
     public struct LevelEditorActions
     {
         private @InputActionScheme m_Wrapper;
@@ -429,6 +517,10 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @V => m_Wrapper.m_LevelEditor_V;
         public InputAction @X => m_Wrapper.m_LevelEditor_X;
         public InputAction @Rotation => m_Wrapper.m_LevelEditor_Rotation;
+        public InputAction @Selection => m_Wrapper.m_LevelEditor_Selection;
+        public InputAction @Paint => m_Wrapper.m_LevelEditor_Paint;
+        public InputAction @Obstacle => m_Wrapper.m_LevelEditor_Obstacle;
+        public InputAction @Character => m_Wrapper.m_LevelEditor_Character;
         public InputActionMap Get() { return m_Wrapper.m_LevelEditor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -474,6 +566,18 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @Rotation.started += instance.OnRotation;
             @Rotation.performed += instance.OnRotation;
             @Rotation.canceled += instance.OnRotation;
+            @Selection.started += instance.OnSelection;
+            @Selection.performed += instance.OnSelection;
+            @Selection.canceled += instance.OnSelection;
+            @Paint.started += instance.OnPaint;
+            @Paint.performed += instance.OnPaint;
+            @Paint.canceled += instance.OnPaint;
+            @Obstacle.started += instance.OnObstacle;
+            @Obstacle.performed += instance.OnObstacle;
+            @Obstacle.canceled += instance.OnObstacle;
+            @Character.started += instance.OnCharacter;
+            @Character.performed += instance.OnCharacter;
+            @Character.canceled += instance.OnCharacter;
         }
 
         private void UnregisterCallbacks(ILevelEditorActions instance)
@@ -514,6 +618,18 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @Rotation.started -= instance.OnRotation;
             @Rotation.performed -= instance.OnRotation;
             @Rotation.canceled -= instance.OnRotation;
+            @Selection.started -= instance.OnSelection;
+            @Selection.performed -= instance.OnSelection;
+            @Selection.canceled -= instance.OnSelection;
+            @Paint.started -= instance.OnPaint;
+            @Paint.performed -= instance.OnPaint;
+            @Paint.canceled -= instance.OnPaint;
+            @Obstacle.started -= instance.OnObstacle;
+            @Obstacle.performed -= instance.OnObstacle;
+            @Obstacle.canceled -= instance.OnObstacle;
+            @Character.started -= instance.OnCharacter;
+            @Character.performed -= instance.OnCharacter;
+            @Character.canceled -= instance.OnCharacter;
         }
 
         public void RemoveCallbacks(ILevelEditorActions instance)
@@ -599,6 +715,10 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnV(InputAction.CallbackContext context);
         void OnX(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
+        void OnSelection(InputAction.CallbackContext context);
+        void OnPaint(InputAction.CallbackContext context);
+        void OnObstacle(InputAction.CallbackContext context);
+        void OnCharacter(InputAction.CallbackContext context);
     }
     public interface ICardControllerActions
     {

@@ -358,7 +358,7 @@ PrefabInstance:
     - target: {fileID: 2209601123916660750, guid: 03723fe04bcc0474aa23020b82b7ef52,
         type: 3}
       propertyPath: m_Name
-      value: AddEntityButton
+      value: AddCharacterButton
       objectReference: {fileID: 0}
     - target: {fileID: 4017397184655713198, guid: 03723fe04bcc0474aa23020b82b7ef52,
         type: 3}

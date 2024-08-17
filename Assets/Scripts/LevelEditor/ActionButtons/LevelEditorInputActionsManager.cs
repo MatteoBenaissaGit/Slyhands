@@ -88,7 +88,7 @@ namespace LevelEditor.ActionButtons
         }
         
         /// <summary>
-        /// Set the current used button
+        /// Set the current used action button
         /// </summary>
         /// <param name="buttonToSet">The button to set as current</param>
         public void SetCurrentButton(LevelEditorActionButtonController buttonToSet)

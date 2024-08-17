@@ -1,4 +1,6 @@
+using System;
 using DG.Tweening;
+using Inputs;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +38,24 @@ namespace LevelEditor.ActionButtons
         private void Awake()
         {
             SetSelected(false,true);
+        }
+
+        protected virtual void Start()
+        {
+            InputManager.Instance.LevelEditorInput.OnActionShortcut += ActionShortcut;
+        }
+        
+        /// <summary>
+        /// Called when an action shortcut is used for this button, call the action manager to set this button as the current button
+        /// </summary>
+        /// <param name="type"></param>
+        private void ActionShortcut(LevelEditorActionButtonType type)
+        {
+            if (type != Type)
+            {
+                return;
+            }
+            LevelEditorManager.Instance.UI.InputActionsManager.SetCurrentButton(this);
         }
 
         /// <summary>

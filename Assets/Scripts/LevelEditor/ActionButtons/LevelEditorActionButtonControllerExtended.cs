@@ -29,8 +29,10 @@ namespace LevelEditor.ActionButtons
 
         private bool _areChoicesDisplayed;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             InputManager.Instance.LevelEditorInput.OnLeftClick += CheckForClickTapClearChoiceTab;
             InputManager.Instance.LevelEditorInput.OnRightClick += CheckForClickTapClearChoiceTab;
             
