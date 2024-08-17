@@ -46,7 +46,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""CameraZoom"",
+                    ""name"": ""MouseScroll"",
                     ""type"": ""Value"",
                     ""id"": ""32a04d80-0da7-4a7c-ad44-a393009d45ba"",
                     ""expectedControlType"": ""Axis"",
@@ -166,7 +166,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CameraZoom"",
+                    ""action"": ""MouseScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -326,7 +326,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor = asset.FindActionMap("LevelEditor", throwIfNotFound: true);
         m_LevelEditor_CameraMoveButton = m_LevelEditor.FindAction("CameraMoveButton", throwIfNotFound: true);
         m_LevelEditor_CameraMoveVector = m_LevelEditor.FindAction("CameraMoveVector", throwIfNotFound: true);
-        m_LevelEditor_CameraZoom = m_LevelEditor.FindAction("CameraZoom", throwIfNotFound: true);
+        m_LevelEditor_MouseScroll = m_LevelEditor.FindAction("MouseScroll", throwIfNotFound: true);
         m_LevelEditor_LeftClick = m_LevelEditor.FindAction("LeftClick", throwIfNotFound: true);
         m_LevelEditor_RightClick = m_LevelEditor.FindAction("RightClick", throwIfNotFound: true);
         m_LevelEditor_ClickHold = m_LevelEditor.FindAction("ClickHold", throwIfNotFound: true);
@@ -403,7 +403,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private List<ILevelEditorActions> m_LevelEditorActionsCallbackInterfaces = new List<ILevelEditorActions>();
     private readonly InputAction m_LevelEditor_CameraMoveButton;
     private readonly InputAction m_LevelEditor_CameraMoveVector;
-    private readonly InputAction m_LevelEditor_CameraZoom;
+    private readonly InputAction m_LevelEditor_MouseScroll;
     private readonly InputAction m_LevelEditor_LeftClick;
     private readonly InputAction m_LevelEditor_RightClick;
     private readonly InputAction m_LevelEditor_ClickHold;
@@ -419,7 +419,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public LevelEditorActions(@InputActionScheme wrapper) { m_Wrapper = wrapper; }
         public InputAction @CameraMoveButton => m_Wrapper.m_LevelEditor_CameraMoveButton;
         public InputAction @CameraMoveVector => m_Wrapper.m_LevelEditor_CameraMoveVector;
-        public InputAction @CameraZoom => m_Wrapper.m_LevelEditor_CameraZoom;
+        public InputAction @MouseScroll => m_Wrapper.m_LevelEditor_MouseScroll;
         public InputAction @LeftClick => m_Wrapper.m_LevelEditor_LeftClick;
         public InputAction @RightClick => m_Wrapper.m_LevelEditor_RightClick;
         public InputAction @ClickHold => m_Wrapper.m_LevelEditor_ClickHold;
@@ -444,9 +444,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @CameraMoveVector.started += instance.OnCameraMoveVector;
             @CameraMoveVector.performed += instance.OnCameraMoveVector;
             @CameraMoveVector.canceled += instance.OnCameraMoveVector;
-            @CameraZoom.started += instance.OnCameraZoom;
-            @CameraZoom.performed += instance.OnCameraZoom;
-            @CameraZoom.canceled += instance.OnCameraZoom;
+            @MouseScroll.started += instance.OnMouseScroll;
+            @MouseScroll.performed += instance.OnMouseScroll;
+            @MouseScroll.canceled += instance.OnMouseScroll;
             @LeftClick.started += instance.OnLeftClick;
             @LeftClick.performed += instance.OnLeftClick;
             @LeftClick.canceled += instance.OnLeftClick;
@@ -484,9 +484,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @CameraMoveVector.started -= instance.OnCameraMoveVector;
             @CameraMoveVector.performed -= instance.OnCameraMoveVector;
             @CameraMoveVector.canceled -= instance.OnCameraMoveVector;
-            @CameraZoom.started -= instance.OnCameraZoom;
-            @CameraZoom.performed -= instance.OnCameraZoom;
-            @CameraZoom.canceled -= instance.OnCameraZoom;
+            @MouseScroll.started -= instance.OnMouseScroll;
+            @MouseScroll.performed -= instance.OnMouseScroll;
+            @MouseScroll.canceled -= instance.OnMouseScroll;
             @LeftClick.started -= instance.OnLeftClick;
             @LeftClick.performed -= instance.OnLeftClick;
             @LeftClick.canceled -= instance.OnLeftClick;
@@ -589,7 +589,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     {
         void OnCameraMoveButton(InputAction.CallbackContext context);
         void OnCameraMoveVector(InputAction.CallbackContext context);
-        void OnCameraZoom(InputAction.CallbackContext context);
+        void OnMouseScroll(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
         void OnClickHold(InputAction.CallbackContext context);

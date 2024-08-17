@@ -41,6 +41,7 @@ namespace Inputs
         public Action<bool> OnCameraMoveButtonPressed { get; set; }
         public Action<Vector2> OnCameraMoved { get; set; }
         public Action<float> OnCameraZoomed { get; set; }
+        public Action<float> OnHeightShortcut { get; set; }
         public Action OnLeftClick { get; set; }
         public Action OnRightClick { get; set; }
         public Action<bool> OnClickHold { get; set; }
@@ -57,9 +58,9 @@ namespace Inputs
             
             manager.Scheme.LevelEditor.CameraMoveVector.performed += context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
             manager.Scheme.LevelEditor.CameraMoveVector.canceled += context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
-            
-            manager.Scheme.LevelEditor.CameraZoom.performed += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
-            manager.Scheme.LevelEditor.CameraZoom.canceled += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
+
+            manager.Scheme.LevelEditor.MouseScroll.performed += context => ScrolledMouse(context.ReadValue<float>());
+            manager.Scheme.LevelEditor.MouseScroll.canceled += context => ScrolledMouse(context.ReadValue<float>());
             
             manager.Scheme.LevelEditor.LeftClick.started += context => OnLeftClick?.Invoke();
             
@@ -87,6 +88,16 @@ namespace Inputs
                 return;
             }
             OnControlShortcut?.Invoke(shortcut);
+        }
+
+        private void ScrolledMouse(float value)
+        {
+            if (_isControlPressed)
+            {
+                OnHeightShortcut?.Invoke(Math.Sign(value));
+                return;
+            }
+            OnCameraZoomed?.Invoke(value);
         }
     }
     

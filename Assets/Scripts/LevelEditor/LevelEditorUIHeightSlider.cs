@@ -1,3 +1,5 @@
+using System;
+using Inputs;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -14,7 +16,12 @@ namespace LevelEditor
         [SerializeField, Required] private TMP_Text _heightValueText;
 
         private int _currentHeight;
-        
+
+        private void Start()
+        {
+            InputManager.Instance.LevelEditorInput.OnHeightShortcut += (value) => SetSliderHeight(_currentHeight + value);
+        }
+
         public void SetSlider(bool doShow)
         {
             gameObject.SetActive(doShow);
@@ -33,6 +40,11 @@ namespace LevelEditor
 
         private void SetSliderHeight(float value)
         {
+            if ((int)value < 0 || (int)value > _slider.maxValue)
+            {
+                return;
+            }
+            
             _currentHeight = (int)value;
             _slider.value = _currentHeight;
             _heightValueText.text = _currentHeight.ToString();

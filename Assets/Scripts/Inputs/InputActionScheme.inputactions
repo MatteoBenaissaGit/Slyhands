@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "CameraZoom",
+                    "name": "MouseScroll",
                     "type": "Value",
                     "id": "32a04d80-0da7-4a7c-ad44-a393009d45ba",
                     "expectedControlType": "Axis",
@@ -144,7 +144,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CameraZoom",
+                    "action": "MouseScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
