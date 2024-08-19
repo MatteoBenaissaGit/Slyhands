@@ -70,4 +70,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-Assets/Plugins/ToolbarExtender/Editor/SceneList.asset
+
+# Custom
+/[Aa]ssets/[Pp]lugins/[Tt]oolbarExtender/[Ee]ditor/SceneList.asset
