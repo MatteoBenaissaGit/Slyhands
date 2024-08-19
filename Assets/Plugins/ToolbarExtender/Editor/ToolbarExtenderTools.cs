@@ -79,6 +79,8 @@ namespace Plugins.unity_toolbar_extender_master.Editor
             if (newScene != null)
             {
                 _sceneList.Scenes.Add(newScene);
+                EditorUtility.SetDirty(_sceneList);
+                AssetDatabase.SaveAssetIfDirty(_sceneList);
             }
         }
     }
