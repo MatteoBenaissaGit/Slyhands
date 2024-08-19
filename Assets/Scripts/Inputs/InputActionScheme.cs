@@ -170,6 +170,24 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CameraRotationLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""f522327b-5c3f-44d9-8f9e-f305ab248970"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CameraRotationRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa00996e-2d59-4790-9d11-6e6a6c77fb0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -348,6 +366,28 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""Character"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc265131-d981-4669-aae5-7ff869bb98c8"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraRotationLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0e78669-ae44-4dda-a4a1-b483b7b7fc94"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraRotationRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -420,6 +460,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_Paint = m_LevelEditor.FindAction("Paint", throwIfNotFound: true);
         m_LevelEditor_Obstacle = m_LevelEditor.FindAction("Obstacle", throwIfNotFound: true);
         m_LevelEditor_Character = m_LevelEditor.FindAction("Character", throwIfNotFound: true);
+        m_LevelEditor_CameraRotationLeft = m_LevelEditor.FindAction("CameraRotationLeft", throwIfNotFound: true);
+        m_LevelEditor_CameraRotationRight = m_LevelEditor.FindAction("CameraRotationRight", throwIfNotFound: true);
         // CardController
         m_CardController = asset.FindActionMap("CardController", throwIfNotFound: true);
         m_CardController_LeftClickPress = m_CardController.FindAction("LeftClickPress", throwIfNotFound: true);
@@ -501,6 +543,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_Paint;
     private readonly InputAction m_LevelEditor_Obstacle;
     private readonly InputAction m_LevelEditor_Character;
+    private readonly InputAction m_LevelEditor_CameraRotationLeft;
+    private readonly InputAction m_LevelEditor_CameraRotationRight;
     public struct LevelEditorActions
     {
         private @InputActionScheme m_Wrapper;
@@ -521,6 +565,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @Paint => m_Wrapper.m_LevelEditor_Paint;
         public InputAction @Obstacle => m_Wrapper.m_LevelEditor_Obstacle;
         public InputAction @Character => m_Wrapper.m_LevelEditor_Character;
+        public InputAction @CameraRotationLeft => m_Wrapper.m_LevelEditor_CameraRotationLeft;
+        public InputAction @CameraRotationRight => m_Wrapper.m_LevelEditor_CameraRotationRight;
         public InputActionMap Get() { return m_Wrapper.m_LevelEditor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -578,6 +624,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @Character.started += instance.OnCharacter;
             @Character.performed += instance.OnCharacter;
             @Character.canceled += instance.OnCharacter;
+            @CameraRotationLeft.started += instance.OnCameraRotationLeft;
+            @CameraRotationLeft.performed += instance.OnCameraRotationLeft;
+            @CameraRotationLeft.canceled += instance.OnCameraRotationLeft;
+            @CameraRotationRight.started += instance.OnCameraRotationRight;
+            @CameraRotationRight.performed += instance.OnCameraRotationRight;
+            @CameraRotationRight.canceled += instance.OnCameraRotationRight;
         }
 
         private void UnregisterCallbacks(ILevelEditorActions instance)
@@ -630,6 +682,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @Character.started -= instance.OnCharacter;
             @Character.performed -= instance.OnCharacter;
             @Character.canceled -= instance.OnCharacter;
+            @CameraRotationLeft.started -= instance.OnCameraRotationLeft;
+            @CameraRotationLeft.performed -= instance.OnCameraRotationLeft;
+            @CameraRotationLeft.canceled -= instance.OnCameraRotationLeft;
+            @CameraRotationRight.started -= instance.OnCameraRotationRight;
+            @CameraRotationRight.performed -= instance.OnCameraRotationRight;
+            @CameraRotationRight.canceled -= instance.OnCameraRotationRight;
         }
 
         public void RemoveCallbacks(ILevelEditorActions instance)
@@ -719,6 +777,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnPaint(InputAction.CallbackContext context);
         void OnObstacle(InputAction.CallbackContext context);
         void OnCharacter(InputAction.CallbackContext context);
+        void OnCameraRotationLeft(InputAction.CallbackContext context);
+        void OnCameraRotationRight(InputAction.CallbackContext context);
     }
     public interface ICardControllerActions
     {

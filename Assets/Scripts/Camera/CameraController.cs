@@ -35,9 +35,11 @@ namespace Camera
             {
                 throw new Exception("no input manager");
             }
+            
             InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += (bool doMove) => _doMoveCamera = doMove;
             InputManager.Instance.LevelEditorInput.OnCameraMoved += (Vector2 movementValue) => _cameraMovement = movementValue;
             InputManager.Instance.LevelEditorInput.OnCameraZoomed += (float zoomValue) => _cameraZoom = zoomValue;
+            InputManager.Instance.LevelEditorInput.OnCameraRotate += RotateCamera;
         }
 
         private void Update()
@@ -61,8 +63,27 @@ namespace Camera
             float zoomFactorSpeed = zoomFactor * _moveSpeedMultiplierPerZoom;
             float deltaTime = Time.deltaTime * Screen.dpi;
             Vector3 xMovement = Camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed * deltaTime);
-            Vector3 yMovement = Camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
+            Vector3 yMovement = Vector3.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
             Camera.transform.localPosition += xMovement + yMovement;
+        }
+
+        private void RotateCamera(int value)
+        {
+            value = Math.Sign(value) * 90;
+            
+            
+            Plane plane = new Plane(Vector3.up, 1);
+            Ray ray = new Ray(Camera.transform.position, Camera.transform.forward);
+            if (plane.Raycast(ray, out float enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                Camera.transform.RotateAround(hitPoint, Vector3.up, value);
+                
+                Debug.DrawRay(hitPoint, Vector3.right, Color.red, 5f);
+                Debug.DrawRay(hitPoint, Vector3.left, Color.red, 5f);
+                Debug.DrawRay(hitPoint, Vector3.forward, Color.red, 5f);
+                Debug.DrawRay(hitPoint, Vector3.back, Color.red, 5f);
+            }
         }
     }
 }
