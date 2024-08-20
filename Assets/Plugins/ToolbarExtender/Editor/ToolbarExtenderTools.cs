@@ -108,7 +108,7 @@ namespace Plugins
             {
                 GUILayout.FlexibleSpace();
             
-                if (GUILayout.Button(new GUIContent(EditorGUIUtility.IconContent("CustomTool"))))
+                if (GUILayout.Button("Editor icons"))
                 {
                     Plugins.IconWindows.OpenWindow();
                 }
