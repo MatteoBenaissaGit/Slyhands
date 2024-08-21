@@ -35,8 +35,11 @@ namespace Plugins
             var centerStyle = new GUIStyle() { alignment = TextAnchor.MiddleCenter };
             EditorGUILayout.BeginHorizontal(centerStyle);
             GUILayout.FlexibleSpace();
+            bool progressBar = false;
             if (GUILayout.Button("Previous") && _currentPage > 0)
             {
+                progressBar = true;
+                EditorUtility.DisplayProgressBar("Loading icons", "Loading...", 0f);
                 _currentPage--;
             }
             var labelStyle = new GUIStyle() { 
@@ -47,6 +50,8 @@ namespace Plugins
             EditorGUILayout.LabelField($"{_currentPage + 1} / {totalPages}", labelStyle, GUILayout.Width(80));
             if (GUILayout.Button("Next") && _currentPage < totalPages - 1)
             {
+                progressBar = true;
+                EditorUtility.DisplayProgressBar("Loading icons", "Loading...", 0f);
                 _currentPage++;
             }
             GUILayout.FlexibleSpace();
@@ -60,6 +65,11 @@ namespace Plugins
             EditorGUILayout.BeginVertical(centerStyle);
             for (int i = start; i < end; i++)
             {
+                if (progressBar)
+                {
+                    EditorUtility.DisplayProgressBar("Loading icons", "Loading...", i / (float)end);
+                }
+                
                 string assetPath = AssetDatabase.GUIDToAssetPath(_guids[i]);
                 Texture icon = AssetDatabase.LoadAssetAtPath<Texture>(assetPath);
                 GUIContent content = new GUIContent(icon);
@@ -83,8 +93,11 @@ namespace Plugins
             }
             EditorGUILayout.EndVertical();
 
+            if (progressBar) EditorUtility.ClearProgressBar();
+            
             // -- name & copy button ---
             EditorGUILayout.BeginVertical();
+            EditorGUILayout.Separator();
             if (string.IsNullOrEmpty(_selectedIconName) == false)
             {
                 EditorGUILayout.BeginHorizontal(centerStyle);

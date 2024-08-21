@@ -19,7 +19,8 @@ namespace Plugins
         {
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button(new GUIContent("GameScene", "Start GameScene")))
+            var sceneImage = EditorGUIUtility.IconContent("BuildSettings.SelectedIcon").image;
+            if (GUILayout.Button(new GUIContent("GameScene", sceneImage, "Start GameScene")))
             {
                 if (Event.current.button == 0)
                 {
@@ -27,7 +28,7 @@ namespace Plugins
                 }
             }
 
-            if (GUILayout.Button(new GUIContent("LevelEditorScene", "Start LevelEditorScene")))
+            if (GUILayout.Button(new GUIContent("LevelEditorScene", sceneImage, "Start LevelEditorScene")))
             {
                 if (Event.current.button == 0)
                 {
@@ -60,11 +61,13 @@ namespace Plugins
 
             //draw scenes
             List<int> scenesToRemove = new();
+            var sceneImage = EditorGUIUtility.IconContent("BuildSettings.SelectedIcon").image;
             for (int i = 0; i < _sceneList.Scenes.Count; i++)
             {
                 EditorGUILayout.BeginHorizontal();
 
-                if (GUILayout.Button(_sceneList.Scenes[i].name))
+                string name = _sceneList.Scenes[i].name;
+                if (GUILayout.Button(new GUIContent(name, sceneImage, $"Open {name}")))
                 {
                     if (Event.current.button == 0)
                     {
@@ -108,7 +111,7 @@ namespace Plugins
             {
                 GUILayout.FlexibleSpace();
             
-                if (GUILayout.Button("Editor icons"))
+                if (GUILayout.Button(new GUIContent("Editor icons", EditorGUIUtility.IconContent("d_CustomTool").image)))
                 {
                     Plugins.IconWindows.OpenWindow();
                 }
