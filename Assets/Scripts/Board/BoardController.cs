@@ -66,8 +66,13 @@ namespace Board
                 _currentHoveredLocation?.SetHovered(true);
             }
         }
+
+
         private SlotLocation _currentHoveredLocation;
 
+        public Vector3 WorldCenter => GetCoordinatesToWorldPosition(CoordinateCenter);
+        public Vector3 CoordinateCenter => Data.BoardSize / 2;
+            
         #endregion
 
         #region Private values
@@ -87,7 +92,7 @@ namespace Board
         /// </summary>
         /// <param name="coordinates">The coordinates you need to translate in world position</param>
         /// <returns>A Vector3 of the world position associated to the given coordinates</returns>
-        public Vector3 GetCoordinatesToWorldPosition(Vector3Int coordinates)
+        public Vector3 GetCoordinatesToWorldPosition(Vector3 coordinates)
         {
             return transform.position + new Vector3(coordinates.x, coordinates.y, coordinates.z);
         }
