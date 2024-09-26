@@ -16,7 +16,7 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
 
             //position
             Vector2Int direction = WorldOrientation.GetDirection(button.Orientation);
-            transform.position += new Vector3(direction.x, 0, direction.y);
+            button.transform.position += new Vector3(direction.x, 0, direction.y) * 5;
         }
     }
 }

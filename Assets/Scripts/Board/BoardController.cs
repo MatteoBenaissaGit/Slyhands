@@ -416,7 +416,7 @@ namespace Board
         /// <param name="orientation">the direction to extend</param>
         public void ExtendBoard(WorldOrientation.Orientation orientation)
         {
-            Debug.Log(orientation);
+            Debug.Log(orientation + " extend");
         }
         
         #endregion
