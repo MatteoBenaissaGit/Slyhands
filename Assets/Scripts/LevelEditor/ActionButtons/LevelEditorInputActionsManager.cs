@@ -19,7 +19,7 @@ namespace LevelEditor.ActionButtons
     {
         [field:Required] [field:SerializeField] public LevelEditorActionPreview Preview { get; private set; }
         
-        public Orientation CurrentPlacingOrientation { get; private set; }
+        public WorldOrientation.Orientation CurrentPlacingOrientation { get; private set; }
         
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
@@ -335,12 +335,12 @@ namespace LevelEditor.ActionButtons
         /// </summary>
         private void ChangeRotation()
         {
-            Orientation newOrientation = CurrentPlacingOrientation switch
+            WorldOrientation.Orientation newOrientation = CurrentPlacingOrientation switch
             {
-                Orientation.North => Orientation.East,
-                Orientation.East => Orientation.South,
-                Orientation.South => Orientation.West,
-                Orientation.West => Orientation.North,
+                WorldOrientation.Orientation.North => WorldOrientation.Orientation.East,
+                WorldOrientation.Orientation.East => WorldOrientation.Orientation.South,
+                WorldOrientation.Orientation.South => WorldOrientation.Orientation.West,
+                WorldOrientation.Orientation.West => WorldOrientation.Orientation.North,
                 _ => throw new ArgumentOutOfRangeException()
             };
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Board.Characters;
 using Data.Prefabs;
 using GameEngine;
@@ -9,9 +8,7 @@ using LevelEditor.Entities;
 using LevelEditor.LoadAndSave;
 using Players;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using Slots;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Board
@@ -79,20 +76,14 @@ namespace Board
         [SerializeField, TabGroup("TabGroup1", "References"), Required] private SlotLocation _slotLocationPrefab;
 
         private Transform _slotParent;
-        private Vector2Int[] _directions = new Vector2Int[]
-        {
-            new Vector2Int(0,1),
-            new Vector2Int(0,-1),
-            new Vector2Int(1,0),
-            new Vector2Int(-1,0),
-        };
+        private Vector2Int[] _directions = { new (0,1), new (0,-1), new (1,0), new (-1,0), };
         
         #endregion
 
         #region Common
 
         /// <summary>
-        /// This class get the desired world position related to a board coordinates
+        /// This method get the desired world position related to a board coordinates
         /// </summary>
         /// <param name="coordinates">The coordinates you need to translate in world position</param>
         /// <returns>A Vector3 of the world position associated to the given coordinates</returns>
@@ -284,16 +275,16 @@ namespace Board
             Vector2Int rampDirection = new Vector2Int(0, 0);
             switch (slot.Data.Orientation)
             {
-                case Orientation.North:
+                case WorldOrientation.Orientation.North:
                     rampDirection = new Vector2Int(0, 1);
                     break;
-                case Orientation.South:
+                case WorldOrientation.Orientation.South:
                     rampDirection = new Vector2Int(0, -1);
                     break;
-                case Orientation.East:
+                case WorldOrientation.Orientation.East:
                     rampDirection = new Vector2Int(1, 0);
                     break;
-                case Orientation.West:
+                case WorldOrientation.Orientation.West:
                     rampDirection = new Vector2Int(-1, 0);
                     break;
             }
@@ -332,6 +323,7 @@ namespace Board
             ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
             
             LevelEditorManager.Instance?.UI.SetHeightSlider(height);
+            LevelEditorManager.Instance?.ExtendButtons.Initialize(this);
         }
 
         /// <summary>
@@ -416,6 +408,15 @@ namespace Board
             Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SetSlotViewOnLocation(slotView);
             
             return (slot,slotView);
+        }
+        
+        /// <summary>
+        /// This method extend the board of 1 row in the desired direction
+        /// </summary>
+        /// <param name="orientation">the direction to extend</param>
+        public void ExtendBoard(WorldOrientation.Orientation orientation)
+        {
+            Debug.Log(orientation);
         }
         
         #endregion

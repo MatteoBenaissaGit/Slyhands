@@ -25,7 +25,7 @@ namespace LevelEditor.ActionButtons
         /// </summary>
         /// <param name="gameObjectPrefabToPreview">the object to preview</param>
         /// <param name="yOffset">the yOffset to apply on the preview</param>
-        public void SetGameObjectToPreview(GameObject gameObjectPrefabToPreview, BoardEntitySuperType superType, float yOffset = 0f, Orientation orientation = Orientation.North)
+        public void SetGameObjectToPreview(GameObject gameObjectPrefabToPreview, BoardEntitySuperType superType, float yOffset = 0f, WorldOrientation.Orientation orientation = WorldOrientation.Orientation.North)
         {
             DestroyPreview();
             if (gameObjectPrefabToPreview == null)
@@ -94,7 +94,7 @@ namespace LevelEditor.ActionButtons
         /// Set the orientation of the preview
         /// </summary>
         /// <param name="orientation">the orientation to set the preview to</param>
-        public void SetOrientation(Orientation orientation)
+        public void SetOrientation(WorldOrientation.Orientation orientation)
         {
             if (_gameObjectToPreview == null || _gameObjectToPreview.transform == null)
             {

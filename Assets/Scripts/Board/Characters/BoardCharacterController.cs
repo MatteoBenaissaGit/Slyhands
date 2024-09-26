@@ -37,7 +37,7 @@ namespace Board.Characters
 
         public Team Team { get; set; }
         public bool IsSelectable { get; set; } = true;
-        public Orientation Orientation {get; set;}
+        public WorldOrientation.Orientation Orientation {get; set;}
         
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
