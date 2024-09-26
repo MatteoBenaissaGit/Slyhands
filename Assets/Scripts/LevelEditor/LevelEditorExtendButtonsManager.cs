@@ -27,8 +27,21 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
             float xOffset = direction.x * boardSize.x / 2 + direction.x;
             float zOffset = direction.y * boardSize.z / 2 + direction.y;
             Vector3 newPosition = boardCenter + new Vector3(xOffset, 0, zOffset);
-            //TODO with height
             button.transform.position = newPosition; 
+        }
+        
+        LevelEditorManager.Instance.UI.OnHeightChanged += SetButtonsHeight;
+        SetButtonsHeight(0);
+    }
+
+    public void SetButtonsHeight(int height)
+    {
+        foreach (LevelEditorExtendButtonController button in _extendButtons)
+        {
+            Vector3 position = button.transform.position;
+            float heightWorld =  _boardController.GetCoordinatesToWorldPosition(new Vector3(0,height,0)).y;
+            position.y = heightWorld;
+            button.transform.position = position;
         }
     }
 }

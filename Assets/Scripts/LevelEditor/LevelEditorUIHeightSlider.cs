@@ -12,6 +12,8 @@ namespace LevelEditor
     /// </summary>
     public class LevelEditorUIHeightSlider : MonoBehaviour
     {
+        public int CurrentHeight => _currentHeight;
+        
         [SerializeField, Required] private Slider _slider;
         [SerializeField, Required] private TMP_Text _heightValueText;
 
@@ -48,6 +50,8 @@ namespace LevelEditor
             _currentHeight = (int)value;
             _slider.value = _currentHeight;
             _heightValueText.text = _currentHeight.ToString();
+            
+            LevelEditorManager.Instance.UI.OnHeightChanged?.Invoke(_currentHeight);
             
             LevelEditorManager.Instance.Board.ViewSlotsAtHeight(_currentHeight);
         }

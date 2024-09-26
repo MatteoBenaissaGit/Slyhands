@@ -59,6 +59,7 @@ namespace LevelEditor
         [SerializeField, BoxGroup("Other"), Required]
         private LevelEditorUIHeightSlider _heightSlider;
 
+        public Action<int> OnHeightChanged { get; set; }
         public EditorMode CurrentMode { get; private set; }
         
         private List<LevelEditorUIMenu> _menus;
