@@ -8,7 +8,15 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
     [SerializeField] private LevelEditorExtendButtonController[] _extendButtons;
 
     private BoardController _boardController;
-    
+
+    private void Awake()
+    {
+        foreach (LevelEditorExtendButtonController button in _extendButtons)
+        {
+            button.gameObject.SetActive(false);
+        }
+    }
+
     public void Initialize(BoardController boardController)
     {
         _boardController = boardController;
@@ -16,14 +24,13 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
         foreach (LevelEditorExtendButtonController button in _extendButtons)
         {
             //event
+            button.gameObject.SetActive(true);
             button.OnExtend += () => _boardController.ExtendBoard(button.Orientation);
 
             //position
             Vector2Int direction = WorldOrientation.GetDirection(button.Orientation);
-            
             Vector3 boardCenter = _boardController.WorldCenter;
             Vector3 boardSize = _boardController.Data.BoardSize;
-
             float xOffset = direction.x * boardSize.x / 2f + direction.x;
             float zOffset = direction.y * boardSize.z / 2f + direction.y;
             Vector3 newPosition = boardCenter + new Vector3(xOffset, 0, zOffset);
@@ -34,7 +41,7 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
         SetButtonsHeight(0);
     }
 
-    public void SetButtonsHeight(int height)
+    private void SetButtonsHeight(int height)
     {
         foreach (LevelEditorExtendButtonController button in _extendButtons)
         {
