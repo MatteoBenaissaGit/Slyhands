@@ -1,3 +1,4 @@
+using System;
 using Board;
 using LevelEditor;
 using Slots;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class LevelEditorExtendButtonsManager : MonoBehaviour
 {
+    public Action<WorldOrientation.Orientation> OnExtend { get; set; }
+
     [SerializeField] private LevelEditorExtendButtonController[] _extendButtons;
 
     private BoardController _boardController;
@@ -20,25 +23,33 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
     public void Initialize(BoardController boardController)
     {
         _boardController = boardController;
+        OnExtend += _boardController.ExtendBoard;
+        OnExtend += ExtendButtonClicked;
         
         foreach (LevelEditorExtendButtonController button in _extendButtons)
         {
             //event
             button.gameObject.SetActive(true);
-            button.OnExtend += () => _boardController.ExtendBoard(button.Orientation);
+            button.Initialize(this);
 
             //position
-            Vector2Int direction = WorldOrientation.GetDirection(button.Orientation);
-            Vector3 boardCenter = _boardController.WorldCenter;
-            Vector3 boardSize = _boardController.Data.BoardSize;
-            float xOffset = direction.x * boardSize.x / 2f + direction.x;
-            float zOffset = direction.y * boardSize.z / 2f + direction.y;
-            Vector3 newPosition = boardCenter + new Vector3(xOffset, 0, zOffset);
-            button.transform.position = newPosition; 
+            SetButtonPosition(button);
         }
         
         LevelEditorManager.Instance.UI.OnHeightChanged += SetButtonsHeight;
         SetButtonsHeight(0);
+    }
+
+    private void SetButtonPosition(LevelEditorExtendButtonController button)
+    {
+        Vector2Int direction = WorldOrientation.GetDirection(button.Orientation);
+        Vector3 boardCenter = _boardController.WorldCenter;
+        boardCenter.y = 0;
+        Vector3 boardSize = _boardController.Data.Size;
+        float xOffset = direction.x * boardSize.x / 2f + direction.x;
+        float zOffset = direction.y * boardSize.z / 2f + direction.y;
+        Vector3 newPosition = boardCenter + new Vector3(xOffset, 0, zOffset);
+        button.transform.position = newPosition;
     }
 
     private void SetButtonsHeight(int height)
@@ -49,6 +60,14 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
             float heightWorld =  _boardController.GetCoordinatesToWorldPosition(new Vector3(0,height,0)).y;
             position.y = heightWorld;
             button.transform.position = position;
+        }
+    }
+
+    private void ExtendButtonClicked(WorldOrientation.Orientation orientation)
+    {
+        foreach (LevelEditorExtendButtonController button in _extendButtons)
+        {
+            SetButtonPosition(button);
         }
     }
 }

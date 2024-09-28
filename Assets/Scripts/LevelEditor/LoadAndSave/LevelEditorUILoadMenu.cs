@@ -51,7 +51,7 @@ namespace LevelEditor.LoadAndSave
             }
             
             LevelEditorManager.Instance.Board.LoadBoardFromLevelData(_selectedLevelButton.Data);
-            LevelEditorManager.Instance.UI.HideMenu(); //TODO doesnt hide ???
+            LevelEditorManager.Instance.UI.HideMenu(); //TODO dont hide ???
         }
         
         private void ShowSavedLevels()

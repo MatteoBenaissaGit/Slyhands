@@ -36,6 +36,12 @@ namespace LevelEditor
         [field:SerializeField] [field:BoxGroup("Menus")] [field:Required]
         public LevelEditorUISetTeamMenu SetTeamMenu { get; private set; }
         
+        
+        public Action<int> OnHeightChanged { get; set; }
+        public EditorMode CurrentMode { get; private set; }
+        public LevelEditorUIHeightSlider HeightSlider => _heightSlider;
+
+
         [SerializeField, BoxGroup("Menus"), Required]
         private LevelEditorUILoadMenu _loadMenu;
         [SerializeField, BoxGroup("Menus"), Required]
@@ -59,9 +65,6 @@ namespace LevelEditor
         [SerializeField, BoxGroup("Other"), Required]
         private LevelEditorUIHeightSlider _heightSlider;
 
-        public Action<int> OnHeightChanged { get; set; }
-        public EditorMode CurrentMode { get; private set; }
-        
         private List<LevelEditorUIMenu> _menus;
         private LevelEditorUIMenu _currentMenu;
 

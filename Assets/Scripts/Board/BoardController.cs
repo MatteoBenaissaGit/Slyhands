@@ -30,7 +30,7 @@ namespace Board
         [field:SerializeField] public int Width { get; private set; } //X
         [field:SerializeField] public int Height { get; private set; } //Y
         [field:SerializeField] public int Length { get; private set; } //Z
-        public Vector3Int BoardSize => new Vector3Int(Width, Height, Length);
+        public Vector3Int Size => new Vector3Int(Width, Height, Length);
         public SlotLocation[,,] SlotLocations { get; set; }
         [field:SerializeField] public Vector3Int PlayerStartCoordinates { get; set; }
     }
@@ -38,7 +38,7 @@ namespace Board
     /// <summary>
     /// This class handle the board management and store the slots on it
     /// </summary>
-    public class BoardController : MonoBehaviour
+    public partial class BoardController : MonoBehaviour
     {
         #region Properties
         
@@ -70,7 +70,7 @@ namespace Board
 
         private SlotLocation _currentHoveredLocation;
 
-        public Vector3 WorldCenter => GetCoordinatesToWorldPosition(new Vector3(Data.BoardSize.x - 1,Data.BoardSize.y - 1,Data.BoardSize.z - 1) / 2f);
+        public Vector3 WorldCenter => GetCoordinatesToWorldPosition(new Vector3(Data.Size.x - 1,Data.Size.y - 1,Data.Size.z - 1) / 2f);
             
         #endregion
 
@@ -140,9 +140,9 @@ namespace Board
             foreach (Vector2Int direction in _directions)
             {
                 Vector3Int nextCoordinates = new Vector3Int(slot.Coordinates.x + direction.x, slot.Coordinates.y, slot.Coordinates.z + direction.y);
-                if (Data.BoardSize.x <= nextCoordinates.x || nextCoordinates.x < 0 ||
-                    Data.BoardSize.y <= nextCoordinates.y || nextCoordinates.y < 0 ||
-                    Data.BoardSize.z <= nextCoordinates.z || nextCoordinates.z < 0)
+                if (Data.Size.x <= nextCoordinates.x || nextCoordinates.x < 0 ||
+                    Data.Size.y <= nextCoordinates.y || nextCoordinates.y < 0 ||
+                    Data.Size.z <= nextCoordinates.z || nextCoordinates.z < 0)
                 {
                     continue;
                 }
@@ -178,7 +178,7 @@ namespace Board
                 if (checkForRampsUp)
                 {
                     //if there is a ramp up above the next direction, add it to the neighbors
-                    if (nextCoordinates.y + 1 < Data.BoardSize.y)
+                    if (nextCoordinates.y + 1 < Data.Size.y)
                     {
                         SlotLocation nextCoordinatesUpperSlotLocation = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y + 1, nextCoordinates.z];
                         if (nextCoordinatesUpperSlotLocation != null 
@@ -296,147 +296,6 @@ namespace Board
             return rampDirection;
         }
         
-        #endregion
-
-        #region Board creation, load ans slot management methods
-
-        /// <summary>
-        /// Initialize the board data and setup the slot parent
-        /// </summary>
-        /// <param name="width">the width of the board</param>
-        /// <param name="length">the length of the board</param>
-        /// <param name="height">the height of the board</param>
-        protected void InitializeBoardData(int width, int length, int height)
-        {
-            Data = new BoardData(new Vector3Int(width,height, length));
-            
-            _slotParent = new GameObject("SlotParent").transform;
-            _slotParent.parent = transform;
-        }
-        
-        /// <summary>
-        /// Create a new blank board filled with slots
-        /// </summary>
-        /// <param name="width">the width of the board</param>
-        /// <param name="length">the length of the board</param>
-        /// <param name="height">the height of the board</param>
-        public void CreateBlankBoard(int width, int height, int length)
-        {
-            ClearBoard();
-            InitializeBoardData(width, length, height);
-            ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
-            
-            LevelEditorManager.Instance?.UI.SetHeightSlider(height);
-            LevelEditorManager.Instance?.ExtendButtons.Initialize(this);
-        }
-
-        /// <summary>
-        /// Create a slot location at the desired position
-        /// </summary>
-        /// <param name="x">x coordinate</param>
-        /// <param name="y">y coordinate</param>
-        /// <param name="z">z coordinate</param>
-        private void CreateSlotLocationAt(int x, int y, int z)
-        {
-            Data.SlotLocations[x, y, z] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector3Int(x,y,z)), Quaternion.identity);
-            Data.SlotLocations[x, y, z].transform.parent = _slotParent;
-            Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
-            Data.SlotLocations[x, y, z].name = $"SlotLocation {x},{y},{z}";
-        }
-
-        /// <summary>
-        /// Load a level data and create its board 
-        /// </summary>
-        /// <param name="data"></param>
-        public void LoadBoardFromLevelData(LevelData data)
-        {
-            CreateBlankBoard(data.BoardData.Width, data.BoardData.Height, data.BoardData.Length);
-            foreach (SlotData slotData in data.SlotDataList)
-            {
-                CreateSlotAt(slotData.Coordinates, slotData);
-            }
-            
-            //load roads
-            foreach (SlotLocation location in  Data.SlotLocations)
-            {
-                if (location.SlotView == null || location.SlotView.LevelEditorCharacterOnSlot == null)
-                {
-                    continue;
-                }
-                location.SlotView.LevelEditorCharacterOnSlot.SetRoad(location.SlotView.Controller.Data.LevelEditorCharacter.Road);
-            }
-        }
-        
-        /// <summary>
-        /// Clear the current board
-        /// </summary>
-        private void ClearBoard()
-        {
-            ForEachCoordinatesOnBoard(ClearBoardSlot);
-        }
-
-        /// <summary>
-        /// Clear a slot at defined coordinates
-        /// </summary>
-        /// <param name="coordinates">The coordinates of the slot to clear</param>
-        protected void ClearBoardSlot(Vector3Int coordinates)
-        {
-            SlotLocation slot = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
-            if (slot == null)
-            {
-                return;
-            }
-            slot.DestroySlotViewOnLocation();
-            Destroy(slot.gameObject);
-        }
-
-        /// <summary>
-        /// Create a slot at defined coordinates
-        /// </summary>
-        /// <param name="coordinates">The coordinates to create the slot at</param>
-        /// <param name="data">The data to put on the slot created, create a new one if null</param>
-        /// <returns>The slot created</returns>
-        public (SlotController controller, SlotView view) CreateSlotAt(Vector3Int coordinates, SlotData data = null)
-        {
-            SlotController slot = new SlotController(this, coordinates);
-            if (data != null)
-            {
-                slot.Data = data;
-            }
-            
-            SlotView slotView = Instantiate(_slotViewPrefab, _slotParent, true);
-            slotView.Initialize(slot);
-            float slotViewOffsetY = -0.5f;
-            slotView.transform.position = GetCoordinatesToWorldPosition(slot.Coordinates) + new Vector3(0,slotViewOffsetY,0);
-            
-            Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SetSlotViewOnLocation(slotView);
-            
-            return (slot,slotView);
-        }
-        
-        /// <summary>
-        /// This method extend the board of 1 row in the desired direction
-        /// </summary>
-        /// <param name="orientation">the direction to extend</param>
-        public void ExtendBoard(WorldOrientation.Orientation orientation)
-        {
-            Debug.Log(orientation + " extend");
-        }
-        
-        #endregion
-
-        #region Level Editor Board methods
-
-        /// <summary>
-        /// Show the slots at a specific height and hide the other slot floors
-        /// </summary>
-        public void ViewSlotsAtHeight(int height)
-        {
-            ForEachCoordinatesOnBoard(
-                coordinate => 
-                    Data.SlotLocations[coordinate.x,coordinate.y,coordinate.z].SetUsable(coordinate.y == height));
-        }
-
         #endregion
 
 
@@ -586,7 +445,7 @@ namespace Board
             } 
             
             //if there is a slot up
-            if (slot.Coordinates.y + 1 < Data.BoardSize.y)
+            if (slot.Coordinates.y + 1 < Data.Size.y)
             {
                 SlotLocation upperSlotLocation = Data.SlotLocations[slot.Coordinates.x, slot.Coordinates.y + 1, slot.Coordinates.z];
                 if (upperSlotLocation != null && upperSlotLocation.SlotView != null )
