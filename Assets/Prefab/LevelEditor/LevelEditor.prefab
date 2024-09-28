@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Orientation>k__BackingField: 3
-  _baseColor: {r: 1, g: 1, b: 1, a: 0.42745098}
+  _baseColor: {r: 1, g: 1, b: 1, a: 0.16862746}
   _hoveredColor: {r: 1, g: 1, b: 1, a: 0.7647059}
 --- !u!65 &446008837411053237
 BoxCollider:
@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Orientation>k__BackingField: 2
-  _baseColor: {r: 1, g: 1, b: 1, a: 0.42745098}
+  _baseColor: {r: 1, g: 1, b: 1, a: 0.16862746}
   _hoveredColor: {r: 1, g: 1, b: 1, a: 0.7647059}
 --- !u!65 &8830776921719728335
 BoxCollider:
@@ -1342,7 +1342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Orientation>k__BackingField: 1
-  _baseColor: {r: 1, g: 1, b: 1, a: 0.42745098}
+  _baseColor: {r: 1, g: 1, b: 1, a: 0.16862746}
   _hoveredColor: {r: 1, g: 1, b: 1, a: 0.7647059}
 --- !u!65 &6816480659886758875
 BoxCollider:
@@ -1568,7 +1568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Orientation>k__BackingField: 0
-  _baseColor: {r: 1, g: 1, b: 1, a: 0.42745098}
+  _baseColor: {r: 1, g: 1, b: 1, a: 0.16862746}
   _hoveredColor: {r: 1, g: 1, b: 1, a: 0.7647059}
 --- !u!65 &5359798631559612307
 BoxCollider:

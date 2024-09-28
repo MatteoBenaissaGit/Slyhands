@@ -20,12 +20,12 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
 
             //position
             Vector2Int direction = WorldOrientation.GetDirection(button.Orientation);
-
+            
             Vector3 boardCenter = _boardController.WorldCenter;
             Vector3 boardSize = _boardController.Data.BoardSize;
 
-            float xOffset = direction.x * boardSize.x / 2 + direction.x;
-            float zOffset = direction.y * boardSize.z / 2 + direction.y;
+            float xOffset = direction.x * boardSize.x / 2f + direction.x;
+            float zOffset = direction.y * boardSize.z / 2f + direction.y;
             Vector3 newPosition = boardCenter + new Vector3(xOffset, 0, zOffset);
             button.transform.position = newPosition; 
         }

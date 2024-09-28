@@ -70,8 +70,7 @@ namespace Board
 
         private SlotLocation _currentHoveredLocation;
 
-        public Vector3 WorldCenter => GetCoordinatesToWorldPosition(CoordinateCenter);
-        public Vector3 CoordinateCenter => Data.BoardSize / 2;
+        public Vector3 WorldCenter => GetCoordinatesToWorldPosition(new Vector3(Data.BoardSize.x - 1,Data.BoardSize.y - 1,Data.BoardSize.z - 1) / 2f);
             
         #endregion
 
