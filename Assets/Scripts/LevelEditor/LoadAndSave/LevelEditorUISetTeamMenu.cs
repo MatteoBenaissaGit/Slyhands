@@ -31,7 +31,7 @@ namespace LevelEditor.LoadAndSave
             _dropDownContent.sizeDelta = new Vector2(_dropDownContent.sizeDelta.x, 70 + (_dropDown.options.Count-1) * 40);
             _dropDown.RefreshShownValue();
             
-            base.OpenMenu();
+            base.OnMenuOpened();
         }
 
         private void OnEnable()

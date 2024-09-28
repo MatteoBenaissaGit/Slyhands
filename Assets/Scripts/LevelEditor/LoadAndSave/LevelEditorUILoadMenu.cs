@@ -17,6 +17,7 @@ namespace LevelEditor.LoadAndSave
         [SerializeField, Required] private RectTransform _content;
 
         private LevelToLoadButtonController _selectedLevelButton;
+        private string _lastLoadedLevel;
         
         protected override void Awake()
         {
@@ -25,12 +26,12 @@ namespace LevelEditor.LoadAndSave
             _searchInputField.onValueChanged.AddListener(input => FilterSaves(input));
         }
 
-        public override void OpenMenu()
+        public override void OnMenuOpened()
         {
             ShowSavedLevels();
         }
 
-        public override void CloseMenu()
+        public override void OnMenuClosed()
         {
             for (int i = 0; i < _content.childCount; i++)
             {
@@ -52,8 +53,37 @@ namespace LevelEditor.LoadAndSave
             
             LevelEditorManager.Instance.Board.LoadBoardFromLevelData(_selectedLevelButton.Data);
             LevelEditorManager.Instance.UI.HideMenu(); //TODO dont hide ???
+            
+            _lastLoadedLevel = _selectedLevelButton.Data.Name;
         }
-        
+
+        /// <summary>
+        /// Reset the last loaded level info, used when a new board is created to ensure it's save doesn't overwrite the last loaded level
+        /// </summary>
+        public void ResetLastLoadedLevel()
+        {
+            _lastLoadedLevel = string.Empty;
+        }
+
+        /// <summary>
+        /// Update the save of the last loaded level
+        /// </summary>
+        public void SaveLastLoadedLevel()
+        {
+            if (string.IsNullOrEmpty(_lastLoadedLevel))
+            {
+                LevelEditorManager.Instance.UI.ShowMenu(LevelEditorManager.Instance.UI.SaveMenu);
+                return;
+            }
+            
+            var lastLoadedLevel = LevelEditorManager.Instance.SaveLoadManager.GetLevelsData().Datas.Find(x => x.Name == _lastLoadedLevel);
+            if (lastLoadedLevel == null)
+            {
+                return;
+            }
+            LevelEditorManager.Instance.SaveLoadManager.SaveLevelData(LevelEditorManager.Instance.Board.Data, _lastLoadedLevel);
+        }
+
         private void ShowSavedLevels()
         {
             List<LevelData> levelDataList = LevelEditorManager.Instance.SaveLoadManager.GetLevelsData().Datas;

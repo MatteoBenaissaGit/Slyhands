@@ -127,6 +127,15 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""S"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2c6dafe-4468-44be-859d-faa61237601a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Rotation"",
                     ""type"": ""Button"",
                     ""id"": ""6cf3b5d6-ee0e-46a2-845a-12c9ad3b9cbe"",
@@ -388,6 +397,17 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""CameraRotationRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3b4ece8-3e97-45c2-9871-5929af2357a9"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""S"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -455,6 +475,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_C = m_LevelEditor.FindAction("C", throwIfNotFound: true);
         m_LevelEditor_V = m_LevelEditor.FindAction("V", throwIfNotFound: true);
         m_LevelEditor_X = m_LevelEditor.FindAction("X", throwIfNotFound: true);
+        m_LevelEditor_S = m_LevelEditor.FindAction("S", throwIfNotFound: true);
         m_LevelEditor_Rotation = m_LevelEditor.FindAction("Rotation", throwIfNotFound: true);
         m_LevelEditor_Selection = m_LevelEditor.FindAction("Selection", throwIfNotFound: true);
         m_LevelEditor_Paint = m_LevelEditor.FindAction("Paint", throwIfNotFound: true);
@@ -538,6 +559,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_C;
     private readonly InputAction m_LevelEditor_V;
     private readonly InputAction m_LevelEditor_X;
+    private readonly InputAction m_LevelEditor_S;
     private readonly InputAction m_LevelEditor_Rotation;
     private readonly InputAction m_LevelEditor_Selection;
     private readonly InputAction m_LevelEditor_Paint;
@@ -560,6 +582,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @C => m_Wrapper.m_LevelEditor_C;
         public InputAction @V => m_Wrapper.m_LevelEditor_V;
         public InputAction @X => m_Wrapper.m_LevelEditor_X;
+        public InputAction @S => m_Wrapper.m_LevelEditor_S;
         public InputAction @Rotation => m_Wrapper.m_LevelEditor_Rotation;
         public InputAction @Selection => m_Wrapper.m_LevelEditor_Selection;
         public InputAction @Paint => m_Wrapper.m_LevelEditor_Paint;
@@ -609,6 +632,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @X.started += instance.OnX;
             @X.performed += instance.OnX;
             @X.canceled += instance.OnX;
+            @S.started += instance.OnS;
+            @S.performed += instance.OnS;
+            @S.canceled += instance.OnS;
             @Rotation.started += instance.OnRotation;
             @Rotation.performed += instance.OnRotation;
             @Rotation.canceled += instance.OnRotation;
@@ -667,6 +693,9 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @X.started -= instance.OnX;
             @X.performed -= instance.OnX;
             @X.canceled -= instance.OnX;
+            @S.started -= instance.OnS;
+            @S.performed -= instance.OnS;
+            @S.canceled -= instance.OnS;
             @Rotation.started -= instance.OnRotation;
             @Rotation.performed -= instance.OnRotation;
             @Rotation.canceled -= instance.OnRotation;
@@ -772,6 +801,7 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnC(InputAction.CallbackContext context);
         void OnV(InputAction.CallbackContext context);
         void OnX(InputAction.CallbackContext context);
+        void OnS(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
         void OnSelection(InputAction.CallbackContext context);
         void OnPaint(InputAction.CallbackContext context);

@@ -37,6 +37,7 @@ namespace Board
             ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
 
             LevelEditorManager.Instance?.UI.SetHeightSlider(height);
+            LevelEditorManager.Instance?.UI.LoadMenu.ResetLastLoadedLevel();
             LevelEditorManager.Instance?.ExtendButtons.Initialize(this);
         }
 

@@ -31,12 +31,12 @@ namespace LevelEditor
             LevelEditorManager.Instance.UI.HideMenu();
         }
 
-        public virtual void OpenMenu()
+        public virtual void OnMenuOpened()
         {
             
         }
 
-        public virtual void CloseMenu()
+        public virtual void OnMenuClosed()
         {
             
         }

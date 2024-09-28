@@ -27,7 +27,6 @@ namespace LevelEditor.LoadAndSave
 
         private void SaveLevel()
         {
-            Debug.Log("save");
             LevelEditorManager.Instance.SaveLoadManager.SaveLevelData(LevelEditorManager.Instance.Board.Data, _saveNameInputField.text);
             LevelEditorManager.Instance.UI.HideMenu();
         }

@@ -36,7 +36,8 @@ namespace Inputs
         {
             Copy = 0,
             Paste = 1,
-            Cut = 2
+            Cut = 2,
+            Save = 3
         }
 
         public Action<bool> OnCameraMoveButtonPressed { get; set; }
@@ -80,6 +81,7 @@ namespace Inputs
             manager.Scheme.LevelEditor.C.started += _ => PressedControlShortcut(ControlShortcutAction.Copy);
             manager.Scheme.LevelEditor.V.started += _ => PressedControlShortcut(ControlShortcutAction.Paste);
             manager.Scheme.LevelEditor.X.started += _ => PressedControlShortcut(ControlShortcutAction.Cut);
+            manager.Scheme.LevelEditor.S.started += _ => PressedControlShortcut(ControlShortcutAction.Save);
             
             manager.Scheme.LevelEditor.Selection.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Selection);
             manager.Scheme.LevelEditor.Paint.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Paint);

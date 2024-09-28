@@ -105,6 +105,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "S",
+                    "type": "Button",
+                    "id": "b2c6dafe-4468-44be-859d-faa61237601a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Rotation",
                     "type": "Button",
                     "id": "6cf3b5d6-ee0e-46a2-845a-12c9ad3b9cbe",
@@ -364,6 +373,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "CameraRotationRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3b4ece8-3e97-45c2-9871-5929af2357a9",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "S",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
