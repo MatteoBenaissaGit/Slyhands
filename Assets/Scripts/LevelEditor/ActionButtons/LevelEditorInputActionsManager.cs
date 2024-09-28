@@ -303,6 +303,11 @@ namespace LevelEditor.ActionButtons
         {
             LevelEditorActionButtonControllerExtended paintButton = _currentButton as LevelEditorActionButtonControllerExtended;
             string slotTypeId = paintButton?.CurrentChoiceID;
+
+            if (_currentHoveredLocation.SlotView != null && _currentHoveredLocation.SlotView.Controller.Data.SlotTypeReferenceId == slotTypeId)
+            {
+                return;
+            }
             
             Vector3Int coordinates = _currentHoveredLocation.Coordinates;
             BoardController board = LevelEditorManager.Instance.Board;
