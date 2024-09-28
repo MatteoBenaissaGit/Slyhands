@@ -23,6 +23,7 @@ public class LevelEditorExtendButtonsManager : MonoBehaviour
     public void Initialize(BoardController boardController)
     {
         _boardController = boardController;
+        OnExtend = null;
         OnExtend += _boardController.ExtendBoard;
         OnExtend += ExtendButtonClicked;
         
