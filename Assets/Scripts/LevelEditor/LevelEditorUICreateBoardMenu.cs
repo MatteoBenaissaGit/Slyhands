@@ -1,7 +1,9 @@
 using System;
+using Inputs;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace LevelEditor
@@ -17,11 +19,41 @@ namespace LevelEditor
         private void Start()
         {
             _createNewBoardButton.onClick.AddListener(CreateNewBoardButtonActon);
+
+            InputManager.Instance.LevelEditorInput.OnTabPressed += TabPressed;
+            InputManager.Instance.LevelEditorInput.OnEnterPressed += EnterPressed;
+        }
+
+        public override void OnMenuOpened()
+        {
+            _widthInputField.Select();
         }
 
         protected override void OnDestroy()
         {
             _createNewBoardButton.onClick.RemoveListener(CreateNewBoardButtonActon);
+        }
+
+        private void TabPressed()
+        {
+            GameObject selectedGameObject = EventSystem.current.currentSelectedGameObject;
+            if (selectedGameObject == _widthInputField.gameObject)
+            {
+                _lengthInputField.Select();
+            }
+            else if (selectedGameObject == _lengthInputField.gameObject)
+            {
+                _heightInputField.Select();
+            }
+            else if (selectedGameObject == _heightInputField.gameObject)
+            {
+                _widthInputField.Select();
+            }
+        }
+        
+        private void EnterPressed()
+        {
+            CreateNewBoardButtonActon();
         }
 
         private void CreateNewBoardButtonActon()

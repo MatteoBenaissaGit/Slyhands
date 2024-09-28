@@ -114,6 +114,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Tab",
+                    "type": "Button",
+                    "id": "b3df0536-4142-4cb7-8d60-d07a82a789a0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "9b02fe6b-d837-4319-9798-793d0b1b5653",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Rotation",
                     "type": "Button",
                     "id": "6cf3b5d6-ee0e-46a2-845a-12c9ad3b9cbe",
@@ -384,6 +402,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "S",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dcad620e-52d7-4865-8cfc-3960e7f72815",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad650587-6147-43e0-8f10-20cea1292080",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

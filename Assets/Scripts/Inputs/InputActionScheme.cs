@@ -136,6 +136,24 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3df0536-4142-4cb7-8d60-d07a82a789a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b02fe6b-d837-4319-9798-793d0b1b5653"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Rotation"",
                     ""type"": ""Button"",
                     ""id"": ""6cf3b5d6-ee0e-46a2-845a-12c9ad3b9cbe"",
@@ -408,6 +426,28 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
                     ""action"": ""S"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcad620e-52d7-4865-8cfc-3960e7f72815"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad650587-6147-43e0-8f10-20cea1292080"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -476,6 +516,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         m_LevelEditor_V = m_LevelEditor.FindAction("V", throwIfNotFound: true);
         m_LevelEditor_X = m_LevelEditor.FindAction("X", throwIfNotFound: true);
         m_LevelEditor_S = m_LevelEditor.FindAction("S", throwIfNotFound: true);
+        m_LevelEditor_Tab = m_LevelEditor.FindAction("Tab", throwIfNotFound: true);
+        m_LevelEditor_Enter = m_LevelEditor.FindAction("Enter", throwIfNotFound: true);
         m_LevelEditor_Rotation = m_LevelEditor.FindAction("Rotation", throwIfNotFound: true);
         m_LevelEditor_Selection = m_LevelEditor.FindAction("Selection", throwIfNotFound: true);
         m_LevelEditor_Paint = m_LevelEditor.FindAction("Paint", throwIfNotFound: true);
@@ -560,6 +602,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
     private readonly InputAction m_LevelEditor_V;
     private readonly InputAction m_LevelEditor_X;
     private readonly InputAction m_LevelEditor_S;
+    private readonly InputAction m_LevelEditor_Tab;
+    private readonly InputAction m_LevelEditor_Enter;
     private readonly InputAction m_LevelEditor_Rotation;
     private readonly InputAction m_LevelEditor_Selection;
     private readonly InputAction m_LevelEditor_Paint;
@@ -583,6 +627,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         public InputAction @V => m_Wrapper.m_LevelEditor_V;
         public InputAction @X => m_Wrapper.m_LevelEditor_X;
         public InputAction @S => m_Wrapper.m_LevelEditor_S;
+        public InputAction @Tab => m_Wrapper.m_LevelEditor_Tab;
+        public InputAction @Enter => m_Wrapper.m_LevelEditor_Enter;
         public InputAction @Rotation => m_Wrapper.m_LevelEditor_Rotation;
         public InputAction @Selection => m_Wrapper.m_LevelEditor_Selection;
         public InputAction @Paint => m_Wrapper.m_LevelEditor_Paint;
@@ -635,6 +681,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @S.started += instance.OnS;
             @S.performed += instance.OnS;
             @S.canceled += instance.OnS;
+            @Tab.started += instance.OnTab;
+            @Tab.performed += instance.OnTab;
+            @Tab.canceled += instance.OnTab;
+            @Enter.started += instance.OnEnter;
+            @Enter.performed += instance.OnEnter;
+            @Enter.canceled += instance.OnEnter;
             @Rotation.started += instance.OnRotation;
             @Rotation.performed += instance.OnRotation;
             @Rotation.canceled += instance.OnRotation;
@@ -696,6 +748,12 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
             @S.started -= instance.OnS;
             @S.performed -= instance.OnS;
             @S.canceled -= instance.OnS;
+            @Tab.started -= instance.OnTab;
+            @Tab.performed -= instance.OnTab;
+            @Tab.canceled -= instance.OnTab;
+            @Enter.started -= instance.OnEnter;
+            @Enter.performed -= instance.OnEnter;
+            @Enter.canceled -= instance.OnEnter;
             @Rotation.started -= instance.OnRotation;
             @Rotation.performed -= instance.OnRotation;
             @Rotation.canceled -= instance.OnRotation;
@@ -802,6 +860,8 @@ public partial class @InputActionScheme: IInputActionCollection2, IDisposable
         void OnV(InputAction.CallbackContext context);
         void OnX(InputAction.CallbackContext context);
         void OnS(InputAction.CallbackContext context);
+        void OnTab(InputAction.CallbackContext context);
+        void OnEnter(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
         void OnSelection(InputAction.CallbackContext context);
         void OnPaint(InputAction.CallbackContext context);

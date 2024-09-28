@@ -52,6 +52,8 @@ namespace Inputs
         public Action<LevelEditorActionButtonType> OnActionShortcut { get; set; }
         public Action OnRotation { get; set; }
         public Action<int> OnCameraRotate { get; set; }
+        public Action OnTabPressed { get; set; }
+        public Action OnEnterPressed { get; set; }
 
         private bool _isControlPressed;
         
@@ -92,6 +94,9 @@ namespace Inputs
             
             manager.Scheme.LevelEditor.CameraRotationLeft.started += _ => OnCameraRotate?.Invoke(1);
             manager.Scheme.LevelEditor.CameraRotationRight.started += _ => OnCameraRotate?.Invoke(-1);
+            
+            manager.Scheme.LevelEditor.Tab.started += _ => OnTabPressed?.Invoke();
+            manager.Scheme.LevelEditor.Enter.started += _ => OnEnterPressed?.Invoke();
         }
 
         private void PressedActionShortcut(LevelEditorActionButtonType action)
