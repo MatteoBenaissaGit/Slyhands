@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Board;
 using Board.Characters;
 using GameEngine;
+using LevelEditor.Entities;
 using Slots;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Players.Behaviors
 {
@@ -36,34 +40,50 @@ namespace Players.Behaviors
         {
             character.OnCharacterAction.Invoke(CharacterAction.IsSelected);
 
-            //if state idle/base
+            //TODO if state idle/base/attack/search etc...
+            
             if (HasPredefinedRoad(character))
             {
                 MoveCharacterAlongSideRoad(character);
             }
             else
-            {
+            { 
                 MoveCharacterRandomly(character);
             }
                 
             character.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
         }
 
+        private bool _characterFollowPingPongRoadClockwise = true;
+        
         private void MoveCharacterAlongSideRoad(BoardCharacterController character)
         {
             int movementPoints = character.GameplayData.CurrentMovementPoints;
             Vector3Int[] road = character.GameplayData.Road;
 
+            BoardController board = GameManager.Instance.Board;
             SlotController slotToGo = null;
             SlotController currentCharacterSlot = character.CurrentSlot;
+
+            int roadIndex = character.GameplayData.RoadIndex;
+            
             while (movementPoints > 0)
             {
                 //get the target slot
-                Vector3Int targetSlotCoordinates = road[character.GameplayData.RoadIndex + 1];
-                SlotController targetSlot = GameManager.Instance.Board.GetSlotFromCoordinates(targetSlotCoordinates);
+                Vector3Int targetSlotCoordinates = road[roadIndex];
+                SlotController targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
+                if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out slotToGo) == false)
+                {
+                    slotToGo = currentCharacterSlot;
+                    break;
+                }
+
+#if UNITY_EDITOR
+                Debug.DrawLine(currentCharacterSlot.Location.transform.position, targetSlot.Location.transform.position, Color.red, 2f);                
+#endif
 
                 //get the path to target within accessible slots
-                List<SlotController> pathToTarget = GameManager.Instance.Board.GetPathFromSlotToSlot(currentCharacterSlot, targetSlot);
+                List<SlotController> pathToTarget = board.GetPathFromSlotToSlot(currentCharacterSlot, targetSlot);
                 List<SlotController> accessibleSlots = character.AccessibleSlots;
                 pathToTarget.RemoveAll(x => accessibleSlots.Contains(x) == false);
                 
@@ -78,11 +98,28 @@ namespace Players.Behaviors
                 
                 if (slotToGo == targetSlot)
                 {
-                    character.GameplayData.RoadIndex++;
-                    if (character.GameplayData.RoadIndex >= road.Length - 1)
+                    switch (character.GameplayData.RoadFollowMode)
                     {
-                        //TODO only for loop  
-                        character.GameplayData.RoadIndex = 0;
+                        case RoadFollowMode.PingPong:
+                            character.GameplayData.RoadIndex += _characterFollowPingPongRoadClockwise ? 1 : -1;
+                            if (_characterFollowPingPongRoadClockwise && character.GameplayData.RoadIndex >= road.Length)
+                            {
+                                _characterFollowPingPongRoadClockwise = false;
+                                character.GameplayData.RoadIndex = road.Length - 2;
+                            }
+                            else if (_characterFollowPingPongRoadClockwise == false && character.GameplayData.RoadIndex < 0)
+                            {
+                                _characterFollowPingPongRoadClockwise = true;
+                                character.GameplayData.RoadIndex = 1;
+                            }
+                            break;
+                        case RoadFollowMode.Loop:
+                            character.GameplayData.RoadIndex++;
+                            if (character.GameplayData.RoadIndex >= road.Length - 1)
+                            {
+                                character.GameplayData.RoadIndex = 0;
+                            }
+                            break;
                     }
                 }
             }

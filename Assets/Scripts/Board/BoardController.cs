@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Board.Characters;
 using Data.Prefabs;
 using GameEngine;
-using LevelEditor;
 using LevelEditor.Entities;
 using LevelEditor.LoadAndSave;
 using Players;
@@ -134,7 +133,7 @@ namespace Board
         /// </summary>
         /// <param name="slot">the slot to check from</param>
         /// <returns>The list of its neighbors</returns>
-        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false)
+        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false, params PathFindingOption[] options)
         {
             List<SlotController> neighborsSlots = new List<SlotController>();
             foreach (Vector2Int direction in _directions)
@@ -197,7 +196,7 @@ namespace Board
                     }
                 }
 
-                if (neighborSlot != null && neighborSlot.IsAccessibleFromSlot(null))
+                if (neighborSlot != null && neighborSlot.IsAccessibleFromSlot(null, options))
                 {
                     neighborsSlots.Add(neighborSlot);
                 }
@@ -212,7 +211,7 @@ namespace Board
         /// <param name="startSlot">the character from which the path start</param>
         /// <param name="endSlot">the slot to reach</param>
         /// <returns>return a list of the slots composing the path in order</returns>
-        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot)
+        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot, params PathFindingOption[] options)
         {
             List<SlotController> path = new List<SlotController>();
 
@@ -226,6 +225,7 @@ namespace Board
             {
                 //get the first slot in open list
                 SlotController currentSlot = openSlots[0];
+
                 openSlots.RemoveAt(0);
                 if (closedSlots.Contains(currentSlot))
                 {
@@ -247,13 +247,13 @@ namespace Board
                 }
                 
                 //get the neighbors of the current slot and add them to the open list
-                List<SlotController> neighbors = GetNeighborsOfSlot(currentSlot, true);
+                List<SlotController> neighbors = GetNeighborsOfSlot(currentSlot, true, options);
                 foreach (SlotController neighbor in neighbors)
                 {
                     int newCost = currentSlot.Data.PathfindingCost + 1;
 
                     //if the slot is not accessible or in closed : continue
-                    bool isAccessible = neighbor.IsAccessibleFromSlot(currentSlot);
+                    bool isAccessible = neighbor.IsAccessibleFromSlot(currentSlot, options);
                     if (isAccessible == false || closedSlots.Contains(neighbor))
                     {
                         continue;
@@ -476,7 +476,30 @@ namespace Board
                 FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleHashSet);
             }
         }
+        
+        public bool GetClosestToSlotFromSlot(SlotController targetSlot, SlotController fromSlot, out SlotController slot)
+        {
+            List<SlotController> path = GetPathFromSlotToSlot(fromSlot, targetSlot, PathFindingOption.IgnoreCharacters);
+            for (int i = path.Count - 1; i >= 0; i--)
+            {
+                SlotController pathSlot = path[i];
+                if (pathSlot.IsAccessible)
+                {
+                    slot = pathSlot;
+                    return true;
+                }
+            }
+            
+            slot = null;
+            return false;
+        }
 
         #endregion
+    }
+
+    public enum PathFindingOption
+    {
+        IgnoreCharacters = 0,
+        IgnoreObstacles = 1,
     }
 }

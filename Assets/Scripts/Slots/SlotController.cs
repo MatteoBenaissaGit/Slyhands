@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Board;
 using Board.Characters;
 using LevelEditor;
@@ -96,6 +97,8 @@ namespace Slots
             }
         }
 
+        public bool IsAccessible => Data.Character == null && Data.Obstacle.Has == false && Data.Type != SlotType.NotWalkable;
+
         public SlotController(BoardController board, Vector3Int coordinates, SlotData predefinedData = null) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Slot;
@@ -108,15 +111,19 @@ namespace Slots
         /// Return if the slot is accessible from the given slot
         /// </summary>
         /// <param name="fromSlot">The slot to check the accessibility from</param>
+        /// <param name="pathFindingOptions"></param>
         /// <returns>is the slot accessible from this slot ?</returns>
-        public bool IsAccessibleFromSlot(SlotController fromSlot)
+        public bool IsAccessibleFromSlot(SlotController fromSlot, params PathFindingOption[] pathFindingOptions)
         {
-            bool isThereAnObstacle = Data.Obstacle.Has;
-            bool isThereACharacter = Data.Character != null;
-            if (isThereACharacter || isThereAnObstacle || Data.Type == SlotType.NotWalkable)
+            if (pathFindingOptions.Contains(PathFindingOption.IgnoreCharacters) == false && Data.Character != null)
             {
                 return false;
             }
+            if (pathFindingOptions.Contains(PathFindingOption.IgnoreObstacles) == false && Data.Obstacle.Has)
+            {
+                return false;
+            }
+            
 
             if (Coordinates.y + 1 < Board.Data.Size.y)
             {

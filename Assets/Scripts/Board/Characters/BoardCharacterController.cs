@@ -45,7 +45,7 @@ namespace Board.Characters
         
         public Vector3Int[] Road { get; set; }
         public RoadFollowMode RoadFollowMode => Road[0] == Road[^1] ? RoadFollowMode.Loop : RoadFollowMode.PingPong;
-        public int RoadIndex { get; set; }
+        public int RoadIndex { get; set; } = 1;
     }
     
     public class BoardCharacterController : BoardEntity
@@ -57,10 +57,7 @@ namespace Board.Characters
         public CharacterActionDelegate OnCharacterAction { get; set; }
         public List<SlotController> AccessibleSlots { get; set; }
         
-        public SlotController CurrentSlot
-        {
-            get { return Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller; }
-        }
+        public SlotController CurrentSlot => Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller;
 
         public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type) : base(board, coordinates)
         {

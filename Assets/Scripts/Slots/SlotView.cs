@@ -278,7 +278,7 @@ namespace Slots
         private void DrawSquareGizmo()
         {
             //location
-            Handles.Label(transform.position, $"{Controller.Data.Coordinates.x},{Controller.Data.Coordinates.y},{Controller.Data.Coordinates.z}");
+            // Handles.Label(transform.position, $"{Controller.Data.Coordinates.x},{Controller.Data.Coordinates.y},{Controller.Data.Coordinates.z}");
             
             //square
             Gizmos.color = Color.red;
@@ -294,16 +294,8 @@ namespace Slots
             {
                 return;
             }
-            Vector2 orientationVector = Controller.Data.Orientation switch
-            {
-                WorldOrientation.Orientation.North => new Vector2(0,1),
-                WorldOrientation.Orientation.East => new Vector2(1, 0),
-                WorldOrientation.Orientation.South => new Vector2(0,-1),
-                WorldOrientation.Orientation.West => new Vector2(-1, 0),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            Gizmos.DrawLine(transform.position + new Vector3(0,0.5f,0), 
-                transform.position + new Vector3(orientationVector.x, 1f, orientationVector.y) * 0.5f);
+            Vector2 orientationVector = WorldOrientation.GetDirection(Controller.Data.Orientation);
+            // Gizmos.DrawLine(transform.position + new Vector3(0,0.5f,0), transform.position + new Vector3(orientationVector.x, 1f, orientationVector.y) * 0.5f);
         }
 
 #endif
