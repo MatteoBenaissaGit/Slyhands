@@ -18,7 +18,7 @@ namespace Board.Characters
     public enum CharacterAction
     {
         Idle = 0,
-        MoveTo = 1,
+        MoveTo = 1, //parameters[0] = List<SlotController> path
         GetHit = 2,
         Die = 3,
         IsSelected = 5,
@@ -54,7 +54,7 @@ namespace Board.Characters
         public CharacterControllerData GameplayData { get; private set; }
         public CharacterData Data { get; private set; }
         
-        public CharacterActionDelegate OnCharacterAction { get; set; }
+        public Action<CharacterAction, object[]> OnCharacterAction { get; set; }
         public List<SlotController> AccessibleSlots { get; set; }
         
         public SlotController CurrentSlot => Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller;
@@ -72,15 +72,19 @@ namespace Board.Characters
             OnCharacterAction += CharacterAction;
         }
         
-        public delegate void CharacterActionDelegate(CharacterAction action, Vector3Int targetCoordinates = new Vector3Int());
-        
-        private void CharacterAction(CharacterAction action, Vector3Int targetCoordinates = new Vector3Int())
+        private void CharacterAction(CharacterAction action, params object[] parameters)
         {
             switch (action)
             {
                 case Characters.CharacterAction.Idle:
                     break;
-                case Characters.CharacterAction.MoveTo:
+                case Characters.CharacterAction.MoveTo: 
+                    GameplayData.IsSelectable = true;
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not List<SlotController> path || path.Count == 0)
+                    {
+                        return;
+                    }
+                    MoveTo(path[^1].Coordinates);
                     break;
                 case Characters.CharacterAction.GetHit:
                     break;
@@ -114,6 +118,11 @@ namespace Board.Characters
         public void SetForNewTurn()
         {
             GameplayData.CurrentMovementPoints = Data.MovementPoints;
+        }
+
+        public void UpdateAccessibleSlots()
+        {
+            AccessibleSlots = Board.GetAccessibleSlotsByCharacter(this);
         }
     }
 }

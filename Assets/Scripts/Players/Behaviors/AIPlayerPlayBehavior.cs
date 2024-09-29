@@ -38,7 +38,7 @@ namespace Players.Behaviors
 
         private async Task PlayCharacter(BoardCharacterController character)
         {
-            character.OnCharacterAction.Invoke(CharacterAction.IsSelected);
+            character.OnCharacterAction.Invoke(CharacterAction.IsSelected, null);
 
             //TODO if state idle/base/attack/search etc...
             
@@ -51,26 +51,33 @@ namespace Players.Behaviors
                 MoveCharacterRandomly(character);
             }
                 
-            character.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
+            character.OnCharacterAction.Invoke(CharacterAction.IsUnselected, null);
         }
 
         private bool _characterFollowPingPongRoadClockwise = true;
         
         private void MoveCharacterAlongSideRoad(BoardCharacterController character)
         {
-            int movementPoints = character.GameplayData.CurrentMovementPoints;
             Vector3Int[] road = character.GameplayData.Road;
 
             BoardController board = GameManager.Instance.Board;
             SlotController slotToGo = null;
+            List<SlotController> path = new List<SlotController>();
             SlotController currentCharacterSlot = character.CurrentSlot;
 
-            int roadIndex = character.GameplayData.RoadIndex;
-            
-            while (movementPoints > 0)
+            int iterations = 0;
+            while (character.GameplayData.CurrentMovementPoints > 0)
             {
+                //loop security
+                iterations++;
+                if (iterations > 100)
+                {
+                    Debug.Log("Max iterations reached");
+                    break;
+                }
+                
                 //get the target slot
-                Vector3Int targetSlotCoordinates = road[roadIndex];
+                Vector3Int targetSlotCoordinates = road[character.GameplayData.RoadIndex];
                 SlotController targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
                 if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out slotToGo) == false)
                 {
@@ -83,17 +90,19 @@ namespace Players.Behaviors
 #endif
 
                 //get the path to target within accessible slots
-                List<SlotController> pathToTarget = board.GetPathFromSlotToSlot(currentCharacterSlot, targetSlot);
+                List<SlotController> currentPath = board.GetPathFromSlotToSlot(currentCharacterSlot, slotToGo ?? targetSlot);
+                character.UpdateAccessibleSlots();
                 List<SlotController> accessibleSlots = character.AccessibleSlots;
-                pathToTarget.RemoveAll(x => accessibleSlots.Contains(x) == false);
+                currentPath.RemoveAll(x => accessibleSlots.Contains(x) == false);
+                path.AddRange(currentPath);
                 
-                if (pathToTarget.Count == 0)
+                if (path.Count == 0)
                 {
                     break;
                 }
                 
-                movementPoints -= pathToTarget.Count + 1;
-                slotToGo = pathToTarget[^1];
+                character.GameplayData.CurrentMovementPoints -= currentPath.Count + 1;
+                slotToGo = path[^1];
                 currentCharacterSlot = slotToGo;
                 
                 if (slotToGo == targetSlot)
@@ -130,14 +139,15 @@ namespace Players.Behaviors
                 return;
             }
             
-            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, slotToGo.Coordinates);
+            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }
 
         private void MoveCharacterRandomly(BoardCharacterController character)
         {
             List<SlotController> accessibleSlots = character.AccessibleSlots;
             SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
-            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, targetSlot.Coordinates);
+            List<SlotController> path = GameManager.Instance.Board.GetPathFromSlotToSlot(character.CurrentSlot, targetSlot);
+            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }
         
         private bool HasPredefinedRoad(BoardCharacterController character)

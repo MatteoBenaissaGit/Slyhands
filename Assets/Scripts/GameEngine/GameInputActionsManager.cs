@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Board;
 using Board.Characters;
 using Inputs;
@@ -68,7 +69,7 @@ namespace GameEngine
         /// </summary>
         public void ResetSelection()
         {
-            _selectedCharacter?.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
+            _selectedCharacter?.OnCharacterAction.Invoke(CharacterAction.IsUnselected, null);
             _selectedCharacter = null;
             
             _currentInputActionState = GameInputActionState.Neutral;
@@ -113,7 +114,7 @@ namespace GameEngine
             {
                 _selectedCharacter = characterOnSlot;
                 _currentInputActionState = GameInputActionState.SelectedCharacter;
-                _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.IsSelected);
+                _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.IsSelected, null);
             }
         }
 
@@ -122,7 +123,7 @@ namespace GameEngine
         /// </summary>
         private void HandleClickInCharacterSelectionState()
         {
-            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
+            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.IsUnselected, null);
 
             BoardController board = GameManager.Instance.Board;
             Vector3Int targetCoordinates = board.CurrentHoveredLocation.Coordinates;
@@ -135,7 +136,8 @@ namespace GameEngine
                 return;
             }
 
-            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, board.CurrentHoveredLocation.Coordinates);
+            List<SlotController> path = board.GetPathFromSlotToSlot(_selectedCharacter.CurrentSlot, targetSlot);
+            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{ path });
 
             ResetSelection();
         }
