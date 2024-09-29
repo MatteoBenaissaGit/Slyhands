@@ -50,7 +50,7 @@ namespace LevelEditor.ActionButtons
         /// <param name="type"></param>
         private void ActionShortcut(LevelEditorActionButtonType type)
         {
-            if (type != Type)
+            if (type != Type || LevelEditorManager.Instance.UI.IsMenuOpen)
             {
                 return;
             }

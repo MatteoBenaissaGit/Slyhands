@@ -42,6 +42,7 @@ namespace LevelEditor
         public LevelEditorUIHeightSlider HeightSlider => _heightSlider;
         public LevelEditorUILoadMenu LoadMenu => _loadMenu;
         public LevelEditorUISaveMenu SaveMenu => _saveMenu;
+        public bool IsMenuOpen => _currentMenu != null;
 
 
         [SerializeField, BoxGroup("Menus"), Required]
@@ -197,6 +198,8 @@ namespace LevelEditor
                 .OnComplete(() => _currentMenu.CanvasGroup.alpha = 1f)
                 .OnComplete(() => _currentMenu.CanvasGroup.interactable = true)
                 .OnComplete(() => _currentMenu.CanvasGroup.blocksRaycasts = true);
+
+            _currentMenu = null;
         }
 
         public void SetHeightSlider(int height)
