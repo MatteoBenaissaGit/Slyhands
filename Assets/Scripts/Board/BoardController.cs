@@ -210,6 +210,7 @@ namespace Board
         /// </summary>
         /// <param name="startSlot">the character from which the path start</param>
         /// <param name="endSlot">the slot to reach</param>
+        /// <param name="options">specific options for the pathfinding search</param>
         /// <returns>return a list of the slots composing the path in order</returns>
         public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot, params PathFindingOption[] options)
         {
@@ -393,19 +394,21 @@ namespace Board
         /// <summary>
         /// Get all the accessible slots by a board character
         /// </summary>
-        /// <param name="characterController">The character to check for</param>
+        /// <param name="fromSlot">The slot from which to search the accessibles</param>
+        /// <param name="movementPoints">The movement points available, by default will use the character data points</param>
         /// <returns>A list of all the slots accessible</returns>
-        public List<SlotController> GetAccessibleSlotsByCharacter(BoardCharacterController characterController)
+        public List<SlotController> GetAccessibleSlotsBySlot(SlotController fromSlot, int movementPoints)
         {
             HashSet<SlotController> accessibleSlots = new HashSet<SlotController>();
 
-            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints + 1, ref accessibleSlots, true);
+            int movementAmount = movementPoints + 1;
+            FindAccessibleSlotFromSlot(fromSlot, movementAmount, ref accessibleSlots, true);
 
             List<SlotController> accessibleSlotsList = new List<SlotController>();
             foreach (SlotController slot in accessibleSlots)
             {
-                int pathCount = GetPathFromSlotToSlot(characterController.CurrentSlot, slot).Count;
-                if (pathCount <= characterController.GameplayData.CurrentMovementPoints)
+                int pathCount = GetPathFromSlotToSlot(fromSlot, slot).Count;
+                if (pathCount <= movementPoints)
                 {
                     accessibleSlotsList.Add(slot);
                 }
@@ -499,7 +502,8 @@ namespace Board
 
     public enum PathFindingOption
     {
-        IgnoreCharacters = 0,
-        IgnoreObstacles = 1,
+        None = 0,
+        IgnoreCharacters = 1,
+        IgnoreObstacles = 2,
     }
 }

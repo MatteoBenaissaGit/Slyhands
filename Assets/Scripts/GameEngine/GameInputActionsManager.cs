@@ -130,7 +130,7 @@ namespace GameEngine
             SlotController targetSlot = board.Data.SlotLocations[targetCoordinates.x, targetCoordinates.y, targetCoordinates.z].SlotView.Controller;
             
             if (targetSlot.Data.Obstacle.Has || targetSlot.Data.Character != null || targetSlot.Data.Type != SlotType.Base 
-                || GameManager.Instance.Board.GetAccessibleSlotsByCharacter(_selectedCharacter).Contains(targetSlot) == false)
+                || GameManager.Instance.Board.GetAccessibleSlotsBySlot(_selectedCharacter.CurrentSlot, _selectedCharacter.GameplayData.CurrentMovementPoints).Contains(targetSlot) == false)
             {
                 ResetSelection();
                 return;

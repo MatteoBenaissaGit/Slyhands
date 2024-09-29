@@ -65,21 +65,24 @@ namespace Players.Behaviors
             List<SlotController> path = new List<SlotController>();
             SlotController currentCharacterSlot = character.CurrentSlot;
 
-            int iterations = 0;
-            while (character.GameplayData.CurrentMovementPoints > 0)
+            int movementPoints = character.GameplayData.CurrentMovementPoints;
+            SlotController baseCharacterSlot = character.CurrentSlot;
+            baseCharacterSlot.Data.Character = null;
+
+            int maxIterations = 100;
+            while (movementPoints > 0) 
             {
-                //loop security
-                iterations++;
-                if (iterations > 100)
+                if (--maxIterations < 0)
                 {
-                    Debug.Log("Max iterations reached");
+                    Debug.LogError("max iterations reached, breaking loop");
                     break;
                 }
                 
                 //get the target slot
                 Vector3Int targetSlotCoordinates = road[character.GameplayData.RoadIndex];
                 SlotController targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
-                if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out slotToGo) == false)
+                SlotController targetSlotClosest = null;
+                if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out targetSlotClosest) == false)
                 {
                     slotToGo = currentCharacterSlot;
                     break;
@@ -90,10 +93,11 @@ namespace Players.Behaviors
 #endif
 
                 //get the path to target within accessible slots
-                List<SlotController> currentPath = board.GetPathFromSlotToSlot(currentCharacterSlot, slotToGo ?? targetSlot);
-                character.UpdateAccessibleSlots();
-                List<SlotController> accessibleSlots = character.AccessibleSlots;
+                List<SlotController> currentPath = board.GetPathFromSlotToSlot(currentCharacterSlot, targetSlotClosest ?? targetSlot);
+                var fromSlot = path.Count > 0 ? path[^1] : currentCharacterSlot;
+                List<SlotController> accessibleSlots = GameManager.Instance.Board.GetAccessibleSlotsBySlot(fromSlot, movementPoints);
                 currentPath.RemoveAll(x => accessibleSlots.Contains(x) == false);
+                
                 path.AddRange(currentPath);
                 
                 if (path.Count == 0)
@@ -101,7 +105,7 @@ namespace Players.Behaviors
                     break;
                 }
                 
-                character.GameplayData.CurrentMovementPoints -= currentPath.Count + 1;
+                movementPoints -= currentPath.Count;
                 slotToGo = path[^1];
                 currentCharacterSlot = slotToGo;
                 
@@ -132,6 +136,8 @@ namespace Players.Behaviors
                     }
                 }
             }
+
+            baseCharacterSlot.Data.Character = character;
 
             if (slotToGo == null)
             {

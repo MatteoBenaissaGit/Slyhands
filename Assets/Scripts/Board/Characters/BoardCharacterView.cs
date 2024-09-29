@@ -62,7 +62,7 @@ namespace Board.Characters
                 case CharacterAction.Die:
                     break;
                 case CharacterAction.IsSelected:
-                    Controller.UpdateAccessibleSlots();
+                    Controller.UpdateAccessibleSlots(Controller.GameplayData.CurrentMovementPoints);
                     if (Controller.GameplayData.Team.Player.Type != PlayerType.Local)
                     {
                         break;

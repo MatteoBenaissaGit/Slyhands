@@ -84,6 +84,7 @@ namespace Board.Characters
                     {
                         return;
                     }
+                    GameplayData.CurrentMovementPoints -= path.Count + 1;
                     MoveTo(path[^1].Coordinates);
                     break;
                 case Characters.CharacterAction.GetHit:
@@ -120,9 +121,9 @@ namespace Board.Characters
             GameplayData.CurrentMovementPoints = Data.MovementPoints;
         }
 
-        public void UpdateAccessibleSlots()
+        public void UpdateAccessibleSlots(int movementPoints)
         {
-            AccessibleSlots = Board.GetAccessibleSlotsByCharacter(this);
+            AccessibleSlots = Board.GetAccessibleSlotsBySlot(CurrentSlot, movementPoints);
         }
     }
 }
