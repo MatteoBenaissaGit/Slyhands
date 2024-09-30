@@ -11,6 +11,7 @@ namespace Data.Characters
         [field:SerializeField] public CharacterType Type { get; private set; }    
         [field:SerializeField] public int Life { get; private set; }    
         [field:SerializeField] public int MovementPoints { get; private set; }    
+        [field:SerializeField] public int FootPrintLength { get; private set; }
     }
     
     [CreateAssetMenu(fileName = "Data", menuName = "Data/Characters", order = 1)]

@@ -29,9 +29,9 @@ namespace Board.Characters
 
     public class CharacterControllerData
     {
-        public CharacterControllerData(int maxLife, Team team)
+        public CharacterControllerData(CharacterData data, Team team)
         {
-            MaxLife = maxLife;
+            MaxLife = data.Life;
             CurrentLife = MaxLife;
 
             Team = team;
@@ -49,6 +49,7 @@ namespace Board.Characters
         public RoadFollowMode RoadFollowMode => Road[0] == Road[^1] ? RoadFollowMode.Loop : RoadFollowMode.PingPong;
         public int RoadIndex { get; set; } = 1;
         public bool HasPredefinedRoad => Road != null && Road.Length > 1;
+        
     }
     
     public class BoardCharacterController : BoardEntity
@@ -69,8 +70,10 @@ namespace Board.Characters
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
 
-            GameplayData = new CharacterControllerData(Data.Life, team);
-            GameplayData.Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road;
+            GameplayData = new CharacterControllerData(Data, team)
+            {
+                Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road
+            };
 
             OnCharacterAction += CharacterAction;
         }

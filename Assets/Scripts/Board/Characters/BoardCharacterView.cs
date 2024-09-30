@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DG.Tweening;
 using GameEngine;
-using LevelEditor;
 using Players;
+using Sirenix.OdinInspector;
 using Slots;
 using UnityEngine;
 
@@ -14,8 +14,16 @@ namespace Board.Characters
     {
         public BoardCharacterController Controller { get; private set; }
 
-        [SerializeField] private Animator _animator;
+        [TitleGroup("Animation"), SerializeField] private Animator _animator;
+        [TitleGroup("Footprint"), SerializeField] private Sprite _footPrint;
+        [TitleGroup("Footprint"), SerializeField] private Color _footPrintColor = Color.black;
+        [TitleGroup("Footprint"), SerializeField] private float _footPrintSize = 0.25f;
+        
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+        
+        private Queue<SpriteRenderer> _footPrints;
+        private float _footPrintFade;
+        private static Vector3[] _orientationToFootPrintRotation = { new(90, 0, 0), new(90, 0, 270), new(90, 0, 180), new(90, 0, 90)};
 
         public void Initialize(BoardCharacterController controller)
         {
@@ -23,6 +31,31 @@ namespace Board.Characters
             Controller.OnCharacterAction += CharacterActionView;
             
             transform.rotation = Quaternion.Euler(0, ((int)Controller.GameplayData.Orientation) * 90, 0);
+            
+            InitializeFootPrints();
+        }
+
+        private void InitializeFootPrints()
+        {
+            if (_footPrint == null || Controller.Data.FootPrintLength == 0)
+            {
+                return;
+            }
+
+            _footPrintFade = _footPrintColor.a;
+            
+            int footPrints = Controller.Data.FootPrintLength;
+            _footPrints = new Queue<SpriteRenderer>();
+            GameObject footPrintParent = new GameObject("FootPrints Parent");
+            for (int i = 0; i < footPrints; i++)
+            {
+                SpriteRenderer footPrint = new GameObject($"FootPrint_{i}").AddComponent<SpriteRenderer>();
+                footPrint.sprite = _footPrint;
+                footPrint.transform.parent = footPrintParent.transform;
+                footPrint.gameObject.SetActive(false);
+                _footPrints.Enqueue(footPrint);
+            }
+            footPrintParent.transform.localScale *= _footPrintSize;
         }
 
         private void OnDestroy()
@@ -78,11 +111,12 @@ namespace Board.Characters
             float totalTime = 0;
             float moveTime = 0.2f;
             
-            Sequence sequence = DOTween.Sequence();
             Vector3 previousPosition = transform.position;
             
             foreach (SlotController slot in path)
             {
+                Sequence sequence = DOTween.Sequence();
+                
                 int multiplier = 1;
                 
                 //position
@@ -98,16 +132,36 @@ namespace Board.Characters
                 direction.y = 0;
                 sequence.Join(transform.DOLookAt(previousPosition + direction, moveTime * multiplier)).SetEase(Ease.Linear);
                 
+                //footprints
+                if (_footPrints != null) //no footprints on stairs
+                {
+                    SpriteRenderer newFootPrint = _footPrints.Dequeue();
+                    _footPrints.Enqueue(newFootPrint);
+                    newFootPrint.DOComplete();
+                    newFootPrint.transform.position = previousPosition;
+                    WorldOrientation.Orientation orientation = WorldOrientation.GetOrientation(targetPosition - previousPosition);
+                    newFootPrint.transform.rotation = Quaternion.Euler(_orientationToFootPrintRotation[(int)orientation]);
+                    newFootPrint.gameObject.SetActive(true);
+                    newFootPrint.color = new Color(_footPrintColor.r, _footPrintColor.g, _footPrintColor.b, 0f);
+
+                    float fade = 1f / _footPrints.Count; 
+                    foreach (SpriteRenderer footPrint in _footPrints)
+                    {
+                        footPrint.DOComplete();
+                        sequence.Join(footPrint.DOFade(fade, moveTime * multiplier));
+                        fade += 1f / _footPrints.Count;
+                    }
+                }
+                
+                //play sequence
                 previousPosition = targetPosition;
-                totalTime += moveTime * multiplier;
+                transform.DOKill();
+                sequence.Play();
+                _animator.SetBool(IsWalking, true);
+                
+                await Task.Delay((int)((moveTime * multiplier) * 1000));
             }
             
-            transform.DOKill();
-            sequence.Play();
-            _animator.SetBool(IsWalking, true);
-            
-            await Task.Delay((int)(totalTime * 1000));
-
             _animator.SetBool(IsWalking, false);
         }
     }
