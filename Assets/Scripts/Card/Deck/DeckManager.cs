@@ -12,8 +12,6 @@ public class DeckManager : MonoBehaviour
     [field: SerializeField] public CardDrawer CardDrawer { get; private set; }
     [field: SerializeField] public DiscardPile DiscardPile { get; private set; }
     
-    [field: SerializeField] public List<Sprite> CardTypeSprite { get; private set; }
-
     private void Start()
     {
         DrawerInitialisation();

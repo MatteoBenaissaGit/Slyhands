@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -149,13 +148,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133794250}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 2.7, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 781561611}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &133794252
 MonoBehaviour:
@@ -196,12 +195,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!81 &133794253
 AudioListener:
   m_ObjectHideFlags: 0
@@ -220,7 +219,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -286,13 +285,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 225070806}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 2, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 781561611}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &225070808
 MonoBehaviour:
@@ -403,6 +402,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 781561610}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -412,7 +412,6 @@ Transform:
   - {fileID: 225070807}
   - {fileID: 133794251}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &781561612
 MonoBehaviour:
@@ -458,13 +457,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015816743}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 781561611}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1015816746
 MonoBehaviour:
@@ -619,13 +618,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087452369}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 30, y: 1, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1762361888 stripped
 Transform:
@@ -730,6 +729,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975666170}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -737,7 +737,6 @@ Transform:
   m_Children:
   - {fileID: 1762361888}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2081307194
 PrefabInstance:
@@ -887,6 +886,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
+      propertyPath: cardsInHand.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
       propertyPath: SelectedYOffsetPosition
       value: 0
       objectReference: {fileID: 0}
@@ -1015,8 +1019,57 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: CardsInDrawer.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: CardsInDrawer.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b888773c7b3bc141b108191b56d25a8,
+        type: 2}
+    - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: CardsInDrawer.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 087c995fed9c3694b8f3cd73696191e3,
+        type: 2}
+    - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: CardsInDrawer.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 087c995fed9c3694b8f3cd73696191e3,
+        type: 2}
+    - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: CardsInDrawer.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 087c995fed9c3694b8f3cd73696191e3,
+        type: 2}
+    - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: CardsInDrawer.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 087c995fed9c3694b8f3cd73696191e3,
+        type: 2}
+    - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: CardsInDrawer.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 087c995fed9c3694b8f3cd73696191e3,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d054e772570dcd2419b52ed14a4dd91a, type: 3}
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 781561611}
+  - {fileID: 7601501608435610959}
+  - {fileID: 1975666174}
+  - {fileID: 1087452373}

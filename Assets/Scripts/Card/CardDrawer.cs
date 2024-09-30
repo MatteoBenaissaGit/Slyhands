@@ -8,8 +8,7 @@ public class CardDrawer : MonoBehaviour
     public List<CardData> CardsInDrawer;
 
     [SerializeField] private float _timeBetweenCardSpawn;
-
-
+    
     //Debug
     private int nbCardsCreate = 1;
 

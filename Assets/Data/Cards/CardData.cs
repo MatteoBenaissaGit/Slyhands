@@ -2,20 +2,21 @@ using UnityEngine;
 
 namespace Data.Cards
 {
-    public enum CardEffectType
+    public enum CardRarityType
     {
-        Movement = 0,
-        Equipment = 1,
-        Enemy = 2,
-        Utility= 3
+        Bronze = 0,
+        Steel = 1,
+        Amethyst = 2,
+        Gold = 3
     }
     
     [CreateAssetMenu(fileName = "Data", menuName = "Data/Card/CardData", order = 1)]
     public class CardData : ScriptableObject
     {
-        [field: SerializeField] public string CardName { get; private set; }
-        [field: SerializeField] public string CardDescription { get; private set; }
-        [field: SerializeField] public Sprite CardSubjectSprite { get; private set; }
-        [field : SerializeField] public CardEffectType EffectType { get; private set; }
+        [field: SerializeField] public string CardName { get; set; }
+        [field: SerializeField] public string CardDescription { get; set; }
+        [field: SerializeField] public Sprite CardIllustrationSprite { get; set; }
+        [field: SerializeField] public int CardPower { get; set; }
+        [field : SerializeField] public CardRarityType RarityType { get; set; }
     }
 }
