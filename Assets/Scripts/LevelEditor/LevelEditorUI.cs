@@ -36,6 +36,15 @@ namespace LevelEditor
         [field:SerializeField] [field:BoxGroup("Menus")] [field:Required]
         public LevelEditorUISetTeamMenu SetTeamMenu { get; private set; }
         
+        
+        public Action<int> OnHeightChanged { get; set; }
+        public EditorMode CurrentMode { get; private set; }
+        public LevelEditorUIHeightSlider HeightSlider => _heightSlider;
+        public LevelEditorUILoadMenu LoadMenu => _loadMenu;
+        public LevelEditorUISaveMenu SaveMenu => _saveMenu;
+        public bool IsMenuOpen => _currentMenu != null;
+
+
         [SerializeField, BoxGroup("Menus"), Required]
         private LevelEditorUILoadMenu _loadMenu;
         [SerializeField, BoxGroup("Menus"), Required]
@@ -59,8 +68,6 @@ namespace LevelEditor
         [SerializeField, BoxGroup("Other"), Required]
         private LevelEditorUIHeightSlider _heightSlider;
 
-        public EditorMode CurrentMode { get; private set; }
-        
         private List<LevelEditorUIMenu> _menus;
         private LevelEditorUIMenu _currentMenu;
 
@@ -172,7 +179,7 @@ namespace LevelEditor
             menu.CanvasGroup.blocksRaycasts = true;
 
             _currentMenu = menu;
-            _currentMenu.OpenMenu();
+            _currentMenu.OnMenuOpened();
         }
         
         /// <summary>
@@ -185,12 +192,14 @@ namespace LevelEditor
                 return;
             }
             
-            _currentMenu.CloseMenu();
+            _currentMenu.OnMenuClosed();
             _currentMenu.transform.DOKill();
             _currentMenu.transform.DOScale(new Vector3(0, 1, 1), 0.2f)
                 .OnComplete(() => _currentMenu.CanvasGroup.alpha = 1f)
                 .OnComplete(() => _currentMenu.CanvasGroup.interactable = true)
                 .OnComplete(() => _currentMenu.CanvasGroup.blocksRaycasts = true);
+
+            _currentMenu = null;
         }
 
         public void SetHeightSlider(int height)

@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Board;
 using Board.Characters;
 using GameEngine;
+using LevelEditor.Entities;
 using Slots;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Players.Behaviors
 {
@@ -34,58 +38,106 @@ namespace Players.Behaviors
 
         private async Task PlayCharacter(BoardCharacterController character)
         {
-            character.OnCharacterAction.Invoke(CharacterAction.IsSelected);
+            character.OnCharacterAction.Invoke(CharacterAction.IsSelected, null);
 
-            //if state idle/base
+            //TODO if state idle/base/attack/search etc...
+            
             if (HasPredefinedRoad(character))
             {
                 MoveCharacterAlongSideRoad(character);
             }
             else
-            {
+            { 
                 MoveCharacterRandomly(character);
             }
                 
-            character.OnCharacterAction.Invoke(CharacterAction.IsUnselected);
+            character.OnCharacterAction.Invoke(CharacterAction.IsUnselected, null);
         }
 
+        private bool _characterFollowPingPongRoadClockwise = true;
+        
         private void MoveCharacterAlongSideRoad(BoardCharacterController character)
         {
-            int movementPoints = character.GameplayData.CurrentMovementPoints;
             Vector3Int[] road = character.GameplayData.Road;
 
+            BoardController board = GameManager.Instance.Board;
             SlotController slotToGo = null;
+            List<SlotController> path = new List<SlotController>();
             SlotController currentCharacterSlot = character.CurrentSlot;
-            while (movementPoints > 0)
+
+            int movementPoints = character.GameplayData.CurrentMovementPoints;
+            SlotController baseCharacterSlot = character.CurrentSlot;
+            baseCharacterSlot.Data.Character = null;
+
+            int maxIterations = 100;
+            while (movementPoints > 0) 
             {
+                if (--maxIterations < 0)
+                {
+                    Debug.LogError("max iterations reached, breaking loop");
+                    break;
+                }
+                
                 //get the target slot
-                Vector3Int targetSlotCoordinates = road[character.GameplayData.RoadIndex + 1];
-                SlotController targetSlot = GameManager.Instance.Board.GetSlotFromCoordinates(targetSlotCoordinates);
+                Vector3Int targetSlotCoordinates = road[character.GameplayData.RoadIndex];
+                SlotController targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
+                SlotController targetSlotClosest = null;
+                if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out targetSlotClosest) == false)
+                {
+                    slotToGo = currentCharacterSlot;
+                    break;
+                }
+
+#if UNITY_EDITOR
+                Debug.DrawLine(currentCharacterSlot.Location.transform.position, targetSlot.Location.transform.position, Color.red, 2f);                
+#endif
 
                 //get the path to target within accessible slots
-                List<SlotController> pathToTarget = GameManager.Instance.Board.GetPathFromSlotToSlot(currentCharacterSlot, targetSlot);
-                List<SlotController> accessibleSlots = character.AccessibleSlots;
-                pathToTarget.RemoveAll(x => accessibleSlots.Contains(x) == false);
+                List<SlotController> currentPath = board.GetPathFromSlotToSlot(currentCharacterSlot, targetSlotClosest ?? targetSlot);
+                var fromSlot = path.Count > 0 ? path[^1] : currentCharacterSlot;
+                List<SlotController> accessibleSlots = GameManager.Instance.Board.GetAccessibleSlotsBySlot(fromSlot, movementPoints);
+                currentPath.RemoveAll(x => accessibleSlots.Contains(x) == false);
                 
-                if (pathToTarget.Count == 0)
+                path.AddRange(currentPath);
+                
+                if (path.Count == 0)
                 {
                     break;
                 }
                 
-                movementPoints -= pathToTarget.Count + 1;
-                slotToGo = pathToTarget[^1];
+                movementPoints -= currentPath.Count;
+                slotToGo = path[^1];
                 currentCharacterSlot = slotToGo;
                 
                 if (slotToGo == targetSlot)
                 {
-                    character.GameplayData.RoadIndex++;
-                    if (character.GameplayData.RoadIndex >= road.Length - 1)
+                    switch (character.GameplayData.RoadFollowMode)
                     {
-                        //TODO only for loop  
-                        character.GameplayData.RoadIndex = 0;
+                        case RoadFollowMode.PingPong:
+                            character.GameplayData.RoadIndex += _characterFollowPingPongRoadClockwise ? 1 : -1;
+                            if (_characterFollowPingPongRoadClockwise && character.GameplayData.RoadIndex >= road.Length)
+                            {
+                                _characterFollowPingPongRoadClockwise = false;
+                                character.GameplayData.RoadIndex = road.Length - 2;
+                            }
+                            else if (_characterFollowPingPongRoadClockwise == false && character.GameplayData.RoadIndex < 0)
+                            {
+                                _characterFollowPingPongRoadClockwise = true;
+                                character.GameplayData.RoadIndex = 1;
+                            }
+                            break;
+                        case RoadFollowMode.Loop:
+                            character.GameplayData.RoadIndex++;
+                            if (character.GameplayData.RoadIndex >= road.Length - 1)
+                            {
+                                character.GameplayData.RoadIndex = 0;
+                            }
+                            break;
                     }
                 }
             }
+
+            baseCharacterSlot.Data.Character = character;
 
             if (slotToGo == null)
             {
@@ -93,14 +145,15 @@ namespace Players.Behaviors
                 return;
             }
             
-            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, slotToGo.Coordinates);
+            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }
 
         private void MoveCharacterRandomly(BoardCharacterController character)
         {
             List<SlotController> accessibleSlots = character.AccessibleSlots;
             SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
-            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, targetSlot.Coordinates);
+            List<SlotController> path = GameManager.Instance.Board.GetPathFromSlotToSlot(character.CurrentSlot, targetSlot);
+            character.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }
         
         private bool HasPredefinedRoad(BoardCharacterController character)

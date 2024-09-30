@@ -1,6 +1,7 @@
 ﻿using System;
 using Common;
 using LevelEditor;
+using LevelEditor.ActionButtons;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,18 +36,24 @@ namespace Inputs
         {
             Copy = 0,
             Paste = 1,
-            Cut = 2
+            Cut = 2,
+            Save = 3
         }
-        
+
         public Action<bool> OnCameraMoveButtonPressed { get; set; }
         public Action<Vector2> OnCameraMoved { get; set; }
         public Action<float> OnCameraZoomed { get; set; }
+        public Action<float> OnHeightShortcut { get; set; }
         public Action OnLeftClick { get; set; }
         public Action OnRightClick { get; set; }
         public Action<bool> OnClickHold { get; set; }
         public Action<bool> OnRightClickHold { get; set; }
         public Action<ControlShortcutAction> OnControlShortcut { get; set; }
+        public Action<LevelEditorActionButtonType> OnActionShortcut { get; set; }
         public Action OnRotation { get; set; }
+        public Action<int> OnCameraRotate { get; set; }
+        public Action OnTabPressed { get; set; }
+        public Action OnEnterPressed { get; set; }
 
         private bool _isControlPressed;
         
@@ -57,9 +64,9 @@ namespace Inputs
             
             manager.Scheme.LevelEditor.CameraMoveVector.performed += context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
             manager.Scheme.LevelEditor.CameraMoveVector.canceled += context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
-            
-            manager.Scheme.LevelEditor.CameraZoom.performed += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
-            manager.Scheme.LevelEditor.CameraZoom.canceled += context => OnCameraZoomed?.Invoke(context.ReadValue<float>());
+
+            manager.Scheme.LevelEditor.MouseScroll.performed += context => ScrolledMouse(context.ReadValue<float>());
+            manager.Scheme.LevelEditor.MouseScroll.canceled += context => ScrolledMouse(context.ReadValue<float>());
             
             manager.Scheme.LevelEditor.LeftClick.started += context => OnLeftClick?.Invoke();
             
@@ -76,10 +83,31 @@ namespace Inputs
             manager.Scheme.LevelEditor.C.started += _ => PressedControlShortcut(ControlShortcutAction.Copy);
             manager.Scheme.LevelEditor.V.started += _ => PressedControlShortcut(ControlShortcutAction.Paste);
             manager.Scheme.LevelEditor.X.started += _ => PressedControlShortcut(ControlShortcutAction.Cut);
+            manager.Scheme.LevelEditor.S.started += _ => PressedControlShortcut(ControlShortcutAction.Save);
+            
+            manager.Scheme.LevelEditor.Selection.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Selection);
+            manager.Scheme.LevelEditor.Paint.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Paint);
+            manager.Scheme.LevelEditor.Obstacle.started += _ => PressedActionShortcut(LevelEditorActionButtonType.AddObstacle);
+            manager.Scheme.LevelEditor.Character.started += _ => PressedActionShortcut(LevelEditorActionButtonType.AddCharacter);
             
             manager.Scheme.LevelEditor.Rotation.started += _ => OnRotation?.Invoke();
+            
+            manager.Scheme.LevelEditor.CameraRotationLeft.started += _ => OnCameraRotate?.Invoke(1);
+            manager.Scheme.LevelEditor.CameraRotationRight.started += _ => OnCameraRotate?.Invoke(-1);
+            
+            manager.Scheme.LevelEditor.Tab.started += _ => OnTabPressed?.Invoke();
+            manager.Scheme.LevelEditor.Enter.started += _ => OnEnterPressed?.Invoke();
         }
 
+        private void PressedActionShortcut(LevelEditorActionButtonType action)
+        {
+            if (_isControlPressed)
+            {
+                return;
+            }
+            OnActionShortcut?.Invoke(action);
+        }
+        
         private void PressedControlShortcut(ControlShortcutAction shortcut)
         {
             if (_isControlPressed == false)
@@ -87,6 +115,16 @@ namespace Inputs
                 return;
             }
             OnControlShortcut?.Invoke(shortcut);
+        }
+
+        private void ScrolledMouse(float value)
+        {
+            if (_isControlPressed)
+            {
+                OnHeightShortcut?.Invoke(Math.Sign(value));
+                return;
+            }
+            OnCameraZoomed?.Invoke(value);
         }
     }
     

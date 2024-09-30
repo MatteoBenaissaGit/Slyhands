@@ -126,8 +126,21 @@ namespace LevelEditor.LoadAndSave
         /// <param name="levelName">The level's name</param>
         public void SaveLevelData(BoardData boardData, string levelName)
         {
+            levelName = levelName.ToUpper();
             LevelData levelData = new LevelData(boardData, levelName);
             LevelsData loadedData = ReadFromJson();
+            
+            //erase same name level if it exists
+            foreach (LevelData level in loadedData.Datas)
+            {
+                if (level.Name != levelName)
+                {
+                    continue;
+                }
+                loadedData.Datas.Remove(level);
+                break;
+            }
+            
             loadedData.Datas.Add(levelData);
             WriteToJson(loadedData);
         }

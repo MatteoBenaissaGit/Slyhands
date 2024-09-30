@@ -44,21 +44,25 @@ namespace Board.Characters
             Controller.OnCharacterAction -= CharacterActionView;
         }
 
-        private void CharacterActionView(CharacterAction action, Vector3Int targetCoordinates = new Vector3Int())
+        private void CharacterActionView(CharacterAction action, params object[] parameters)
         {
             switch (action)
             {
                 case CharacterAction.Idle:
                     break;
                 case CharacterAction.MoveTo:
-                    GameManager.Instance.TaskManager.EnqueueTask(() => MoveTo(targetCoordinates));
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not List<SlotController> path || path.Count == 0)
+                    {
+                        return;
+                    }
+                    GameManager.Instance.TaskManager.EnqueueTask(() => MoveTo(path));
                     break;
                 case CharacterAction.GetHit:
                     break;
                 case CharacterAction.Die:
                     break;
                 case CharacterAction.IsSelected:
-                    Controller.AccessibleSlots = Controller.Board.GetAccessibleSlotsByCharacter(Controller);
+                    Controller.UpdateAccessibleSlots(Controller.GameplayData.CurrentMovementPoints);
                     if (Controller.GameplayData.Team.Player.Type != PlayerType.Local)
                     {
                         break;
@@ -83,30 +87,23 @@ namespace Board.Characters
         /// Move the player's view into the target coordinates finding the path to reach it
         /// </summary>
         /// <param name="targetCoordinates">the coordinates to reach</param>
-        private async Task MoveTo(Vector3Int targetCoordinates)
+        private async Task MoveTo(List<SlotController> path)
         {
-            Controller.GameplayData.IsSelectable = false;
-            
-            SlotController targetSlot = Controller.Board.Data.SlotLocations[targetCoordinates.x, targetCoordinates.y, targetCoordinates.z].SlotView.Controller;
-            List<SlotController> pathToTarget = Controller.Board.GetPathFromSlotToSlot(Controller.CurrentSlot, targetSlot);
-            Controller.GameplayData.CurrentMovementPoints -= pathToTarget.Count;
-            
             float totalTime = 0;
             float moveTime = 0.2f;
+            
             Sequence sequence = DOTween.Sequence();
-            Vector3Int previousCoordinates = Controller.Coordinates;
             Vector3 previousPosition = transform.position;
-            foreach (SlotController slot in pathToTarget)
+            
+            foreach (SlotController slot in path)
             {
                 //position
                 Vector3 targetPosition = Controller.Board.GetCoordinatesToWorldPosition(slot.Coordinates);
                 sequence.Append(transform.DOMove(targetPosition, moveTime).SetEase(Ease.Linear));
                 
                 //rotation
-                Vector3 direction = slot.Coordinates - previousCoordinates;
+                Vector3 direction = GameManager.Instance.Board.GetCoordinatesToWorldPosition(slot.Coordinates) - previousPosition;
                 direction.y = 0;
-                previousCoordinates = slot.Coordinates;
-                previousCoordinates.y = 0;
                 sequence.Join(transform.DOLookAt(previousPosition + direction, moveTime)).SetEase(Ease.Linear);
                 
                 previousPosition = targetPosition;
@@ -119,10 +116,7 @@ namespace Board.Characters
             _animator.SetBool(IsWalking, true);
             
             await Task.Delay((int)(totalTime * 1000));
-            
-            Controller.GameplayData.IsSelectable = true;
-            Controller.MoveTo(targetCoordinates);
-            
+
             _animator.SetBool(IsWalking, false);
         }
     }

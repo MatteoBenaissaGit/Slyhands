@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using DG.Tweening;
 using Inputs;
 using Sirenix.OdinInspector;
@@ -13,6 +14,8 @@ namespace Camera
     public class CameraController : MonoBehaviour
     {
         [field:SerializeField, Required] public UnityEngine.Camera Camera { get; private set; }
+
+        [SerializeField] private Transform _cameraParent;
         
         [SerializeField] private float _moveSpeed = 1f;
         [SerializeField] private float _zoomSpeed = 0.1f;
@@ -35,9 +38,11 @@ namespace Camera
             {
                 throw new Exception("no input manager");
             }
+            
             InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += (bool doMove) => _doMoveCamera = doMove;
             InputManager.Instance.LevelEditorInput.OnCameraMoved += (Vector2 movementValue) => _cameraMovement = movementValue;
             InputManager.Instance.LevelEditorInput.OnCameraZoomed += (float zoomValue) => _cameraZoom = zoomValue;
+            InputManager.Instance.LevelEditorInput.OnCameraRotate += RotateCamera;
         }
 
         private void Update()
@@ -61,8 +66,39 @@ namespace Camera
             float zoomFactorSpeed = zoomFactor * _moveSpeedMultiplierPerZoom;
             float deltaTime = Time.deltaTime * Screen.dpi;
             Vector3 xMovement = Camera.transform.right * (-_cameraMovement.x * _moveSpeed * zoomFactorSpeed * deltaTime);
-            Vector3 yMovement = Camera.transform.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
+            Vector3 yMovement = Vector3.up * (-_cameraMovement.y * _moveSpeed * zoomFactorSpeed * deltaTime);
             Camera.transform.localPosition += xMovement + yMovement;
+        }
+
+        private void RotateCamera(int direction)
+        {
+            direction = Math.Sign(direction) * 90;
+
+            Vector3 hitPoint = Vector3.zero;
+            Plane plane = new Plane(Vector3.up, -1);
+            Ray ray = new Ray(Camera.transform.position, Camera.transform.forward);
+            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit))
+            {
+                hitPoint = hit.point;
+            }
+            else if (plane.Raycast(ray, out float enter))
+            {
+                hitPoint = ray.GetPoint(enter);
+            }
+
+            Vector3 basePosition = Camera.transform.position;
+            Quaternion baseRotation = Camera.transform.rotation;
+            Camera.transform.RotateAround(hitPoint, Vector3.up, direction);
+            Vector3 newPosition = Camera.transform.position;
+            Quaternion newRotation = Camera.transform.rotation;
+            Camera.transform.position = basePosition;
+            Camera.transform.rotation = baseRotation;
+            Camera.transform.DOComplete();
+            Camera.transform.DORotate(newRotation.eulerAngles, 0.3f);
+            Camera.transform.DOMove(newPosition, 0.3f);
+            
+            
+            GizmoDrawer.DrawCross(hitPoint, new Color(1f, 0.59f, 0.14f));
         }
     }
 }

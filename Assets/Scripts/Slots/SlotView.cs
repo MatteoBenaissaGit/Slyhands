@@ -148,7 +148,7 @@ namespace Slots
             SetObstacleOrientation(Controller.Data.Obstacle.Orientation);
         }
 
-        public void SetObstacleOrientation(Orientation orientation)
+        public void SetObstacleOrientation(WorldOrientation.Orientation orientation)
         {
             Controller.Data.Obstacle.Orientation = orientation;
             _obstacleParent.rotation = Quaternion.Euler(0, (int) orientation * 90, 0);
@@ -256,7 +256,7 @@ namespace Slots
         /// Set the slot orientation to the data and rotate the view to match it
         /// </summary>
         /// <param name="orientation">The orientation to set for the slot view</param>
-        public SlotView SetSlotOrientation(Orientation orientation)
+        public SlotView SetSlotOrientation(WorldOrientation.Orientation orientation)
         {
             transform.rotation = Quaternion.Euler(0, (int) orientation * 90, 0);
             Controller.Data.Orientation = orientation;
@@ -278,7 +278,7 @@ namespace Slots
         private void DrawSquareGizmo()
         {
             //location
-            Handles.Label(transform.position, $"{Controller.Data.Coordinates.x},{Controller.Data.Coordinates.y},{Controller.Data.Coordinates.z}");
+            // Handles.Label(transform.position, $"{Controller.Data.Coordinates.x},{Controller.Data.Coordinates.y},{Controller.Data.Coordinates.z}");
             
             //square
             Gizmos.color = Color.red;
@@ -294,16 +294,8 @@ namespace Slots
             {
                 return;
             }
-            Vector2 orientationVector = Controller.Data.Orientation switch
-            {
-                Orientation.North => new Vector2(0,1),
-                Orientation.East => new Vector2(1, 0),
-                Orientation.South => new Vector2(0,-1),
-                Orientation.West => new Vector2(-1, 0),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            Gizmos.DrawLine(transform.position + new Vector3(0,0.5f,0), 
-                transform.position + new Vector3(orientationVector.x, 1f, orientationVector.y) * 0.5f);
+            Vector2 orientationVector = WorldOrientation.GetDirection(Controller.Data.Orientation);
+            // Gizmos.DrawLine(transform.position + new Vector3(0,0.5f,0), transform.position + new Vector3(orientationVector.x, 1f, orientationVector.y) * 0.5f);
         }
 
 #endif

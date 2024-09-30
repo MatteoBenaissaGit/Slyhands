@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Board.Characters;
 using Data.Prefabs;
 using GameEngine;
-using LevelEditor;
 using LevelEditor.Entities;
 using LevelEditor.LoadAndSave;
 using Players;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using Slots;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Board
@@ -33,7 +29,7 @@ namespace Board
         [field:SerializeField] public int Width { get; private set; } //X
         [field:SerializeField] public int Height { get; private set; } //Y
         [field:SerializeField] public int Length { get; private set; } //Z
-        public Vector3Int BoardSize => new Vector3Int(Width, Height, Length);
+        public Vector3Int Size => new Vector3Int(Width, Height, Length);
         public SlotLocation[,,] SlotLocations { get; set; }
         [field:SerializeField] public Vector3Int PlayerStartCoordinates { get; set; }
     }
@@ -41,7 +37,7 @@ namespace Board
     /// <summary>
     /// This class handle the board management and store the slots on it
     /// </summary>
-    public class BoardController : MonoBehaviour
+    public partial class BoardController : MonoBehaviour
     {
         #region Properties
         
@@ -69,8 +65,12 @@ namespace Board
                 _currentHoveredLocation?.SetHovered(true);
             }
         }
+
+
         private SlotLocation _currentHoveredLocation;
 
+        public Vector3 WorldCenter => GetCoordinatesToWorldPosition(new Vector3(Data.Size.x - 1,Data.Size.y - 1,Data.Size.z - 1) / 2f);
+            
         #endregion
 
         #region Private values
@@ -79,24 +79,18 @@ namespace Board
         [SerializeField, TabGroup("TabGroup1", "References"), Required] private SlotLocation _slotLocationPrefab;
 
         private Transform _slotParent;
-        private Vector2Int[] _directions = new Vector2Int[]
-        {
-            new Vector2Int(0,1),
-            new Vector2Int(0,-1),
-            new Vector2Int(1,0),
-            new Vector2Int(-1,0),
-        };
+        private Vector2Int[] _directions = { new (0,1), new (0,-1), new (1,0), new (-1,0), };
         
         #endregion
 
         #region Common
 
         /// <summary>
-        /// This class get the desired world position related to a board coordinates
+        /// This method get the desired world position related to a board coordinates
         /// </summary>
         /// <param name="coordinates">The coordinates you need to translate in world position</param>
         /// <returns>A Vector3 of the world position associated to the given coordinates</returns>
-        public Vector3 GetCoordinatesToWorldPosition(Vector3Int coordinates)
+        public Vector3 GetCoordinatesToWorldPosition(Vector3 coordinates)
         {
             return transform.position + new Vector3(coordinates.x, coordinates.y, coordinates.z);
         }
@@ -139,15 +133,15 @@ namespace Board
         /// </summary>
         /// <param name="slot">the slot to check from</param>
         /// <returns>The list of its neighbors</returns>
-        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false)
+        private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false, params PathFindingOption[] options)
         {
             List<SlotController> neighborsSlots = new List<SlotController>();
             foreach (Vector2Int direction in _directions)
             {
                 Vector3Int nextCoordinates = new Vector3Int(slot.Coordinates.x + direction.x, slot.Coordinates.y, slot.Coordinates.z + direction.y);
-                if (Data.BoardSize.x <= nextCoordinates.x || nextCoordinates.x < 0 ||
-                    Data.BoardSize.y <= nextCoordinates.y || nextCoordinates.y < 0 ||
-                    Data.BoardSize.z <= nextCoordinates.z || nextCoordinates.z < 0)
+                if (Data.Size.x <= nextCoordinates.x || nextCoordinates.x < 0 ||
+                    Data.Size.y <= nextCoordinates.y || nextCoordinates.y < 0 ||
+                    Data.Size.z <= nextCoordinates.z || nextCoordinates.z < 0)
                 {
                     continue;
                 }
@@ -183,7 +177,7 @@ namespace Board
                 if (checkForRampsUp)
                 {
                     //if there is a ramp up above the next direction, add it to the neighbors
-                    if (nextCoordinates.y + 1 < Data.BoardSize.y)
+                    if (nextCoordinates.y + 1 < Data.Size.y)
                     {
                         SlotLocation nextCoordinatesUpperSlotLocation = Data.SlotLocations[nextCoordinates.x, nextCoordinates.y + 1, nextCoordinates.z];
                         if (nextCoordinatesUpperSlotLocation != null 
@@ -202,7 +196,7 @@ namespace Board
                     }
                 }
 
-                if (neighborSlot != null && neighborSlot.IsAccessibleFromSlot(null))
+                if (neighborSlot != null && neighborSlot.IsAccessibleFromSlot(null, options))
                 {
                     neighborsSlots.Add(neighborSlot);
                 }
@@ -216,8 +210,9 @@ namespace Board
         /// </summary>
         /// <param name="startSlot">the character from which the path start</param>
         /// <param name="endSlot">the slot to reach</param>
+        /// <param name="options">specific options for the pathfinding search</param>
         /// <returns>return a list of the slots composing the path in order</returns>
-        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot)
+        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot, params PathFindingOption[] options)
         {
             List<SlotController> path = new List<SlotController>();
 
@@ -231,6 +226,7 @@ namespace Board
             {
                 //get the first slot in open list
                 SlotController currentSlot = openSlots[0];
+
                 openSlots.RemoveAt(0);
                 if (closedSlots.Contains(currentSlot))
                 {
@@ -252,13 +248,13 @@ namespace Board
                 }
                 
                 //get the neighbors of the current slot and add them to the open list
-                List<SlotController> neighbors = GetNeighborsOfSlot(currentSlot, true);
+                List<SlotController> neighbors = GetNeighborsOfSlot(currentSlot, true, options);
                 foreach (SlotController neighbor in neighbors)
                 {
                     int newCost = currentSlot.Data.PathfindingCost + 1;
 
                     //if the slot is not accessible or in closed : continue
-                    bool isAccessible = neighbor.IsAccessibleFromSlot(currentSlot);
+                    bool isAccessible = neighbor.IsAccessibleFromSlot(currentSlot, options);
                     if (isAccessible == false || closedSlots.Contains(neighbor))
                     {
                         continue;
@@ -284,16 +280,16 @@ namespace Board
             Vector2Int rampDirection = new Vector2Int(0, 0);
             switch (slot.Data.Orientation)
             {
-                case Orientation.North:
+                case WorldOrientation.Orientation.North:
                     rampDirection = new Vector2Int(0, 1);
                     break;
-                case Orientation.South:
+                case WorldOrientation.Orientation.South:
                     rampDirection = new Vector2Int(0, -1);
                     break;
-                case Orientation.East:
+                case WorldOrientation.Orientation.East:
                     rampDirection = new Vector2Int(1, 0);
                     break;
-                case Orientation.West:
+                case WorldOrientation.Orientation.West:
                     rampDirection = new Vector2Int(-1, 0);
                     break;
             }
@@ -301,137 +297,6 @@ namespace Board
             return rampDirection;
         }
         
-        #endregion
-
-        #region Board creation, load ans slot management methods
-
-        /// <summary>
-        /// Initialize the board data and setup the slot parent
-        /// </summary>
-        /// <param name="width">the width of the board</param>
-        /// <param name="length">the length of the board</param>
-        /// <param name="height">the height of the board</param>
-        protected void InitializeBoardData(int width, int length, int height)
-        {
-            Data = new BoardData(new Vector3Int(width,height, length));
-            
-            _slotParent = new GameObject("SlotParent").transform;
-            _slotParent.parent = transform;
-        }
-        
-        /// <summary>
-        /// Create a new blank board filled with slots
-        /// </summary>
-        /// <param name="width">the width of the board</param>
-        /// <param name="length">the length of the board</param>
-        /// <param name="height">the height of the board</param>
-        public void CreateBlankBoard(int width, int height, int length)
-        {
-            ClearBoard();
-            InitializeBoardData(width, length, height);
-            ForEachCoordinatesOnBoard(coordinates => CreateSlotLocationAt(coordinates.x, coordinates.y, coordinates.z));
-            
-            LevelEditorManager.Instance?.UI.SetHeightSlider(height);
-        }
-
-        /// <summary>
-        /// Create a slot location at the desired position
-        /// </summary>
-        /// <param name="x">x coordinate</param>
-        /// <param name="y">y coordinate</param>
-        /// <param name="z">z coordinate</param>
-        private void CreateSlotLocationAt(int x, int y, int z)
-        {
-            Data.SlotLocations[x, y, z] = Instantiate(_slotLocationPrefab, GetCoordinatesToWorldPosition(new Vector3Int(x,y,z)), Quaternion.identity);
-            Data.SlotLocations[x, y, z].transform.parent = _slotParent;
-            Data.SlotLocations[x, y, z].Coordinates = new Vector3Int(x, y, z);
-            Data.SlotLocations[x, y, z].name = $"SlotLocation {x},{y},{z}";
-        }
-
-        /// <summary>
-        /// Load a level data and create its board 
-        /// </summary>
-        /// <param name="data"></param>
-        public void LoadBoardFromLevelData(LevelData data)
-        {
-            CreateBlankBoard(data.BoardData.Width, data.BoardData.Height, data.BoardData.Length);
-            foreach (SlotData slotData in data.SlotDataList)
-            {
-                CreateSlotAt(slotData.Coordinates, slotData);
-            }
-            
-            //load roads
-            foreach (SlotLocation location in  Data.SlotLocations)
-            {
-                if (location.SlotView == null || location.SlotView.LevelEditorCharacterOnSlot == null)
-                {
-                    continue;
-                }
-                location.SlotView.LevelEditorCharacterOnSlot.SetRoad(location.SlotView.Controller.Data.LevelEditorCharacter.Road);
-            }
-        }
-        
-        /// <summary>
-        /// Clear the current board
-        /// </summary>
-        private void ClearBoard()
-        {
-            ForEachCoordinatesOnBoard(ClearBoardSlot);
-        }
-
-        /// <summary>
-        /// Clear a slot at defined coordinates
-        /// </summary>
-        /// <param name="coordinates">The coordinates of the slot to clear</param>
-        protected void ClearBoardSlot(Vector3Int coordinates)
-        {
-            SlotLocation slot = Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z];
-            if (slot == null)
-            {
-                return;
-            }
-            slot.DestroySlotViewOnLocation();
-            Destroy(slot.gameObject);
-        }
-
-        /// <summary>
-        /// Create a slot at defined coordinates
-        /// </summary>
-        /// <param name="coordinates">The coordinates to create the slot at</param>
-        /// <param name="data">The data to put on the slot created, create a new one if null</param>
-        /// <returns>The slot created</returns>
-        public (SlotController controller, SlotView view) CreateSlotAt(Vector3Int coordinates, SlotData data = null)
-        {
-            SlotController slot = new SlotController(this, coordinates);
-            if (data != null)
-            {
-                slot.Data = data;
-            }
-            
-            SlotView slotView = Instantiate(_slotViewPrefab, _slotParent, true);
-            slotView.Initialize(slot);
-            float slotViewOffsetY = -0.5f;
-            slotView.transform.position = GetCoordinatesToWorldPosition(slot.Coordinates) + new Vector3(0,slotViewOffsetY,0);
-            
-            Data.SlotLocations[coordinates.x, coordinates.y, coordinates.z].SetSlotViewOnLocation(slotView);
-            
-            return (slot,slotView);
-        }
-        
-        #endregion
-
-        #region Level Editor Board methods
-
-        /// <summary>
-        /// Show the slots at a specific height and hide the other slot floors
-        /// </summary>
-        public void ViewSlotsAtHeight(int height)
-        {
-            ForEachCoordinatesOnBoard(
-                coordinate => 
-                    Data.SlotLocations[coordinate.x,coordinate.y,coordinate.z].SetUsable(coordinate.y == height));
-        }
-
         #endregion
 
 
@@ -529,19 +394,21 @@ namespace Board
         /// <summary>
         /// Get all the accessible slots by a board character
         /// </summary>
-        /// <param name="characterController">The character to check for</param>
+        /// <param name="fromSlot">The slot from which to search the accessibles</param>
+        /// <param name="movementPoints">The movement points available, by default will use the character data points</param>
         /// <returns>A list of all the slots accessible</returns>
-        public List<SlotController> GetAccessibleSlotsByCharacter(BoardCharacterController characterController)
+        public List<SlotController> GetAccessibleSlotsBySlot(SlotController fromSlot, int movementPoints)
         {
             HashSet<SlotController> accessibleSlots = new HashSet<SlotController>();
 
-            FindAccessibleSlotFromSlot(characterController.CurrentSlot, characterController.GameplayData.CurrentMovementPoints + 1, ref accessibleSlots, true);
+            int movementAmount = movementPoints + 1;
+            FindAccessibleSlotFromSlot(fromSlot, movementAmount, ref accessibleSlots, true);
 
             List<SlotController> accessibleSlotsList = new List<SlotController>();
             foreach (SlotController slot in accessibleSlots)
             {
-                int pathCount = GetPathFromSlotToSlot(characterController.CurrentSlot, slot).Count;
-                if (pathCount <= characterController.GameplayData.CurrentMovementPoints)
+                int pathCount = GetPathFromSlotToSlot(fromSlot, slot).Count;
+                if (pathCount <= movementPoints)
                 {
                     accessibleSlotsList.Add(slot);
                 }
@@ -581,7 +448,7 @@ namespace Board
             } 
             
             //if there is a slot up
-            if (slot.Coordinates.y + 1 < Data.BoardSize.y)
+            if (slot.Coordinates.y + 1 < Data.Size.y)
             {
                 SlotLocation upperSlotLocation = Data.SlotLocations[slot.Coordinates.x, slot.Coordinates.y + 1, slot.Coordinates.z];
                 if (upperSlotLocation != null && upperSlotLocation.SlotView != null )
@@ -612,7 +479,31 @@ namespace Board
                 FindAccessibleSlotFromSlot(neighbor, movementAmount, ref slotAccessibleHashSet);
             }
         }
+        
+        public bool GetClosestToSlotFromSlot(SlotController targetSlot, SlotController fromSlot, out SlotController slot)
+        {
+            List<SlotController> path = GetPathFromSlotToSlot(fromSlot, targetSlot, PathFindingOption.IgnoreCharacters);
+            for (int i = path.Count - 1; i >= 0; i--)
+            {
+                SlotController pathSlot = path[i];
+                if (pathSlot.IsAccessible)
+                {
+                    slot = pathSlot;
+                    return true;
+                }
+            }
+            
+            slot = null;
+            return false;
+        }
 
         #endregion
+    }
+
+    public enum PathFindingOption
+    {
+        None = 0,
+        IgnoreCharacters = 1,
+        IgnoreObstacles = 2,
     }
 }

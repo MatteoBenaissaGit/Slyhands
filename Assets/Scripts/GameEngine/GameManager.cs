@@ -78,7 +78,7 @@ namespace GameEngine
 
         private void Start()
         {
-            LevelData levelToLoad = SaveLoadManager.GetLevelsData().Datas.Find(x => x.Name == _levelToLoad);
+            LevelData levelToLoad = SaveLoadManager.GetLevelsData().Datas.Find(x => String.Equals(x.Name, _levelToLoad, StringComparison.CurrentCultureIgnoreCase));
             if (levelToLoad == null)
             {
                 throw new Exception($"no level with name {_levelToLoad}");

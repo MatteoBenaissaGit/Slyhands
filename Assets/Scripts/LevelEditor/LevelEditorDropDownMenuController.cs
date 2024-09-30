@@ -40,15 +40,21 @@ namespace LevelEditor
             levelEditorInput.OnCameraZoomed += context =>  ClearDropDownMenu();
             levelEditorInput.OnCameraMoveButtonPressed += context =>  ClearDropDownMenu();
 
-            levelEditorInput.OnControlShortcut += DropDownShortcutAction;
+            levelEditorInput.OnControlShortcut += ShortcutAction;
         }
 
         /// <summary>
         /// Make a shortcut action (copy / paste / cut)
         /// </summary>
         /// <param name="shortcutAction">the shortcut action to execute</param>
-        private void DropDownShortcutAction(InputLevelEditor.ControlShortcutAction shortcutAction)
+        private void ShortcutAction(InputLevelEditor.ControlShortcutAction shortcutAction)
         {
+            if (shortcutAction == InputLevelEditor.ControlShortcutAction.Save)
+            {
+                LevelEditorManager.Instance.UI.LoadMenu.SaveLastLoadedLevel();
+                return;
+            }
+            
             SlotLocation currentLocation = LevelEditorManager.Instance.Board.CurrentSelectedLocation;
             switch (shortcutAction)
             {

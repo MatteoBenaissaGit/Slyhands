@@ -59,7 +59,7 @@ namespace LevelEditor.Entities
         /// </summary>
         /// <param name="orientation">The orientation to put the character in</param>
         /// <returns>The character</returns>
-        public LevelEditorCharacter SetCharacterOrientation(Orientation orientation)
+        public LevelEditorCharacter SetCharacterOrientation(WorldOrientation.Orientation orientation)
         {
             Slot.Data.LevelEditorCharacter.Orientation = orientation;
             transform.rotation = Quaternion.Euler(0, ((int)orientation) * 90, 0);

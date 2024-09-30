@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!73398921 &29969823
 VFXRenderer:
   serializedVersion: 1
@@ -149,7 +149,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29969822}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -253,7 +253,7 @@ PrefabInstance:
     - target: {fileID: 2750239941778958264, guid: d69c2f0f16922c94a83b952f0807800c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.5
+      value: 24.06
       objectReference: {fileID: 0}
     - target: {fileID: 2750239941778958264, guid: d69c2f0f16922c94a83b952f0807800c,
         type: 3}
@@ -263,7 +263,7 @@ PrefabInstance:
     - target: {fileID: 2750239941778958264, guid: d69c2f0f16922c94a83b952f0807800c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -43.1
+      value: -56.8
       objectReference: {fileID: 0}
     - target: {fileID: 2750239941778958264, guid: d69c2f0f16922c94a83b952f0807800c,
         type: 3}
@@ -308,7 +308,7 @@ PrefabInstance:
     - target: {fileID: 8673209772763876510, guid: d69c2f0f16922c94a83b952f0807800c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -19,7 +19,7 @@ namespace LevelEditor.ActionButtons
     {
         [field:Required] [field:SerializeField] public LevelEditorActionPreview Preview { get; private set; }
         
-        public Orientation CurrentPlacingOrientation { get; private set; }
+        public WorldOrientation.Orientation CurrentPlacingOrientation { get; private set; }
         
         [SerializeField] private List<LevelEditorActionButtonController> _buttons = new List<LevelEditorActionButtonController>();
 
@@ -88,7 +88,7 @@ namespace LevelEditor.ActionButtons
         }
         
         /// <summary>
-        /// Set the current used button
+        /// Set the current used action button
         /// </summary>
         /// <param name="buttonToSet">The button to set as current</param>
         public void SetCurrentButton(LevelEditorActionButtonController buttonToSet)
@@ -303,6 +303,11 @@ namespace LevelEditor.ActionButtons
         {
             LevelEditorActionButtonControllerExtended paintButton = _currentButton as LevelEditorActionButtonControllerExtended;
             string slotTypeId = paintButton?.CurrentChoiceID;
+
+            if (_currentHoveredLocation.SlotView != null && _currentHoveredLocation.SlotView.Controller.Data.SlotTypeReferenceId == slotTypeId)
+            {
+                return;
+            }
             
             Vector3Int coordinates = _currentHoveredLocation.Coordinates;
             BoardController board = LevelEditorManager.Instance.Board;
@@ -335,12 +340,12 @@ namespace LevelEditor.ActionButtons
         /// </summary>
         private void ChangeRotation()
         {
-            Orientation newOrientation = CurrentPlacingOrientation switch
+            WorldOrientation.Orientation newOrientation = CurrentPlacingOrientation switch
             {
-                Orientation.North => Orientation.East,
-                Orientation.East => Orientation.South,
-                Orientation.South => Orientation.West,
-                Orientation.West => Orientation.North,
+                WorldOrientation.Orientation.North => WorldOrientation.Orientation.East,
+                WorldOrientation.Orientation.East => WorldOrientation.Orientation.South,
+                WorldOrientation.Orientation.South => WorldOrientation.Orientation.West,
+                WorldOrientation.Orientation.West => WorldOrientation.Orientation.North,
                 _ => throw new ArgumentOutOfRangeException()
             };
 

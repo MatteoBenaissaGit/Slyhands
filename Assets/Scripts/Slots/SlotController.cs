@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Board;
 using Board.Characters;
 using LevelEditor;
@@ -32,17 +33,6 @@ namespace Slots
     }
 
     /// <summary>
-    /// The four orientation of an entity
-    /// </summary>
-    public enum Orientation
-    {
-        North = 0, // 0° // z+1
-        East = 1, // 90° // x+1
-        South = 2, // 180° // z-1
-        West = 3 // 270° // x-1
-    }
-
-    /// <summary>
     /// This class stores the slot data
     /// </summary>
     [Serializable]
@@ -56,7 +46,7 @@ namespace Slots
         
         [field:SerializeField] public SlotType Type { get; set; }
         [field:SerializeField] public string SlotTypeReferenceId { get; set; }
-        [field:SerializeField] public Orientation Orientation { get; set; }
+        [field:SerializeField] public WorldOrientation.Orientation Orientation { get; set; }
         [field:SerializeField] public Vector3Int Coordinates { get; set; }
         
         [field:SerializeField] public SlotElement Obstacle { get; set; }
@@ -77,12 +67,12 @@ namespace Slots
     {
         public SlotElement()
         {
-            Orientation = Orientation.North; //all objects face north by default
+            Orientation = WorldOrientation.Orientation.North; //all objects face north by default
         }
         
         public bool Has { get => string.IsNullOrEmpty(PrefabId) == false; }
         [field:SerializeField] public string PrefabId { get; set; } 
-        [field:SerializeField] public Orientation Orientation { get; set; }
+        [field:SerializeField] public WorldOrientation.Orientation Orientation { get; set; }
         [field:SerializeField] public Team Team { get; set; }
         [field:SerializeField] public Vector3Int[] Road { get; set; }
     }
@@ -107,6 +97,8 @@ namespace Slots
             }
         }
 
+        public bool IsAccessible => Data.Character == null && Data.Obstacle.Has == false && Data.Type != SlotType.NotWalkable;
+
         public SlotController(BoardController board, Vector3Int coordinates, SlotData predefinedData = null) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Slot;
@@ -119,17 +111,21 @@ namespace Slots
         /// Return if the slot is accessible from the given slot
         /// </summary>
         /// <param name="fromSlot">The slot to check the accessibility from</param>
+        /// <param name="pathFindingOptions"></param>
         /// <returns>is the slot accessible from this slot ?</returns>
-        public bool IsAccessibleFromSlot(SlotController fromSlot)
+        public bool IsAccessibleFromSlot(SlotController fromSlot, params PathFindingOption[] pathFindingOptions)
         {
-            bool isThereAnObstacle = Data.Obstacle.Has;
-            bool isThereACharacter = Data.Character != null;
-            if (isThereACharacter || isThereAnObstacle || Data.Type == SlotType.NotWalkable)
+            if (pathFindingOptions.Contains(PathFindingOption.IgnoreCharacters) == false && Data.Character != null)
             {
                 return false;
             }
+            if (pathFindingOptions.Contains(PathFindingOption.IgnoreObstacles) == false && Data.Obstacle.Has)
+            {
+                return false;
+            }
+            
 
-            if (Coordinates.y + 1 < Board.Data.BoardSize.y)
+            if (Coordinates.y + 1 < Board.Data.Size.y)
             {
                 SlotController slotUp = Board.GetSlotFromCoordinates(Coordinates + new Vector3Int(0, 1, 0));
                 if (slotUp != null)
@@ -151,7 +147,7 @@ namespace Slots
             
             if (Data.Type == SlotType.Ramp || fromSlot.Data.Type == SlotType.Ramp)
             {
-                Orientation orientation = Data.Orientation;
+                WorldOrientation.Orientation orientation = Data.Orientation;
                 if (fromSlot.Data.Type == SlotType.Ramp)
                 {
                     orientation = fromSlot.Data.Orientation;
@@ -159,10 +155,10 @@ namespace Slots
                 int xDirectionFromSlotToMe = Mathf.Abs(Coordinates.x - fromSlot.Coordinates.x);
                 int zDirectionFromSlotToMe = Mathf.Abs(Coordinates.z - fromSlot.Coordinates.z);
 
-                bool isOrientationXAccessible = (orientation == Orientation.East && xDirectionFromSlotToMe == 1) ||
-                                                (orientation == Orientation.West && xDirectionFromSlotToMe == 1);
-                bool isOrientationZAccessible = (orientation == Orientation.North && zDirectionFromSlotToMe == 1) ||
-                                                (orientation == Orientation.South && zDirectionFromSlotToMe == 1);
+                bool isOrientationXAccessible = (orientation == WorldOrientation.Orientation.East && xDirectionFromSlotToMe == 1) ||
+                                                (orientation == WorldOrientation.Orientation.West && xDirectionFromSlotToMe == 1);
+                bool isOrientationZAccessible = (orientation == WorldOrientation.Orientation.North && zDirectionFromSlotToMe == 1) ||
+                                                (orientation == WorldOrientation.Orientation.South && zDirectionFromSlotToMe == 1);
 
                 if (isOrientationXAccessible == false && isOrientationZAccessible == false)
                 {

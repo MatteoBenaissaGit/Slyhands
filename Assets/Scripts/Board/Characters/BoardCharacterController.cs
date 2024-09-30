@@ -18,7 +18,7 @@ namespace Board.Characters
     public enum CharacterAction
     {
         Idle = 0,
-        MoveTo = 1,
+        MoveTo = 1, //parameters[0] = List<SlotController> path
         GetHit = 2,
         Die = 3,
         IsSelected = 5,
@@ -37,7 +37,7 @@ namespace Board.Characters
 
         public Team Team { get; set; }
         public bool IsSelectable { get; set; } = true;
-        public Orientation Orientation {get; set;}
+        public WorldOrientation.Orientation Orientation {get; set;}
         
         public int MaxLife { get; private set; }
         public int CurrentLife { get; set; }
@@ -45,7 +45,7 @@ namespace Board.Characters
         
         public Vector3Int[] Road { get; set; }
         public RoadFollowMode RoadFollowMode => Road[0] == Road[^1] ? RoadFollowMode.Loop : RoadFollowMode.PingPong;
-        public int RoadIndex { get; set; }
+        public int RoadIndex { get; set; } = 1;
     }
     
     public class BoardCharacterController : BoardEntity
@@ -54,13 +54,10 @@ namespace Board.Characters
         public CharacterControllerData GameplayData { get; private set; }
         public CharacterData Data { get; private set; }
         
-        public CharacterActionDelegate OnCharacterAction { get; set; }
+        public Action<CharacterAction, object[]> OnCharacterAction { get; set; }
         public List<SlotController> AccessibleSlots { get; set; }
         
-        public SlotController CurrentSlot
-        {
-            get { return Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller; }
-        }
+        public SlotController CurrentSlot => Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller;
 
         public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type) : base(board, coordinates)
         {
@@ -75,15 +72,20 @@ namespace Board.Characters
             OnCharacterAction += CharacterAction;
         }
         
-        public delegate void CharacterActionDelegate(CharacterAction action, Vector3Int targetCoordinates = new Vector3Int());
-        
-        private void CharacterAction(CharacterAction action, Vector3Int targetCoordinates = new Vector3Int())
+        private void CharacterAction(CharacterAction action, params object[] parameters)
         {
             switch (action)
             {
                 case Characters.CharacterAction.Idle:
                     break;
-                case Characters.CharacterAction.MoveTo:
+                case Characters.CharacterAction.MoveTo: 
+                    GameplayData.IsSelectable = true;
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not List<SlotController> path || path.Count == 0)
+                    {
+                        return;
+                    }
+                    GameplayData.CurrentMovementPoints -= path.Count + 1;
+                    MoveTo(path[^1].Coordinates);
                     break;
                 case Characters.CharacterAction.GetHit:
                     break;
@@ -117,6 +119,11 @@ namespace Board.Characters
         public void SetForNewTurn()
         {
             GameplayData.CurrentMovementPoints = Data.MovementPoints;
+        }
+
+        public void UpdateAccessibleSlots(int movementPoints)
+        {
+            AccessibleSlots = Board.GetAccessibleSlotsBySlot(CurrentSlot, movementPoints);
         }
     }
 }
