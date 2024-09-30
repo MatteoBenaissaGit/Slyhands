@@ -25,6 +25,7 @@ namespace Board.Characters
         Die = 3,
         IsSelected = 5,
         IsUnselected = 6,
+        Rotate = 7, //parameters[0] = WorldOrientation.Orientation orientation 
     }
 
     public class CharacterControllerData

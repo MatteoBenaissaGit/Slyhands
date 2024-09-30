@@ -99,6 +99,13 @@ namespace Board.Characters
                     }
                     Controller.AccessibleSlots.ForEach(x => x.Location.SetSelected(false));
                     break;
+                case CharacterAction.Rotate:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not WorldOrientation.Orientation orientation)
+                    {
+                        return;
+                    }
+                    GameManager.Instance.TaskManager.EnqueueTask(() => Rotate(orientation));
+                    break;
             }
         }
 
@@ -164,5 +171,18 @@ namespace Board.Characters
             
             _animator.SetBool(IsWalking, false);
         }
+
+        private async Task Rotate(WorldOrientation.Orientation orientation)
+        {
+            float rotateTime = 0.5f;
+            
+            Vector2Int direction = WorldOrientation.GetDirection(orientation);
+            transform.DOLookAt(transform.position + new Vector3(direction.x,0,direction.y), rotateTime);
+            
+            _animator.SetBool(IsWalking, true);
+            await Task.Delay((int)(rotateTime * 1000));
+            _animator.SetBool(IsWalking, false);
+        }
+
     }
 }

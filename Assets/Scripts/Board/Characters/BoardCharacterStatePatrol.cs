@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameEngine;
 using LevelEditor.Entities;
 using Slots;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Board.Characters
 {
@@ -24,8 +26,8 @@ namespace Board.Characters
                 MoveOnRoad();
             }
             else
-            { 
-                MoveRandomly(); //TODO turn
+            {
+                Rotate();
             }
         }
 
@@ -141,6 +143,23 @@ namespace Board.Characters
             SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
             List<SlotController> path = GameManager.Instance.Board.GetPath(Controller.CurrentSlot, targetSlot);
             Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
+        }
+        
+        #endregion
+        
+        #region Static Movement
+
+        private void Rotate()
+        {
+            WorldOrientation.Orientation orientation = Controller.GameplayData.Orientation;
+            orientation++;
+            if ((int)orientation > 3)
+            {
+                orientation = 0;
+            }
+            Controller.GameplayData.Orientation = orientation;
+            
+            Controller.OnCharacterAction.Invoke(CharacterAction.Rotate, new object[]{orientation});
         }
         
         #endregion
