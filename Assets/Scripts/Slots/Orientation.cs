@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Slots
 {
@@ -30,6 +31,27 @@ namespace Slots
                 default:
                     return Vector2Int.zero;
             }
+        }
+
+        public static Orientation GetOrientation(Vector3 direction)
+        {
+            if ((int)direction.x > 0)
+            {
+                return Orientation.East;
+            }
+            if ((int)direction.x < 0)
+            {
+                return Orientation.West;
+            }
+            if ((int)direction.z > 0)
+            {
+                return Orientation.North;
+            }
+            if ((int)direction.z < 0)
+            {
+                return Orientation.South;
+            }
+            throw new Exception("Invalid direction");
         }
     }
 }

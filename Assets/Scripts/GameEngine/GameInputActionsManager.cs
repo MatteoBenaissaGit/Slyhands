@@ -136,7 +136,7 @@ namespace GameEngine
                 return;
             }
 
-            List<SlotController> path = board.GetPathFromSlotToSlot(_selectedCharacter.CurrentSlot, targetSlot);
+            List<SlotController> path = board.GetPath(_selectedCharacter.CurrentSlot, targetSlot);
             _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{ path });
 
             ResetSelection();

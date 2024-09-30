@@ -16,6 +16,8 @@ MonoBehaviour:
   - <Type>k__BackingField: 0
     <Life>k__BackingField: 3
     <MovementPoints>k__BackingField: 3
+    <FootPrintLength>k__BackingField: 0
   - <Type>k__BackingField: 1
     <Life>k__BackingField: 3
     <MovementPoints>k__BackingField: 3
+    <FootPrintLength>k__BackingField: 6
