@@ -127,11 +127,12 @@ namespace Board
                 }
             }
         }
-        
+
         /// <summary>
         /// Get all the neighbors of a defined slot
         /// </summary>
         /// <param name="slot">the slot to check from</param>
+        /// <param name="checkForRampsUp"></param>
         /// <returns>The list of its neighbors</returns>
         private List<SlotController> GetNeighborsOfSlot(SlotController slot, bool checkForRampsUp = false, params PathFindingOption[] options)
         {
@@ -206,13 +207,13 @@ namespace Board
         }
 
         /// <summary>
-        /// Using the A* algorithm, get the path from a character to a slot
+        /// Using the A* algorithm, get the path from a slot to another slot
         /// </summary>
         /// <param name="startSlot">the character from which the path start</param>
         /// <param name="endSlot">the slot to reach</param>
         /// <param name="options">specific options for the pathfinding search</param>
         /// <returns>return a list of the slots composing the path in order</returns>
-        public List<SlotController> GetPathFromSlotToSlot(SlotController startSlot, SlotController endSlot, params PathFindingOption[] options)
+        public List<SlotController> GetPath(SlotController startSlot, SlotController endSlot, params PathFindingOption[] options)
         {
             List<SlotController> path = new List<SlotController>();
 
@@ -407,7 +408,7 @@ namespace Board
             List<SlotController> accessibleSlotsList = new List<SlotController>();
             foreach (SlotController slot in accessibleSlots)
             {
-                int pathCount = GetPathFromSlotToSlot(fromSlot, slot).Count;
+                int pathCount = GetPath(fromSlot, slot).Count;
                 if (pathCount <= movementPoints)
                 {
                     accessibleSlotsList.Add(slot);
@@ -482,7 +483,7 @@ namespace Board
         
         public bool GetClosestToSlotFromSlot(SlotController targetSlot, SlotController fromSlot, out SlotController slot)
         {
-            List<SlotController> path = GetPathFromSlotToSlot(fromSlot, targetSlot, PathFindingOption.IgnoreCharacters);
+            List<SlotController> path = GetPath(fromSlot, targetSlot, PathFindingOption.IgnoreCharacters);
             for (int i = path.Count - 1; i >= 0; i--)
             {
                 SlotController pathSlot = path[i];

@@ -93,8 +93,8 @@ namespace Players.Behaviors
 #endif
 
                 //get the path to target within accessible slots
-                List<SlotController> currentPath = board.GetPathFromSlotToSlot(currentCharacterSlot, targetSlotClosest ?? targetSlot);
-                var fromSlot = path.Count > 0 ? path[^1] : currentCharacterSlot;
+                List<SlotController> currentPath = board.GetPath(currentCharacterSlot, targetSlotClosest ?? targetSlot);
+                SlotController fromSlot = path.Count > 0 ? path[^1] : currentCharacterSlot;
                 List<SlotController> accessibleSlots = GameManager.Instance.Board.GetAccessibleSlotsBySlot(fromSlot, movementPoints);
                 currentPath.RemoveAll(x => accessibleSlots.Contains(x) == false);
                 
@@ -135,6 +135,10 @@ namespace Players.Behaviors
                             break;
                     }
                 }
+                else
+                {
+                    break;
+                }
             }
 
             baseCharacterSlot.Data.Character = character;
@@ -152,7 +156,7 @@ namespace Players.Behaviors
         {
             List<SlotController> accessibleSlots = character.AccessibleSlots;
             SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
-            List<SlotController> path = GameManager.Instance.Board.GetPathFromSlotToSlot(character.CurrentSlot, targetSlot);
+            List<SlotController> path = GameManager.Instance.Board.GetPath(character.CurrentSlot, targetSlot);
             character.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }
         

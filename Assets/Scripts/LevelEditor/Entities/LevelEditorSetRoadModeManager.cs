@@ -202,7 +202,7 @@ namespace LevelEditor.Entities
                 {
                     SlotController startSlot = board.GetSlotFromCoordinates(roadPositions[i]);
                     SlotController endSlot = board.GetSlotFromCoordinates(roadPositions[i + 1]);
-                    List<SlotController> pathSlots = board.GetPathFromSlotToSlot(startSlot, endSlot);
+                    List<SlotController> pathSlots = board.GetPath(startSlot, endSlot);
 
                     pathSlots.ForEach(x => positions.Add(board.GetCoordinatesToWorldPosition(x.Coordinates)));
                 }
@@ -218,7 +218,7 @@ namespace LevelEditor.Entities
             if (isCurrentHoveredSlotUsable && CurrentCharacter != null) 
             {
                 List<SlotController> currentHoveredPathSlots =
-                    board.GetPathFromSlotToSlot(lastRoadPositionSlot, board.CurrentHoveredLocation.SlotView.Controller);
+                    board.GetPath(lastRoadPositionSlot, board.CurrentHoveredLocation.SlotView.Controller);
                 currentHoveredPathSlots.ForEach(x => positions.Add(board.GetCoordinatesToWorldPosition(x.Coordinates)));
             }
 
@@ -226,7 +226,7 @@ namespace LevelEditor.Entities
             {
                 SlotController loopStartSlot = board.GetSlotFromCoordinates(isCurrentHoveredSlotUsable ? board.CurrentHoveredLocation.Coordinates : roadPositions[^1]);
                 SlotController loopEndSlot = CurrentCharacter.Slot;
-                List<Vector3> loopPath = board.GetPathFromSlotToSlot(loopStartSlot, loopEndSlot).ConvertAll(x => board.GetCoordinatesToWorldPosition(x.Coordinates));
+                List<Vector3> loopPath = board.GetPath(loopStartSlot, loopEndSlot).ConvertAll(x => board.GetCoordinatesToWorldPosition(x.Coordinates));
                 
                 positions.AddRange(loopPath);
             }

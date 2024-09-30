@@ -17,20 +17,6 @@ namespace Board.Characters
         [SerializeField] private Animator _animator;
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
-        public SlotLocation CurrentSlotLocation
-        {
-            get
-            {
-                BoardController board = GameManager.Instance == null ? LevelEditorManager.Instance.Board : GameManager.Instance.Board;
-                SlotLocation slotLocation = board.Data.SlotLocations[Controller.Coordinates.x, Controller.Coordinates.y, Controller.Coordinates.z];
-                if (slotLocation == null)
-                {
-                    throw new Exception("no slot location found for the current slot coordinates");
-                }
-                return slotLocation;
-            }
-        }
-
         public void Initialize(BoardCharacterController controller)
         {
             Controller = controller;
@@ -97,18 +83,23 @@ namespace Board.Characters
             
             foreach (SlotController slot in path)
             {
+                int multiplier = 1;
+                
                 //position
                 Vector3 targetPosition = Controller.Board.GetCoordinatesToWorldPosition(slot.Coordinates);
-                sequence.Append(transform.DOMove(targetPosition, moveTime).SetEase(Ease.Linear));
+                if (Math.Abs(targetPosition.y - previousPosition.y) > 0.1f)
+                {
+                    multiplier = 2;
+                }
+                sequence.Append(transform.DOMove(targetPosition, moveTime * multiplier).SetEase(Ease.Linear));
                 
                 //rotation
                 Vector3 direction = GameManager.Instance.Board.GetCoordinatesToWorldPosition(slot.Coordinates) - previousPosition;
                 direction.y = 0;
-                sequence.Join(transform.DOLookAt(previousPosition + direction, moveTime)).SetEase(Ease.Linear);
+                sequence.Join(transform.DOLookAt(previousPosition + direction, moveTime * multiplier)).SetEase(Ease.Linear);
                 
                 previousPosition = targetPosition;
-
-                totalTime += moveTime;
+                totalTime += moveTime * multiplier;
             }
             
             transform.DOKill();
