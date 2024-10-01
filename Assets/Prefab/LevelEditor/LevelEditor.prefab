@@ -2091,6 +2091,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3463485677817908161, guid: 371858887bae80f44bbc2f8ff942da44,
+        type: 3}
+      propertyPath: _choiceObject
+      value: 
+      objectReference: {fileID: 6488087591156916902, guid: 5a62df403e11c824eafba38d846906ed,
+        type: 3}
     - target: {fileID: 3507666095779304469, guid: 371858887bae80f44bbc2f8ff942da44,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2166,6 +2172,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ActionButtons
       objectReference: {fileID: 0}
+    - target: {fileID: 5969844952685013385, guid: 371858887bae80f44bbc2f8ff942da44,
+        type: 3}
+      propertyPath: _choiceObject
+      value: 
+      objectReference: {fileID: 3391602998863232238, guid: 2579d3b96c1b1e848ad60178e7e3460c,
+        type: 3}
     - target: {fileID: 6031563641795325974, guid: 371858887bae80f44bbc2f8ff942da44,
         type: 3}
       propertyPath: <VisibleInMode>k__BackingField
