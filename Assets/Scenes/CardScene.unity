@@ -1019,6 +1019,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 7096563781931701398, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296545113987211106, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8350901852879172638, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
       propertyPath: CardsInDrawer.Array.size
