@@ -8,18 +8,25 @@ namespace Players
     [Serializable]
     public class Team
     {
-        [field:SerializeField] public int TeamNumber { get; private set; }
-        [field:SerializeField] public Color TeamColor { get; private set; }
+        [field:SerializeField] public int Number { get; private set; }
+        [field:SerializeField] public Color Color { get; private set; }
+        [field:SerializeField] public PlayerType Type { get; private set; }
         
         public Player Player { get; private set; }
         public List<BoardCharacterController> Characters { get; set; }
         
-        [SerializeField] private PlayerType _teamType;
 
+        public Team(int number, Color color, PlayerType type)
+        {
+            Number = number;
+            Color = color;
+            Type = type;
+        }
+        
         public void Initialize()
         {
             Characters = new List<BoardCharacterController>();
-            Player = new Player(_teamType, this);
+            Player = new Player(Type, this);
         }
 
         public void MakeTurn()

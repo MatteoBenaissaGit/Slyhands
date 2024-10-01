@@ -25,7 +25,7 @@ namespace GameEngine
         }
         
         public int Turn { get; set; }
-        public Team CurrentTurnTeam { get { return _gameManager.TeamsData.Teams[Turn % _gameManager.TeamsData.Teams.Count]; } }
+        public Team CurrentTurnTeam => _gameManager.Teams[Turn % _gameManager.Teams.Length];
 
         private GameManager _gameManager;
     }
@@ -67,7 +67,7 @@ namespace GameEngine
 
         public TaskManager TaskManager { get; private set; }
         public GameData Data { get; private set; }
-
+        public Team[] Teams { get; private set; }
 
         protected override void InternalAwake()
         {
@@ -85,7 +85,15 @@ namespace GameEngine
                 throw new Exception($"no level with name {_levelToLoad}");
             }
             
-            TeamsData.Teams.ForEach(x => x.Initialize());
+            Teams = new Team[TeamsData.Teams.Count];
+            for (int i = 0; i < Teams.Length; i++)
+            {
+                Team teamData = TeamsData.Teams[i];
+                Team team = new Team(teamData.Number, teamData.Color, teamData.Type);
+                Teams[i] = team;
+                team.Initialize();
+            }
+            
             Board.LoadGameLevel(levelToLoad);
 
             UI.SetTurnForTeam(Data.CurrentTurnTeam);
@@ -99,7 +107,7 @@ namespace GameEngine
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.S)) 
             {
-                var characterToStun = TeamsData.Teams[1].Characters[0];
+                var characterToStun = Teams[1].Characters[0];
                 characterToStun.OnCharacterAction.Invoke(CharacterAction.Stun, new object[] { 2 });
             }
 #endif

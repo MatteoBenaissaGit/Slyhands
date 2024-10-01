@@ -28,8 +28,8 @@ namespace UI
 
         public void SetTurnForTeam(Team team)
         {
-            _turnTeamNumberText.text = team.TeamNumber.ToString();
-            _turnTeamNumberText.color = team.TeamColor;
+            _turnTeamNumberText.text = team.Number.ToString();
+            _turnTeamNumberText.color = team.Color;
             
             _nextTurnButton.gameObject.SetActive(team.Player.Type == PlayerType.Local);
         }

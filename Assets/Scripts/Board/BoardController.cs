@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Board.Characters;
 using Data.Prefabs;
 using GameEngine;
@@ -364,7 +365,7 @@ namespace Board
                 //character controller
                 SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
                 GameObject levelEditorCharacterPrefab = prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId);
-                Team team = GameManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == levelEditorCharacterElement.Team.TeamNumber);
+                Team team = GameManager.Instance.Teams.ToList().Find(x => x.Number == levelEditorCharacterElement.Team.Number);
                 CharacterType type = levelEditorCharacterPrefab.GetComponent<LevelEditorCharacter>().Type;
                 BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type);
                 characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
@@ -382,7 +383,7 @@ namespace Board
                 //manage team & player
                 if (team == null)
                 {
-                    throw new Exception($"Team {team.TeamNumber} not found");
+                    throw new Exception($"Team {team.Number} not found");
                 }
                 team.Characters.Add(characterController);
                 
