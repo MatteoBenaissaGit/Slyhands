@@ -20,6 +20,8 @@ namespace Board.Characters
         [TitleGroup("Footprint"), SerializeField] private float _footPrintSize = 0.25f;
         
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+        private static readonly int Stun = Animator.StringToHash("Stun");
+        private static readonly int IsStunned = Animator.StringToHash("IsStunned");
         
         private Queue<SpriteRenderer> _footPrints;
         private float _footPrintFade;
@@ -106,6 +108,15 @@ namespace Board.Characters
                     }
                     GameManager.Instance.TaskManager.EnqueueTask(() => Rotate(orientation));
                     break;
+                case CharacterAction.Stun:
+                    GameManager.Instance.TaskManager.EnqueueTask(SetStun);
+                    break;
+                case CharacterAction.UpdateStun:
+                    GameManager.Instance.TaskManager.EnqueueTask(UpdateStun);
+                    break;
+                case CharacterAction.EndStun:
+                    GameManager.Instance.TaskManager.EnqueueTask(EndStun);
+                    break;
             }
         }
 
@@ -151,7 +162,7 @@ namespace Board.Characters
                     newFootPrint.gameObject.SetActive(true);
                     newFootPrint.color = new Color(_footPrintColor.r, _footPrintColor.g, _footPrintColor.b, 0f);
 
-                    float fade = 1f / _footPrints.Count; 
+                    float fade = _footPrintFade / _footPrints.Count; 
                     foreach (SpriteRenderer footPrint in _footPrints)
                     {
                         footPrint.DOComplete();
@@ -172,6 +183,10 @@ namespace Board.Characters
             _animator.SetBool(IsWalking, false);
         }
 
+        /// <summary>
+        /// Rotate the player view to the target orientation
+        /// </summary>
+        /// <param name="orientation">the orientation</param>
         private async Task Rotate(WorldOrientation.Orientation orientation)
         {
             float rotateTime = 0.5f;
@@ -184,5 +199,34 @@ namespace Board.Characters
             _animator.SetBool(IsWalking, false);
         }
 
+        private async Task SetStun()
+        {
+            float animationTime = 1f;
+            
+            //TODO show the top indicator
+
+            _animator.SetTrigger(Stun);
+            _animator.SetBool(IsStunned, true);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task UpdateStun()
+        {
+            float animationTime = 1f;
+
+            //TODO animate the top indicator
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task EndStun()
+        {
+            float animationTime = 1f;
+
+            _animator.SetBool(IsStunned, false);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
     }
 }

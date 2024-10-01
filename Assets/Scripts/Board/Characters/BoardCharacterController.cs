@@ -20,12 +20,20 @@ namespace Board.Characters
     public enum CharacterAction
     {
         Idle = 0,
+        
         MoveTo = 1, //parameters[0] = List<SlotController> path
+        
         GetHit = 2,
         Die = 3,
+        
         IsSelected = 5,
         IsUnselected = 6,
+       
         Rotate = 7, //parameters[0] = WorldOrientation.Orientation orientation 
+        
+        Stun = 8,  //parameters[0] = int turn duration
+        UpdateStun = 9,
+        EndStun = 10
     }
 
     public class CharacterControllerData
@@ -113,6 +121,14 @@ namespace Board.Characters
                 case Characters.CharacterAction.IsSelected:
                     break;
                 case Characters.CharacterAction.IsUnselected:
+                    break; 
+                case Characters.CharacterAction.Stun:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not int duration)
+                    {
+                        return;
+                    }
+                    SetState(StunnedState);
+                    StunnedState.Duration = duration;
                     break;
             }
         }
@@ -132,7 +148,8 @@ namespace Board.Characters
         {
             return GameplayData.IsSelectable 
                    && GameManager.Instance.Data.CurrentTurnTeam == GameplayData.Team 
-                   && GameplayData.Team.Player.Type == PlayerType.Local;
+                   && GameplayData.Team.Player.Type == PlayerType.Local
+                   && CurrentState.CanPlay;
         }
 
         public void SetForNewTurn()

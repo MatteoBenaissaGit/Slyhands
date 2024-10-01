@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Board;
+using Board.Characters;
 using Camera;
 using Common;
 using Data.Characters;
@@ -94,6 +95,14 @@ namespace GameEngine
         private void Update()
         {
             TaskManager.UpdateTaskQueue();
+            
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.S)) 
+            {
+                var characterToStun = TeamsData.Teams[1].Characters[0];
+                characterToStun.OnCharacterAction.Invoke(CharacterAction.Stun, new object[] { 2 });
+            }
+#endif
         }
 
         public async Task SetNextTurn()
