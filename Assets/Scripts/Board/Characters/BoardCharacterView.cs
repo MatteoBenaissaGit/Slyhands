@@ -18,6 +18,7 @@ namespace Board.Characters
         [TitleGroup("Footprint"), SerializeField] private Sprite _footPrint;
         [TitleGroup("Footprint"), SerializeField] private Color _footPrintColor = Color.black;
         [TitleGroup("Footprint"), SerializeField] private float _footPrintSize = 0.25f;
+        [TitleGroup("Effects"), SerializeField] private ParticleSystem _stunParticleSystem;
         
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
         private static readonly int Stun = Animator.StringToHash("Stun");
@@ -202,8 +203,8 @@ namespace Board.Characters
         private async Task SetStun()
         {
             float animationTime = 1f;
-            
-            //TODO show the top indicator
+
+            _stunParticleSystem.Play();
 
             _animator.SetTrigger(Stun);
             _animator.SetBool(IsStunned, true);
@@ -223,6 +224,8 @@ namespace Board.Characters
         private async Task EndStun()
         {
             float animationTime = 1f;
+
+            _stunParticleSystem.Stop();
 
             _animator.SetBool(IsStunned, false);
             
