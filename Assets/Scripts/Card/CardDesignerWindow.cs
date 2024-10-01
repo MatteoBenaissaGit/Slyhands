@@ -74,6 +74,7 @@ namespace Card.Editor
             if (GUILayout.Button("Modify Card"))
             {
                 currentMenuState = MenuState.ModifyCard;
+                selectedCardData = null;
                 LoadCardDataObjects();
             }
 
@@ -111,6 +112,10 @@ namespace Card.Editor
                 LoadCardDataIntoForm(selectedCardData);
 
                 Repaint();
+            }
+            else
+            {
+                selectedCardData = null;
             }
         }
 
