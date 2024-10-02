@@ -128,7 +128,10 @@ namespace Data.Characters
 
                 int xPosition = ViewDetectionCenter.x - square.Position.y;
                 int yPosition = ViewDetectionCenter.y - square.Position.x;
-                if (xPosition >= ViewDetection.GetLength(0) || yPosition >= ViewDetection.GetLength(1)) continue;
+                if (xPosition >= ViewDetection.GetLength(0) || yPosition >= ViewDetection.GetLength(1) || xPosition < 0 || yPosition < 0)
+                {
+                    continue;
+                }
                 ViewDetection[xPosition, yPosition] = square.IsDetected;
             }
         }
