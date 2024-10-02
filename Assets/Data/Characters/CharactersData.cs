@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Board.Characters;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using UnityEditor;
 using UnityEngine;
 
 namespace Data.Characters
@@ -17,7 +18,7 @@ namespace Data.Characters
         }
         
         [field:SerializeField] public Vector2Int Position { get; private set; }
-        [field:SerializeField] public bool IsDetected { get; private set; }
+        [field:SerializeField] public bool IsDetected { get; set; }
     }
     
     [Serializable]
@@ -40,19 +41,24 @@ namespace Data.Characters
             set
             {
                 ViewDetection = value;
+                ViewDetectionList ??= new List<ViewDetectionSquare>();
                 ViewDetectionList.Clear();
                 for (int x = 0; x < value.GetLength(0); x++)
                 {
                     for (int y = 0; y < value.GetLength(1); y++)
                     {
-                        ViewDetectionList.Add(new ViewDetectionSquare(new Vector2Int(x, y), value[x, y]));
+                        int yPosition = ViewDetectionCenter.x - x; 
+                        int xPosition = ViewDetectionCenter.y - y; 
+                        ViewDetectionList.Add(new ViewDetectionSquare(new Vector2Int(xPosition, yPosition), value[x, y]));
                     }
                 }
             }
         }
         
         public bool[,] ViewDetection;
-        public List<ViewDetectionSquare> ViewDetectionList = new();
+        [SerializeField, HideInInspector] public List<ViewDetectionSquare> ViewDetectionList;
+
+        private Vector2Int ViewDetectionCenter => new(ViewDetection.GetLength(0) / 2, ViewDetection.GetLength(1) / 2);
 
 #if UNITY_EDITOR
         private static bool DrawColoredEnumElement(Rect rect, bool value)
@@ -64,29 +70,33 @@ namespace Data.Characters
                 Event.current.Use();
             }
 
-            UnityEditor.EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.1f, 0.8f, 0.2f) : new Color(0, 0, 0, 0.5f));
+            EditorGUI.DrawRect(rect.Padding(1), value ? new Color(0.71f, 0.71f, 0.71f) : new Color(0, 0, 0, 0.5f));
+            if (value)
+            {
+                EditorGUI.DrawTextureAlpha(rect.Padding(6), EditorGUIUtility.IconContent("d_animationvisibilitytoggleon").image);
+            }
 
             return value;
         }
 
         [OnInspectorInit]
-        public void CreateData()
+        private void OnInspectorInitializeSetVisionDetectionData()
         {
+            SetVisionDetectionData(false);
+        }
+        
+        public void SetVisionDetectionData(bool canClearList = true)
+        {
+            if (HasViewDetection == false) return;
+            
             if (ViewDetection != null)
             {
-                ViewDetection[ViewDetection.GetLength(0) / 2, ViewDetection.GetLength(1) / 2] = true;
+                ViewDetection[ViewDetectionCenter.x, ViewDetectionCenter.y] = true;
             }
             
             if (ViewDetection != null && ViewDetection.GetLength(0) == ViewDetectionSize.x && ViewDetection.GetLength(1) == ViewDetectionSize.y)
             {
-                if (ViewDetectionList != null)
-                {
-                    foreach (ViewDetectionSquare square in ViewDetectionList)
-                    {
-                        if (square.Position.x >= ViewDetection.GetLength(0) || square.Position.y >= ViewDetection.GetLength(1)) continue;
-                        ViewDetection[square.Position.x, square.Position.y] = square.IsDetected;
-                    }
-                }
+                UpdateArrayFromDetectionList();
                 return;
             }
             
@@ -97,7 +107,30 @@ namespace Data.Characters
             ViewDetectionSize = detectionSize;
             
             ViewDetection = new bool[detectionSize.x, detectionSize.y];
-            ViewDetection[ViewDetection.GetLength(0) / 2, ViewDetection.GetLength(1) / 2] = true;
+            ViewDetection[ViewDetectionCenter.x, ViewDetectionCenter.y] = true;
+            
+            UpdateArrayFromDetectionList();
+        }
+
+        private void UpdateArrayFromDetectionList()
+        {
+            if (ViewDetectionList == null)
+            {
+                return;
+            }
+            
+            foreach (ViewDetectionSquare square in ViewDetectionList)
+            {
+                if (square.Position == Vector2Int.zero)
+                {
+                    square.IsDetected = true;
+                }
+
+                int xPosition = ViewDetectionCenter.x - square.Position.y;
+                int yPosition = ViewDetectionCenter.y - square.Position.x;
+                if (xPosition >= ViewDetection.GetLength(0) || yPosition >= ViewDetection.GetLength(1)) continue;
+                ViewDetection[xPosition, yPosition] = square.IsDetected;
+            }
         }
 #endif
     }
@@ -119,7 +152,8 @@ namespace Data.Characters
 
         private void OnValidate()
         {
-            Characters.ForEach(x => x.CreateData());
+            Characters.ForEach(x => x.SetVisionDetectionData());
+            EditorUtility.SetDirty(this);
         }
     }
 }
