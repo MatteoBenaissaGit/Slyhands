@@ -17,7 +17,15 @@ MonoBehaviour:
     <Life>k__BackingField: 3
     <MovementPoints>k__BackingField: 3
     <FootPrintLength>k__BackingField: 0
+    <ViewDetectionSize>k__BackingField: {x: 5, y: 5}
   - <Type>k__BackingField: 1
     <Life>k__BackingField: 3
     <MovementPoints>k__BackingField: 3
     <FootPrintLength>k__BackingField: 6
+    <ViewDetectionSize>k__BackingField: {x: 6, y: 6}
+  character:
+    <Type>k__BackingField: 0
+    <Life>k__BackingField: 0
+    <MovementPoints>k__BackingField: 0
+    <FootPrintLength>k__BackingField: 0
+    <ViewDetectionSize>k__BackingField: {x: 0, y: 0}
