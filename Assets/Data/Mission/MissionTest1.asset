@@ -16,8 +16,8 @@ MonoBehaviour:
     type: 2}
   <LevelSaveName>k__BackingField: 
   <MissionName>k__BackingField: Campement garde
-  <MissionComplished>k__BackingField: 1
+  <MissionComplished>k__BackingField: 0
   <MissionRewardsCount>k__BackingField: 3
-  <StarObtained>k__BackingField: 2
-  <GoldCardToFound>k__BackingField: 1
-  <SecondaryMission>k__BackingField: 0/6 Informations obtenues
+  <StarObtained>k__BackingField: 0
+  <GoldCardToFound>k__BackingField: 2
+  <SecondaryMission>k__BackingField: 0 / 6 Informations obtenues
