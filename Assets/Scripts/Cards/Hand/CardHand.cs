@@ -296,7 +296,7 @@ public class CardHand : MonoBehaviour
 
                     _cardSelected.cardStatus = CardStatus.Discarded;
 
-                    CardManager.Instance.DeckManager.PlayCardOnLocation(_cardSelected, slot);
+                    CardManager.Instance.GameplayDeckManager.PlayCardOnLocation(_cardSelected, slot);
 
                     _cardSelected = null;
 

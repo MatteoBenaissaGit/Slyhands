@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Slots;
 using UnityEngine;
 
-public class DeckManager : MonoBehaviour
+public class GameplayDeckManager : MonoBehaviour
 {
     [field: SerializeField] public GameObject CardPrefab { get; private set; }
     [field: SerializeField] public DeckData DeckData { get; private set; }

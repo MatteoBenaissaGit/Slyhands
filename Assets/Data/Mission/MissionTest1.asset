@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41d5fadb6c2c4f448324e464c941d54, type: 3}
+  m_Name: MissionTest1
+  m_EditorClassIdentifier: 
+  <DeckData>k__BackingField: {fileID: 11400000, guid: 4d745369dc556d24ea0dd134dcf8b44c,
+    type: 2}
+  <LevelSaveName>k__BackingField: 
+  <MissionName>k__BackingField: Campement garde
+  <MissionComplished>k__BackingField: 1
+  <MissionRewardsCount>k__BackingField: 3
+  <StarObtained>k__BackingField: 2
+  <GoldCardToFound>k__BackingField: 1
+  <SecondaryMission>k__BackingField: 0/6 Informations obtenues

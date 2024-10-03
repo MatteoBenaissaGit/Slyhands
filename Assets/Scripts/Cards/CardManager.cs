@@ -13,7 +13,7 @@ public class CardManager : MonoBehaviour
 {
     public static CardManager Instance;
     
-    [field: SerializeField] public DeckManager DeckManager { get; private set; }
+    [field: SerializeField] public GameplayDeckManager GameplayDeckManager { get; private set; }
 
     private void Awake()
     {

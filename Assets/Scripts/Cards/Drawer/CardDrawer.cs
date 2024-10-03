@@ -21,16 +21,16 @@ public class CardDrawer : MonoBehaviour
     {
         for (int i = 0; i < nbCardsToDraw; i++)
         {
-            CardHand cardHand = CardManager.Instance.DeckManager.CardHand;
+            CardHand cardHand = CardManager.Instance.GameplayDeckManager.CardHand;
             
             if (cardHand.cardsInHand.Count < cardHand.MaxCardsInHand)
             {
                 if (CardsInDrawer.Count == 0)
                 {
-                    CardManager.Instance.DeckManager.ResetDrawerFromDiscardPile();
+                    CardManager.Instance.GameplayDeckManager.ResetDrawerFromDiscardPile();
                 }
 
-                GameObject newCard = Instantiate(CardManager.Instance.DeckManager.CardPrefab, transform.position,
+                GameObject newCard = Instantiate(CardManager.Instance.GameplayDeckManager.CardPrefab, transform.position,
                     Quaternion.identity);
 
                 newCard.GetComponent<CardController>().Data = CardsInDrawer[0];
