@@ -99,11 +99,23 @@ namespace Board
         /// <summary>
         /// Get a slot in the data from a defined coordinates
         /// </summary>
-        /// <param name="currentRoadPosition">The coordinate to get the slot from</param>
+        /// <param name="coordinate">The coordinate to get the slot from</param>
         /// <returns>The slot controller at this coordinate</returns>
-        public SlotController GetSlotFromCoordinates(Vector3Int currentRoadPosition)
+        public SlotController GetSlotFromCoordinates(Vector3Int coordinate)
         {
-            return Data.SlotLocations[currentRoadPosition.x, currentRoadPosition.y, currentRoadPosition.z]?.SlotView?.Controller;
+            if (IsCoordinatesInBoard(coordinate) == false)
+            {
+                return null;
+            }
+            
+            return Data.SlotLocations[coordinate.x, coordinate.y, coordinate.z]?.SlotView?.Controller;
+        }
+        
+        public bool IsCoordinatesInBoard(Vector3Int coordinates)
+        {
+            return coordinates.x >= 0 && coordinates.x < Data.Width &&
+                   coordinates.y >= 0 && coordinates.y < Data.Height &&
+                   coordinates.z >= 0 && coordinates.z < Data.Length;
         }
         
         /// <summary>

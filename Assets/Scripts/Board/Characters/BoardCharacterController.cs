@@ -59,6 +59,7 @@ namespace Board.Characters
         public int RoadIndex { get; set; } = 1;
         public bool HasPredefinedRoad => Road != null && Road.Length > 1;
         
+        public Vector2Int[] DetectionView { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity
@@ -85,9 +86,17 @@ namespace Board.Characters
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
 
+            List<Vector2Int> detectionView = new List<Vector2Int>();
+            foreach (ViewDetectionSquare detectionSquare in Data.ViewDetectionList)
+            {
+                if (detectionSquare.IsDetected == false) continue;
+                detectionView.Add(detectionSquare.Position);
+            }
+            
             GameplayData = new CharacterControllerData(Data, team)
             {
-                Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road
+                Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road,
+                DetectionView = detectionView.ToArray()
             };
             
             PatrolState = new BoardCharacterStatePatrol(this);
@@ -182,12 +191,45 @@ namespace Board.Characters
         public Task PlayTurn()
         {
             OnCharacterAction.Invoke(Characters.CharacterAction.IsSelected, null);
-
+            
             CurrentState.Play();
                 
             OnCharacterAction.Invoke(Characters.CharacterAction.IsUnselected, null);
             
             return Task.CompletedTask;
+        }
+        
+        public List<BoardEntity> GetEntitiesInDetectionView()
+        {
+            List<BoardEntity> entities = new List<BoardEntity>();
+            foreach (Vector2Int detectionSquare in GameplayData.DetectionView)
+            {
+                Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), GameplayData.Orientation);
+                Vector3Int coordinates = Coordinates + offset;
+                if (Board.IsCoordinatesInBoard(coordinates) == false) continue;
+                SlotController slot = Board.GetSlotFromCoordinates(coordinates);
+                if (slot != null && slot.Data.Character != null)
+                {
+                    entities.Add(slot.Data.Character);
+                }
+            }
+
+            return entities;
+        }
+
+        public List<BoardEntity> GetEnemiesInDetectionView()
+        {
+            var entitiesInDetectionView = GetEntitiesInDetectionView();
+            List<BoardEntity> enemies = new List<BoardEntity>();
+            foreach (var entity in entitiesInDetectionView)
+            {
+                if (entity is BoardCharacterController character && character.GameplayData.Team != GameplayData.Team)
+                {
+                    enemies.Add(character);
+                }
+            }
+
+            return enemies;
         }
     }
 }
