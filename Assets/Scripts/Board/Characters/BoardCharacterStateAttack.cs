@@ -2,6 +2,8 @@
 {
     public class BoardCharacterStateAttack : BoardCharacterState
     {
+        public BoardCharacterController EnemyAttacked { get; set; }
+        
         public BoardCharacterStateAttack(BoardCharacterController controller) : base(controller)
         {
         }

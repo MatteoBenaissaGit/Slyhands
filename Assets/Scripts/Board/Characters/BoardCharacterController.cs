@@ -33,7 +33,10 @@ namespace Board.Characters
         
         Stun = 8,  //parameters[0] = int turn duration
         UpdateStun = 9,
-        EndStun = 10
+        EndStun = 10,
+        
+        EnemyDetected = 11, //parameters[0] = BoardCharacterController enemy
+        EnemyLost = 12, //parameters[0] = Vector3Int lastSeenCoordinates
     }
 
     public class CharacterControllerData
@@ -138,6 +141,14 @@ namespace Board.Characters
                     }
                     SetState(StunnedState);
                     StunnedState.Duration = duration;
+                    break;
+                case Characters.CharacterAction.EnemyDetected:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not BoardCharacterController enemy)
+                    {
+                        return;
+                    }
+                    AttackState.EnemyAttacked = enemy;
+                    SetState(AttackState);
                     break;
             }
         }

@@ -19,6 +19,7 @@ namespace Board.Characters
         [TitleGroup("Footprint"), SerializeField] private Color _footPrintColor = Color.black;
         [TitleGroup("Footprint"), SerializeField] private float _footPrintSize = 0.25f;
         [TitleGroup("Effects"), SerializeField] private ParticleSystem _stunParticleSystem;
+        [TitleGroup("Effects"), SerializeField] private GameObject _attackIcon;
         
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
         private static readonly int Stun = Animator.StringToHash("Stun");
@@ -28,6 +29,8 @@ namespace Board.Characters
         private float _footPrintFade;
         private static Vector3[] _orientationToFootPrintRotation = { new(90, 0, 0), new(90, 0, 270), new(90, 0, 180), new(90, 0, 90)};
 
+        private UnityEngine.Camera _camera;
+        
         public void Initialize(BoardCharacterController controller)
         {
             Controller = controller;
@@ -36,6 +39,15 @@ namespace Board.Characters
             transform.rotation = Quaternion.Euler(0, ((int)Controller.GameplayData.Orientation) * 90, 0);
             
             InitializeFootPrints();
+            
+            _attackIcon.SetActive(false);
+            GameManager.Instance.Camera.OnCameraRotated += MakeEffectsFaceCamera;
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.position, 0f);
+        }
+
+        private void Start()
+        {
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.position, 0f);
         }
 
         private void InitializeFootPrints()
@@ -64,6 +76,12 @@ namespace Board.Characters
         private void OnDestroy()
         {
             Controller.OnCharacterAction -= CharacterActionView;
+        }
+
+        private void MakeEffectsFaceCamera(Vector3 cameraPosition, float moveDuration)
+        {
+            _attackIcon.transform.DOKill();
+            _attackIcon.transform.DOLookAt(cameraPosition, moveDuration);
         }
 
         private void CharacterActionView(CharacterAction action, params object[] parameters)
@@ -117,6 +135,12 @@ namespace Board.Characters
                     break;
                 case CharacterAction.EndStun:
                     GameManager.Instance.TaskManager.EnqueueTask(EndStun);
+                    break;
+                case CharacterAction.EnemyDetected:
+                    GameManager.Instance.TaskManager.EnqueueTask(EnemyDetectedFeedback);
+                    break;
+                case CharacterAction.EnemyLost:
+                    GameManager.Instance.TaskManager.EnqueueTask(EnemyLostFeedback);
                     break;
             }
         }
@@ -195,6 +219,8 @@ namespace Board.Characters
             Vector2Int direction = WorldOrientation.GetDirection(orientation);
             transform.DOLookAt(transform.position + new Vector3(direction.x,0,direction.y), rotateTime);
             
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.position, rotateTime);
+            
             _animator.SetBool(IsWalking, true);
             await Task.Delay((int)(rotateTime * 1000));
             _animator.SetBool(IsWalking, false);
@@ -228,6 +254,26 @@ namespace Board.Characters
             _stunParticleSystem.Stop();
 
             _animator.SetBool(IsStunned, false);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task EnemyDetectedFeedback()
+        {
+            float animationTime = 0.5f;
+
+            _attackIcon.SetActive(true);
+            _attackIcon.transform.DOComplete();
+            _attackIcon.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task EnemyLostFeedback()
+        {
+            float animationTime = 0.5f;
+
+            _attackIcon.SetActive(false);
             
             await Task.Delay((int)(animationTime * 1000));
         }

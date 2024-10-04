@@ -29,6 +29,17 @@ namespace Board.Characters
             {
                 Rotate();
             }
+
+            List<BoardEntity> enemiesDetected = Controller.GetEnemiesInDetectionView();
+            if (enemiesDetected.Count > 0)
+            {
+                enemiesDetected
+                    .Sort((x, y) => Vector3Int.Distance(x.Coordinates, Controller.CurrentSlot.Coordinates)
+                    .CompareTo(Vector3Int.Distance(y.Coordinates, Controller.CurrentSlot.Coordinates)));
+                BoardEntity enemy = enemiesDetected[0];
+                
+                Controller.OnCharacterAction?.Invoke(CharacterAction.EnemyDetected, new object[]{enemy});
+            }
         }
 
         public override void Quit()
