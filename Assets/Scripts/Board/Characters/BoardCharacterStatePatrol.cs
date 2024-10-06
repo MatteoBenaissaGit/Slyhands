@@ -141,9 +141,10 @@ namespace Board.Characters
 
             if (slotToGo == null)
             {
-                MoveRandomly();
                 return;
             }
+            
+            Controller.GameplayData.Orientation = WorldOrientation.GetDirection(path[^2].Coordinates, path[^1].Coordinates);
             
             Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }

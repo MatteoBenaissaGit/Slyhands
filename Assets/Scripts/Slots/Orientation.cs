@@ -70,5 +70,10 @@ namespace Slots
                     return Vector3Int.zero;
             }
         }
+
+        public static Orientation GetDirection(Vector3Int from, Vector3Int to)
+        {
+            return GetOrientation(to - from);
+        }
     }
 }
