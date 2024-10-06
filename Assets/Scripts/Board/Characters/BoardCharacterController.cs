@@ -37,6 +37,9 @@ namespace Board.Characters
         
         EnemyDetected = 11, //parameters[0] = BoardCharacterController enemy
         EnemyLost = 12, //parameters[0] = Vector3Int lastSeenCoordinates
+        
+        IsHovered = 13, //parameters[0] = Color teamColor
+        IsLeaved = 14 //parameters[0] = Color teamColor
     }
 
     public class CharacterControllerData
@@ -209,16 +212,30 @@ namespace Board.Characters
             
             return Task.CompletedTask;
         }
-        
-        public List<BoardEntity> GetEntitiesInDetectionView()
+
+        #region Detection
+
+        public List<SlotController> GetSlotsInDetectionView()
         {
-            List<BoardEntity> entities = new List<BoardEntity>();
+            List<SlotController> slots = new();
             foreach (Vector2Int detectionSquare in GameplayData.DetectionView)
             {
                 Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), GameplayData.Orientation);
                 Vector3Int coordinates = Coordinates + offset;
                 if (Board.IsCoordinatesInBoard(coordinates) == false) continue;
                 SlotController slot = Board.GetSlotFromCoordinates(coordinates);
+                if (slot == null) continue;
+                slots.Add(slot);
+            }
+            return slots;
+        }
+
+        public List<BoardEntity> GetEntitiesInDetectionView()
+        {
+            List<BoardEntity> entities = new List<BoardEntity>();
+            List<SlotController> slots = GetSlotsInDetectionView();
+            foreach (SlotController slot in slots)
+            {
                 if (slot != null && slot.Data.Character != null)
                 {
                     entities.Add(slot.Data.Character);
@@ -234,7 +251,7 @@ namespace Board.Characters
             List<BoardEntity> enemies = new List<BoardEntity>();
             foreach (var entity in entitiesInDetectionView)
             {
-                if (entity is BoardCharacterController character && character.GameplayData.Team != GameplayData.Team)
+                if (entity is BoardCharacterController character && character.GameplayData.Team.Number != GameplayData.Team.Number)
                 {
                     enemies.Add(character);
                 }
@@ -242,5 +259,7 @@ namespace Board.Characters
 
             return enemies;
         }
+        
+        #endregion
     }
 }

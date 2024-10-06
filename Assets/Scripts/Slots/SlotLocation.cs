@@ -1,5 +1,7 @@
 ﻿using System;
 using Board;
+using Board.Characters;
+using DG.Tweening;
 using GameEngine;
 using LevelEditor;
 using Sirenix.OdinInspector;
@@ -20,6 +22,7 @@ namespace Slots
         
         [SerializeField, TabGroup("References"), Required] private SpriteRenderer _usableSprite;
         [SerializeField, TabGroup("References"), Required] private SpriteRenderer _selectedSprite;
+        [SerializeField, TabGroup("References"), Required] private SpriteRenderer _detectionFeedbackSprite;
         [SerializeField, TabGroup("References"), Required] private Collider _clickRaycastCollider;
         [SerializeField, TabGroup("References"), Required] private GameObject _hoveredFeedback;
 
@@ -35,6 +38,7 @@ namespace Slots
             _notEditableColor = new Color(_baseUsableSpriteColor.r, _baseUsableSpriteColor.g, _baseUsableSpriteColor.b, 0f);
             
             _baseSelectedSpriteColor = _selectedSprite.color;
+            _detectionFeedbackSprite.color = new Color(1, 1, 1, 0f);
             
             _hoveredFeedback.SetActive(false);
             _selectedSprite.gameObject.SetActive(false);
@@ -99,10 +103,21 @@ namespace Slots
                 _usableSprite.gameObject.SetActive(false);
             }
             
+            //entity
+            if (SlotView != null && SlotView.Controller.Data.Character != null)
+            {
+                BoardCharacterController character = SlotView.Controller.Data.Character;
+                character.OnCharacterAction.Invoke(isHovered ? CharacterAction.IsHovered : CharacterAction.IsLeaved, new object[]{character.GameplayData.Team.Color});
+            }
+            
             if (Coordinates.y == 0)
             {
                 return;
             }
+
+            //-----------------------
+            //LEVEL EDITOR ONLY BELOW 
+            //-----------------------
 
             //feedback placement
             if (LevelEditorManager.Instance == null)
@@ -170,6 +185,19 @@ namespace Slots
             }
             
             return canBePlaced;
+        }
+        
+        /// <summary>
+        /// Show the detection feedback on the slot location
+        /// </summary>
+        /// <param name="doShow">show or hide the sprite</param>
+        /// <param name="color">the color of the sprite</param>
+        public void ShowDetection(bool doShow, Color color)
+        {
+            _detectionFeedbackSprite.DOKill();
+            color.a = _detectionFeedbackSprite.color.a;
+            _detectionFeedbackSprite.color = color;
+            _detectionFeedbackSprite.DOFade(doShow ? 0.5f : 0f, 0.2f);
         }
     }
 }

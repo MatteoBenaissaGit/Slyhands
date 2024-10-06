@@ -142,6 +142,20 @@ namespace Board.Characters
                 case CharacterAction.EnemyLost:
                     GameManager.Instance.TaskManager.EnqueueTask(EnemyLostFeedback);
                     break;
+                case CharacterAction.IsHovered:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not Color teamColor)
+                    {
+                        return;
+                    }
+                    Controller.GetSlotsInDetectionView().ForEach(x => x.Location.ShowDetection(true, teamColor));
+                    break;
+                case CharacterAction.IsLeaved:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not Color color)
+                    {
+                        return;
+                    }
+                    Controller.GetSlotsInDetectionView().ForEach(x => x.Location.ShowDetection(false, new Color(color.r,color.g,color.b,0f)));
+                    break;
             }
         }
 
