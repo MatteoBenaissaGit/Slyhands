@@ -20,7 +20,7 @@
 
         public override void Quit()
         {
-            
+            Controller.OnCharacterAction.Invoke(CharacterAction.EnemyLost, new object[]{EnemyAttacked.Coordinates});
         }
     }
 }

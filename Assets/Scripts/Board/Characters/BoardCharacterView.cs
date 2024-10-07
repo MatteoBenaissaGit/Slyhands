@@ -43,12 +43,12 @@ namespace Board.Characters
             
             _attackIcon.SetActive(false);
             GameManager.Instance.Camera.OnCameraRotated += MakeEffectsFaceCamera;
-            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.position, 0f);
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, 0f);
         }
 
         private void Start()
         {
-            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.position, 0f);
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, 0f);
         }
 
         private void InitializeFootPrints()
@@ -79,10 +79,10 @@ namespace Board.Characters
             Controller.OnCharacterAction -= CharacterActionView;
         }
 
-        private void MakeEffectsFaceCamera(Vector3 cameraPosition, float moveDuration)
+        private void MakeEffectsFaceCamera(Vector3 cameraForward, float moveDuration)
         {
             _attackIcon.transform.DOKill();
-            _attackIcon.transform.DOLookAt(cameraPosition, moveDuration);
+            _attackIcon.transform.DOLookAt(_attackIcon.transform.position - cameraForward, moveDuration);
         }
 
         private void CharacterActionView(CharacterAction action, params object[] parameters)
@@ -234,7 +234,7 @@ namespace Board.Characters
             Vector2Int direction = WorldOrientation.GetDirection(orientation);
             transform.DOLookAt(transform.position + new Vector3(direction.x,0,direction.y), rotateTime);
             
-            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.position, rotateTime);
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, rotateTime);
             
             _animator.SetBool(IsWalking, true);
             await Task.Delay((int)(rotateTime * 1000));

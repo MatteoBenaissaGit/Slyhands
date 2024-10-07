@@ -101,7 +101,8 @@ namespace Camera
             Camera.transform.DORotate(newRotation.eulerAngles, duration);
             Camera.transform.DOMove(newPosition, duration);
             
-            OnCameraRotated?.Invoke(newPosition, duration);
+            Vector3 newForward = (hitPoint - newPosition).normalized;
+            OnCameraRotated?.Invoke(newForward, duration);
             
             GizmoDrawer.DrawCross(hitPoint, new Color(1f, 0.59f, 0.14f));
         }
