@@ -24,6 +24,7 @@ namespace Board.Characters
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
         private static readonly int Stun = Animator.StringToHash("Stun");
         private static readonly int IsStunned = Animator.StringToHash("IsStunned");
+        private static readonly int Detect = Animator.StringToHash("Detect");
         
         private Queue<SpriteRenderer> _footPrints;
         private float _footPrintFade;
@@ -276,6 +277,8 @@ namespace Board.Characters
         {
             float animationTime = 0.5f;
 
+            _animator.SetTrigger(Detect);
+            
             _attackIcon.SetActive(true);
             _attackIcon.transform.DOComplete();
             _attackIcon.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
