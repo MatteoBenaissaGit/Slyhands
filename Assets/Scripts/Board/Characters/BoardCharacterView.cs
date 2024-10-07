@@ -211,6 +211,9 @@ namespace Board.Characters
                     }
                 }
                 
+                //effects
+                MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, moveTime);
+                
                 //play sequence
                 previousPosition = targetPosition;
                 transform.DOKill();
