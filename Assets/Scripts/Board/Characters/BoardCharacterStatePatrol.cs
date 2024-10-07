@@ -134,30 +134,27 @@ namespace Board.Characters
                 return;
             }
 
-            List<SlotController> newPath = null;
-            int newPathIndex = -1;
+            path.Insert(0, baseCharacterSlot);
             for (int i = 1; i < path.Count; i++)
             {
                 Vector3Int position = path[i].Coordinates;
-                WorldOrientation.Orientation orientation = WorldOrientation.GetOrientation(position - path[i - 1].Coordinates);
+                var direction = position - path[i - 1].Coordinates;
+                WorldOrientation.Orientation orientation = WorldOrientation.GetOrientation(direction);
                 List<BoardEntity> enemiesInView = Controller.GetEnemiesInDetectionView(position, orientation);
                 if (enemiesInView.Count > 0)
                 {
-                    newPath = path.GetRange(0, i);
-                    newPathIndex = i;
+                    path = path.GetRange(0, i+1);
                     break;
                 }
             }
 
-            // Orient controllerOrientation = WorldOrientation.GetDirection(path[^2].Coordinates, path[^1].Coordinates);
-            // if (newPath != null)
-            // {
-            //     
-            // }
-
-            // Controller.GameplayData.Orientation = controllerOrientation;
+            Vector3Int lastPathSlot = path[^1].Coordinates;
+            Vector3Int secondLastPastSlot = path[^2].Coordinates;
+            WorldOrientation.Orientation controllerOrientation = WorldOrientation.GetDirection(secondLastPastSlot, lastPathSlot);
+            Controller.GameplayData.Orientation = controllerOrientation;
             
-            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { newPath ?? path });
+            path.RemoveAt(0);
+            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { path });
         }
 
         public void MoveRandomly()

@@ -22,7 +22,7 @@ MonoBehaviour:
     ViewDetectionList: []
   - <Type>k__BackingField: 1
     <Life>k__BackingField: 3
-    <MovementPoints>k__BackingField: 3
+    <MovementPoints>k__BackingField: 5
     <FootPrintLength>k__BackingField: 6
     <HasViewDetection>k__BackingField: 1
     <ViewDetectionSize>k__BackingField: {x: 13, y: 13}
