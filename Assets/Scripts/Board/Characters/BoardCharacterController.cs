@@ -217,12 +217,17 @@ namespace Board.Characters
 
         public void DetectEnemies()
         {
-            List<BoardEntity> enemiesDetected = GetEnemiesInDetectionView();
+            DetectEnemies(Coordinates, GameplayData.Orientation);
+        }
+        
+        public void DetectEnemies(Vector3Int coordinates, WorldOrientation.Orientation orientation)
+        {
+            List<BoardEntity> enemiesDetected = GetEnemiesInDetectionView(coordinates, orientation);
             if (enemiesDetected.Count > 0)
             {
                 enemiesDetected
-                    .Sort((x, y) => Vector3Int.Distance(x.Coordinates, CurrentSlot.Coordinates)
-                        .CompareTo(Vector3Int.Distance(y.Coordinates, CurrentSlot.Coordinates)));
+                    .Sort((x, y) => Vector3Int.Distance(x.Coordinates, coordinates)
+                        .CompareTo(Vector3Int.Distance(y.Coordinates, coordinates)));
                 BoardEntity enemy = enemiesDetected[0];
                 
                 OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{enemy});
@@ -231,23 +236,28 @@ namespace Board.Characters
         
         public List<SlotController> GetSlotsInDetectionView()
         {
+            return GetSlotsInDetectionView(Coordinates, GameplayData.Orientation);
+        }
+        
+        public List<SlotController> GetSlotsInDetectionView(Vector3Int coordinates, WorldOrientation.Orientation orientation)
+        {
             List<SlotController> slots = new();
             foreach (Vector2Int detectionSquare in GameplayData.DetectionView)
             {
-                Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), GameplayData.Orientation);
-                Vector3Int coordinates = Coordinates + offset;
-                if (Board.IsCoordinatesInBoard(coordinates) == false) continue;
-                SlotController slot = Board.GetSlotFromCoordinates(coordinates);
+                Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), orientation);
+                Vector3Int coordinatesOffset = coordinates + offset;
+                if (Board.IsCoordinatesInBoard(coordinatesOffset) == false) continue;
+                SlotController slot = Board.GetSlotFromCoordinates(coordinatesOffset);
                 if (slot == null) continue;
                 slots.Add(slot);
             }
             return slots;
         }
 
-        public List<BoardEntity> GetEntitiesInDetectionView()
+        public List<BoardEntity> GetEntitiesInDetectionView(Vector3Int coordinates, WorldOrientation.Orientation orientation)
         {
             List<BoardEntity> entities = new List<BoardEntity>();
-            List<SlotController> slots = GetSlotsInDetectionView();
+            List<SlotController> slots = GetSlotsInDetectionView(coordinates, orientation);
             foreach (SlotController slot in slots)
             {
                 if (slot != null && slot.Data.Character != null)
@@ -259,9 +269,9 @@ namespace Board.Characters
             return entities;
         }
 
-        public List<BoardEntity> GetEnemiesInDetectionView()
+        public List<BoardEntity> GetEnemiesInDetectionView(Vector3Int coordinates, WorldOrientation.Orientation orientation)
         {
-            var entitiesInDetectionView = GetEntitiesInDetectionView();
+            var entitiesInDetectionView = GetEntitiesInDetectionView(coordinates, orientation);
             List<BoardEntity> enemies = new List<BoardEntity>();
             foreach (var entity in entitiesInDetectionView)
             {

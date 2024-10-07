@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameEngine;
 using LevelEditor.Entities;
 using Slots;
@@ -134,10 +133,31 @@ namespace Board.Characters
             {
                 return;
             }
+
+            List<SlotController> newPath = null;
+            int newPathIndex = -1;
+            for (int i = 1; i < path.Count; i++)
+            {
+                Vector3Int position = path[i].Coordinates;
+                WorldOrientation.Orientation orientation = WorldOrientation.GetOrientation(position - path[i - 1].Coordinates);
+                List<BoardEntity> enemiesInView = Controller.GetEnemiesInDetectionView(position, orientation);
+                if (enemiesInView.Count > 0)
+                {
+                    newPath = path.GetRange(0, i);
+                    newPathIndex = i;
+                    break;
+                }
+            }
+
+            // Orient controllerOrientation = WorldOrientation.GetDirection(path[^2].Coordinates, path[^1].Coordinates);
+            // if (newPath != null)
+            // {
+            //     
+            // }
+
+            // Controller.GameplayData.Orientation = controllerOrientation;
             
-            Controller.GameplayData.Orientation = WorldOrientation.GetDirection(path[^2].Coordinates, path[^1].Coordinates);
-            
-            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
+            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { newPath ?? path });
         }
 
         public void MoveRandomly()
