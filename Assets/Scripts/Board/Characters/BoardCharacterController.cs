@@ -215,6 +215,20 @@ namespace Board.Characters
 
         #region Detection
 
+        public void DetectEnemies()
+        {
+            List<BoardEntity> enemiesDetected = GetEnemiesInDetectionView();
+            if (enemiesDetected.Count > 0)
+            {
+                enemiesDetected
+                    .Sort((x, y) => Vector3Int.Distance(x.Coordinates, CurrentSlot.Coordinates)
+                        .CompareTo(Vector3Int.Distance(y.Coordinates, CurrentSlot.Coordinates)));
+                BoardEntity enemy = enemiesDetected[0];
+                
+                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{enemy});
+            }
+        }
+        
         public List<SlotController> GetSlotsInDetectionView()
         {
             List<SlotController> slots = new();
