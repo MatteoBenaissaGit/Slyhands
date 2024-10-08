@@ -219,6 +219,9 @@ namespace Board.Characters
                 //effects
                 MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, moveTime);
                 
+                //slot event
+                slot.OnCharacterEnter?.Invoke(Controller);
+                
                 //play sequence
                 previousPosition = targetPosition;
                 transform.DOKill();

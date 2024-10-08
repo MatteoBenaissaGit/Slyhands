@@ -379,8 +379,7 @@ namespace Board
                 GameObject levelEditorCharacterPrefab = prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId);
                 Team team = GameManager.Instance.Teams.ToList().Find(x => x.Number == levelEditorCharacterElement.Team.Number);
                 CharacterType type = levelEditorCharacterPrefab.GetComponent<LevelEditorCharacter>().Type;
-                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type);
-                characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
+                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type, levelEditorCharacterElement.Orientation);
                 
                 //character view
                 string characterPrefabId = prefabsData.GetPrefabSecondId(levelEditorCharacterPrefab);

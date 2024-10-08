@@ -15,7 +15,7 @@ MonoBehaviour:
   Characters:
   - <Type>k__BackingField: 0
     <Life>k__BackingField: 3
-    <MovementPoints>k__BackingField: 3
+    <MovementPoints>k__BackingField: 6
     <FootPrintLength>k__BackingField: 0
     <HasViewDetection>k__BackingField: 0
     <ViewDetectionSize>k__BackingField: {x: 0, y: 0}

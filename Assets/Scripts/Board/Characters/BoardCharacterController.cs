@@ -85,7 +85,7 @@ namespace Board.Characters
         
         public SlotController CurrentSlot => Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller;
 
-        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type) : base(board, coordinates)
+        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type, WorldOrientation.Orientation orientation) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Character;
             Type = type;
@@ -102,7 +102,8 @@ namespace Board.Characters
             GameplayData = new CharacterControllerData(Data, team)
             {
                 Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road,
-                DetectionView = detectionView.ToArray()
+                DetectionView = detectionView.ToArray(),
+                Orientation = orientation
             };
             
             PatrolState = new BoardCharacterStatePatrol(this);
@@ -282,6 +283,33 @@ namespace Board.Characters
             }
 
             return enemies;
+        }
+
+        private List<SlotController> _detectionViewSubbed;
+        public void SubscribeToDetectionView()
+        {
+            _detectionViewSubbed = GetSlotsInDetectionView();
+            foreach (SlotController slot in _detectionViewSubbed)
+            {
+                slot.OnCharacterEnter += OnCharacterEnteredDetectionView;
+            }
+        }
+
+        private void OnCharacterEnteredDetectionView(BoardCharacterController character)
+        {
+            if (character.GameplayData.Team.Number != GameplayData.Team.Number)
+            {
+                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{character});
+            }
+        }
+
+        public void UnsubscribeToDetectionView()
+        {
+            foreach (SlotController slot in _detectionViewSubbed)
+            {
+                slot.OnCharacterEnter -= OnCharacterEnteredDetectionView;
+            }
+            _detectionViewSubbed.Clear();
         }
         
         #endregion
