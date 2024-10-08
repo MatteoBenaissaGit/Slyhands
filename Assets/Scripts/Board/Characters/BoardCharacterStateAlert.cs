@@ -17,6 +17,7 @@ namespace Board.Characters
 
         public override void Play()
         {
+            Debug.Log("PLAY ALERT");
         }
 
         public override void Quit()

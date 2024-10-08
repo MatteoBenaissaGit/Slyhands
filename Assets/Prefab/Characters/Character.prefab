@@ -51,7 +51,7 @@ MonoBehaviour:
   _footPrintColor: {r: 0, g: 0, b: 0, a: 0.6392157}
   _footPrintSize: 0.25
   _stunParticleSystem: {fileID: 1124061985935905717}
-  _attackIcon: {fileID: 568855068431316676}
+  _stateIcon: {fileID: 8373959268684414594}
 --- !u!1 &568855068431316676
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 5832154337679760907}
   - component: {fileID: 8373959268684414594}
   m_Layer: 0
-  m_Name: AttackIcon
+  m_Name: StateIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

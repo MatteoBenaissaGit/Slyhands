@@ -7,6 +7,7 @@ using Players;
 using Sirenix.OdinInspector;
 using Slots;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Board.Characters
 {
@@ -19,7 +20,7 @@ namespace Board.Characters
         [TitleGroup("Footprint"), SerializeField] private Color _footPrintColor = Color.black;
         [TitleGroup("Footprint"), SerializeField] private float _footPrintSize = 0.25f;
         [TitleGroup("Effects"), SerializeField] private ParticleSystem _stunParticleSystem;
-        [TitleGroup("Effects"), SerializeField] private GameObject _attackIcon;
+        [TitleGroup("Effects"), SerializeField] private SpriteRenderer _stateIcon;
         
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
         private static readonly int Stun = Animator.StringToHash("Stun");
@@ -31,6 +32,9 @@ namespace Board.Characters
         private static Vector3[] _orientationToFootPrintRotation = { new(90, 0, 0), new(90, 0, 270), new(90, 0, 180), new(90, 0, 90)};
 
         private UnityEngine.Camera _camera;
+
+        private Sprite _attackSprite;
+        private Sprite _alertSprite;
         
         public void Initialize(BoardCharacterController controller)
         {
@@ -40,10 +44,13 @@ namespace Board.Characters
             transform.rotation = Quaternion.Euler(0, ((int)Controller.GameplayData.Orientation) * 90, 0);
             
             InitializeFootPrints();
-            
-            _attackIcon.SetActive(false);
+
+            _stateIcon.sprite = null;
             GameManager.Instance.Camera.OnCameraRotated += MakeEffectsFaceCamera;
             MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, 0f);
+            
+            _attackSprite = GameManager.Instance.UIData.GetSprite("AttackIcon");
+            _alertSprite = GameManager.Instance.UIData.GetSprite("AlertIcon");
         }
 
         private void Start()
@@ -81,8 +88,8 @@ namespace Board.Characters
 
         private void MakeEffectsFaceCamera(Vector3 cameraForward, float moveDuration)
         {
-            _attackIcon.transform.DOKill();
-            _attackIcon.transform.DOLookAt(_attackIcon.transform.position - cameraForward, moveDuration);
+            _stateIcon.transform.DOKill();
+            _stateIcon.transform.DOLookAt(_stateIcon.transform.position - cameraForward, moveDuration);
         }
 
         private void CharacterActionView(CharacterAction action, params object[] parameters)
@@ -97,7 +104,7 @@ namespace Board.Characters
                         return;
                     }
                     GameManager.Instance.TaskManager.EnqueueTask(() => MoveTo(path));
-                    if (parameters.Length < 2 || parameters[1] is not WorldOrientation.Orientation finalOrientation)
+                    if (parameters.Length < 3 || parameters[1] is not WorldOrientation.Orientation finalOrientation || parameters[2] is not bool)
                     {
                         return;
                     }
@@ -143,10 +150,10 @@ namespace Board.Characters
                     GameManager.Instance.TaskManager.EnqueueTask(EndStun);
                     break;
                 case CharacterAction.EnemyDetected:
-                    GameManager.Instance.TaskManager.EnqueueTask(EnemyDetectedFeedback);
+                    GameManager.Instance.TaskManager.EnqueueTask(() => SetStateIcon(_attackSprite));
                     break;
                 case CharacterAction.EnemyLost:
-                    GameManager.Instance.TaskManager.EnqueueTask(EnemyLostFeedback);
+                    GameManager.Instance.TaskManager.EnqueueTask(() => SetStateIcon(_alertSprite));
                     break;
                 case CharacterAction.IsHovered:
                     if (parameters == null || parameters.Length == 0 || parameters[0] is not Color teamColor)
@@ -220,7 +227,7 @@ namespace Board.Characters
                 MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, moveTime);
                 
                 //slot event
-                slot.OnCharacterEnter?.Invoke(Controller);
+                slot.OnCharacterEnter?.Invoke(Controller, slot.Coordinates);
                 
                 //play sequence
                 previousPosition = targetPosition;
@@ -284,24 +291,15 @@ namespace Board.Characters
             await Task.Delay((int)(animationTime * 1000));
         }
         
-        private async Task EnemyDetectedFeedback()
+        private async Task SetStateIcon(Sprite icon, bool doShow = true)
         {
             float animationTime = 0.5f;
 
             _animator.SetTrigger(Detect);
-            
-            _attackIcon.SetActive(true);
-            _attackIcon.transform.DOComplete();
-            _attackIcon.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
-            
-            await Task.Delay((int)(animationTime * 1000));
-        }
-        
-        private async Task EnemyLostFeedback()
-        {
-            float animationTime = 0.5f;
 
-            _attackIcon.SetActive(false);
+            _stateIcon.sprite = doShow ? icon : null;
+            _stateIcon.transform.DOComplete();
+            _stateIcon.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
             
             await Task.Delay((int)(animationTime * 1000));
         }

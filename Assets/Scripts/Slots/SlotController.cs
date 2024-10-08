@@ -68,7 +68,7 @@ namespace Slots
     public class SlotController : BoardEntity
     {
         public SlotData Data { get; set; }
-        public Action<BoardCharacterController> OnCharacterEnter { get; set; }
+        public Action<BoardCharacterController, Vector3Int> OnCharacterEnter { get; set; }
         
         public SlotLocation Location
         {

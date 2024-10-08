@@ -20,6 +20,8 @@ namespace Board.Characters
 
         public override void Play()
         {
+            Debug.Log("PLAY PATROL");
+            
             if (Controller.GameplayData.HasPredefinedRoad)
             {
                 MoveOnRoad();
@@ -138,6 +140,7 @@ namespace Board.Characters
                 return;
             }
 
+            //check if enemies will be seen on the road 
             path.Insert(0, baseCharacterSlot);
             for (int i = 1; i < path.Count; i++)
             {
@@ -147,6 +150,7 @@ namespace Board.Characters
                 List<BoardEntity> enemiesInView = Controller.GetEnemiesInDetectionView(position, orientation);
                 if (enemiesInView.Count > 0)
                 {
+                    Debug.Log("saw enemy");
                     path = path.GetRange(0, i+1);
                     break;
                 }
@@ -159,24 +163,22 @@ namespace Board.Characters
             //check if an enemy is blocking the path next turn
             List<SlotController> nextTurnPath = GameManager.Instance.Board.GetPath(path[^1], targetSlot, PathFindingOption.IgnoreCharacters);
             bool changeFinalOrientation = false;
-            if (nextTurnPath[0].Data.Character != null && nextTurnPath[0].Data.Character.GameplayData.Team != Controller.GameplayData.Team)
+            if (nextTurnPath[0].HasCharacter(out var character) && character.GameplayData.Team != Controller.GameplayData.Team)
             {
                 changeFinalOrientation = true;
                 controllerOrientation = WorldOrientation.GetDirection(lastPathSlot, nextTurnPath[0].Coordinates);
             }
             
-            Controller.GameplayData.Orientation = controllerOrientation;
-            
             path.RemoveAt(0);
-            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { path, changeFinalOrientation ? controllerOrientation : null });
+            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { path, controllerOrientation, changeFinalOrientation ? true : null});
         }
 
         public void MoveRandomly()
         {
-            List<SlotController> accessibleSlots = Controller.AccessibleSlots;
-            SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
-            List<SlotController> path = GameManager.Instance.Board.GetPath(Controller.CurrentSlot, targetSlot);
-            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
+            // List<SlotController> accessibleSlots = Controller.AccessibleSlots;
+            // SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
+            // List<SlotController> path = GameManager.Instance.Board.GetPath(Controller.CurrentSlot, targetSlot);
+            // Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }
         
         #endregion
