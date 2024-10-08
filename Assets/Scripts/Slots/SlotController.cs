@@ -92,6 +92,12 @@ namespace Slots
             Data = predefinedData ?? new SlotData();
             Data.Coordinates = coordinates;
         }
+        
+        public bool HasCharacter(out BoardCharacterController character)
+        {
+            character = Data.Character;
+            return character != null;
+        }
 
         /// <summary>
         /// Return if the slot is accessible from the given slot
