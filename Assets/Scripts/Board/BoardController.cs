@@ -218,6 +218,13 @@ namespace Board
             
             return neighborsSlots;
         }
+        
+        public List<SlotController> GetPath(Vector3Int controllerCoordinates, Vector3Int enemyAttackedCoordinates, params PathFindingOption[] options)
+        {
+            var startSlot = GetSlotFromCoordinates(controllerCoordinates);
+            var endSlot = GetSlotFromCoordinates(enemyAttackedCoordinates);
+            return GetPath(startSlot, endSlot, options);
+        }
 
         /// <summary>
         /// Using the A* algorithm, get the path from a slot to another slot
@@ -511,6 +518,8 @@ namespace Board
         }
 
         #endregion
+
+        
     }
 
     public enum PathFindingOption

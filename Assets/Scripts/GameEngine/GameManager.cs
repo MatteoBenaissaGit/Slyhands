@@ -8,6 +8,7 @@ using Common;
 using Data.Characters;
 using Data.Prefabs;
 using Data.Team;
+using Data.UIElements;
 using LevelEditor.LoadAndSave;
 using Players;
 using Sirenix.OdinInspector;
@@ -55,6 +56,8 @@ namespace GameEngine
         
         [field:SerializeField] [field:TabGroup("TabGroup1", "Data")] [field:Required] 
         public CharactersData CharactersData { get; private set; }
+        [field:SerializeField] [field:TabGroup("TabGroup1", "Data")] [field:Required] 
+        public UIData UIData { get; private set; }
         
 
         [field:SerializeField] [field:TabGroup("TabGroup2", "Game Parameters", SdfIconType.Award, TextColor = "blue")] [field:Required]

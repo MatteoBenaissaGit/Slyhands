@@ -104,9 +104,8 @@ namespace Slots
             }
             
             //entity
-            if (SlotView != null && SlotView.Controller.Data.Character != null)
+            if (SlotView != null && SlotView.Controller.HasCharacter(out var character))
             {
-                BoardCharacterController character = SlotView.Controller.Data.Character;
                 character.OnCharacterAction.Invoke(isHovered ? CharacterAction.IsHovered : CharacterAction.IsLeaved, new object[]{character.GameplayData.Team.Color});
             }
             

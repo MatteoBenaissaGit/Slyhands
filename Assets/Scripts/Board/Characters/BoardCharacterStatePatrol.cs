@@ -159,7 +159,7 @@ namespace Board.Characters
             //check if an enemy is blocking the path next turn
             List<SlotController> nextTurnPath = GameManager.Instance.Board.GetPath(path[^1], targetSlot, PathFindingOption.IgnoreCharacters);
             bool changeFinalOrientation = false;
-            if (nextTurnPath[0].Data.Character != null && nextTurnPath[0].Data.Character.GameplayData.Team != Controller.GameplayData.Team)
+            if (nextTurnPath[0].HasCharacter(out var character) && character.GameplayData.Team != Controller.GameplayData.Team)
             {
                 changeFinalOrientation = true;
                 controllerOrientation = WorldOrientation.GetDirection(lastPathSlot, nextTurnPath[0].Coordinates);
