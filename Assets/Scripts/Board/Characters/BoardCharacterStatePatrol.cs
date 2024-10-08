@@ -55,6 +55,7 @@ namespace Board.Characters
             baseCharacterSlot.Data.Character = null;
 
             int maxIterations = 100;
+            SlotController targetSlot = null;
             while (movementPoints > 0) 
             {
                 if (--maxIterations < 0)
@@ -65,7 +66,7 @@ namespace Board.Characters
                 
                 //get the target slot
                 Vector3Int targetSlotCoordinates = road[Controller.GameplayData.RoadIndex];
-                SlotController targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
+                targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
                 SlotController targetSlotClosest = null;
                 if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out targetSlotClosest) == false)
                 {
@@ -151,10 +152,20 @@ namespace Board.Characters
             Vector3Int lastPathSlot = path[^1].Coordinates;
             Vector3Int secondLastPastSlot = path[^2].Coordinates;
             WorldOrientation.Orientation controllerOrientation = WorldOrientation.GetDirection(secondLastPastSlot, lastPathSlot);
+
+            //check if an enemy is blocking the path next turn
+            List<SlotController> nextTurnPath = GameManager.Instance.Board.GetPath(path[^1], targetSlot, PathFindingOption.IgnoreCharacters);
+            bool changeFinalOrientation = false;
+            if (nextTurnPath[0].Data.Character != null && nextTurnPath[0].Data.Character.GameplayData.Team != Controller.GameplayData.Team)
+            {
+                changeFinalOrientation = true;
+                controllerOrientation = WorldOrientation.GetDirection(lastPathSlot, nextTurnPath[0].Coordinates);
+            }
+            
             Controller.GameplayData.Orientation = controllerOrientation;
             
             path.RemoveAt(0);
-            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { path });
+            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { path, changeFinalOrientation ? controllerOrientation : null });
         }
 
         public void MoveRandomly()

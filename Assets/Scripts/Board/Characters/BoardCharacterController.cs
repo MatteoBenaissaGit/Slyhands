@@ -21,7 +21,7 @@ namespace Board.Characters
     {
         Idle = 0,
         
-        MoveTo = 1, //parameters[0] = List<SlotController> path
+        MoveTo = 1, //parameters[0] = List<SlotController> path, parameters[1] = Orientation finalOrientation
         
         GetHit = 2,
         Die = 3,

@@ -97,6 +97,11 @@ namespace Board.Characters
                         return;
                     }
                     GameManager.Instance.TaskManager.EnqueueTask(() => MoveTo(path));
+                    if (parameters.Length < 2 || parameters[1] is not WorldOrientation.Orientation finalOrientation)
+                    {
+                        return;
+                    }
+                    GameManager.Instance.TaskManager.EnqueueTask(() => Rotate(finalOrientation));
                     break;
                 case CharacterAction.GetHit:
                     break;

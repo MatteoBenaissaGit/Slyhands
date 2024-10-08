@@ -33,5 +33,15 @@ namespace UI
             
             _nextTurnButton.gameObject.SetActive(team.Player.Type == PlayerType.Local);
         }
+        
+#if UNITY_EDITOR
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                GameManager.Instance.TaskManager.EnqueueTask(_gameManager.SetNextTurn);
+            }
+        }
+#endif
     }
 }
