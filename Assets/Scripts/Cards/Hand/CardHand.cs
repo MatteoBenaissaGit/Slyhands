@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Board.Characters;
 using Inputs;
 using Sirenix.OdinInspector;
 using Slots;
@@ -293,15 +294,28 @@ public class CardHand : MonoBehaviour
                     }
 
                     Debug.Log("Slot Detected !");
+                    
+                    slot = _slotHits[i].collider.GetComponent<SlotLocation>();
+
+                    if (slot.SlotView.Controller.HasCharacter(out var character) == false)
+                    {
+                        Debug.Log("There is not character in this slot");
+                        AddCardFromMouseToHand();
+                        return;
+                    }
+                    
 
                     _cardSelected.cardStatus = CardStatus.Discarded;
 
                     CardManager.Instance.GameplayDeckManager.PlayCardOnLocation(_cardSelected, slot);
 
                     _cardSelected = null;
+                    
+                    character.OnCharacterAction.Invoke(CharacterAction.Stun, new object []{3});
 
                     return;
                 }
+                
             }
             else
             {

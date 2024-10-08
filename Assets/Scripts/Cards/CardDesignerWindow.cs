@@ -149,7 +149,7 @@ namespace Card.Editor
                     if (GUILayout.Button("Delete", GUILayout.Width(100)))
                     {
                         if (EditorUtility.DisplayDialog("Delete Card",
-                                $"Are you sure you want to delete {cardData.CardName}?", "Yes", "No"))
+                                $"Are you sure you want to delete {cardData.CardName} ?", "Yes", "No"))
                         {
                             DeleteCard(cardData);
                             LoadCardDataObjects();
