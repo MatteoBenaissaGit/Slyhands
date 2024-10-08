@@ -132,7 +132,7 @@ namespace Board.Characters
                         return;
                     }
                     GameplayData.Orientation = orientation;
-                    GameplayData.CurrentMovementPoints -= path.Count + 1;
+                    GameplayData.CurrentMovementPoints -= path.Count;
                     MoveTo(path[^1].Coordinates);
                     break;
                 case Characters.CharacterAction.GetHit:
@@ -160,6 +160,7 @@ namespace Board.Characters
                     {
                         return;
                     }
+
                     AttackState.EnemyAttacked = enemy;
                     AttackState.EnemyAttackedLastSeenCoordinates = seenCoordinates;
                     SetState(AttackState);
@@ -317,6 +318,11 @@ namespace Board.Characters
         {
             if (character.GameplayData.Team.Number != GameplayData.Team.Number)
             {
+                if (CurrentState == AttackState && character == AttackState.EnemyAttacked)
+                {
+                    AttackState.EnemyAttackedLastSeenCoordinates = slotCoordinates;
+                    return;
+                }
                 OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{character, slotCoordinates});
             }
         }

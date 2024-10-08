@@ -104,7 +104,7 @@ namespace Board.Characters
                         return;
                     }
                     GameManager.Instance.TaskManager.EnqueueTask(() => MoveTo(path));
-                    if (parameters.Length < 2 || parameters[1] is not WorldOrientation.Orientation finalOrientation)
+                    if (parameters.Length < 3 || parameters[1] is not WorldOrientation.Orientation finalOrientation || parameters[2] is not bool)
                     {
                         return;
                     }
