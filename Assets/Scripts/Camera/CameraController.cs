@@ -15,6 +15,8 @@ namespace Camera
     {
         [field:SerializeField, Required] public UnityEngine.Camera Camera { get; private set; }
 
+        public Action<Vector3, float> OnCameraRotated { get; set; }
+        
         [SerializeField] private Transform _cameraParent;
         
         [SerializeField] private float _moveSpeed = 1f;
@@ -93,10 +95,14 @@ namespace Camera
             Quaternion newRotation = Camera.transform.rotation;
             Camera.transform.position = basePosition;
             Camera.transform.rotation = baseRotation;
-            Camera.transform.DOComplete();
-            Camera.transform.DORotate(newRotation.eulerAngles, 0.3f);
-            Camera.transform.DOMove(newPosition, 0.3f);
             
+            float duration = 0.3f;
+            Camera.transform.DOComplete();
+            Camera.transform.DORotate(newRotation.eulerAngles, duration);
+            Camera.transform.DOMove(newPosition, duration);
+            
+            Vector3 newForward = (hitPoint - newPosition).normalized;
+            OnCameraRotated?.Invoke(newForward, duration);
             
             GizmoDrawer.DrawCross(hitPoint, new Color(1f, 0.59f, 0.14f));
         }

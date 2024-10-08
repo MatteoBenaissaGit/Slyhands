@@ -85,7 +85,7 @@ namespace LevelEditor.Entities
             }
 
             Slot.Data.LevelEditorCharacter.Team = team;
-            _teamFeedbackSprite.color = team.TeamColor;
+            _teamFeedbackSprite.color = team.Color;
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace LevelEditor.Entities
         public Team GetTeam()
         {
             TeamsData data = LevelEditorManager.Instance != null ? LevelEditorManager.Instance.TeamsData : GameManager.Instance.TeamsData;
-            return data.Teams.Find(x => x.TeamNumber == TeamNumber);
+            return data.Teams.Find(x => x.Number == TeamNumber);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace LevelEditor.Entities
 
             _isLineRendererShown = doShow;
 
-            Color teamColor = GetTeam().TeamColor;
+            Color teamColor = GetTeam().Color;
             Color teamColorAlphaZero = new Color(teamColor.r, teamColor.g, teamColor.b, 0);
             Color teamColorAlphaOne = new Color(teamColor.r, teamColor.g, teamColor.b, 0.35f);
             

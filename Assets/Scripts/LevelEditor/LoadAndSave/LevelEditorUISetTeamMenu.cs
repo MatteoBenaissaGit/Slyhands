@@ -23,7 +23,7 @@ namespace LevelEditor.LoadAndSave
             _teams.Clear();
             foreach (var team in LevelEditorManager.Instance.TeamsData.Teams)
             {
-                _teams.Add(team.TeamNumber);
+                _teams.Add(team.Number);
             }
             _dropDown.options.Clear();
             _teams.ForEach(x => _dropDown.options.Add(new TMP_Dropdown.OptionData(x.ToString())));

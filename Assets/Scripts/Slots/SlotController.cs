@@ -2,26 +2,11 @@
 using System.Linq;
 using Board;
 using Board.Characters;
-using LevelEditor;
 using Players;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Slots
 {
-    /// <summary>
-    /// The different action the slot can execute
-    /// </summary>
-    public enum SlotAction
-    {
-        None = 0,
-        Hovered = 1,
-        Selected = 2,
-        Walkable = 3,
-        Attackable = 4,
-        GetDestroyed = 5
-    }
-
     /// <summary>
     /// The different types of slot
     /// </summary>
@@ -83,6 +68,7 @@ namespace Slots
     public class SlotController : BoardEntity
     {
         public SlotData Data { get; set; }
+        public Action<BoardCharacterController> OnCharacterEnter { get; set; }
         
         public SlotLocation Location
         {

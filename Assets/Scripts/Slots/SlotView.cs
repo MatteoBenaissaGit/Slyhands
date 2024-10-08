@@ -6,8 +6,6 @@ using GameEngine;
 using LevelEditor;
 using LevelEditor.Entities;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
-using UnityEditor;
 using UnityEngine;
 
 namespace Slots
@@ -39,13 +37,6 @@ namespace Slots
 
         #region Private fields
 
-        [TabGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
-        private SpriteRenderer _actionFeedbackSpriteRenderer;
-        [TabGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
-        private SpriteRenderer _selectionFeedbackSpriteRenderer;
-        [TabGroup("Feedback sprites"), SerializeField, Required, ChildGameObjectsOnly] 
-        private SpriteRenderer _arrowFeedbackSpriteRenderer;
-
         [TabGroup("References"), SerializeField, Required, ChildGameObjectsOnly]
         private Transform _obstacleParent;
         
@@ -61,11 +52,6 @@ namespace Slots
         public void Initialize(SlotController controller)
         {
             Controller = controller;
-
-            Color transparentBaseColor = new Color(1f, 1f, 1f, 0f);
-            _actionFeedbackSpriteRenderer.color = transparentBaseColor;
-            _selectionFeedbackSpriteRenderer.color = transparentBaseColor;
-            _arrowFeedbackSpriteRenderer.color = transparentBaseColor;
 
             CreateObstacle(GetPrefabsData().GetPrefab(Controller.Data.Obstacle.PrefabId));
             CreateCharacterOnSlot(GetPrefabsData().GetPrefab(Controller.Data.LevelEditorCharacter.PrefabId));
@@ -264,6 +250,7 @@ namespace Slots
         }
 
         #endregion
+        
         
 #if UNITY_EDITOR
 

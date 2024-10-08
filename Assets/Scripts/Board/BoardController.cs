@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Board.Characters;
 using Data.Prefabs;
 using GameEngine;
@@ -98,11 +99,23 @@ namespace Board
         /// <summary>
         /// Get a slot in the data from a defined coordinates
         /// </summary>
-        /// <param name="currentRoadPosition">The coordinate to get the slot from</param>
+        /// <param name="coordinate">The coordinate to get the slot from</param>
         /// <returns>The slot controller at this coordinate</returns>
-        public SlotController GetSlotFromCoordinates(Vector3Int currentRoadPosition)
+        public SlotController GetSlotFromCoordinates(Vector3Int coordinate)
         {
-            return Data.SlotLocations[currentRoadPosition.x, currentRoadPosition.y, currentRoadPosition.z]?.SlotView?.Controller;
+            if (IsCoordinatesInBoard(coordinate) == false)
+            {
+                return null;
+            }
+            
+            return Data.SlotLocations[coordinate.x, coordinate.y, coordinate.z]?.SlotView?.Controller;
+        }
+        
+        public bool IsCoordinatesInBoard(Vector3Int coordinates)
+        {
+            return coordinates.x >= 0 && coordinates.x < Data.Width &&
+                   coordinates.y >= 0 && coordinates.y < Data.Height &&
+                   coordinates.z >= 0 && coordinates.z < Data.Length;
         }
         
         /// <summary>
@@ -364,10 +377,9 @@ namespace Board
                 //character controller
                 SlotElement levelEditorCharacterElement = slotLocation.SlotView.Controller.Data.LevelEditorCharacter;
                 GameObject levelEditorCharacterPrefab = prefabsData.GetPrefab(slotLocation.SlotView.Controller.Data.LevelEditorCharacter.PrefabId);
-                Team team = GameManager.Instance.TeamsData.Teams.Find(x => x.TeamNumber == levelEditorCharacterElement.Team.TeamNumber);
+                Team team = GameManager.Instance.Teams.ToList().Find(x => x.Number == levelEditorCharacterElement.Team.Number);
                 CharacterType type = levelEditorCharacterPrefab.GetComponent<LevelEditorCharacter>().Type;
-                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type);
-                characterController.GameplayData.Orientation = levelEditorCharacterElement.Orientation;
+                BoardCharacterController characterController = new BoardCharacterController(this, coordinates, team, type, levelEditorCharacterElement.Orientation);
                 
                 //character view
                 string characterPrefabId = prefabsData.GetPrefabSecondId(levelEditorCharacterPrefab);
@@ -382,7 +394,7 @@ namespace Board
                 //manage team & player
                 if (team == null)
                 {
-                    throw new Exception($"Team {team.TeamNumber} not found");
+                    throw new Exception($"Team {team.Number} not found");
                 }
                 team.Characters.Add(characterController);
                 

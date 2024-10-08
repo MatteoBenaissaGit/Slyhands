@@ -1,7 +1,11 @@
-﻿namespace Board.Characters
+﻿using UnityEngine;
+
+namespace Board.Characters
 {
     public class BoardCharacterStateAlert : BoardCharacterState
     {
+        public Vector3Int LastSeenEnemyPosition { get; set; }
+        
         public BoardCharacterStateAlert(BoardCharacterController controller) : base(controller)
         {
         }

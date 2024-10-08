@@ -15,9 +15,353 @@ MonoBehaviour:
   Characters:
   - <Type>k__BackingField: 0
     <Life>k__BackingField: 3
-    <MovementPoints>k__BackingField: 3
+    <MovementPoints>k__BackingField: 6
     <FootPrintLength>k__BackingField: 0
+    <HasViewDetection>k__BackingField: 0
+    <ViewDetectionSize>k__BackingField: {x: 0, y: 0}
+    ViewDetectionList: []
   - <Type>k__BackingField: 1
     <Life>k__BackingField: 3
-    <MovementPoints>k__BackingField: 3
+    <MovementPoints>k__BackingField: 5
     <FootPrintLength>k__BackingField: 6
+    <HasViewDetection>k__BackingField: 1
+    <ViewDetectionSize>k__BackingField: {x: 13, y: 13}
+    ViewDetectionList:
+    - <Position>k__BackingField: {x: 6, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: 6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: 5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: 4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: 3}
+      <IsDetected>k__BackingField: 1
+    - <Position>k__BackingField: {x: -1, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: 3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: 2}
+      <IsDetected>k__BackingField: 1
+    - <Position>k__BackingField: {x: -1, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: 2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: 1}
+      <IsDetected>k__BackingField: 1
+    - <Position>k__BackingField: {x: -1, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: 1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: 0}
+      <IsDetected>k__BackingField: 1
+    - <Position>k__BackingField: {x: -1, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: 0}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: -1}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: -2}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: -3}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: -4}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: -5}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 6, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 5, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 4, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 3, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 2, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 1, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: 0, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -1, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -2, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -3, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -4, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -5, y: -6}
+      <IsDetected>k__BackingField: 0
+    - <Position>k__BackingField: {x: -6, y: -6}
+      <IsDetected>k__BackingField: 0

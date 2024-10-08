@@ -53,5 +53,27 @@ namespace Slots
             }
             throw new Exception("Invalid direction");
         }
+
+        public static Vector3Int TransposeVectorToOrientation(Vector3Int coordinates, Orientation gameplayDataOrientation)
+        {
+            switch (gameplayDataOrientation)
+            {
+                case Orientation.North:
+                    return new Vector3Int(coordinates.x, coordinates.y, coordinates.z);
+                case Orientation.East:
+                    return new Vector3Int(coordinates.z, coordinates.y, -coordinates.x);
+                case Orientation.South:
+                    return new Vector3Int(-coordinates.x, coordinates.y, -coordinates.z);
+                case Orientation.West:
+                    return new Vector3Int(-coordinates.z, coordinates.y, coordinates.x);
+                default:
+                    return Vector3Int.zero;
+            }
+        }
+
+        public static Orientation GetDirection(Vector3Int from, Vector3Int to)
+        {
+            return GetOrientation(to - from);
+        }
     }
 }

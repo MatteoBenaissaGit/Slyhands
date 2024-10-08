@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameEngine;
 using LevelEditor.Entities;
 using Slots;
@@ -16,7 +15,7 @@ namespace Board.Characters
 
         public override void Start()
         {
-            
+            Controller.SubscribeToDetectionView();
         }
 
         public override void Play()
@@ -29,11 +28,16 @@ namespace Board.Characters
             {
                 Rotate();
             }
+
+            Controller.DetectEnemies();
+
+            Controller.UnsubscribeToDetectionView();
+            Controller.SubscribeToDetectionView();
         }
 
         public override void Quit()
         {
-            
+            Controller.UnsubscribeToDetectionView();
         }
         
         #region Road Movement
@@ -54,6 +58,7 @@ namespace Board.Characters
             baseCharacterSlot.Data.Character = null;
 
             int maxIterations = 100;
+            SlotController targetSlot = null;
             while (movementPoints > 0) 
             {
                 if (--maxIterations < 0)
@@ -64,7 +69,7 @@ namespace Board.Characters
                 
                 //get the target slot
                 Vector3Int targetSlotCoordinates = road[Controller.GameplayData.RoadIndex];
-                SlotController targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
+                targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
                 SlotController targetSlotClosest = null;
                 if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out targetSlotClosest) == false)
                 {
@@ -130,11 +135,40 @@ namespace Board.Characters
 
             if (slotToGo == null)
             {
-                MoveRandomly();
                 return;
             }
+
+            path.Insert(0, baseCharacterSlot);
+            for (int i = 1; i < path.Count; i++)
+            {
+                Vector3Int position = path[i].Coordinates;
+                var direction = position - path[i - 1].Coordinates;
+                WorldOrientation.Orientation orientation = WorldOrientation.GetOrientation(direction);
+                List<BoardEntity> enemiesInView = Controller.GetEnemiesInDetectionView(position, orientation);
+                if (enemiesInView.Count > 0)
+                {
+                    path = path.GetRange(0, i+1);
+                    break;
+                }
+            }
+
+            Vector3Int lastPathSlot = path[^1].Coordinates;
+            Vector3Int secondLastPastSlot = path[^2].Coordinates;
+            WorldOrientation.Orientation controllerOrientation = WorldOrientation.GetDirection(secondLastPastSlot, lastPathSlot);
+
+            //check if an enemy is blocking the path next turn
+            List<SlotController> nextTurnPath = GameManager.Instance.Board.GetPath(path[^1], targetSlot, PathFindingOption.IgnoreCharacters);
+            bool changeFinalOrientation = false;
+            if (nextTurnPath[0].Data.Character != null && nextTurnPath[0].Data.Character.GameplayData.Team != Controller.GameplayData.Team)
+            {
+                changeFinalOrientation = true;
+                controllerOrientation = WorldOrientation.GetDirection(lastPathSlot, nextTurnPath[0].Coordinates);
+            }
             
-            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
+            Controller.GameplayData.Orientation = controllerOrientation;
+            
+            path.RemoveAt(0);
+            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { path, changeFinalOrientation ? controllerOrientation : null });
         }
 
         public void MoveRandomly()

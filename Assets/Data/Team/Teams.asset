@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Teams
   m_EditorClassIdentifier: 
   <Teams>k__BackingField:
-  - <TeamNumber>k__BackingField: 0
-    <TeamColor>k__BackingField: {r: 0.05724907, g: 1, b: 0, a: 1}
-    _teamType: 0
-  - <TeamNumber>k__BackingField: 1
-    <TeamColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
-    _teamType: 1
+  - <Number>k__BackingField: 0
+    <Color>k__BackingField: {r: 0.28324133, g: 0.8962264, b: 0.30635273, a: 1}
+    <Type>k__BackingField: 0
+  - <Number>k__BackingField: 1
+    <Color>k__BackingField: {r: 0.9150943, g: 0.2460395, b: 0.2460395, a: 1}
+    <Type>k__BackingField: 1

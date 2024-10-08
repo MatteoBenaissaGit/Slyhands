@@ -50,7 +50,7 @@ namespace LevelEditor.Entities
             LevelEditorManager.Instance.UI.Shortcuts.SetShortcuts(LevelEditorActionButtonType.SetRoad);
 
             _roadLineRenderer = Object.Instantiate(LevelEditorManager.Instance.PrefabsData.GetPrefab("LevelEditorRoadLine")).GetComponent<LineRenderer>();
-            Color color = CurrentCharacter.GetTeam().TeamColor;
+            Color color = CurrentCharacter.GetTeam().Color;
             _roadLineRenderer.startColor = color;
             _roadLineRenderer.endColor = color;
             

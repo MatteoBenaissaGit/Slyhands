@@ -20,12 +20,26 @@ namespace Board.Characters
     public enum CharacterAction
     {
         Idle = 0,
-        MoveTo = 1, //parameters[0] = List<SlotController> path
+        
+        MoveTo = 1, //parameters[0] = List<SlotController> path, parameters[1] = Orientation finalOrientation
+        
         GetHit = 2,
         Die = 3,
+        
         IsSelected = 5,
         IsUnselected = 6,
+       
         Rotate = 7, //parameters[0] = WorldOrientation.Orientation orientation 
+        
+        Stun = 8,  //parameters[0] = int turn duration
+        UpdateStun = 9,
+        EndStun = 10,
+        
+        EnemyDetected = 11, //parameters[0] = BoardCharacterController enemy
+        EnemyLost = 12, //parameters[0] = Vector3Int lastSeenCoordinates
+        
+        IsHovered = 13, //parameters[0] = Color teamColor
+        IsLeaved = 14 //parameters[0] = Color teamColor
     }
 
     public class CharacterControllerData
@@ -51,6 +65,7 @@ namespace Board.Characters
         public int RoadIndex { get; set; } = 1;
         public bool HasPredefinedRoad => Road != null && Road.Length > 1;
         
+        public Vector2Int[] DetectionView { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity
@@ -70,16 +85,25 @@ namespace Board.Characters
         
         public SlotController CurrentSlot => Board.Data.SlotLocations[Coordinates.x, Coordinates.y, Coordinates.z].SlotView.Controller;
 
-        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type) : base(board, coordinates)
+        public BoardCharacterController(BoardController board, Vector3Int coordinates, Team team, CharacterType type, WorldOrientation.Orientation orientation) : base(board, coordinates)
         {
             SuperType = BoardEntitySuperType.Character;
             Type = type;
 
             Data = GameManager.Instance.CharactersData.GetCharacterData(Type);
 
+            List<Vector2Int> detectionView = new List<Vector2Int>();
+            foreach (ViewDetectionSquare detectionSquare in Data.ViewDetectionList)
+            {
+                if (detectionSquare.IsDetected == false) continue;
+                detectionView.Add(detectionSquare.Position);
+            }
+            
             GameplayData = new CharacterControllerData(Data, team)
             {
-                Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road
+                Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road,
+                DetectionView = detectionView.ToArray(),
+                Orientation = orientation
             };
             
             PatrolState = new BoardCharacterStatePatrol(this);
@@ -113,6 +137,22 @@ namespace Board.Characters
                 case Characters.CharacterAction.IsSelected:
                     break;
                 case Characters.CharacterAction.IsUnselected:
+                    break; 
+                case Characters.CharacterAction.Stun:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not int duration)
+                    {
+                        return;
+                    }
+                    SetState(StunnedState);
+                    StunnedState.Duration = duration;
+                    break;
+                case Characters.CharacterAction.EnemyDetected:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not BoardCharacterController enemy)
+                    {
+                        return;
+                    }
+                    AttackState.EnemyAttacked = enemy;
+                    SetState(AttackState);
                     break;
             }
         }
@@ -132,7 +172,8 @@ namespace Board.Characters
         {
             return GameplayData.IsSelectable 
                    && GameManager.Instance.Data.CurrentTurnTeam == GameplayData.Team 
-                   && GameplayData.Team.Player.Type == PlayerType.Local;
+                   && GameplayData.Team.Player.Type == PlayerType.Local
+                   && CurrentState.CanPlay;
         }
 
         public void SetForNewTurn()
@@ -165,12 +206,112 @@ namespace Board.Characters
         public Task PlayTurn()
         {
             OnCharacterAction.Invoke(Characters.CharacterAction.IsSelected, null);
-
+            
             CurrentState.Play();
                 
             OnCharacterAction.Invoke(Characters.CharacterAction.IsUnselected, null);
             
             return Task.CompletedTask;
         }
+
+        #region Detection
+
+        public void DetectEnemies()
+        {
+            DetectEnemies(Coordinates, GameplayData.Orientation);
+        }
+        
+        public void DetectEnemies(Vector3Int coordinates, WorldOrientation.Orientation orientation)
+        {
+            List<BoardEntity> enemiesDetected = GetEnemiesInDetectionView(coordinates, orientation);
+            if (enemiesDetected.Count > 0)
+            {
+                enemiesDetected
+                    .Sort((x, y) => Vector3Int.Distance(x.Coordinates, coordinates)
+                        .CompareTo(Vector3Int.Distance(y.Coordinates, coordinates)));
+                BoardEntity enemy = enemiesDetected[0];
+                
+                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{enemy});
+            }
+        }
+        
+        public List<SlotController> GetSlotsInDetectionView()
+        {
+            return GetSlotsInDetectionView(Coordinates, GameplayData.Orientation);
+        }
+        
+        public List<SlotController> GetSlotsInDetectionView(Vector3Int coordinates, WorldOrientation.Orientation orientation)
+        {
+            List<SlotController> slots = new();
+            foreach (Vector2Int detectionSquare in GameplayData.DetectionView)
+            {
+                Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), orientation);
+                Vector3Int coordinatesOffset = coordinates + offset;
+                if (Board.IsCoordinatesInBoard(coordinatesOffset) == false) continue;
+                SlotController slot = Board.GetSlotFromCoordinates(coordinatesOffset);
+                if (slot == null) continue;
+                slots.Add(slot);
+            }
+            return slots;
+        }
+
+        public List<BoardEntity> GetEntitiesInDetectionView(Vector3Int coordinates, WorldOrientation.Orientation orientation)
+        {
+            List<BoardEntity> entities = new List<BoardEntity>();
+            List<SlotController> slots = GetSlotsInDetectionView(coordinates, orientation);
+            foreach (SlotController slot in slots)
+            {
+                if (slot != null && slot.Data.Character != null)
+                {
+                    entities.Add(slot.Data.Character);
+                }
+            }
+
+            return entities;
+        }
+
+        public List<BoardEntity> GetEnemiesInDetectionView(Vector3Int coordinates, WorldOrientation.Orientation orientation)
+        {
+            var entitiesInDetectionView = GetEntitiesInDetectionView(coordinates, orientation);
+            List<BoardEntity> enemies = new List<BoardEntity>();
+            foreach (var entity in entitiesInDetectionView)
+            {
+                if (entity is BoardCharacterController character && character.GameplayData.Team.Number != GameplayData.Team.Number)
+                {
+                    enemies.Add(character);
+                }
+            }
+
+            return enemies;
+        }
+
+        private List<SlotController> _detectionViewSubbed;
+        public void SubscribeToDetectionView()
+        {
+            _detectionViewSubbed = GetSlotsInDetectionView();
+            foreach (SlotController slot in _detectionViewSubbed)
+            {
+                slot.OnCharacterEnter += OnCharacterEnteredDetectionView;
+            }
+        }
+
+        private void OnCharacterEnteredDetectionView(BoardCharacterController character)
+        {
+            if (character.GameplayData.Team.Number != GameplayData.Team.Number)
+            {
+                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{character});
+            }
+        }
+
+        public void UnsubscribeToDetectionView()
+        {
+            foreach (SlotController slot in _detectionViewSubbed)
+            {
+                slot.OnCharacterEnter -= OnCharacterEnteredDetectionView;
+            }
+            _detectionViewSubbed.Clear();
+        }
+        
+        #endregion
     }
 }

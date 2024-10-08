@@ -18,13 +18,20 @@ namespace Board.Characters
         [TitleGroup("Footprint"), SerializeField] private Sprite _footPrint;
         [TitleGroup("Footprint"), SerializeField] private Color _footPrintColor = Color.black;
         [TitleGroup("Footprint"), SerializeField] private float _footPrintSize = 0.25f;
+        [TitleGroup("Effects"), SerializeField] private ParticleSystem _stunParticleSystem;
+        [TitleGroup("Effects"), SerializeField] private GameObject _attackIcon;
         
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+        private static readonly int Stun = Animator.StringToHash("Stun");
+        private static readonly int IsStunned = Animator.StringToHash("IsStunned");
+        private static readonly int Detect = Animator.StringToHash("Detect");
         
         private Queue<SpriteRenderer> _footPrints;
         private float _footPrintFade;
         private static Vector3[] _orientationToFootPrintRotation = { new(90, 0, 0), new(90, 0, 270), new(90, 0, 180), new(90, 0, 90)};
 
+        private UnityEngine.Camera _camera;
+        
         public void Initialize(BoardCharacterController controller)
         {
             Controller = controller;
@@ -33,6 +40,15 @@ namespace Board.Characters
             transform.rotation = Quaternion.Euler(0, ((int)Controller.GameplayData.Orientation) * 90, 0);
             
             InitializeFootPrints();
+            
+            _attackIcon.SetActive(false);
+            GameManager.Instance.Camera.OnCameraRotated += MakeEffectsFaceCamera;
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, 0f);
+        }
+
+        private void Start()
+        {
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, 0f);
         }
 
         private void InitializeFootPrints()
@@ -63,6 +79,12 @@ namespace Board.Characters
             Controller.OnCharacterAction -= CharacterActionView;
         }
 
+        private void MakeEffectsFaceCamera(Vector3 cameraForward, float moveDuration)
+        {
+            _attackIcon.transform.DOKill();
+            _attackIcon.transform.DOLookAt(_attackIcon.transform.position - cameraForward, moveDuration);
+        }
+
         private void CharacterActionView(CharacterAction action, params object[] parameters)
         {
             switch (action)
@@ -75,6 +97,11 @@ namespace Board.Characters
                         return;
                     }
                     GameManager.Instance.TaskManager.EnqueueTask(() => MoveTo(path));
+                    if (parameters.Length < 2 || parameters[1] is not WorldOrientation.Orientation finalOrientation)
+                    {
+                        return;
+                    }
+                    GameManager.Instance.TaskManager.EnqueueTask(() => Rotate(finalOrientation));
                     break;
                 case CharacterAction.GetHit:
                     break;
@@ -105,6 +132,35 @@ namespace Board.Characters
                         return;
                     }
                     GameManager.Instance.TaskManager.EnqueueTask(() => Rotate(orientation));
+                    break;
+                case CharacterAction.Stun:
+                    GameManager.Instance.TaskManager.EnqueueTask(SetStun);
+                    break;
+                case CharacterAction.UpdateStun:
+                    GameManager.Instance.TaskManager.EnqueueTask(UpdateStun);
+                    break;
+                case CharacterAction.EndStun:
+                    GameManager.Instance.TaskManager.EnqueueTask(EndStun);
+                    break;
+                case CharacterAction.EnemyDetected:
+                    GameManager.Instance.TaskManager.EnqueueTask(EnemyDetectedFeedback);
+                    break;
+                case CharacterAction.EnemyLost:
+                    GameManager.Instance.TaskManager.EnqueueTask(EnemyLostFeedback);
+                    break;
+                case CharacterAction.IsHovered:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not Color teamColor)
+                    {
+                        return;
+                    }
+                    Controller.GetSlotsInDetectionView().ForEach(x => x.Location.ShowDetection(true, teamColor));
+                    break;
+                case CharacterAction.IsLeaved:
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not Color color)
+                    {
+                        return;
+                    }
+                    Controller.GetSlotsInDetectionView().ForEach(x => x.Location.ShowDetection(false, new Color(color.r,color.g,color.b,0f)));
                     break;
             }
         }
@@ -151,7 +207,7 @@ namespace Board.Characters
                     newFootPrint.gameObject.SetActive(true);
                     newFootPrint.color = new Color(_footPrintColor.r, _footPrintColor.g, _footPrintColor.b, 0f);
 
-                    float fade = 1f / _footPrints.Count; 
+                    float fade = _footPrintFade / _footPrints.Count; 
                     foreach (SpriteRenderer footPrint in _footPrints)
                     {
                         footPrint.DOComplete();
@@ -159,6 +215,12 @@ namespace Board.Characters
                         fade += 1f / _footPrints.Count;
                     }
                 }
+                
+                //effects
+                MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, moveTime);
+                
+                //slot event
+                slot.OnCharacterEnter?.Invoke(Controller);
                 
                 //play sequence
                 previousPosition = targetPosition;
@@ -172,6 +234,10 @@ namespace Board.Characters
             _animator.SetBool(IsWalking, false);
         }
 
+        /// <summary>
+        /// Rotate the player view to the target orientation
+        /// </summary>
+        /// <param name="orientation">the orientation</param>
         private async Task Rotate(WorldOrientation.Orientation orientation)
         {
             float rotateTime = 0.5f;
@@ -179,10 +245,65 @@ namespace Board.Characters
             Vector2Int direction = WorldOrientation.GetDirection(orientation);
             transform.DOLookAt(transform.position + new Vector3(direction.x,0,direction.y), rotateTime);
             
+            MakeEffectsFaceCamera(GameManager.Instance.Camera.transform.forward, rotateTime);
+            
             _animator.SetBool(IsWalking, true);
             await Task.Delay((int)(rotateTime * 1000));
             _animator.SetBool(IsWalking, false);
         }
 
+        private async Task SetStun()
+        {
+            float animationTime = 1f;
+
+            _stunParticleSystem.Play();
+
+            _animator.SetTrigger(Stun);
+            _animator.SetBool(IsStunned, true);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task UpdateStun()
+        {
+            float animationTime = 1f;
+
+            //TODO animate the top indicator
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task EndStun()
+        {
+            float animationTime = 1f;
+
+            _stunParticleSystem.Stop();
+
+            _animator.SetBool(IsStunned, false);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task EnemyDetectedFeedback()
+        {
+            float animationTime = 0.5f;
+
+            _animator.SetTrigger(Detect);
+            
+            _attackIcon.SetActive(true);
+            _attackIcon.transform.DOComplete();
+            _attackIcon.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
+        
+        private async Task EnemyLostFeedback()
+        {
+            float animationTime = 0.5f;
+
+            _attackIcon.SetActive(false);
+            
+            await Task.Delay((int)(animationTime * 1000));
+        }
     }
 }

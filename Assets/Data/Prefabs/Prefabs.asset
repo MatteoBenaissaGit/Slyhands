@@ -25,22 +25,22 @@ MonoBehaviour:
     _hasSecondId: 0
   - <Id>k__BackingField: LevelEditorMainCharacter
     <SecondId>k__BackingField: MainCharacter
-    <Prefab>k__BackingField: {fileID: 8730673350232980854, guid: 0e0949cc4fed01a47a43053675c7a255,
+    <Prefab>k__BackingField: {fileID: 6488087591156916902, guid: 5a62df403e11c824eafba38d846906ed,
+      type: 3}
+    _hasSecondId: 1
+  - <Id>k__BackingField: LevelEditorBaseEnemy
+    <SecondId>k__BackingField: BaseEnemy
+    <Prefab>k__BackingField: {fileID: 3391602998863232238, guid: 2579d3b96c1b1e848ad60178e7e3460c,
       type: 3}
     _hasSecondId: 1
   - <Id>k__BackingField: MainCharacter
     <SecondId>k__BackingField: 
-    <Prefab>k__BackingField: {fileID: 8136586877080995798, guid: a8038df21b50b334ba1172e43c260236,
+    <Prefab>k__BackingField: {fileID: 3467518272404396345, guid: 3c01fb444888e9c47a221b7184553c4d,
       type: 3}
     _hasSecondId: 0
-  - <Id>k__BackingField: LevelEditorBaseEnemy
-    <SecondId>k__BackingField: BaseEnemy
-    <Prefab>k__BackingField: {fileID: 8730673350232980854, guid: 6136bf757e53e034382052c610e82ae9,
-      type: 3}
-    _hasSecondId: 1
   - <Id>k__BackingField: BaseEnemy
     <SecondId>k__BackingField: 
-    <Prefab>k__BackingField: {fileID: 8136586877080995798, guid: a29722e6dd2026a46a541bfc80586ef8,
+    <Prefab>k__BackingField: {fileID: 7256849334722356313, guid: aab43aebf9e92cb43873c94909227c91,
       type: 3}
     _hasSecondId: 0
   - <Id>k__BackingField: LevelEditorRoadLine

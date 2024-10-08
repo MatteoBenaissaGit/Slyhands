@@ -18,6 +18,7 @@ namespace Data.Prefabs
     [CreateAssetMenu(fileName = "Data", menuName = "Data/Prefabs", order = 1)]
     public class PrefabsData : ScriptableObject
     {
+        [TableList]
         [SerializeField] private List<PrefabData> _prefabsDatas = new List<PrefabData>();
         
         public GameObject GetPrefab(string id)
