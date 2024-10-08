@@ -137,7 +137,8 @@ namespace GameEngine
             }
 
             List<SlotController> path = board.GetPath(_selectedCharacter.CurrentSlot, targetSlot);
-            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{ path });
+            WorldOrientation.Orientation controllerOrientation = WorldOrientation.GetDirection(path[^2].Coordinates, path[^1].Coordinates);
+            _selectedCharacter.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{ path, controllerOrientation });
 
             ResetSelection();
         }

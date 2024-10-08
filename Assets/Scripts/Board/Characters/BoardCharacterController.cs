@@ -35,7 +35,7 @@ namespace Board.Characters
         UpdateStun = 9,
         EndStun = 10,
         
-        EnemyDetected = 11, //parameters[0] = BoardCharacterController enemy
+        EnemyDetected = 11, //parameters[0] = BoardCharacterController enemy, parameters[1] = Vector3Int lastSeenCoordinates
         EnemyLost = 12, //parameters[0] = Vector3Int lastSeenCoordinates
         
         IsHovered = 13, //parameters[0] = Color teamColor
@@ -123,10 +123,15 @@ namespace Board.Characters
                     break;
                 case Characters.CharacterAction.MoveTo: 
                     GameplayData.IsSelectable = true;
-                    if (parameters == null || parameters.Length == 0 || parameters[0] is not List<SlotController> path || path.Count == 0)
+                    if (parameters == null || parameters.Length < 2 || parameters[0] is not List<SlotController> path || path.Count == 0)
                     {
                         return;
                     }
+                    if (parameters[1] is not WorldOrientation.Orientation orientation)
+                    {
+                        return;
+                    }
+                    GameplayData.Orientation = orientation;
                     GameplayData.CurrentMovementPoints -= path.Count + 1;
                     MoveTo(path[^1].Coordinates);
                     break;
@@ -147,12 +152,25 @@ namespace Board.Characters
                     StunnedState.Duration = duration;
                     break;
                 case Characters.CharacterAction.EnemyDetected:
-                    if (parameters == null || parameters.Length == 0 || parameters[0] is not BoardCharacterController enemy)
+                    if (parameters == null || parameters.Length < 2 || parameters[0] is not BoardCharacterController enemy)
+                    {
+                        return;
+                    }
+                    if (parameters[1] is not Vector3Int seenCoordinates)
                     {
                         return;
                     }
                     AttackState.EnemyAttacked = enemy;
+                    AttackState.EnemyAttackedLastSeenCoordinates = seenCoordinates;
                     SetState(AttackState);
+                    break;
+                case Characters.CharacterAction.EnemyLost:
+                    if (parameters == null || parameters.Length <= 0 || parameters[0] is not Vector3Int lastSeenCoordinates)
+                    {
+                        return;
+                    }
+                    AlertState.LastSeenEnemyPosition = lastSeenCoordinates;
+                    SetState(AlertState);
                     break;
             }
         }
@@ -231,7 +249,7 @@ namespace Board.Characters
                         .CompareTo(Vector3Int.Distance(y.Coordinates, coordinates)));
                 BoardEntity enemy = enemiesDetected[0];
                 
-                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{enemy});
+                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{enemy, enemy.Coordinates});
             }
         }
         
@@ -261,9 +279,9 @@ namespace Board.Characters
             List<SlotController> slots = GetSlotsInDetectionView(coordinates, orientation);
             foreach (SlotController slot in slots)
             {
-                if (slot != null && slot.Data.Character != null)
+                if (slot != null && slot.HasCharacter(out var character))
                 {
-                    entities.Add(slot.Data.Character);
+                    entities.Add(character);
                 }
             }
 
@@ -295,11 +313,11 @@ namespace Board.Characters
             }
         }
 
-        private void OnCharacterEnteredDetectionView(BoardCharacterController character)
+        private void OnCharacterEnteredDetectionView(BoardCharacterController character, Vector3Int slotCoordinates)
         {
             if (character.GameplayData.Team.Number != GameplayData.Team.Number)
             {
-                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{character});
+                OnCharacterAction?.Invoke(Characters.CharacterAction.EnemyDetected, new object[]{character, slotCoordinates});
             }
         }
 
