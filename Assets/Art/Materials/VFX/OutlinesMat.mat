@@ -107,7 +107,7 @@ Material:
     - _DepthAttenuation: 0
     - _DepthStrength: -11.19
     - _DepthThickness: 0.26
-    - _DepthThreshold: 0.0084
+    - _DepthThreshold: 0.0014
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
