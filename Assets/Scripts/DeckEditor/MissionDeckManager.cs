@@ -1,11 +1,10 @@
+using Common;
 using Mission;
 using UnityEngine;
 
-public class MissionDeckManager : MonoBehaviour
+public class MissionDeckManager : Singleton<MissionDeckManager>
 {
     #region Properties
-
-    public static MissionDeckManager Instance;
 
     [field: SerializeField] public DeckEditorDeckManager DeckEditorDeckManager { get; private set; }
     [field: SerializeField] public DeckEditorUIManager DeckEditorUIManager { get; private set; }
@@ -14,18 +13,6 @@ public class MissionDeckManager : MonoBehaviour
     #endregion
 
     #region Methods
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Debug.LogError("There is already another MissionDeckManager in this scene !");
-        }
-    }
 
     private void Start()
     {
