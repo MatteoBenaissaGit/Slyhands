@@ -3583,6 +3583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1442609550}
   - component: {fileID: 1442609551}
+  - component: {fileID: 1442609552}
   m_Layer: 0
   m_Name: MissionDeckManager
   m_TagString: Untagged
@@ -3620,10 +3621,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPersistant: 0
+  <DeckSaveLoadManager>k__BackingField: {fileID: 1442609552}
   <DeckEditorDeckManager>k__BackingField: {fileID: 41881539}
   <DeckEditorUIManager>k__BackingField: {fileID: 866435608}
   <MissionData>k__BackingField: {fileID: 11400000, guid: b178fd4456035404f8b05da733aa979c,
     type: 2}
+--- !u!114 &1442609552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442609548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd4d732fc38a3c40b878581946bafe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _saveAndLoadLocally: 0
+  _hideResetDataButton: 0
 --- !u!1 &1488677407
 GameObject:
   m_ObjectHideFlags: 0

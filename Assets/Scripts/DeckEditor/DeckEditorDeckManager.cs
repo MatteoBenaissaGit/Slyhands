@@ -7,7 +7,7 @@ using TMPro;
 
 public class DeckEditorDeckManager : MonoBehaviour
 {
-    [field: SerializeField] public List<DeckData> DeckDataObjects { get; set; }
+    [field: SerializeField] public DecksData DeckDataObjects { get; set; }
 
     [SerializeField] private bool _inDecksMenu;
 
@@ -44,8 +44,7 @@ public class DeckEditorDeckManager : MonoBehaviour
         _inDecksMenu = false;
         LoadCardsDatasInDeck(deckData);
     }
-
-
+    
     public void BackToDecksMenu()
     {
         _inDecksMenu = true;
@@ -53,13 +52,15 @@ public class DeckEditorDeckManager : MonoBehaviour
 
     private void LoadDecksDatas()
     {
-        for (int i = 0; i < DeckDataObjects.Count; i++)
+        DeckDataObjects = MissionDeckManager.Instance.DeckSaveLoadManager.GetDecksData();
+        
+        for (int i = 0; i < DeckDataObjects.Datas.Count; i++)
         {
             DeckEditorDeckButton newDeckButton =
                 Instantiate(_defaultDeckButton, transform.position, Quaternion.identity);
             newDeckButton.transform.SetParent(_defaultCardButtonParent.transform);
-            newDeckButton.GetComponentInChildren<TextMeshProUGUI>().text = DeckDataObjects[i].name;
-            newDeckButton.Initialize(DeckDataObjects[i]);
+            newDeckButton.GetComponentInChildren<TextMeshProUGUI>().text = DeckDataObjects.Datas[i].name;
+            newDeckButton.Initialize(DeckDataObjects.Datas[i]);
         }
     }
 
