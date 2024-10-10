@@ -20,7 +20,7 @@ MonoBehaviour:
     x: -1202
     y: -265
     width: 5987
-    height: 1738
+    height: 1713
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4454,7 +4454,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.027755379676818849,"b":0.04068627581000328,"a":1.0}'
+      m_SerializableObject: '{"r":0.0,"g":0.08999279886484146,"b":1.0133023262023926,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Fresnel_Color
@@ -8751,7 +8751,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
+  m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
@@ -9647,7 +9647,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0010597406653687358,"g":0.0,"b":0.09900379180908203,"a":1.0}'
+      m_SerializableObject: '{"r":0.0360017828643322,"g":0.0,"b":0.5283018946647644,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _Color
@@ -10076,7 +10076,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
+  m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
