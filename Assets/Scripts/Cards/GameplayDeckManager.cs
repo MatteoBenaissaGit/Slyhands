@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data.Cards;
 using Slots;
 using UnityEngine;
 
 public class GameplayDeckManager : MonoBehaviour
 {
+    [field: SerializeField] public Cards Cards { get; private set; }
     [field: SerializeField] public GameObject CardPrefab { get; private set; }
-    [field: SerializeField] public DeckData DeckData { get; private set; }
+    [field: SerializeField] public Deck DeckData { get; private set; }
     [field: SerializeField] public CardHand CardHand { get; private set; }
     [field: SerializeField] public CardDrawer CardDrawer { get; private set; }
     [field: SerializeField] public DiscardPile DiscardPile { get; private set; }
@@ -19,9 +21,9 @@ public class GameplayDeckManager : MonoBehaviour
 
     private void DrawerInitialisation()
     {
-        foreach (var cardData in DeckData.CardsInDeck)
+        foreach (var IDCard in DeckData.IDCardInDeck)
         {
-            CardDrawer.CardsInDrawer.Add(cardData);
+            CardDrawer.CardsInDrawer.Add(Cards.GetCardData(IDCard));
         }
     }
 

@@ -1,3 +1,4 @@
+using Data.Cards;
 using UnityEngine;
 
 namespace Mission
@@ -5,7 +6,7 @@ namespace Mission
     [CreateAssetMenu(fileName = "Data", menuName = "Data/Mission/MissionData", order = 1)]
     public class MissionData : ScriptableObject
     {
-        [field: SerializeField] public DeckData DeckData { get; set; }
+        [field: SerializeField] public Deck DeckData { get; set; }
         [field: SerializeField] public string LevelSaveName { get; set; }
     
         [field: SerializeField] public string MissionName { get; set; }

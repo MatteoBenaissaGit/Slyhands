@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CardDrawer : MonoBehaviour
 {
-    public List<CardData> CardsInDrawer;
+    public List<Data.Cards.Card> CardsInDrawer;
 
     [SerializeField] private float _timeBetweenCardSpawn;
     

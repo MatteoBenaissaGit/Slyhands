@@ -1,3 +1,4 @@
+using Data.Cards;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,10 +6,10 @@ namespace DeckEditor
 {
     public class DeckEditorDeckButton : MonoBehaviour
     {
-        private DeckData _deckData;
+        private Deck _deckData;
         private Button _button;
 
-        public void Initialize(DeckData deckData)
+        public void Initialize(Deck deckData)
         {
             _deckData = deckData;
             _button = GetComponent<Button>();

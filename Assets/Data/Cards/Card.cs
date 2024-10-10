@@ -18,9 +18,10 @@ namespace Data.Cards
         Enemy = 3
     }
     
-    [CreateAssetMenu(fileName = "Data", menuName = "Data/Card/CardData", order = 1)]
-    public class CardData : ScriptableObject
+    [CreateAssetMenu(fileName = "Data", menuName = "Data/Card/Card", order = 1)]
+    public class Card : ScriptableObject
     {
+        [field: SerializeField] public byte ID { get; set; }
         [field: SerializeField] public string CardName { get; set; }
         [field: SerializeField] public string CardDescription { get; set; }
         [field: SerializeField] public Sprite CardIllustrationSprite { get; set; }

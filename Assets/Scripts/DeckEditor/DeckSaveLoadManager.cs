@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Board;
+using Data.Cards;
 using LevelEditor.LoadAndSave;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -13,11 +15,11 @@ using UnityEngine;
 [Serializable]
 public class DecksData
 {
-    [field:SerializeField] public List<DeckData> Datas;
-        
+    public List<Deck> Datas;
+
     public DecksData()
     {
-        Datas = new List<DeckData>();
+        Datas = new List<Deck>();
     }
 }
 
@@ -26,6 +28,21 @@ public class DeckSaveLoadManager : MonoBehaviour
 {
     [SerializeField] private bool _saveAndLoadLocally;
     [SerializeField] private bool _hideResetDataButton;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            string[] guids = AssetDatabase.FindAssets("t:DeckData", new string[] { "Assets/Data/Cards/Decks" });
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                Deck deck = AssetDatabase.LoadAssetAtPath<Deck>(path);
+                SaveDeckData(deck, deck.Name);
+                
+            }
+        }
+    }
 
     private string FilePath
     {
@@ -61,13 +78,13 @@ public class DeckSaveLoadManager : MonoBehaviour
     /// <summary>
     /// Write a dekcs data into the json file
     /// </summary>
-    /// <param name="levelsData">The decks data to save</param>
+    /// <param name="decksData">The decks data to save</param>
     private void WriteToJson(DecksData decksData)
     {
         string json = JsonUtility.ToJson(decksData, true);
         File.WriteAllText(FilePath, json);
 
-        Debug.Log($"Saved {decksData.Datas.Count} Levels data in {FilePath}");
+        Debug.Log($"Saved {decksData.Datas.Count} Decks data in {FilePath}");
     }
 
     /// <summary>
@@ -93,13 +110,13 @@ public class DeckSaveLoadManager : MonoBehaviour
     /// Save a deck in the game data
     /// </summary>
     /// <param name="deckName">The deck's name</param>
-    public void SaveDeckData(DeckData deckData, string deckName)
+    public void SaveDeckData(Deck deckData, string deckName)
     {
         deckName = deckName.ToUpper();
         DecksData loadedData = ReadFromJson();
 
         //erase same name deck if it exists
-        foreach (DeckData deck in loadedData.Datas)
+        foreach (Deck deck in loadedData.Datas)
         {
             if (deck.Name != deckName)
             {
@@ -118,7 +135,7 @@ public class DeckSaveLoadManager : MonoBehaviour
     /// Remove a deck data from game data
     /// </summary>
     /// <param name="deckData">deck data to remove</param>
-    public void RemoveDeckData(DeckData deckData)
+    public void RemoveDeckData(Deck deckData)
     {
         DecksData loadedData = GetDecksData();
         loadedData.Datas.Remove(loadedData.Datas.Find(x => x.Name == deckData.Name));

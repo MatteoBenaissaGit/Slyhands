@@ -7,7 +7,9 @@ using TMPro;
 
 public class DeckEditorDeckManager : MonoBehaviour
 {
-    [field: SerializeField] public DecksData DeckDataObjects { get; set; }
+    [field: SerializeField] public Cards Cards { get; private set; }
+    [field: SerializeField] public List<Deck> DeckData { get; set; }
+    [field: SerializeField] public List<GameObject> DecksButtons { get; set; }
 
     [SerializeField] private bool _inDecksMenu;
 
@@ -28,6 +30,9 @@ public class DeckEditorDeckManager : MonoBehaviour
     private int _nbGoldCardsInDeck;
     [SerializeField] private TextMeshProUGUI _goldCardsInDeckText;
 
+    private Deck _selectedDeck;
+    private bool _isCreatingNewDeck;
+
     private void Start()
     {
         LoadDecksDatas();
@@ -39,45 +44,72 @@ public class DeckEditorDeckManager : MonoBehaviour
         _cardsInDeckMenu.SetActive(!_inDecksMenu);
     }
 
-    public void ShowDeck(DeckData deckData)
+    public void ShowDeck(Deck deck)
     {
         _inDecksMenu = false;
-        LoadCardsDatasInDeck(deckData);
+        LoadCardsDatasInDeck(deck);
+        _selectedDeck = deck;
     }
-    
+
     public void BackToDecksMenu()
     {
         _inDecksMenu = true;
+        RefreshDecksButtonsList();
+        LoadDecksDatas();
     }
 
-    private void LoadDecksDatas()
+    private void RefreshDecksButtonsList()
     {
-        DeckDataObjects = MissionDeckManager.Instance.DeckSaveLoadManager.GetDecksData();
-        
-        for (int i = 0; i < DeckDataObjects.Datas.Count; i++)
+        foreach (var button in DecksButtons)
         {
-            DeckEditorDeckButton newDeckButton =
-                Instantiate(_defaultDeckButton, transform.position, Quaternion.identity);
-            newDeckButton.transform.SetParent(_defaultCardButtonParent.transform);
-            newDeckButton.GetComponentInChildren<TextMeshProUGUI>().text = DeckDataObjects.Datas[i].name;
-            newDeckButton.Initialize(DeckDataObjects.Datas[i]);
+            button.SetActive(false);
         }
     }
 
-    private void LoadCardsDatasInDeck(DeckData deckData)
-    {
-        _cardsInDeckText.text = $"{deckData.CardsInDeck.Count} / {_nbCardsInDeckMax}";
 
-        _nbGoldCardsInDeck = deckData.CardsInDeck.Count(card => card.RarityType == CardRarityType.Gold);
+    private void LoadDecksDatas()
+    {
+        DeckData = MissionDeckManager.Instance.DeckSaveLoadManager.GetDecksData().Datas;
+
+        Debug.Log($"Loading decks from datas : {DeckData.Count} decks found");
+
+        for (int i = 0; i < DeckData.Count; i++)
+        {
+            DecksButtons[i].SetActive(true);
+            DecksButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = DeckData[i].Name;
+            DecksButtons[i].GetComponent<DeckEditorDeckButton>().Initialize(DeckData[i]);
+        }
+    }
+
+    private void LoadCardsDatasInDeck(Deck deck)
+    {
+        _cardsInDeckText.text = $"{deck.IDCardInDeck.Count} / {_nbCardsInDeckMax}";
+
+        _nbGoldCardsInDeck = deck.IDCardInDeck.Count(ID => Cards.GetCardData(ID).RarityType == CardRarityType.Gold);
         _goldCardsInDeckText.text = $"{_nbGoldCardsInDeck} / {_nbGoldCardsInDeckMax}";
 
-        for (int i = 0; i < deckData.CardsInDeck.Count; i++)
+        for (int i = 0; i < deck.IDCardInDeck.Count; i++)
         {
             GameObject newCardSlot = Instantiate(_cardSlot, transform.position, Quaternion.identity);
 
             newCardSlot.transform.SetParent(_cardSlotParent.transform);
 
-            newCardSlot.GetComponentInChildren<TextMeshProUGUI>().text = deckData.CardsInDeck[i].CardName;
+            newCardSlot.GetComponentInChildren<TextMeshProUGUI>().text =
+                Cards.GetCardData(deck.IDCardInDeck[i]).CardName;
         }
+    }
+
+    public void DeleteDeck()
+    {
+        MissionDeckManager.Instance.DeckSaveLoadManager.RemoveDeckData(_selectedDeck);
+        BackToDecksMenu();
+    }
+
+    public void CreateNewDeckData()
+    {
+        Deck newDeck = new Deck();
+        _isCreatingNewDeck = true;
+
+        LoadDecksDatas();
     }
 }

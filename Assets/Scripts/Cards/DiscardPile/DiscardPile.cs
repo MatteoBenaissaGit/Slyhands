@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DiscardPile : MonoBehaviour
 {
-    [field: SerializeField] public List<CardData> CardsInDiscardPile { get; set; }
+    [field: SerializeField] public List<Data.Cards.Card> CardsInDiscardPile { get; set; }
 
     public void RandomizeDiscardPile()
     {

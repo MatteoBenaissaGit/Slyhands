@@ -1,3 +1,4 @@
+using Data.Cards;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,19 +6,19 @@ namespace DeckEditor
 {
     public class DeckEditorNewDeckButton : MonoBehaviour
     {
-        private DeckData _deckData;
+        private Deck _deck;
         private Button _button;
 
-        public void Initialize(DeckData deckData)
+        public void Initialize(Deck deck)
         {
-            _deckData = deckData;
+            _deck = deck;
             _button = GetComponent<Button>();
             _button.onClick.AddListener(OnButtonClicked);
         }
 
         private void OnButtonClicked()
         {
-            MissionDeckManager.Instance.DeckSaveLoadManager.SaveDeckData(_deckData, _deckData.Name);
+            MissionDeckManager.Instance.DeckSaveLoadManager.SaveDeckData(_deck, _deck.Name);
             MissionDeckManager.Instance.DeckSaveLoadManager.GetDecksData();
         }
     }
