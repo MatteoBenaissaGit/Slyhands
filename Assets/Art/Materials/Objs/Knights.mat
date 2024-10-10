@@ -107,6 +107,7 @@ Material:
     - _BlackPresence: 1.74
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -134,6 +135,7 @@ Material:
     - _RimAmount: 0.25
     - _RimStrength: 0.689
     - _RimThreshold: 0.15
+    - _SampleGI: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -146,7 +148,7 @@ Material:
     m_Colors:
     - _AmbientColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0.28826085, g: 0.48326087, b: 0.585, a: 1}
-    - _Color: {r: 0.004035288, g: 0.15871303, b: 0.19215687, a: 1}
+    - _Color: {r: 0.28826082, g: 0.4832608, b: 0.585, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
