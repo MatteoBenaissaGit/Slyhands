@@ -126,6 +126,7 @@ namespace Board.Characters
                             }
                             break;
                     }
+                    targetSlot = board.GetSlotFromCoordinates(road[Controller.GameplayData.RoadIndex]);
                 }
                 else
                 {

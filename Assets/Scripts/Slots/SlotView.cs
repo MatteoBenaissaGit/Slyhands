@@ -6,6 +6,7 @@ using GameEngine;
 using LevelEditor;
 using LevelEditor.Entities;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace Slots
@@ -265,10 +266,13 @@ namespace Slots
         private void DrawSquareGizmo()
         {
             //location
-            // Handles.Label(transform.position, $"{Controller.Data.Coordinates.x},{Controller.Data.Coordinates.y},{Controller.Data.Coordinates.z}");
+            if (Controller != null && Controller.Coordinates.y == 0)
+            {
+                // Handles.Label(transform.position, $"{Controller.Data.Coordinates.x},{Controller.Data.Coordinates.y},{Controller.Data.Coordinates.z}");
+            }
             
             //square
-            Gizmos.color = Color.red;
+            Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
             float height = 0.5f;
             float lenght = 0.5f;
             Gizmos.DrawLine(transform.position + new Vector3(-lenght,height,-lenght), transform.position + new Vector3(-lenght,height,lenght));
