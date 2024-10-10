@@ -27525,7 +27525,7 @@
             "<BoardData>k__BackingField": {
                 "<Width>k__BackingField": 22,
                 "<Height>k__BackingField": 4,
-                "<Length>k__BackingField": 19,
+                "<Length>k__BackingField": 21,
                 "<PlayerStartCoordinates>k__BackingField": {
                     "x": 0,
                     "y": 0,
@@ -28998,7 +28998,7 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 1,
                         "<Team>k__BackingField": {
                             "<Number>k__BackingField": 1,
@@ -30318,19 +30318,55 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0,
+                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<Orientation>k__BackingField": 1,
                         "<Team>k__BackingField": {
-                            "<Number>k__BackingField": 0,
+                            "<Number>k__BackingField": 1,
                             "<Color>k__BackingField": {
-                                "r": 0.0,
-                                "g": 0.0,
-                                "b": 0.0,
-                                "a": 0.0
+                                "r": 0.9150943160057068,
+                                "g": 0.2460394948720932,
+                                "b": 0.2460394948720932,
+                                "a": 1.0
                             },
-                            "<Type>k__BackingField": 0
+                            "<Type>k__BackingField": 1
                         },
-                        "<Road>k__BackingField": []
+                        "<Road>k__BackingField": [
+                            {
+                                "x": 4,
+                                "y": 0,
+                                "z": 3
+                            },
+                            {
+                                "x": 7,
+                                "y": 0,
+                                "z": 3
+                            },
+                            {
+                                "x": 7,
+                                "y": 0,
+                                "z": 6
+                            },
+                            {
+                                "x": 3,
+                                "y": 0,
+                                "z": 6
+                            },
+                            {
+                                "x": 3,
+                                "y": 0,
+                                "z": 3
+                            },
+                            {
+                                "x": 4,
+                                "y": 0,
+                                "z": 3
+                            },
+                            {
+                                "x": 4,
+                                "y": 0,
+                                "z": 3
+                            }
+                        ]
                     }
                 },
                 {
@@ -31318,7 +31354,7 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0,
                         "<Team>k__BackingField": {
                             "<Number>k__BackingField": 1,
@@ -33958,7 +33994,7 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 2,
                         "<Team>k__BackingField": {
                             "<Number>k__BackingField": 1,
@@ -36438,7 +36474,7 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0,
                         "<Team>k__BackingField": {
                             "<Number>k__BackingField": 1,
@@ -37010,7 +37046,18 @@
                             },
                             "<Type>k__BackingField": 1
                         },
-                        "<Road>k__BackingField": []
+                        "<Road>k__BackingField": [
+                            {
+                                "x": 10,
+                                "y": 0,
+                                "z": 18
+                            },
+                            {
+                                "x": 7,
+                                "y": 0,
+                                "z": 18
+                            }
+                        ]
                     }
                 },
                 {
@@ -37610,7 +37657,23 @@
                             },
                             "<Type>k__BackingField": 1
                         },
-                        "<Road>k__BackingField": []
+                        "<Road>k__BackingField": [
+                            {
+                                "x": 11,
+                                "y": 0,
+                                "z": 11
+                            },
+                            {
+                                "x": 11,
+                                "y": 0,
+                                "z": 8
+                            },
+                            {
+                                "x": 14,
+                                "y": 0,
+                                "z": 8
+                            }
+                        ]
                     }
                 },
                 {
@@ -39050,7 +39113,28 @@
                             },
                             "<Type>k__BackingField": 1
                         },
-                        "<Road>k__BackingField": []
+                        "<Road>k__BackingField": [
+                            {
+                                "x": 13,
+                                "y": 0,
+                                "z": 2
+                            },
+                            {
+                                "x": 15,
+                                "y": 0,
+                                "z": 5
+                            },
+                            {
+                                "x": 12,
+                                "y": 0,
+                                "z": 5
+                            },
+                            {
+                                "x": 13,
+                                "y": 0,
+                                "z": 2
+                            }
+                        ]
                     }
                 },
                 {
@@ -39558,19 +39642,35 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "",
-                        "<Orientation>k__BackingField": 0,
+                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<Orientation>k__BackingField": 1,
                         "<Team>k__BackingField": {
-                            "<Number>k__BackingField": 0,
+                            "<Number>k__BackingField": 1,
                             "<Color>k__BackingField": {
-                                "r": 0.0,
-                                "g": 0.0,
-                                "b": 0.0,
-                                "a": 0.0
+                                "r": 0.9150943160057068,
+                                "g": 0.2460394948720932,
+                                "b": 0.2460394948720932,
+                                "a": 1.0
                             },
-                            "<Type>k__BackingField": 0
+                            "<Type>k__BackingField": 1
                         },
-                        "<Road>k__BackingField": []
+                        "<Road>k__BackingField": [
+                            {
+                                "x": 13,
+                                "y": 0,
+                                "z": 15
+                            },
+                            {
+                                "x": 16,
+                                "y": 0,
+                                "z": 18
+                            },
+                            {
+                                "x": 13,
+                                "y": 0,
+                                "z": 15
+                            }
+                        ]
                     }
                 },
                 {
@@ -40250,7 +40350,23 @@
                             },
                             "<Type>k__BackingField": 1
                         },
-                        "<Road>k__BackingField": []
+                        "<Road>k__BackingField": [
+                            {
+                                "x": 14,
+                                "y": 0,
+                                "z": 7
+                            },
+                            {
+                                "x": 10,
+                                "y": 0,
+                                "z": 7
+                            },
+                            {
+                                "x": 10,
+                                "y": 0,
+                                "z": 11
+                            }
+                        ]
                     }
                 },
                 {
@@ -41358,7 +41474,7 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 2,
                         "<Team>k__BackingField": {
                             "<Number>k__BackingField": 1,
@@ -43238,7 +43354,7 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 0,
                         "<Team>k__BackingField": {
                             "<Number>k__BackingField": 1,
@@ -43638,7 +43754,7 @@
                         "<Road>k__BackingField": []
                     },
                     "<LevelEditorCharacter>k__BackingField": {
-                        "<PrefabId>k__BackingField": "LevelEditorBaseEnemy",
+                        "<PrefabId>k__BackingField": "",
                         "<Orientation>k__BackingField": 3,
                         "<Team>k__BackingField": {
                             "<Number>k__BackingField": 1,
