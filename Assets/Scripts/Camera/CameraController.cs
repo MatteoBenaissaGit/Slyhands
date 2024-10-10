@@ -74,6 +74,8 @@ namespace Camera
 
         private void RotateCamera(int direction)
         {
+            Camera.transform.DOComplete();
+            
             direction = Math.Sign(direction) * 90;
 
             Vector3 hitPoint = Vector3.zero;
@@ -97,7 +99,6 @@ namespace Camera
             Camera.transform.rotation = baseRotation;
             
             float duration = 0.3f;
-            Camera.transform.DOComplete();
             Camera.transform.DORotate(newRotation.eulerAngles, duration);
             Camera.transform.DOMove(newPosition, duration);
             
