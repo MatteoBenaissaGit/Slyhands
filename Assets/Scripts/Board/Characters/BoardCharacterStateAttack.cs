@@ -34,7 +34,7 @@ namespace Board.Characters
             EnemyAttackedLastSeenCoordinates = EnemyAttacked.Coordinates;
 
             Debug.Log("MOVE TO ENEMY");
-            MoveTowardEnemy();
+            MoveTowardPosition(EnemyAttacked.Coordinates);
 
             TryAttackingEnemy();
         }

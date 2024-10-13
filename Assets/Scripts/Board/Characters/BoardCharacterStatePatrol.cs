@@ -174,29 +174,12 @@ namespace Board.Characters
             Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { path, controllerOrientation, changeFinalOrientation ? true : null});
         }
 
-        public void MoveRandomly()
+        private void MoveRandomly()
         {
-            // List<SlotController> accessibleSlots = Controller.AccessibleSlots;
-            // SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
-            // List<SlotController> path = GameManager.Instance.Board.GetPath(Controller.CurrentSlot, targetSlot);
-            // Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
-        }
-        
-        #endregion
-        
-        #region Static Movement
-
-        private void Rotate()
-        {
-            WorldOrientation.Orientation orientation = Controller.GameplayData.Orientation;
-            orientation++;
-            if ((int)orientation > 3)
-            {
-                orientation = 0;
-            }
-            Controller.GameplayData.Orientation = orientation;
-            
-            Controller.OnCharacterAction.Invoke(CharacterAction.Rotate, new object[]{orientation});
+            List<SlotController> accessibleSlots = Controller.AccessibleSlots;
+            SlotController targetSlot = accessibleSlots[Random.Range(0, accessibleSlots.Count)];
+            List<SlotController> path = GameManager.Instance.Board.GetPath(Controller.CurrentSlot, targetSlot);
+            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[]{path});
         }
         
         #endregion

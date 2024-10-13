@@ -37,9 +37,10 @@ namespace Board.Characters
         
         EnemyDetected = 11, //parameters[0] = BoardCharacterController enemy, parameters[1] = Vector3Int lastSeenCoordinates
         EnemyLost = 12, //parameters[0] = Vector3Int lastSeenCoordinates
+        StopSearchingEnemy = 13,
         
-        IsHovered = 13, //parameters[0] = Color teamColor
-        IsLeaved = 14 //parameters[0] = Color teamColor
+        IsHovered = 14, //parameters[0] = Color teamColor
+        IsLeaved = 15, //parameters[0] = Color teamColor
     }
 
     public class CharacterControllerData
@@ -172,6 +173,9 @@ namespace Board.Characters
                     }
                     AlertState.LastSeenEnemyPosition = lastSeenCoordinates;
                     SetState(AlertState);
+                    break;
+                case Characters.CharacterAction.StopSearchingEnemy:
+                    SetState(PatrolState);
                     break;
             }
         }

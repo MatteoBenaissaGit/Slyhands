@@ -169,6 +169,9 @@ namespace Board.Characters
                     }
                     Controller.GetSlotsInDetectionView().ForEach(x => x.Location.ShowDetection(false, new Color(color.r,color.g,color.b,0f)));
                     break;
+                case CharacterAction.StopSearchingEnemy:
+                    GameManager.Instance.TaskManager.EnqueueTask(() => SetStateIcon(null, false));
+                    break;
             }
         }
 
@@ -295,7 +298,10 @@ namespace Board.Characters
         {
             float animationTime = 0.5f;
 
-            _animator.SetTrigger(Detect);
+            if (doShow)
+            {
+                _animator.SetTrigger(Detect);
+            }
 
             _stateIcon.sprite = doShow ? icon : null;
             _stateIcon.transform.DOComplete();
