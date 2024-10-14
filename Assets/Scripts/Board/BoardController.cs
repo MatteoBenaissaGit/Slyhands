@@ -101,7 +101,7 @@ namespace Board
         /// </summary>
         /// <param name="coordinate">The coordinate to get the slot from</param>
         /// <returns>The slot controller at this coordinate</returns>
-        public SlotController GetSlotFromCoordinates(Vector3Int coordinate)
+        public SlotController GetSlot(Vector3Int coordinate)
         {
             if (IsCoordinatesInBoard(coordinate) == false)
             {
@@ -116,6 +116,13 @@ namespace Board
             return coordinates.x >= 0 && coordinates.x < Data.Width &&
                    coordinates.y >= 0 && coordinates.y < Data.Height &&
                    coordinates.z >= 0 && coordinates.z < Data.Length;
+        }
+
+        public static int GetDistanceBetweenSlots(SlotController from, SlotController to)
+        {
+            return Math.Abs(from.Coordinates.x - to.Coordinates.x) + 
+                   Math.Abs(from.Coordinates.y - to.Coordinates.y) +
+                   Math.Abs(from.Coordinates.z - to.Coordinates.z);
         }
         
         /// <summary>
@@ -221,8 +228,8 @@ namespace Board
         
         public List<SlotController> GetPath(Vector3Int controllerCoordinates, Vector3Int enemyAttackedCoordinates, params PathFindingOption[] options)
         {
-            var startSlot = GetSlotFromCoordinates(controllerCoordinates);
-            var endSlot = GetSlotFromCoordinates(enemyAttackedCoordinates);
+            var startSlot = GetSlot(controllerCoordinates);
+            var endSlot = GetSlot(enemyAttackedCoordinates);
             return GetPath(startSlot, endSlot, options);
         }
 
@@ -518,8 +525,6 @@ namespace Board
         }
 
         #endregion
-
-        
     }
 
     public enum PathFindingOption

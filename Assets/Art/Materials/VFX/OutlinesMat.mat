@@ -101,13 +101,13 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorThreshold: 0.382
+    - _ColorThreshold: 0.483
     - _Cull: 2
     - _Cutoff: 0.5
     - _DepthAttenuation: 0
     - _DepthStrength: -11.19
     - _DepthThickness: 0.26
-    - _DepthThreshold: 0.0049
+    - _DepthThreshold: 0.0017
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -121,7 +121,7 @@ Material:
     - _GlossyReflections: 0
     - _LineBalance: 1
     - _Metallic: 0
-    - _NormalThreshold: 0.93
+    - _NormalThreshold: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -135,9 +135,9 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Thickness: 0.75
-    - _WiggleAmmount: 0.00084
-    - _WiggleScale: 185
+    - _Thickness: 0.61
+    - _WiggleAmmount: 0.0013
+    - _WiggleScale: 147
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

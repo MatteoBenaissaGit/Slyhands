@@ -11,6 +11,7 @@
         public override void Start()
         {
             CanPlay = false;
+            Controller.UnsubscribeToDetectionView();
         }
 
         public override void Play()
@@ -29,6 +30,7 @@
         public override void Quit()
         {
             CanPlay = true;
+            Controller.SubscribeToDetectionView();
         }
     }
 }

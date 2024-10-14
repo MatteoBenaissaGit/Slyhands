@@ -200,15 +200,15 @@ namespace LevelEditor.Entities
                 positions.Add(board.GetCoordinatesToWorldPosition(roadPositions[i]));
                 if (i + 1 < roadPositions.Count)
                 {
-                    SlotController startSlot = board.GetSlotFromCoordinates(roadPositions[i]);
-                    SlotController endSlot = board.GetSlotFromCoordinates(roadPositions[i + 1]);
+                    SlotController startSlot = board.GetSlot(roadPositions[i]);
+                    SlotController endSlot = board.GetSlot(roadPositions[i + 1]);
                     List<SlotController> pathSlots = board.GetPath(startSlot, endSlot);
 
                     pathSlots.ForEach(x => positions.Add(board.GetCoordinatesToWorldPosition(x.Coordinates)));
                 }
             }
 
-            SlotController lastRoadPositionSlot = board.GetSlotFromCoordinates(roadPositions[^1]);
+            SlotController lastRoadPositionSlot = board.GetSlot(roadPositions[^1]);
             
             bool isCurrentHoveredSlotUsable = board.CurrentHoveredLocation != null
                                               && board.CurrentHoveredLocation.CanEntityBePlacedHere(BoardEntitySuperType.Character)
@@ -224,7 +224,7 @@ namespace LevelEditor.Entities
 
             if (_currentMode == RoadFollowMode.Loop && CurrentCharacter != null)
             {
-                SlotController loopStartSlot = board.GetSlotFromCoordinates(isCurrentHoveredSlotUsable ? board.CurrentHoveredLocation.Coordinates : roadPositions[^1]);
+                SlotController loopStartSlot = board.GetSlot(isCurrentHoveredSlotUsable ? board.CurrentHoveredLocation.Coordinates : roadPositions[^1]);
                 SlotController loopEndSlot = CurrentCharacter.Slot;
                 List<Vector3> loopPath = board.GetPath(loopStartSlot, loopEndSlot).ConvertAll(x => board.GetCoordinatesToWorldPosition(x.Coordinates));
                 

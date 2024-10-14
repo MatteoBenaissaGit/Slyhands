@@ -42,7 +42,7 @@ namespace LevelEditor
 
         private void SetSliderHeight(float value)
         {
-            if ((int)value < 0 || (int)value > _slider.maxValue)
+            if (LevelEditorManager.Instance.Board.Data.Height <= 1 || (int)value < 0 || (int)value > _slider.maxValue)
             {
                 return;
             }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Board.Characters.AttackSystem;
 using Data.Characters;
 using GameEngine;
 using LevelEditor.Entities;
 using Players;
 using Slots;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Board.Characters
 {
@@ -37,9 +37,13 @@ namespace Board.Characters
         
         EnemyDetected = 11, //parameters[0] = BoardCharacterController enemy, parameters[1] = Vector3Int lastSeenCoordinates
         EnemyLost = 12, //parameters[0] = Vector3Int lastSeenCoordinates
+        StopSearchingEnemy = 13,
         
-        IsHovered = 13, //parameters[0] = Color teamColor
-        IsLeaved = 14 //parameters[0] = Color teamColor
+        IsHovered = 14, //parameters[0] = Color teamColor
+        IsLeaved = 15, //parameters[0] = Color teamColor
+        
+        Attack = 16, //parameters[0] = IAttackable attackable
+        GetAttacked = 17 //parameters[0] = IAttacker attacker
     }
 
     public class CharacterControllerData
@@ -68,7 +72,7 @@ namespace Board.Characters
         public Vector2Int[] DetectionView { get; set; }
     }
     
-    public class BoardCharacterController : BoardEntity
+    public class BoardCharacterController : BoardEntity, IAttackable, IAttacker
     {
         public CharacterType Type { get; private set; }
         public CharacterControllerData GameplayData { get; private set; }
@@ -101,7 +105,7 @@ namespace Board.Characters
             
             GameplayData = new CharacterControllerData(Data, team)
             {
-                Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road,
+                Road = GameManager.Instance.Board.GetSlot(coordinates).Data.LevelEditorCharacter.Road,
                 DetectionView = detectionView.ToArray(),
                 Orientation = orientation
             };
@@ -172,6 +176,9 @@ namespace Board.Characters
                     }
                     AlertState.LastSeenEnemyPosition = lastSeenCoordinates;
                     SetState(AlertState);
+                    break;
+                case Characters.CharacterAction.StopSearchingEnemy:
+                    SetState(PatrolState);
                     break;
             }
         }
@@ -267,7 +274,7 @@ namespace Board.Characters
                 Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), orientation);
                 Vector3Int coordinatesOffset = coordinates + offset;
                 if (Board.IsCoordinatesInBoard(coordinatesOffset) == false) continue;
-                SlotController slot = Board.GetSlotFromCoordinates(coordinatesOffset);
+                SlotController slot = Board.GetSlot(coordinatesOffset);
                 if (slot == null) continue;
                 slots.Add(slot);
             }
@@ -337,5 +344,20 @@ namespace Board.Characters
         }
         
         #endregion
+        
+        public void GetAttacked(IAttacker attacker)
+        {
+            OnCharacterAction.Invoke(Characters.CharacterAction.GetAttacked, new object[]{attacker});
+            if (GameplayData.Team.Number == 0)
+            {
+                GameManager.Instance.TaskManager.EnqueueTask(() => GameManager.Instance.EndGame(EndGameOptions.Loss));
+            }
+        }
+
+        public void Attack(IAttackable attackable)
+        {
+            OnCharacterAction.Invoke(Characters.CharacterAction.Attack, new object[]{attackable});
+            attackable.GetAttacked(this);
+        }
     }
 }

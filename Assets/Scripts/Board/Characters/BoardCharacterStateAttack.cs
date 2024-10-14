@@ -21,27 +21,27 @@ namespace Board.Characters
 
         public override void Play()
         {
-            Debug.Log("PLAY ATTACK");
-            
             if (Controller.GetEnemiesInDetectionView(Controller.Coordinates, Controller.GameplayData.Orientation).Contains(EnemyAttacked) == false)
             {
-                Debug.Log("WHY SO FEINIOUS ?");
                 Controller.OnCharacterAction.Invoke(CharacterAction.EnemyLost, new object[]{EnemyAttackedLastSeenCoordinates});
-                // Controller.AlertState.Play();
+                Controller.AlertState.Play();
                 return;
             }
 
             EnemyAttackedLastSeenCoordinates = EnemyAttacked.Coordinates;
 
-            Debug.Log("MOVE TO ENEMY");
-            MoveTowardEnemy();
+            MoveTowardPosition(EnemyAttacked.Coordinates);
 
             TryAttackingEnemy();
         }
 
         private void TryAttackingEnemy()
         {
-            //TODO attack
+            if (BoardController.GetDistanceBetweenSlots(Controller.CurrentSlot, EnemyAttacked.CurrentSlot) > 1)
+            {
+                return;
+            }
+            Controller.Attack(EnemyAttacked);
         }
 
         public override void Quit()
