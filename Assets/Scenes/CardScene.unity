@@ -521,6 +521,18 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!114 &1043495981 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2165874936459931386, guid: d054e772570dcd2419b52ed14a4dd91a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7601501608435610959}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef46c6f44af103e4eaae3ea8cd168e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1087452369
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,6 +836,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 691451282945656619, guid: d054e772570dcd2419b52ed14a4dd91a,
+        type: 3}
+      propertyPath: <GameplayDeckManager>k__BackingField
+      value: 
+      objectReference: {fileID: 1043495981}
     - target: {fileID: 1157099512342165895, guid: d054e772570dcd2419b52ed14a4dd91a,
         type: 3}
       propertyPath: CardCamera

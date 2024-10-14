@@ -19,8 +19,8 @@ namespace Card.Editor
         private MenuState currentMenuState = MenuState.CraftCard;
 
         // ScriptableObjects
-        private CardData[] cardDataObjects;
-        private CardData selectedCardData = null;
+        private Data.Cards.Card[] cardDataObjects;
+        private Data.Cards.Card _selectedCard = null;
 
         //Card
         private string _cardName = "";
@@ -45,12 +45,12 @@ namespace Card.Editor
         private void LoadCardDataObjects()
         {
             string[] guids = AssetDatabase.FindAssets("t:CardData", new[] { "Assets/Data/Cards/Cards" });
-            cardDataObjects = new CardData[guids.Length];
+            cardDataObjects = new Data.Cards.Card[guids.Length];
 
             for (int i = 0; i < guids.Length; i++)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guids[i]);
-                cardDataObjects[i] = AssetDatabase.LoadAssetAtPath<CardData>(path);
+                cardDataObjects[i] = AssetDatabase.LoadAssetAtPath<Data.Cards.Card>(path);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Card.Editor
             if (GUILayout.Button("Craft Card"))
             {
                 currentMenuState = MenuState.CraftCard;
-                selectedCardData = null;
+                _selectedCard = null;
                 _cardName = null;
                 _cardDescription = null;
                 _illustration = null;
@@ -74,7 +74,7 @@ namespace Card.Editor
             if (GUILayout.Button("Modify Card"))
             {
                 currentMenuState = MenuState.ModifyCard;
-                selectedCardData = null;
+                _selectedCard = null;
                 LoadCardDataObjects();
             }
 
@@ -82,7 +82,7 @@ namespace Card.Editor
 
             GUILayout.Space(20);
 
-            if (selectedCardData != null)
+            if (_selectedCard != null)
             {
                 GUILayout.Label("Edit Card", EditorStyles.boldLabel);
                 DisplayCraftCardMenu();
@@ -104,18 +104,18 @@ namespace Card.Editor
 
         private void OnSelectionChange()
         {
-            if (Selection.activeObject is CardData selectedCard)
+            if (Selection.activeObject is Data.Cards.Card selectedCard)
             {
                 currentMenuState = MenuState.ModifyCard;
 
-                selectedCardData = selectedCard;
-                LoadCardDataIntoForm(selectedCardData);
+                _selectedCard = selectedCard;
+                LoadCardDataIntoForm(_selectedCard);
 
                 Repaint();
             }
             else
             {
-                selectedCardData = null;
+                _selectedCard = null;
             }
         }
 
@@ -141,15 +141,15 @@ namespace Card.Editor
 
                     if (GUILayout.Button(cardData.CardName))
                     {
-                        selectedCardData = cardData;
+                        _selectedCard = cardData;
                         currentMenuState = MenuState.CraftCard;
-                        LoadCardDataIntoForm(selectedCardData);
+                        LoadCardDataIntoForm(_selectedCard);
                     }
 
                     if (GUILayout.Button("Delete", GUILayout.Width(100)))
                     {
                         if (EditorUtility.DisplayDialog("Delete Card",
-                                $"Are you sure you want to delete {cardData.CardName}?", "Yes", "No"))
+                                $"Are you sure you want to delete {cardData.CardName} ?", "Yes", "No"))
                         {
                             DeleteCard(cardData);
                             LoadCardDataObjects();
@@ -211,7 +211,7 @@ namespace Card.Editor
         
             GUILayout.Space(20);
 
-            if (selectedCardData == null)
+            if (_selectedCard == null)
             {
                 if (GUILayout.Button("Create Card"))
                 {
@@ -222,29 +222,29 @@ namespace Card.Editor
             {
                 if (GUILayout.Button("Save Modifications"))
                 {
-                    SaveCardData(selectedCardData);
+                    SaveCardData(_selectedCard);
                 }
             }
         }
 
-        private void LoadCardDataIntoForm(CardData cardData)
+        private void LoadCardDataIntoForm(Data.Cards.Card card)
         {
-            _cardName = cardData.CardName;
-            _cardDescription = cardData.CardDescription;
-            _illustration = cardData.CardIllustrationSprite;
-            _cardPower = cardData.CardPower;
-            _cardRarity = cardData.RarityType;
+            _cardName = card.CardName;
+            _cardDescription = card.CardDescription;
+            _illustration = card.CardIllustrationSprite;
+            _cardPower = card.CardPower;
+            _cardRarity = card.RarityType;
         }
 
-        private void SaveCardData(CardData cardData)
+        private void SaveCardData(Data.Cards.Card card)
         {
-            cardData.CardName = _cardName;
-            cardData.CardDescription = _cardDescription;
-            cardData.CardIllustrationSprite = _illustration;
-            cardData.CardPower = _cardPower;
-            cardData.RarityType = _cardRarity;
+            card.CardName = _cardName;
+            card.CardDescription = _cardDescription;
+            card.CardIllustrationSprite = _illustration;
+            card.CardPower = _cardPower;
+            card.RarityType = _cardRarity;
 
-            EditorUtility.SetDirty(cardData);
+            EditorUtility.SetDirty(card);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
@@ -253,7 +253,7 @@ namespace Card.Editor
 
         private void CreateCard()
         {
-            CardData newCard = CreateInstance<CardData>();
+            Data.Cards.Card newCard = CreateInstance<Data.Cards.Card>();
 
             newCard.CardName = _cardName;
             newCard.CardDescription = _cardDescription;
@@ -270,16 +270,16 @@ namespace Card.Editor
             Debug.Log($"Card '{_cardName}' created at {assetPath}.");
         }
 
-        private void DeleteCard(CardData cardData)
+        private void DeleteCard(Data.Cards.Card card)
         {
-            string path = AssetDatabase.GetAssetPath(cardData);
+            string path = AssetDatabase.GetAssetPath(card);
 
             AssetDatabase.DeleteAsset(path);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            Debug.Log($"Card '{cardData.CardName}' has been deleted.");
+            Debug.Log($"Card '{card.CardName}' has been deleted.");
         }
     }
 }

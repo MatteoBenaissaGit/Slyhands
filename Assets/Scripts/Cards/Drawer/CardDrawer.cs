@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CardDrawer : MonoBehaviour
 {
-    public List<CardData> CardsInDrawer;
+    public List<Data.Cards.Card> CardsInDrawer;
 
     [SerializeField] private float _timeBetweenCardSpawn;
     
@@ -14,11 +14,14 @@ public class CardDrawer : MonoBehaviour
 
     public void DrawCards(int nbCardsToDraw)
     {
+        print("bla");
         StartCoroutine(SpawnCards(nbCardsToDraw));
     }
 
     private IEnumerator SpawnCards(int nbCardsToDraw)
     {
+        print($"ble : {nbCardsToDraw}");
+
         for (int i = 0; i < nbCardsToDraw; i++)
         {
             CardHand cardHand = CardManager.Instance.GameplayDeckManager.CardHand;
@@ -29,6 +32,8 @@ public class CardDrawer : MonoBehaviour
                 {
                     CardManager.Instance.GameplayDeckManager.ResetDrawerFromDiscardPile();
                 }
+
+                print("bli");
 
                 GameObject newCard = Instantiate(CardManager.Instance.GameplayDeckManager.CardPrefab, transform.position,
                     Quaternion.identity);
@@ -42,8 +47,14 @@ public class CardDrawer : MonoBehaviour
                 newCard.name = "Card " + nbCardsCreate;
 
                 nbCardsCreate++;
+                
+                print("blo");
+
 
                 yield return new WaitForSeconds(_timeBetweenCardSpawn);
+                
+                print("blu");
+
             }
         }
     }

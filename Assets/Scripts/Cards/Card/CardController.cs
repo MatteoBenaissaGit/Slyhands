@@ -4,7 +4,7 @@ using Data.Cards;
 
 public class CardController : MonoBehaviour
 {
-    public CardData Data;
+    public Data.Cards.Card Data;
     [field: SerializeField] public CardVisual CardVisual { get; private set; }
 
     [Header("Hovered Behavior")] public CardStatus cardStatus;
