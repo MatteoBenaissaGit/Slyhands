@@ -90,7 +90,14 @@ namespace Board.Characters
 #endif
 
                 //get the path to target within accessible slots
-                List<SlotController> currentPath = board.GetPath(currentCharacterSlot, targetSlotClosest ?? targetSlot);
+                List<SlotController> currentPath = board.GetPath(currentCharacterSlot, targetSlotClosest ?? targetSlot, PathFindingOption.IgnoreCharacters);
+                foreach (SlotController slot in currentPath)
+                {
+                    if (slot.HasCharacter(out var characterOnTargetSlot) && characterOnTargetSlot.GameplayData.Team == Controller.GameplayData.Team)
+                    {
+                        currentPath = board.GetPath(currentCharacterSlot, targetSlotClosest ?? targetSlot, PathFindingOption.IgnoreCharacters);
+                    }
+                }
                 SlotController fromSlot = path.Count > 0 ? path[^1] : currentCharacterSlot;
                 List<SlotController> accessibleSlots = GameManager.Instance.Board.GetAccessibleSlotsBySlot(fromSlot, movementPoints);
                 currentPath.RemoveAll(x => accessibleSlots.Contains(x) == false);
