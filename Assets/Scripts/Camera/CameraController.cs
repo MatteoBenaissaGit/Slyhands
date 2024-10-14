@@ -47,8 +47,7 @@ namespace Camera
             }
 
             InputManager.Instance.LevelEditorInput.OnCameraMoveButtonPressed += (bool doMove) => _doMoveCamera = doMove;
-            InputManager.Instance.LevelEditorInput.OnCameraMoved +=
-                (Vector2 movementValue) => _cameraMovement = movementValue;
+            InputManager.Instance.LevelEditorInput.OnCameraMoved += (Vector2 movementValue) => _cameraMovement = movementValue;
             InputManager.Instance.LevelEditorInput.OnCameraZoomed += (float zoomValue) => _cameraZoom = zoomValue;
             InputManager.Instance.LevelEditorInput.OnCameraRotate += RotateCamera;
             InputManager.Instance.CameraInput.OnMouseEdgeScreen += EdgeMovement;
@@ -68,10 +67,9 @@ namespace Camera
             size = Mathf.Clamp(size, _cameraSizeMin, _cameraSizeMax);
             Camera.DOOrthoSize(size, 0.1f).SetEase(Ease.Flash);
 
-            EdgeScrolling();
-
             if (_doMoveCamera == false)
             {
+                EdgeScrolling();
                 return;
             }
             
