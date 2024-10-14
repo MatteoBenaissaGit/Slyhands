@@ -27,20 +27,26 @@ namespace Board.Characters
             {
                 MoveTowardPosition(LastSeenEnemyPosition); 
                 
-                //TODO if an ally is blocking the position, start rotating
-                //TODO check for enemy on the road like in patrol
+                SlotController lastSeenEnemySlot = GameManager.Instance.Board.GetSlot(LastSeenEnemyPosition);
+                if (lastSeenEnemySlot != null && lastSeenEnemySlot.HasCharacter(out var character) && character != Controller && character.GameplayData.Team == Controller.GameplayData.Team)
+                {
+                    _rotatingTurnsLeft--;
+                    Rotate();
+                }
             }
             else
             {
                 _rotatingTurnsLeft--;
                 Rotate();
-                
-                //TODO check if enemy is in sight
-                
-                if (_rotatingTurnsLeft <= 0)
-                {
-                    Controller.OnCharacterAction.Invoke(CharacterAction.StopSearchingEnemy, null);
-                }
+            }
+            
+            Controller.DetectEnemies();
+            Controller.UnsubscribeToDetectionView();
+            Controller.SubscribeToDetectionView();
+            
+            if (_rotatingTurnsLeft <= 0)
+            {
+                Controller.OnCharacterAction.Invoke(CharacterAction.StopSearchingEnemy, null);
             }
         }
 

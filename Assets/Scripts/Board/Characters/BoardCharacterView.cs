@@ -141,6 +141,7 @@ namespace Board.Characters
                     GameManager.Instance.TaskManager.EnqueueTask(() => Rotate(orientation));
                     break;
                 case CharacterAction.Stun:
+                    GameManager.Instance.TaskManager.EnqueueTask(() => SetStateIcon(null, false));
                     GameManager.Instance.TaskManager.EnqueueTask(SetStun);
                     break;
                 case CharacterAction.UpdateStun:
@@ -156,7 +157,7 @@ namespace Board.Characters
                     GameManager.Instance.TaskManager.EnqueueTask(() => SetStateIcon(_alertSprite));
                     break;
                 case CharacterAction.IsHovered:
-                    if (parameters == null || parameters.Length == 0 || parameters[0] is not Color teamColor)
+                    if (parameters == null || parameters.Length == 0 || parameters[0] is not Color teamColor || Controller.CurrentState.CanPlay == false)
                     {
                         return;
                     }

@@ -9,8 +9,11 @@ namespace Board.Characters
 {
     public class BoardCharacterStatePatrol : BoardCharacterState
     {
+        private Vector3Int _baseCoordinates;
+        
         public BoardCharacterStatePatrol(BoardCharacterController controller) : base(controller)
         {
+            _baseCoordinates = controller.Coordinates;
         }
 
         public override void Start()
@@ -28,11 +31,14 @@ namespace Board.Characters
             }
             else
             {
+                if (Controller.Coordinates != _baseCoordinates)
+                {
+                    MoveTowardPosition(_baseCoordinates);
+                }
                 Rotate();
             }
 
             Controller.DetectEnemies();
-
             Controller.UnsubscribeToDetectionView();
             Controller.SubscribeToDetectionView();
         }
@@ -71,7 +77,7 @@ namespace Board.Characters
                 
                 //get the target slot
                 Vector3Int targetSlotCoordinates = road[Controller.GameplayData.RoadIndex];
-                targetSlot = board.GetSlotFromCoordinates(targetSlotCoordinates);
+                targetSlot = board.GetSlot(targetSlotCoordinates);
                 SlotController targetSlotClosest = null;
                 if (targetSlot.IsAccessible == false && board.GetClosestToSlotFromSlot(targetSlot, currentCharacterSlot, out targetSlotClosest) == false)
                 {
@@ -126,7 +132,7 @@ namespace Board.Characters
                             }
                             break;
                     }
-                    targetSlot = board.GetSlotFromCoordinates(road[Controller.GameplayData.RoadIndex]);
+                    targetSlot = board.GetSlot(road[Controller.GameplayData.RoadIndex]);
                 }
                 else
                 {

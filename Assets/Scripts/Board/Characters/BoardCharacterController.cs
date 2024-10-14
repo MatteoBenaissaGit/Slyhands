@@ -102,7 +102,7 @@ namespace Board.Characters
             
             GameplayData = new CharacterControllerData(Data, team)
             {
-                Road = GameManager.Instance.Board.GetSlotFromCoordinates(coordinates).Data.LevelEditorCharacter.Road,
+                Road = GameManager.Instance.Board.GetSlot(coordinates).Data.LevelEditorCharacter.Road,
                 DetectionView = detectionView.ToArray(),
                 Orientation = orientation
             };
@@ -271,7 +271,7 @@ namespace Board.Characters
                 Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), orientation);
                 Vector3Int coordinatesOffset = coordinates + offset;
                 if (Board.IsCoordinatesInBoard(coordinatesOffset) == false) continue;
-                SlotController slot = Board.GetSlotFromCoordinates(coordinatesOffset);
+                SlotController slot = Board.GetSlot(coordinatesOffset);
                 if (slot == null) continue;
                 slots.Add(slot);
             }

@@ -101,7 +101,7 @@ namespace Board
         /// </summary>
         /// <param name="coordinate">The coordinate to get the slot from</param>
         /// <returns>The slot controller at this coordinate</returns>
-        public SlotController GetSlotFromCoordinates(Vector3Int coordinate)
+        public SlotController GetSlot(Vector3Int coordinate)
         {
             if (IsCoordinatesInBoard(coordinate) == false)
             {
@@ -221,8 +221,8 @@ namespace Board
         
         public List<SlotController> GetPath(Vector3Int controllerCoordinates, Vector3Int enemyAttackedCoordinates, params PathFindingOption[] options)
         {
-            var startSlot = GetSlotFromCoordinates(controllerCoordinates);
-            var endSlot = GetSlotFromCoordinates(enemyAttackedCoordinates);
+            var startSlot = GetSlot(controllerCoordinates);
+            var endSlot = GetSlot(enemyAttackedCoordinates);
             return GetPath(startSlot, endSlot, options);
         }
 

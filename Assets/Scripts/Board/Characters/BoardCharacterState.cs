@@ -26,6 +26,8 @@ namespace Board.Characters
             List<SlotController> accessibleSlots = GameManager.Instance.Board.GetAccessibleSlotsBySlot(Controller.CurrentSlot, Controller.GameplayData.CurrentMovementPoints);
             pathToPosition.RemoveAll(x => accessibleSlots.Contains(x) == false);
             
+            //TODO check for enemy on the road like in patrol
+            
             pathToPosition.Insert(0, Controller.CurrentSlot);
             WorldOrientation.Orientation controllerOrientation =
                     pathToPosition[^1].Coordinates == position ? 
@@ -45,6 +47,8 @@ namespace Board.Characters
                 orientation = 0;
             }
             Controller.GameplayData.Orientation = orientation;
+            
+            //TODO check if enemy is in sight
             
             Controller.OnCharacterAction.Invoke(CharacterAction.Rotate, new object[]{orientation});
         }
