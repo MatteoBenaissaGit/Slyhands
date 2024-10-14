@@ -15,6 +15,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GameEngine
 {
@@ -29,6 +30,13 @@ namespace GameEngine
         public Team CurrentTurnTeam => _gameManager.Teams[Turn % _gameManager.Teams.Length];
 
         private GameManager _gameManager;
+    }
+
+    public enum EndGameOptions
+    {
+        None = 0,
+        Victory = 1,
+        Loss = 2
     }
     
     public class GameManager : Singleton<GameManager>
@@ -126,6 +134,12 @@ namespace GameEngine
             await Task.Delay(0);
             
             Data.CurrentTurnTeam.MakeTurn();
+        }
+
+        public async Task EndGame(params EndGameOptions[] options)
+        {
+            await Task.Delay(2000);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

@@ -117,6 +117,13 @@ namespace Board
                    coordinates.y >= 0 && coordinates.y < Data.Height &&
                    coordinates.z >= 0 && coordinates.z < Data.Length;
         }
+
+        public static int GetDistanceBetweenSlots(SlotController from, SlotController to)
+        {
+            return Math.Abs(from.Coordinates.x - to.Coordinates.x) + 
+                   Math.Abs(from.Coordinates.y - to.Coordinates.y) +
+                   Math.Abs(from.Coordinates.z - to.Coordinates.z);
+        }
         
         /// <summary>
         /// Make an action for each coordinates of the board
@@ -518,8 +525,6 @@ namespace Board
         }
 
         #endregion
-
-        
     }
 
     public enum PathFindingOption

@@ -22,7 +22,6 @@ namespace Board.Characters
 
         public override void Play()
         {
-            Debug.Log("PLAY ALERT");
             if (Controller.Coordinates != LastSeenEnemyPosition)
             {
                 MoveTowardPosition(LastSeenEnemyPosition); 

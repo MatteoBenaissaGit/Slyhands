@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Board.Characters.AttackSystem;
 using Data.Characters;
 using GameEngine;
 using LevelEditor.Entities;
 using Players;
 using Slots;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Board.Characters
 {
@@ -41,6 +41,9 @@ namespace Board.Characters
         
         IsHovered = 14, //parameters[0] = Color teamColor
         IsLeaved = 15, //parameters[0] = Color teamColor
+        
+        Attack = 16, //parameters[0] = IAttackable attackable
+        GetAttacked = 17 //parameters[0] = IAttacker attacker
     }
 
     public class CharacterControllerData
@@ -69,7 +72,7 @@ namespace Board.Characters
         public Vector2Int[] DetectionView { get; set; }
     }
     
-    public class BoardCharacterController : BoardEntity
+    public class BoardCharacterController : BoardEntity, IAttackable, IAttacker
     {
         public CharacterType Type { get; private set; }
         public CharacterControllerData GameplayData { get; private set; }
@@ -341,5 +344,20 @@ namespace Board.Characters
         }
         
         #endregion
+        
+        public void GetAttacked(IAttacker attacker)
+        {
+            OnCharacterAction.Invoke(Characters.CharacterAction.GetAttacked, new object[]{attacker});
+            if (GameplayData.Team.Number == 0)
+            {
+                GameManager.Instance.TaskManager.EnqueueTask(() => GameManager.Instance.EndGame(EndGameOptions.Loss));
+            }
+        }
+
+        public void Attack(IAttackable attackable)
+        {
+            OnCharacterAction.Invoke(Characters.CharacterAction.Attack, new object[]{attackable});
+            attackable.GetAttacked(this);
+        }
     }
 }

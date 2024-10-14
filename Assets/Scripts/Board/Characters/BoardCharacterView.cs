@@ -22,10 +22,12 @@ namespace Board.Characters
         [TitleGroup("Effects"), SerializeField] private ParticleSystem _stunParticleSystem;
         [TitleGroup("Effects"), SerializeField] private SpriteRenderer _stateIcon;
         
+        //animator values
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
         private static readonly int Stun = Animator.StringToHash("Stun");
         private static readonly int IsStunned = Animator.StringToHash("IsStunned");
         private static readonly int Detect = Animator.StringToHash("Detect");
+        private static readonly int Attack = Animator.StringToHash("Attack");
         
         private Queue<SpriteRenderer> _footPrints;
         private float _footPrintFade;
@@ -173,6 +175,12 @@ namespace Board.Characters
                 case CharacterAction.StopSearchingEnemy:
                     GameManager.Instance.TaskManager.EnqueueTask(() => SetStateIcon(null, false));
                     break;
+                case CharacterAction.Attack:
+                    GameManager.Instance.TaskManager.EnqueueTask(AttackFeedback);
+                    break;
+                case CharacterAction.GetAttacked:
+                    GameManager.Instance.TaskManager.EnqueueTask(DeathFeedback);
+                    break;
             }
         }
 
@@ -309,6 +317,19 @@ namespace Board.Characters
             _stateIcon.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
             
             await Task.Delay((int)(animationTime * 1000));
+        }
+
+        private async Task AttackFeedback()
+        {
+            _animator.SetTrigger(Attack);
+            await Task.Delay(1000);
+        }
+
+        private async Task DeathFeedback()
+        {
+            _animator.SetTrigger(Stun);
+            _animator.SetBool(IsStunned, true);
+            await Task.Delay(1000);
         }
     }
 }
