@@ -344,7 +344,9 @@ namespace Board.Characters
         }
         
         #endregion
-        
+
+        public Vector3Int GetCoordinates => Coordinates; 
+
         public void GetAttacked(IAttacker attacker)
         {
             OnCharacterAction.Invoke(Characters.CharacterAction.GetAttacked, new object[]{attacker});
@@ -356,6 +358,7 @@ namespace Board.Characters
 
         public void Attack(IAttackable attackable)
         {
+            OnCharacterAction.Invoke(Characters.CharacterAction.Rotate, new object[]{WorldOrientation.GetDirection(Coordinates, attackable.GetCoordinates)});
             OnCharacterAction.Invoke(Characters.CharacterAction.Attack, new object[]{attackable});
             attackable.GetAttacked(this);
         }

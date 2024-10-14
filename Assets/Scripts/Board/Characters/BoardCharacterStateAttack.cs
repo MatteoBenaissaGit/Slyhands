@@ -48,18 +48,5 @@ namespace Board.Characters
         {
             
         }
-        
-        private void MoveTowardEnemy()
-        {
-            List<SlotController> pathToEnemy = GameManager.Instance.Board.GetPath(Controller.Coordinates, EnemyAttacked.Coordinates, PathFindingOption.IgnoreCharacters);
-            List<SlotController> accessibleSlots = GameManager.Instance.Board.GetAccessibleSlotsBySlot(Controller.CurrentSlot, Controller.GameplayData.CurrentMovementPoints);
-            pathToEnemy.RemoveAll(x => accessibleSlots.Contains(x) == false);
-            
-            pathToEnemy.Insert(0, Controller.CurrentSlot);
-            WorldOrientation.Orientation controllerOrientation = WorldOrientation.GetDirection(pathToEnemy[^1].Coordinates, EnemyAttacked.Coordinates);
-            pathToEnemy.RemoveAt(0);
-            
-            Controller.OnCharacterAction.Invoke(CharacterAction.MoveTo, new object[] { pathToEnemy, controllerOrientation});
-        }
     }
 }
