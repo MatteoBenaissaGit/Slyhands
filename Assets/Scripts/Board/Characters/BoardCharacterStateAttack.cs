@@ -27,7 +27,7 @@ namespace Board.Characters
             {
                 Debug.Log("WHY SO FEINIOUS ?");
                 Controller.OnCharacterAction.Invoke(CharacterAction.EnemyLost, new object[]{EnemyAttackedLastSeenCoordinates});
-                // Controller.AlertState.Play();
+                Controller.AlertState.Play();
                 return;
             }
 
