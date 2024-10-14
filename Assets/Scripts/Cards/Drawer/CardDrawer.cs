@@ -11,17 +11,15 @@ public class CardDrawer : MonoBehaviour
     
     //Debug
     private int nbCardsCreate = 1;
+    //
 
     public void DrawCards(int nbCardsToDraw)
     {
-        print("bla");
         StartCoroutine(SpawnCards(nbCardsToDraw));
     }
 
     private IEnumerator SpawnCards(int nbCardsToDraw)
     {
-        print($"ble : {nbCardsToDraw}");
-
         for (int i = 0; i < nbCardsToDraw; i++)
         {
             CardHand cardHand = CardManager.Instance.GameplayDeckManager.CardHand;
@@ -33,28 +31,14 @@ public class CardDrawer : MonoBehaviour
                     CardManager.Instance.GameplayDeckManager.ResetDrawerFromDiscardPile();
                 }
 
-                print("bli");
-
-                GameObject newCard = Instantiate(CardManager.Instance.GameplayDeckManager.CardPrefab, transform.position,
-                    Quaternion.identity);
-
+                GameObject newCard = Instantiate(CardManager.Instance.GameplayDeckManager.CardPrefab, transform.position, Quaternion.identity);
                 newCard.GetComponent<CardController>().Data = CardsInDrawer[0];
-
                 cardHand.cardsInHand.Add(newCard.transform);
-
                 CardsInDrawer.RemoveAt(0);
-
                 newCard.name = "Card " + nbCardsCreate;
-
                 nbCardsCreate++;
                 
-                print("blo");
-
-
                 yield return new WaitForSeconds(_timeBetweenCardSpawn);
-                
-                print("blu");
-
             }
         }
     }

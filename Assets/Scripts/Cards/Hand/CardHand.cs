@@ -8,42 +8,29 @@ using Slots;
 public class CardHand : MonoBehaviour
 {
     [BoxGroup("References")] public UnityEngine.Camera BoardCamera;
-
     [BoxGroup("References")] public UnityEngine.Camera CardCamera;
 
-    [PropertySpace(SpaceBefore = 30, SpaceAfter = 30)][BoxGroup("References")]
-    public List<Transform> cardsInHand = new List<Transform>();
-    private CardController _cardHovered { get; set; }
-    private CardController _cardSelected { get; set; }
+    [PropertySpace(SpaceBefore = 30, SpaceAfter = 30), BoxGroup("References")] public List<Transform> cardsInHand = new();
 
-    [BoxGroup("Hand Properties")]
-    public int MaxCardsInHand;
-
-    [Space][BoxGroup("Hand Properties")][SerializeField] private Vector3 _cardSpacingInHand;
-
-    [Space][BoxGroup("Hand Properties")]
-    public float HandCardsMovementSpeed;
-
-    [BoxGroup("On Card Hovered")]
-    [SerializeField] private Vector3 _hoveredOffsetPosition;
-
-    [Space][BoxGroup("On Card Hovered")][SerializeField] private float _hoveredOffsetScale;
-
-    [Space(20)][BoxGroup("On Card Hovered")] [SerializeField] private Vector3 _minorOffsetPosition;
+    [BoxGroup("Hand Properties")] public int MaxCardsInHand;
+    [Space, BoxGroup("Hand Properties")] public float HandCardsMovementSpeed;
     
-    [BoxGroup("Card Selected Movement")]
-    [field: SerializeField] public Vector3 SelectedOffsetPosition;
+    [BoxGroup("Card Selected Movement"), SerializeField] public Vector3 SelectedOffsetPosition;
+    [BoxGroup("Card Selected Movement"), SerializeField] public float SelectedOffsetScale; 
+    [Space, BoxGroup("Card Selected Movement"), SerializeField] public float SmoothMovementSpeed;
+    [BoxGroup("Card Selected Movement"), SerializeField] public float SmoothRotationSpeed;
+    [BoxGroup("Card Selected Movement"), SerializeField] public float SmoothScalingSpeed;
+
     
-    [BoxGroup("Card Selected Movement")]
-    [field: SerializeField] public float SelectedOffsetScale; 
-
-    [Space] [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothMovementSpeed;
-    [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothRotationSpeed;
-    [BoxGroup("Card Selected Movement")][field: SerializeField] public float SmoothScalingSpeed;
-
-    [Space] [BoxGroup("Card Selected Movement")][field: SerializeField] private float _clampValueRotation;
+    [Space, BoxGroup("Card Selected Movement"), SerializeField] private float _clampValueRotation;
+    [Space, BoxGroup("Hand Properties"), SerializeField] private Vector3 _cardSpacingInHand;
+    [BoxGroup("On Card Hovered")] [SerializeField] private Vector3 _hoveredOffsetPosition;
+    [Space, BoxGroup("On Card Hovered"), SerializeField] private float _hoveredOffsetScale;
+    [Space(20), BoxGroup("On Card Hovered")] [SerializeField] private Vector3 _minorOffsetPosition;
     
-
+    private CardController _cardHovered;
+    private CardController _cardSelected;
+    
     private float _offsetZCardCamera;
     private int _cardSelectedIndex;
     private RaycastHit[] _slotHits = new RaycastHit[16];
@@ -93,18 +80,11 @@ public class CardHand : MonoBehaviour
 
             CardController cardController = cardsInHand[i].GetComponent<CardController>();
 
-            //POSITION
-
-            //Idle position
             cardController.IdlePosition = new Vector3(xPosition, yPosition, zPosition);
-
-            //Overed position
             cardController.HoveredPosition = cardController.IdlePosition + _hoveredOffsetPosition;
 
-            //Minor position
             if (_cardHovered != null && cardsInHand[i].gameObject != _cardHovered.gameObject)
             {
-                //Basic spacing + spacing by card index difference
                 Vector3 cardMinorPosition;
                 if (i < cardsInHand.IndexOf(_cardHovered.transform))
                 {
@@ -120,16 +100,7 @@ public class CardHand : MonoBehaviour
                 cardController.MinorPosition = cardMinorPosition;
             }
 
-
-            //SCALE
-
-            //Idle Scale
-
-            //Overed Scale
             cardController.HoveredScale = cardController.IdleScale * _hoveredOffsetScale;
-
-
-            //ROTATION
             cardsInHand[i].localRotation = Quaternion.Euler(-90, 0, 0);
         }
     }
@@ -139,53 +110,37 @@ public class CardHand : MonoBehaviour
     /// </summary>
     private void DetectCardToHovered()
     {
-        //Debug.Log("There is no card selected. Try to hovered a card");
+        if (CardCamera == null) return;
 
-        //Raycast
         Ray ray = CardCamera.ScreenPointToRay(Input.mousePosition);
         int hits = Physics.RaycastNonAlloc(ray, _cardHits);
 
-        if (hits != 0) //Check if there is something in raycast result
+        if (hits != 0)
         {
-            // Debug.Log("There is something on the ray way");
-
-            //Check if ray hits a different card than the current hovered card
             for (int i = 0; i < hits; i++)
             {
-                if (_cardHits[i].collider.TryGetComponent(out CardController card) &&
-                    card.cardStatus != CardStatus.Discarded)
+                if (!_cardHits[i].collider.TryGetComponent(out CardController card) || card.cardStatus == CardStatus.Discarded)
                 {
-                    // Debug.Log($"{card.name} has found on the ray way");
-
-                    if (_cardHovered != null) //If there is already a card hovered
+                    continue;
+                }
+                if (_cardHovered != null)
+                {
+                    if (_cardHits[i].collider.gameObject == _cardHovered.gameObject) 
                     {
-                        if (_cardHits[i].collider.gameObject ==
-                            _cardHovered.gameObject) //Check if the first card on the ray way is CardHovered
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            _cardHovered = card;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        _cardHovered = card;
                         return;
                     }
+                    _cardHovered = card;
+                    return;
                 }
+                _cardHovered = card;
+                return;
             }
 
             ResetCardsStatus();
         }
-        else
+        else if (_cardHovered != null)
         {
-            if (_cardHovered != null)
-            {
-                ResetCardsStatus();
-            }
+            ResetCardsStatus();
         }
     }
 
@@ -201,19 +156,19 @@ public class CardHand : MonoBehaviour
 
     private void UpdateCardDetection()
     {
-        if (_cardSelected == null) //Check if there isn't card selected
+        if (_cardSelected == null) 
         {
-            DetectCardToHovered(); //Check if there is a card to hovered under the cursor
+            DetectCardToHovered(); 
         }
         else
         {
             SetSelectedCardTransform();
-            _cardSelected.cardStatus = CardStatus.Dragged; //Change card status from InHandHovered to Dragged
+            _cardSelected.cardStatus = CardStatus.Dragged;
         }
 
         if (_cardHovered != null)
         {
-            _cardHovered.cardStatus = CardStatus.InHandHovered; //Change card status from InHand to InHandHovered
+            _cardHovered.cardStatus = CardStatus.InHandHovered; 
         }
     }
 
@@ -222,21 +177,13 @@ public class CardHand : MonoBehaviour
     /// </summary>
     private void SetSelectedCard()
     {
-        if (_cardHovered !=
-            null) //Check if there is a card hovered. In this case, the card hovered become the selected card.
+        if (_cardHovered != null)
         {
-            _cardSelected = _cardHovered; //Set CardSelected with CardHovered
-
-            _offsetZCardCamera =
-                _cardSelected.transform.position.z -
-                CardCamera.transform.position.z; //Get distance between card selected and card camera
-            
-            _cardSelectedIndex =
-                cardsInHand.IndexOf(_cardHovered.transform); //Get index of card selected in the hand if it go back in
-
-            cardsInHand.Remove(_cardHovered.transform); //Remove card selected from the cards in hand list
-
-            _cardHovered = null; //Reset CardHovered
+            _cardSelected = _cardHovered; 
+            _offsetZCardCamera = _cardSelected.transform.position.z - CardCamera.transform.position.z; 
+            _cardSelectedIndex = cardsInHand.IndexOf(_cardHovered.transform);
+            cardsInHand.Remove(_cardHovered.transform);
+            _cardHovered = null; 
         }
     }
 
@@ -253,79 +200,78 @@ public class CardHand : MonoBehaviour
         }
     }
 
-    private void SetSelectedCardTransform() //Called when there is a selected card
+    /// <summary>
+    /// Called when there is a selected card
+    /// </summary>
+    private void SetSelectedCardTransform()
     {
-        Vector3 newPosition = GetMouseWorldPosition(); //Get the mouse position on the screen
+        Vector3 newPosition = GetMouseWorldPosition(); 
         
         float yDifference = Mathf.Clamp((newPosition.y - _cardSelected.transform.position.y), -_clampValueRotation / 10, _clampValueRotation / 10);
         float xDifference = Mathf.Clamp((newPosition.x - _cardSelected.transform.position.x), -_clampValueRotation / 10, _clampValueRotation / 10);
 
         Quaternion toRotation = Quaternion.Euler(-90 + (yDifference) * 90, -(xDifference) * 90, 0);
 
-        //Set target position and rotation to selected card's controller
         _cardSelected.TargetPosition = newPosition;
         _cardSelected.TargetRotation = toRotation;
     }
 
-    private Vector3 GetMouseWorldPosition() //Called in SetSelectedCardTransform
+    /// <summary>
+    /// Called in SetSelectedCardTransform
+    /// </summary>
+    private Vector3 GetMouseWorldPosition()
     {
         Vector3 mousePoint = Input.mousePosition;
-        mousePoint.z = _offsetZCardCamera + SelectedOffsetPosition.z; //Apply Z offset on mouse position
+        mousePoint.z = _offsetZCardCamera + SelectedOffsetPosition.z; 
         return CardCamera.ScreenToWorldPoint(mousePoint) + SelectedOffsetPosition;
     }
 
-    private void CheckSlotHovered() //Check if there is a slot under the card selected
+    /// <summary>
+    /// Check if there is a slot under the card selected
+    /// </summary>
+    private void CheckSlotHovered()
     {
-        if (_cardSelected != null)
+        if (_cardSelected == null)
         {
-            Ray ray = BoardCamera.ScreenPointToRay(Input.mousePosition);
-
-            int hits = Physics.RaycastNonAlloc(ray, _slotHits);
-
-            if (hits != 0)
+            return;
+        }
+        
+        Ray ray = BoardCamera.ScreenPointToRay(Input.mousePosition);
+        int hits = Physics.RaycastNonAlloc(ray, _slotHits);
+        if (hits != 0)
+        {
+            for (int i = 0; i < hits;)
             {
-                for (int i = 0; i < hits;)
+                if (_slotHits[i].collider.TryGetComponent(out SlotLocation slot) == false)
                 {
-                    if (_slotHits[i].collider.TryGetComponent(out SlotLocation slot) == false)
-                    {
-                        Debug.Log("Not a slot");
-                        AddCardFromMouseToHand();
-                        return;
-                    }
-
-                    Debug.Log("Slot Detected !");
-                    
-                    slot = _slotHits[i].collider.GetComponent<SlotLocation>();
-
-                    if (slot.SlotView.Controller.HasCharacter(out var character) == false)
-                    {
-                        Debug.Log("There is not character in this slot");
-                        AddCardFromMouseToHand();
-                        return;
-                    }
-                    
-
-                    _cardSelected.cardStatus = CardStatus.Discarded;
-
-                    CardManager.Instance.GameplayDeckManager.PlayCardOnLocation(_cardSelected, slot);
-
-                    _cardSelected = null;
-                    
-                    character.OnCharacterAction.Invoke(CharacterAction.Stun, new object []{3});
-
+                    AddCardFromMouseToHand();
                     return;
                 }
-                
+
+                slot = _slotHits[i].collider.GetComponent<SlotLocation>();
+
+                if (slot.SlotView.Controller.HasCharacter(out var character) == false)
+                {
+                    AddCardFromMouseToHand();
+                    return;
+                }
+
+                _cardSelected.cardStatus = CardStatus.Discarded;
+                CardManager.Instance.GameplayDeckManager.PlayCardOnLocation(_cardSelected, slot);
+                _cardSelected = null;
+                character.OnCharacterAction.Invoke(CharacterAction.Stun, new object []{3});
+                return;
             }
-            else
-            {
-                Debug.Log("No objects detected on drop");
-                AddCardFromMouseToHand();
-            }
+        }
+        else
+        {
+            AddCardFromMouseToHand();
         }
     }
 
-    //Called when left mouse click up and there is no slot location under the card selected
+    /// <summary>
+    /// Called when left mouse click up and there is no slot location under the card selected
+    /// </summary>
     private void AddCardFromMouseToHand()
     {
         cardsInHand.Insert(_cardSelectedIndex, _cardSelected.transform);
