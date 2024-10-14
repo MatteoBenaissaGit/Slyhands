@@ -76,8 +76,11 @@ public class DeckEditorDeckManager : MonoBehaviour
         for (int i = 0; i < DeckData.Count; i++)
         {
             DecksButtons[i].SetActive(true);
-            DecksButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = DeckData[i].Name;
             DecksButtons[i].GetComponent<DeckEditorDeckButton>().Initialize(DeckData[i]);
+            DeckData[i].Name = $"Deck {i + 1}";
+            Debug.Log($"Loading cards from datas : {DeckData[0].Name}");
+            DecksButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = DeckData[i].Name;
+            //DecksButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = "Bla bla";
         }
     }
 

@@ -14,9 +14,10 @@ namespace Inputs
     {
         public InputActionScheme Scheme { get; private set; }
         public InputLevelEditor LevelEditorInput { get; private set; }
+        public InputCameraController CameraInput { get; private set; }
 
         public InputCardController CardControllerInput { get; private set; }
-        
+
         protected override void InternalAwake()
         {
             Scheme = new InputActionScheme();
@@ -24,6 +25,7 @@ namespace Inputs
 
             LevelEditorInput = new InputLevelEditor(this);
             CardControllerInput = new InputCardController(this);
+            CameraInput = new InputCameraController(this);
         }
     }
 
@@ -56,27 +58,33 @@ namespace Inputs
         public Action OnEnterPressed { get; set; }
 
         private bool _isControlPressed;
-        
+
         public InputLevelEditor(InputManager manager)
         {
-            manager.Scheme.LevelEditor.CameraMoveButton.started += context => OnCameraMoveButtonPressed?.Invoke(context.started);
-            manager.Scheme.LevelEditor.CameraMoveButton.canceled += context => OnCameraMoveButtonPressed?.Invoke(context.started);
-            
-            manager.Scheme.LevelEditor.CameraMoveVector.performed += context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
-            manager.Scheme.LevelEditor.CameraMoveVector.canceled += context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
+            manager.Scheme.LevelEditor.CameraMoveButton.started +=
+                context => OnCameraMoveButtonPressed?.Invoke(context.started);
+            manager.Scheme.LevelEditor.CameraMoveButton.canceled +=
+                context => OnCameraMoveButtonPressed?.Invoke(context.started);
+
+            manager.Scheme.LevelEditor.CameraMoveVector.performed +=
+                context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
+            manager.Scheme.LevelEditor.CameraMoveVector.canceled +=
+                context => OnCameraMoved?.Invoke(context.ReadValue<Vector2>());
 
             manager.Scheme.LevelEditor.MouseScroll.performed += context => ScrolledMouse(context.ReadValue<float>());
             manager.Scheme.LevelEditor.MouseScroll.canceled += context => ScrolledMouse(context.ReadValue<float>());
-            
+
             manager.Scheme.LevelEditor.LeftClick.started += context => OnLeftClick?.Invoke();
-            
+
             manager.Scheme.LevelEditor.RightClick.started += context => OnRightClick?.Invoke();
-            
+
             manager.Scheme.LevelEditor.ClickHold.performed += context => OnClickHold?.Invoke(context.performed);
             manager.Scheme.LevelEditor.ClickHold.canceled += context => OnClickHold?.Invoke(context.performed);
-            
-            manager.Scheme.LevelEditor.RightClickHold.performed += context => OnRightClickHold?.Invoke(context.performed);
-            manager.Scheme.LevelEditor.RightClickHold.canceled += context => OnRightClickHold?.Invoke(context.performed);
+
+            manager.Scheme.LevelEditor.RightClickHold.performed +=
+                context => OnRightClickHold?.Invoke(context.performed);
+            manager.Scheme.LevelEditor.RightClickHold.canceled +=
+                context => OnRightClickHold?.Invoke(context.performed);
 
             manager.Scheme.LevelEditor.Ctrl.started += _ => _isControlPressed = true;
             manager.Scheme.LevelEditor.Ctrl.canceled += _ => _isControlPressed = false;
@@ -84,17 +92,20 @@ namespace Inputs
             manager.Scheme.LevelEditor.V.started += _ => PressedControlShortcut(ControlShortcutAction.Paste);
             manager.Scheme.LevelEditor.X.started += _ => PressedControlShortcut(ControlShortcutAction.Cut);
             manager.Scheme.LevelEditor.S.started += _ => PressedControlShortcut(ControlShortcutAction.Save);
-            
-            manager.Scheme.LevelEditor.Selection.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Selection);
+
+            manager.Scheme.LevelEditor.Selection.started +=
+                _ => PressedActionShortcut(LevelEditorActionButtonType.Selection);
             manager.Scheme.LevelEditor.Paint.started += _ => PressedActionShortcut(LevelEditorActionButtonType.Paint);
-            manager.Scheme.LevelEditor.Obstacle.started += _ => PressedActionShortcut(LevelEditorActionButtonType.AddObstacle);
-            manager.Scheme.LevelEditor.Character.started += _ => PressedActionShortcut(LevelEditorActionButtonType.AddCharacter);
-            
+            manager.Scheme.LevelEditor.Obstacle.started +=
+                _ => PressedActionShortcut(LevelEditorActionButtonType.AddObstacle);
+            manager.Scheme.LevelEditor.Character.started +=
+                _ => PressedActionShortcut(LevelEditorActionButtonType.AddCharacter);
+
             manager.Scheme.LevelEditor.Rotation.started += _ => OnRotation?.Invoke();
-            
+
             manager.Scheme.LevelEditor.CameraRotationLeft.started += _ => OnCameraRotate?.Invoke(1);
             manager.Scheme.LevelEditor.CameraRotationRight.started += _ => OnCameraRotate?.Invoke(-1);
-            
+
             manager.Scheme.LevelEditor.Tab.started += _ => OnTabPressed?.Invoke();
             manager.Scheme.LevelEditor.Enter.started += _ => OnEnterPressed?.Invoke();
         }
@@ -105,15 +116,17 @@ namespace Inputs
             {
                 return;
             }
+
             OnActionShortcut?.Invoke(action);
         }
-        
+
         private void PressedControlShortcut(ControlShortcutAction shortcut)
         {
             if (_isControlPressed == false)
             {
                 return;
             }
+
             OnControlShortcut?.Invoke(shortcut);
         }
 
@@ -124,10 +137,11 @@ namespace Inputs
                 OnHeightShortcut?.Invoke(Math.Sign(value));
                 return;
             }
+
             OnCameraZoomed?.Invoke(value);
         }
     }
-    
+
     /// <summary>
     /// This class handle the inputs related to cards control
     /// </summary>
@@ -142,9 +156,48 @@ namespace Inputs
         {
             manager.Scheme.CardController.LeftClickPress.started += context => OnLeftClickDown?.Invoke();
             manager.Scheme.CardController.LeftClickPress.canceled += context => OnLeftClickUp?.Invoke();
-            
+
             manager.Scheme.CardController.MouseMove.started += context => OnMouseMoved?.Invoke();
             manager.Scheme.CardController.MouseMove.canceled += context => OnMouseStopMoved?.Invoke();
+        }
+    }
+
+    public class InputCameraController
+    {
+        public Action<Vector2Int> OnMouseEdgeScreen { get; set; }
+
+        public float FirstBorderThickness;
+        public float SecondaryBorderThickness;
+        
+        public InputCameraController(InputManager manager)
+        {
+            manager.Scheme.LevelEditor.CameraMoveVector.performed += CheckEdgeScreen;
+        }
+
+        private void CheckEdgeScreen(InputAction.CallbackContext context)
+        {
+            Vector2Int edgeVector = Vector2Int.zero;
+
+            
+            if (Input.mousePosition.y >= Screen.height - FirstBorderThickness)
+            {
+                edgeVector.y = -1;
+            }
+            else if (Input.mousePosition.y <= FirstBorderThickness)
+            {
+                edgeVector.y = 1;
+            }
+
+            if (Input.mousePosition.x >= Screen.width - FirstBorderThickness)
+            {
+                edgeVector.x = -1;
+            }
+            else if (Input.mousePosition.x <= FirstBorderThickness)
+            {
+                edgeVector.x = 1;
+            }
+
+            OnMouseEdgeScreen?.Invoke(edgeVector);
         }
     }
 }
