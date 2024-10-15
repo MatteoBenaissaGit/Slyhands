@@ -101,7 +101,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorThreshold: 0.483
+    - _ColorThreshold: 0.696
     - _Cull: 2
     - _Cutoff: 0.5
     - _DepthAttenuation: 0
@@ -121,7 +121,7 @@ Material:
     - _GlossyReflections: 0
     - _LineBalance: 1
     - _Metallic: 0
-    - _NormalThreshold: 1
+    - _NormalThreshold: 0.986
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
