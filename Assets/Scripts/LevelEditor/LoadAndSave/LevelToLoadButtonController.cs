@@ -46,8 +46,8 @@ namespace LevelEditor.LoadAndSave
             {
                 return;
             }
-            _button.image.color = isSelected ? Color.white : new Color(1f, 1f, 1f, 0.5f);
-            _nameText.color = isSelected ? Color.black : new Color(0f, 0f, 0f, 0.5f);
+            _button.image.color = isSelected ? Color.black : new Color(0.38f, 0.38f, 0.38f);
+            _nameText.color = Color.white;
         }
 
         /// <summary>

@@ -303,6 +303,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6774983208868140658, guid: 2a473d30f3b4e49478c31070ec371179,
+        type: 3}
+      propertyPath: _levelToLoad
+      value: stair
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

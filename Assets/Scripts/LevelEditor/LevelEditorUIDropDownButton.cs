@@ -23,6 +23,7 @@ namespace LevelEditor
             {
                 _text.color = new Color(0.47f, 0.47f, 0.47f);
                 _button.enabled = false;
+                _button.interactable = false;
                 return;
             }
             

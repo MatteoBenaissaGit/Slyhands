@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -112,7 +113,7 @@ namespace LevelEditor.LoadAndSave
                 GameObject child =  _content.GetChild(i).gameObject;
                 if (child.TryGetComponent(out LevelToLoadButtonController loadButton))
                 {
-                    loadButton.gameObject.SetActive(loadButton.Data.Name.Contains(filter));
+                    loadButton.gameObject.SetActive(loadButton.Data.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
                 }
             }
         }

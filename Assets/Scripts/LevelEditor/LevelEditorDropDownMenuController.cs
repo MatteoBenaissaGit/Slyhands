@@ -113,7 +113,7 @@ namespace LevelEditor
                 }
             }
 
-            _menuRectTransform.position = Input.mousePosition + new Vector3(50, 0, 0);
+            _menuRectTransform.position = Input.mousePosition + new Vector3(25, 0, 0);
             
             SetMenuSize();
 
