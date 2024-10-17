@@ -15,7 +15,6 @@ namespace Inputs
         public InputActionScheme Scheme { get; private set; }
         public InputLevelEditor LevelEditorInput { get; private set; }
         public InputCameraController CameraInput { get; private set; }
-
         public InputCardController CardControllerInput { get; private set; }
 
         protected override void InternalAwake()
@@ -177,7 +176,6 @@ namespace Inputs
         private void CheckEdgeScreen(InputAction.CallbackContext context)
         {
             Vector2Int edgeVector = Vector2Int.zero;
-
             
             if (Input.mousePosition.y >= Screen.height - FirstBorderThickness)
             {

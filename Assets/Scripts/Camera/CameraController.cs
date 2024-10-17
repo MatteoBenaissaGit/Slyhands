@@ -148,8 +148,6 @@ namespace Camera
         private void EdgeMovement(Vector2Int moveVector)
         {
             _edgeMovement = moveVector;
-            
-            
         }
     }
 }

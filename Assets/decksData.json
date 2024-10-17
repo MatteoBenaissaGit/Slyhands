@@ -1,7 +1,13 @@
 {
     "Datas": [
         {
-            "instanceID": 31176
+            "IDCardInDeck": [
+                1,
+                2,
+                2,
+                1
+            ],
+            "Name": "Predef Deck 1"
         }
     ]
 }

@@ -1683,7 +1683,7 @@ PrefabInstance:
     - target: {fileID: 1162051038070589427, guid: 4c0a37669edd5c940970b326738e37dd,
         type: 3}
       propertyPath: FirstBorderThickness
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1162051038070589427, guid: 4c0a37669edd5c940970b326738e37dd,
         type: 3}

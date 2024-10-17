@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Data.Cards
 {
-    public class Deck : MonoBehaviour
+    [Serializable]
+    public class Deck
     {
         public List<byte> IDCardInDeck;
-        public string Name;
+        public string Name = "";
     }
 }

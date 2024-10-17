@@ -28,22 +28,7 @@ public class DeckSaveLoadManager : MonoBehaviour
 {
     [SerializeField] private bool _saveAndLoadLocally;
     [SerializeField] private bool _hideResetDataButton;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            string[] guids = AssetDatabase.FindAssets("t:DeckData", new string[] { "Assets/Data/Cards/Decks" });
-            foreach (string guid in guids)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                Deck deck = AssetDatabase.LoadAssetAtPath<Deck>(path);
-                SaveDeckData(deck, deck.Name);
-                
-            }
-        }
-    }
-
+    
     private string FilePath
     {
         get
@@ -60,10 +45,6 @@ public class DeckSaveLoadManager : MonoBehaviour
         {
             ResetData();
         }
-
-        DecksData loadedData = ReadFromJson();
-
-        //Debug.Log($"Loaded {loadedData.Datas.Count} Decks data in {_filePath}");
     }
 
     /// <summary>
@@ -84,7 +65,7 @@ public class DeckSaveLoadManager : MonoBehaviour
         string json = JsonUtility.ToJson(decksData, true);
         File.WriteAllText(FilePath, json);
 
-        Debug.Log($"Saved {decksData.Datas.Count} Decks data in {FilePath}");
+        //Debug.Log($"Saved {decksData.Datas.Count} Decks data in {FilePath}");
     }
 
     /// <summary>
@@ -127,6 +108,7 @@ public class DeckSaveLoadManager : MonoBehaviour
             break;
         }
 
+        //Debug.Log($"Saved {deckName} deck in {FilePath}");
         loadedData.Datas.Add(deckData);
         WriteToJson(loadedData);
     }

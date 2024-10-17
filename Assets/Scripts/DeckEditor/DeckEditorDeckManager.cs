@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using DeckEditor;
 using Data.Cards;
+using Sirenix.OdinInspector;
 using TMPro;
 
 public class DeckEditorDeckManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class DeckEditorDeckManager : MonoBehaviour
     [field: SerializeField] public Cards Cards { get; private set; }
     [field: SerializeField] public List<Deck> DeckData { get; set; }
     [field: SerializeField] public List<GameObject> DecksButtons { get; set; }
+    [field: SerializeField] public List<GameObject> CardsSlot { get; set; }
 
     [SerializeField] private bool _inDecksMenu;
 
@@ -33,8 +35,25 @@ public class DeckEditorDeckManager : MonoBehaviour
     private Deck _selectedDeck;
     private bool _isCreatingNewDeck;
 
+    [BoxGroup("Predef Deck")]
+    [field: SerializeField]
+    public PredefinedDeck PredefinedDeck { get; set; }
+
     private void Start()
     {
+        //TODO save predefs
+        Deck prefDeck = new Deck();
+        prefDeck.IDCardInDeck = PredefinedDeck.IDCardInDeck;
+        prefDeck.Name = PredefinedDeck.Name;
+
+        foreach (var deck in MissionDeckManager.Instance.DeckSaveLoadManager.GetDecksData().Datas)
+        {
+            if (deck.Name.Contains("Predef"))
+                MissionDeckManager.Instance.DeckSaveLoadManager.RemoveDeckData(deck);
+        }
+
+        MissionDeckManager.Instance.DeckSaveLoadManager.SaveDeckData(prefDeck, prefDeck.Name);
+
         LoadDecksDatas();
     }
 
@@ -66,7 +85,14 @@ public class DeckEditorDeckManager : MonoBehaviour
         }
     }
 
-
+    private void RefreshCardsSlotList()
+    {
+        foreach (var slot in CardsSlot)
+        {
+            slot.SetActive(false);
+        }
+    }
+    
     private void LoadDecksDatas()
     {
         DeckData = MissionDeckManager.Instance.DeckSaveLoadManager.GetDecksData().Datas;
@@ -77,15 +103,15 @@ public class DeckEditorDeckManager : MonoBehaviour
         {
             DecksButtons[i].SetActive(true);
             DecksButtons[i].GetComponent<DeckEditorDeckButton>().Initialize(DeckData[i]);
-            DeckData[i].Name = $"Deck {i + 1}";
-            Debug.Log($"Loading cards from datas : {DeckData[0].Name}");
+            //DeckData[i].Name = $"Deck {i + 1}";
             DecksButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = DeckData[i].Name;
-            //DecksButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = "Bla bla";
         }
     }
 
     private void LoadCardsDatasInDeck(Deck deck)
     {
+        RefreshCardsSlotList();
+            
         _cardsInDeckText.text = $"{deck.IDCardInDeck.Count} / {_nbCardsInDeckMax}";
 
         _nbGoldCardsInDeck = deck.IDCardInDeck.Count(ID => Cards.GetCardData(ID).RarityType == CardRarityType.Gold);
@@ -93,17 +119,16 @@ public class DeckEditorDeckManager : MonoBehaviour
 
         for (int i = 0; i < deck.IDCardInDeck.Count; i++)
         {
-            GameObject newCardSlot = Instantiate(_cardSlot, transform.position, Quaternion.identity);
+            CardsSlot[i].SetActive(true);
 
-            newCardSlot.transform.SetParent(_cardSlotParent.transform);
-
-            newCardSlot.GetComponentInChildren<TextMeshProUGUI>().text =
+            CardsSlot[i].GetComponentInChildren<TextMeshProUGUI>().text =
                 Cards.GetCardData(deck.IDCardInDeck[i]).CardName;
         }
     }
 
     public void DeleteDeck()
     {
+        Debug.Log(_selectedDeck.Name);
         MissionDeckManager.Instance.DeckSaveLoadManager.RemoveDeckData(_selectedDeck);
         BackToDecksMenu();
     }
