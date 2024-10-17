@@ -273,8 +273,12 @@ namespace Board.Characters
             {
                 Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), orientation);
                 Vector3Int coordinatesOffset = coordinates + offset;
-                if (Board.IsCoordinatesInBoard(coordinatesOffset) == false) continue;
                 SlotController slot = Board.GetSlot(coordinatesOffset);
+                while (slot == null && coordinatesOffset.y > 0)
+                {
+                    coordinatesOffset.y --;
+                    slot = Board.GetSlot(coordinatesOffset);
+                }
                 if (slot == null) continue;
                 slots.Add(slot);
             }
