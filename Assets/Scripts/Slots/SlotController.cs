@@ -69,6 +69,7 @@ namespace Slots
     {
         public SlotData Data { get; set; }
         public Action<BoardCharacterController, Vector3Int> OnCharacterEnter { get; set; }
+        public Action<Vector3Int, int> OnSoundDetected { get; set; }
         
         public SlotLocation Location
         {

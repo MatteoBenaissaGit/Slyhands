@@ -18,7 +18,7 @@ namespace Board.Characters
 
         public override void Start()
         {
-            Controller.SubscribeToDetectionView();
+            Controller.SubscribeToDetection();
         }
 
         public override void Play()
@@ -39,13 +39,13 @@ namespace Board.Characters
             }
 
             Controller.DetectEnemies();
-            Controller.UnsubscribeToDetectionView();
-            Controller.SubscribeToDetectionView();
+            Controller.UnsubscribeToDetection();
+            Controller.SubscribeToDetection();
         }
 
         public override void Quit()
         {
-            Controller.UnsubscribeToDetectionView();
+            Controller.UnsubscribeToDetection();
         }
         
         #region Road Movement

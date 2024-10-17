@@ -525,6 +525,33 @@ namespace Board
         }
 
         #endregion
+
+        public List<SlotController> GetSlotsInRange(int range, Vector3Int coordinates)
+        {
+            List<SlotController> slots = new List<SlotController>();
+            for (int x = -range; x <= range; x++)
+            {
+                for (int y = -range; y <= range; y++)
+                {
+                    Vector3Int slotCoordinates = coordinates + new Vector3Int(x, 0, y);
+                    SlotController slot = GetSlot(slotCoordinates);
+                    if (slot != null)
+                    {
+                        slots.Add(slot);
+                    }
+                }
+            }
+            return slots;
+        }
+
+        public void EmitSoundFrom(Vector3Int coordinates, int range)
+        {
+            SlotController emitterSlot = GetSlot(coordinates);
+            if (emitterSlot == null) return;
+            
+            List<SlotController> slots = GetSlotsInRange(range, coordinates);
+            slots.ForEach(x => x.OnSoundDetected?.Invoke(coordinates, range));
+        }
     }
 
     public enum PathFindingOption

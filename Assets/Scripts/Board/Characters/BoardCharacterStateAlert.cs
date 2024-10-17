@@ -40,8 +40,8 @@ namespace Board.Characters
             }
             
             Controller.DetectEnemies();
-            Controller.UnsubscribeToDetectionView();
-            Controller.SubscribeToDetectionView();
+            Controller.UnsubscribeToDetection();
+            Controller.SubscribeToDetection();
             
             if (_rotatingTurnsLeft <= 0)
             {

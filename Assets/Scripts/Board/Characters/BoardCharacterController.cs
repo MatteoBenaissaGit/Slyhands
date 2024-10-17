@@ -240,6 +240,18 @@ namespace Board.Characters
             return Task.CompletedTask;
         }
 
+        public void SubscribeToDetection()
+        {
+            SubscribeToDetectionView();
+            SubscribeToSoundDetection();
+        }
+
+        public void UnsubscribeToDetection()
+        {
+            UnsubscribeToDetectionView();
+            UnsubscribeToDetectionView();
+        }
+        
         #region Detection
 
         public void DetectEnemies()
@@ -316,7 +328,7 @@ namespace Board.Characters
         }
 
         private List<SlotController> _detectionViewSubbed;
-        public void SubscribeToDetectionView()
+        private void SubscribeToDetectionView()
         {
             _detectionViewSubbed = GetSlotsInDetectionView();
             foreach (SlotController slot in _detectionViewSubbed)
@@ -338,7 +350,7 @@ namespace Board.Characters
             }
         }
 
-        public void UnsubscribeToDetectionView()
+        private void UnsubscribeToDetectionView()
         {
             foreach (SlotController slot in _detectionViewSubbed)
             {
@@ -349,6 +361,37 @@ namespace Board.Characters
         
         #endregion
 
+        #region Sound
+
+        private List<SlotController> _currentSoundDetectionSubbed;
+        
+        private void SubscribeToSoundDetection(int range = 1)
+        {
+            _currentSoundDetectionSubbed.Clear();
+            _currentSoundDetectionSubbed = GameManager.Instance.Board.GetSlotsInRange(range, Coordinates);
+            foreach (SlotController slot in _currentSoundDetectionSubbed)
+            {
+                slot.OnSoundDetected += OnSoundDetected;
+            }
+        }
+
+        private void UnsubscribeToSoundDetection()
+        {
+            foreach (SlotController slot in _currentSoundDetectionSubbed)
+            {
+                slot.OnSoundDetected -= OnSoundDetected;
+            }
+        }
+
+        private void OnSoundDetected(Vector3Int from, int range)
+        {
+            OnCharacterAction.Invoke(Characters.CharacterAction.EnemyLost, new object[]{from});
+        }
+
+        #endregion
+
+        #region Attack
+        
         public Vector3Int GetCoordinates => Coordinates; 
 
         public void GetAttacked(IAttacker attacker)
@@ -366,5 +409,7 @@ namespace Board.Characters
             OnCharacterAction.Invoke(Characters.CharacterAction.Attack, new object[]{attackable});
             attackable.GetAttacked(this);
         }
+        
+        #endregion
     }
 }

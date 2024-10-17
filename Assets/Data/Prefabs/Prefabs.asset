@@ -53,3 +53,8 @@ MonoBehaviour:
     <Prefab>k__BackingField: {fileID: 8765981566081758641, guid: eb147d25bf9974040a9722aa6ff12bcf,
       type: 3}
     _hasSecondId: 0
+  - <Id>k__BackingField: SoundFeedback
+    <SecondId>k__BackingField: 
+    <Prefab>k__BackingField: {fileID: 7493204343063520012, guid: 736171e988f9e1c4ea7b41f685506107,
+      type: 3}
+    _hasSecondId: 0

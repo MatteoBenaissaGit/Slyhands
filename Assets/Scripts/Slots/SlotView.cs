@@ -72,6 +72,8 @@ namespace Slots
                 transform.localScale = Vector3.zero;
                 transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
             }
+
+            Controller.OnSoundDetected += SoundFeedback;
         }
 
         private PrefabsData GetPrefabsData()
@@ -251,7 +253,20 @@ namespace Slots
         }
 
         #endregion
-        
+
+        private void SoundFeedback(Vector3Int coordinates, int range)
+        {
+            if (coordinates != Controller.Coordinates) return;
+
+            var soundFeedback = GameManager.Instance.PrefabsData.GetPrefab("SoundFeedback");
+            if (soundFeedback == null) return;
+            SpriteRenderer sprite = Instantiate(soundFeedback, transform).GetComponent<SpriteRenderer>();
+            sprite.color = new Color(1f, 1f, 1f, 1f);
+            sprite.DOComplete();
+            sprite.transform.DOComplete();
+            sprite.DOFade(0, 1).SetEase(Ease.InCirc);
+            sprite.transform.DOScale(Vector3.one * range, 1).OnComplete(() => Destroy(sprite));
+        }
         
 #if UNITY_EDITOR
 
