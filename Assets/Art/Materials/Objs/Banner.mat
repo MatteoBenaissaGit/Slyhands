@@ -146,11 +146,13 @@ Material:
     - _Steps: 2
     - _Surface: 0
     - _UVSec: 0
+    - _Use_HDR: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _AmbientColor: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 0.5660378, g: 0.2518659, b: 0.09344962, a: 1}
+    - _BaseColor: {r: 0.2264151, g: 0.0754717, b: 0, a: 1}
+    - _Base_Color_HDR: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.5660378, g: 0.25186586, b: 0.0934496, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighlightColor: {r: 0, g: 0, b: 0, a: 0}
