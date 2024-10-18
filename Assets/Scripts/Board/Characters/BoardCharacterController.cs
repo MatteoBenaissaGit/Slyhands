@@ -193,7 +193,6 @@ namespace Board.Characters
                     {
                         return;
                     }
-                    Debug.Log("sound detected");
                     AlertState.LastSeenEnemyPosition = coordinates;
                     SetState(AlertState);
                     break;

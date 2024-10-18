@@ -259,8 +259,6 @@ namespace Slots
         {
             if (coordinates != Controller.Coordinates) return;
             
-            Debug.Log("feedback");
-            
             GameObject soundFeedback = GameManager.Instance.PrefabsData.GetPrefab("SoundFeedback");
             if (soundFeedback == null) return;
             SpriteRenderer sprite = Instantiate(soundFeedback, transform).GetComponentInChildren<SpriteRenderer>();
