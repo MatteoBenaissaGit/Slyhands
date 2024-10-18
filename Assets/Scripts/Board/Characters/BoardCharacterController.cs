@@ -297,6 +297,8 @@ namespace Board.Characters
         public List<SlotController> GetSlotsInDetectionView(Vector3Int coordinates, WorldOrientation.Orientation orientation)
         {
             List<SlotController> slots = new();
+            
+            //get all slots
             foreach (Vector2Int detectionSquare in GameplayData.DetectionView)
             {
                 Vector3Int offset = WorldOrientation.TransposeVectorToOrientation(new Vector3Int(detectionSquare.x, 0, detectionSquare.y), orientation);
@@ -310,6 +312,31 @@ namespace Board.Characters
                 if (slot == null) continue;
                 slots.Add(slot);
             }
+            
+            //remove slots behind obstacles
+            List<Vector3Int> coordinatesToRemove = new();
+            for (int i = 0; i < slots.Count; i++)
+            {
+                SlotController slot = slots[i];
+                if (Board.GetSlot(slot.Coordinates + new Vector3Int(0,1,0)) != null)
+                {
+                    coordinatesToRemove.Add(slot.Coordinates);
+                }
+                //todo remove behind (get view size)
+            }
+
+            foreach (Vector3Int coordinate in coordinatesToRemove)
+            {
+                var coordinateToRemove = coordinate;
+                SlotController slot = Board.GetSlot(coordinateToRemove);
+                while (slot == null && coordinateToRemove.y > 0)
+                {
+                    coordinateToRemove.y --;
+                    slot = Board.GetSlot(coordinate);
+                }
+                if (slots.Contains(slot)) slots.Remove(slot);
+            }
+            
             return slots;
         }
 
