@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Board;
 using Board.Characters;
@@ -69,7 +70,7 @@ namespace Slots
     {
         public SlotData Data { get; set; }
         public Action<BoardCharacterController, Vector3Int> OnCharacterEnter { get; set; }
-        public Action<Vector3Int, int> OnSoundDetected { get; set; }
+        public Action<Vector3Int, int, BoardEntity> OnSoundDetected { get; set; }
         
         public SlotLocation Location
         {
@@ -160,6 +161,12 @@ namespace Slots
             }
 
             return true;
+        }
+
+        public void MakeSound(BoardEntity emitter ,int dataMoveSoundRange)
+        {
+            List<SlotController> slots = Board.GetSlotsInRange(dataMoveSoundRange, Coordinates);
+            slots.ForEach(x => x.OnSoundDetected?.Invoke(Coordinates, dataMoveSoundRange, emitter));
         }
     }
 }

@@ -43,7 +43,9 @@ namespace Board.Characters
         IsLeaved = 15, //parameters[0] = Color teamColor
         
         Attack = 16, //parameters[0] = IAttackable attackable
-        GetAttacked = 17 //parameters[0] = IAttacker attacker
+        GetAttacked = 17, //parameters[0] = IAttacker attacker
+        
+        SoundDetected = 18, //parameters[0] = Vector3Int from, parameters[1] = int range, parameters[2] = BoardEntity emitter
     }
 
     public class CharacterControllerData
@@ -54,6 +56,10 @@ namespace Board.Characters
             CurrentLife = MaxLife;
 
             Team = team;
+
+            MoveSoundRange = data.MoveSoundRange;
+            EarSoundRange = data.EarSoundRange;
+            DoMakeSound = data.DoMakeSoundMoving;
         }
 
         public Team Team { get; set; }
@@ -70,6 +76,9 @@ namespace Board.Characters
         public bool HasPredefinedRoad => Road != null && Road.Length > 1;
         
         public Vector2Int[] DetectionView { get; set; }
+        public int MoveSoundRange { get; set; }
+        public int EarSoundRange { get; set; }
+        public bool DoMakeSound { get; set; }
     }
     
     public class BoardCharacterController : BoardEntity, IAttackable, IAttacker
@@ -164,7 +173,6 @@ namespace Board.Characters
                     {
                         return;
                     }
-
                     AttackState.EnemyAttacked = enemy;
                     AttackState.EnemyAttackedLastSeenCoordinates = seenCoordinates;
                     SetState(AttackState);
@@ -179,6 +187,15 @@ namespace Board.Characters
                     break;
                 case Characters.CharacterAction.StopSearchingEnemy:
                     SetState(PatrolState);
+                    break;
+                case Characters.CharacterAction.SoundDetected:
+                    if (parameters == null || parameters.Length < 3 || parameters[0] is not Vector3Int coordinates)
+                    {
+                        return;
+                    }
+                    Debug.Log("sound detected");
+                    AlertState.LastSeenEnemyPosition = coordinates;
+                    SetState(AlertState);
                     break;
             }
         }
@@ -249,7 +266,7 @@ namespace Board.Characters
         public void UnsubscribeToDetection()
         {
             UnsubscribeToDetectionView();
-            UnsubscribeToDetectionView();
+            UnsubscribeToSoundDetection();
         }
         
         #region Detection
@@ -365,10 +382,9 @@ namespace Board.Characters
 
         private List<SlotController> _currentSoundDetectionSubbed;
         
-        private void SubscribeToSoundDetection(int range = 1)
+        private void SubscribeToSoundDetection()
         {
-            _currentSoundDetectionSubbed.Clear();
-            _currentSoundDetectionSubbed = GameManager.Instance.Board.GetSlotsInRange(range, Coordinates);
+            _currentSoundDetectionSubbed = GameManager.Instance.Board.GetSlotsInRange(Data.EarSoundRange, Coordinates);
             foreach (SlotController slot in _currentSoundDetectionSubbed)
             {
                 slot.OnSoundDetected += OnSoundDetected;
@@ -383,9 +399,13 @@ namespace Board.Characters
             }
         }
 
-        private void OnSoundDetected(Vector3Int from, int range)
+        private void OnSoundDetected(Vector3Int from, int range, BoardEntity emitter)
         {
-            OnCharacterAction.Invoke(Characters.CharacterAction.EnemyLost, new object[]{from});
+            if (emitter is BoardCharacterController character && character.GameplayData.Team.Number == GameplayData.Team.Number)
+            {
+                return;
+            }
+            OnCharacterAction?.Invoke(Characters.CharacterAction.SoundDetected, new object[]{from, range, emitter});
         }
 
         #endregion

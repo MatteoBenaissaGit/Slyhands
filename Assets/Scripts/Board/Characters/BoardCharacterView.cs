@@ -181,6 +181,14 @@ namespace Board.Characters
                 case CharacterAction.GetAttacked:
                     GameManager.Instance.TaskManager.EnqueueTask(DeathFeedback);
                     break;
+                case CharacterAction.SoundDetected:
+                    if (parameters == null || parameters.Length < 3 || parameters[0] is not Vector3Int coordinates)
+                    {
+                        return;
+                    }
+                    Debug.Log("sound detected");
+                    GameManager.Instance.TaskManager.EnqueueTask(() => SetStateIcon(_alertSprite));
+                    break;
             }
         }
 
@@ -248,6 +256,12 @@ namespace Board.Characters
                 _animator.SetBool(IsWalking, true);
                 
                 await Task.Delay((int)((moveTime * multiplier) * 1000));
+                
+                //sound
+                if (Controller.Data.DoMakeSoundMoving)
+                {
+                    slot.MakeSound(Controller, Controller.Data.MoveSoundRange);
+                }
             }
             
             _animator.SetBool(IsWalking, false);

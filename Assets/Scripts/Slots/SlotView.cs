@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Board;
 using Data.Prefabs;
 using DG.Tweening;
 using GameEngine;
@@ -254,18 +255,21 @@ namespace Slots
 
         #endregion
 
-        private void SoundFeedback(Vector3Int coordinates, int range)
+        private void SoundFeedback(Vector3Int coordinates, int range, BoardEntity emitter)
         {
             if (coordinates != Controller.Coordinates) return;
-
-            var soundFeedback = GameManager.Instance.PrefabsData.GetPrefab("SoundFeedback");
+            
+            Debug.Log("feedback");
+            
+            GameObject soundFeedback = GameManager.Instance.PrefabsData.GetPrefab("SoundFeedback");
             if (soundFeedback == null) return;
-            SpriteRenderer sprite = Instantiate(soundFeedback, transform).GetComponent<SpriteRenderer>();
-            sprite.color = new Color(1f, 1f, 1f, 1f);
+            SpriteRenderer sprite = Instantiate(soundFeedback, transform).GetComponentInChildren<SpriteRenderer>();
+            sprite.color = new Color(1f, 1f, 1f, 0.1f);
             sprite.DOComplete();
             sprite.transform.DOComplete();
-            sprite.DOFade(0, 1).SetEase(Ease.InCirc);
-            sprite.transform.DOScale(Vector3.one * range, 1).OnComplete(() => Destroy(sprite));
+            sprite.transform.position = transform.position + new Vector3(0, 0.51f, 0);
+            sprite.DOFade(0, 1).SetEase(Ease.InCubic);
+            sprite.transform.DOScale(Vector3.one * range * 2.5f, 1).OnComplete(() => Destroy(sprite));
         }
         
 #if UNITY_EDITOR

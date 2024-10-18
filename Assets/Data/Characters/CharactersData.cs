@@ -29,11 +29,11 @@ namespace Data.Characters
         [field:SerializeField] public int MovementPoints { get; private set; }    
         [field:SerializeField] public int FootPrintLength { get; private set; }
 
-        [field:SerializeField] public bool HasViewDetection { get; private set; } = true;
+        [field:SerializeField, BoxGroup("View")] public bool HasViewDetection { get; private set; } = true;
         
-        [field:SerializeField, ShowIf("HasViewDetection")] public Vector2Int ViewDetectionSize { get; private set; }
+        [field:SerializeField, ShowIf("HasViewDetection"), BoxGroup("View")] public Vector2Int ViewDetectionSize { get; private set; }
 
-        [ShowInInspector, DoNotDrawAsReference, ShowIf("HasViewDetection")]
+        [ShowInInspector, DoNotDrawAsReference, ShowIf("HasViewDetection"), BoxGroup("View")]
         [TableMatrix(HorizontalTitle = "View Detection", DrawElementMethod = "DrawColoredEnumElement", ResizableColumns = false, SquareCells = true, Transpose = true)]
         public bool[,] Transposed 
         {
@@ -58,6 +58,10 @@ namespace Data.Characters
         public bool[,] ViewDetection;
         [SerializeField, HideInInspector] public List<ViewDetectionSquare> ViewDetectionList;
 
+        [field: SerializeField, BoxGroup("Sound")] public bool DoMakeSoundMoving { get; private set; } = false; 
+        [field: SerializeField, BoxGroup("Sound"), ShowIf("DoMakeSoundMoving")] public int MoveSoundRange { get; private set; } = 2; 
+        [field: SerializeField, BoxGroup("Sound")] public int EarSoundRange { get; private set; } = 0; 
+        
         private Vector2Int ViewDetectionCenter => new(ViewDetection.GetLength(0) / 2, ViewDetection.GetLength(1) / 2);
 
 #if UNITY_EDITOR

@@ -529,6 +529,13 @@ namespace Board
         public List<SlotController> GetSlotsInRange(int range, Vector3Int coordinates)
         {
             List<SlotController> slots = new List<SlotController>();
+            if (range == 0)
+            {
+                var slot = GetSlot(coordinates);
+                if (slot != null) slots.Add(slot);
+                return slots;
+            }
+            
             for (int x = -range; x <= range; x++)
             {
                 for (int y = -range; y <= range; y++)
@@ -544,13 +551,13 @@ namespace Board
             return slots;
         }
 
-        public void EmitSoundFrom(Vector3Int coordinates, int range)
+        public void EmitSoundFrom(Vector3Int coordinates, int range, BoardEntity emitter)
         {
             SlotController emitterSlot = GetSlot(coordinates);
             if (emitterSlot == null) return;
             
             List<SlotController> slots = GetSlotsInRange(range, coordinates);
-            slots.ForEach(x => x.OnSoundDetected?.Invoke(coordinates, range));
+            slots.ForEach(x => x.OnSoundDetected?.Invoke(coordinates, range, emitter));
         }
     }
 
