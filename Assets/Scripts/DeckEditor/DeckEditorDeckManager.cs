@@ -1,49 +1,39 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using DeckEditor;
-using Data.Cards;
 using Sirenix.OdinInspector;
-using TMPro;
-using UnityEngine.UI;
+using Data.Cards;
 
 public class DeckEditorDeckManager : MonoBehaviour
 {
+    #region Properties
+
+    private MissionDeckManager missionDeckManager;
+
     [field: SerializeField] public Cards Cards { get; private set; }
-    [field: SerializeField] public List<Deck> DeckData { get; set; }
-    [field: SerializeField] public List<GameObject> DecksButtons { get; set; }
-    [field: SerializeField] public List<GameObject> DeckCardsSlot { get; set; }
-    [field: SerializeField] public List<GameObject> CollectionCardsSlot { get; set; }
+    [field: SerializeField] public List<Deck> DeckData { get; private set; }
+    [field: SerializeField] public bool InDecksMenu { get; private set; }
+    [field: SerializeField] public int NumberCardsInDeckMax { get; private set; }
+    [field: SerializeField] public int NumberGoldCardsInDeckMax { get; private set; }
 
-    [SerializeField] private bool _inDecksMenu;
+    public int NumberCardsInDeck { get; set; }
+    public int NumberGoldCardsInDeck { get; set; }
 
-    [SerializeField] private GameObject _decksMenu;
-    [SerializeField] private GameObject _cardsInDeckMenu;
-
-    [SerializeField] private DeckEditorDeckButton _defaultDeckButton;
-    [SerializeField] private GameObject _defaultCardButtonParent;
-
-    [SerializeField] private GameObject _cardSlot;
-    [SerializeField] private GameObject _cardSlotParent;
-
-    [SerializeField] private int _nbCardsInDeckMax;
-    private int _nbCardsInDeck;
-    [SerializeField] private TextMeshProUGUI _cardsInDeckText;
-
-    [SerializeField] private int _nbGoldCardsInDeckMax;
-    private int _nbGoldCardsInDeck;
-    [SerializeField] private TextMeshProUGUI _goldCardsInDeckText;
+    [field: BoxGroup("Predef Deck"), SerializeField] public PredefinedDeck PredefinedDeck { get; private set; }
 
     private Deck _selectedDeck;
     private bool _isCreatingNewDeck;
 
-    [BoxGroup("Predef Deck")]
-    [field: SerializeField]
-    public PredefinedDeck PredefinedDeck { get; set; }
+    #endregion
+
+    #region Methods
 
     private void Start()
     {
-        //TODO save predefs
+        missionDeckManager = MissionDeckManager.Instance;
+
+        InDecksMenu = true;
+
+        //Save predefs
         Deck prefDeck = new Deck();
         prefDeck.IDCardInDeck = PredefinedDeck.IDCardInDeck;
         prefDeck.Name = PredefinedDeck.Name;
@@ -54,105 +44,44 @@ public class DeckEditorDeckManager : MonoBehaviour
                 MissionDeckManager.Instance.DeckSaveLoadManager.RemoveDeckData(deck);
         }
 
-        MissionDeckManager.Instance.DeckSaveLoadManager.SaveDeckData(prefDeck, prefDeck.Name);
+        missionDeckManager.DeckSaveLoadManager.SaveDeckData(prefDeck, prefDeck.Name);
+        //Fin
 
         LoadDecksDatas();
-        LoadCollectionCards();
-    }
-
-    private void Update()
-    {
-        _decksMenu.SetActive(_inDecksMenu);
-        _cardsInDeckMenu.SetActive(!_inDecksMenu);
+        missionDeckManager.DeckEditorUIManager.LoadCollectionCards();
     }
 
     public void ShowDeck(Deck deck)
     {
-        _inDecksMenu = false;
-        LoadCardsDatasInDeck(deck);
+        InDecksMenu = false;
+        missionDeckManager.DeckEditorUIManager.LoadCardsDatasInDeckUI(deck);
         _selectedDeck = deck;
     }
 
     public void BackToDecksMenu()
     {
-        _inDecksMenu = true;
-        RefreshDecksButtonsList();
+        InDecksMenu = true;
+        missionDeckManager.DeckEditorUIManager.RefreshDecksButtonsList();
         LoadDecksDatas();
     }
 
-    private void RefreshDecksButtonsList()
-    {
-        foreach (var button in DecksButtons)
-        {
-            button.SetActive(false);
-        }
-    }
-
-    private void RefreshCardsSlotList()
-    {
-        foreach (var slot in DeckCardsSlot)
-        {
-            slot.SetActive(false);
-        }
-    }
-    
     private void LoadDecksDatas()
     {
-        DeckData = MissionDeckManager.Instance.DeckSaveLoadManager.GetDecksData().Datas;
-
-        Debug.Log($"Loading decks from datas : {DeckData.Count} decks found");
-
-        for (int i = 0; i < DeckData.Count; i++)
-        {
-            DecksButtons[i].SetActive(true);
-            DecksButtons[i].GetComponent<DeckEditorDeckButton>().Initialize(DeckData[i]);
-            //DeckData[i].Name = $"Deck {i + 1}";
-            DecksButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = DeckData[i].Name;
-        }
-    }
-
-    private void LoadCardsDatasInDeck(Deck deck)
-    {
-        RefreshCardsSlotList();
-            
-        _cardsInDeckText.text = $"{deck.IDCardInDeck.Count} / {_nbCardsInDeckMax}";
-
-        _nbGoldCardsInDeck = deck.IDCardInDeck.Count(ID => Cards.GetCardData(ID).RarityType == CardRarityType.Gold);
-        _goldCardsInDeckText.text = $"{_nbGoldCardsInDeck} / {_nbGoldCardsInDeckMax}";
-
-        for (int i = 0; i < deck.IDCardInDeck.Count; i++)
-        {
-            DeckCardsSlot[i].SetActive(true);
-
-            DeckCardsSlot[i].GetComponentInChildren<TextMeshProUGUI>().text =
-                Cards.GetCardData(deck.IDCardInDeck[i]).CardName;
-        }
-    }
-
-    private void LoadCollectionCards()
-    {
-        for (var i = 0; i < Cards.GetAllCards.Count; i++)
-        {
-            CollectionCardsSlot[i].SetActive(true);
-            
-            CollectionCardsSlot[i].GetComponent<Image>().sprite = Cards.GetAllCards[i].CardIllustrationSprite;
-            
-            CollectionCardsSlot[i].GetComponentInChildren<TMP_Text>().text = Cards.GetAllCards[i].CardPower.ToString();
-        }
+        DeckData = missionDeckManager.DeckSaveLoadManager.GetDecksData().Datas;
+        missionDeckManager.DeckEditorUIManager.LoadDecksDatasUI(DeckData);
     }
 
     public void DeleteDeck()
     {
-        Debug.Log(_selectedDeck.Name);
-        MissionDeckManager.Instance.DeckSaveLoadManager.RemoveDeckData(_selectedDeck);
+        missionDeckManager.DeckSaveLoadManager.RemoveDeckData(_selectedDeck);
         BackToDecksMenu();
     }
 
     public void CreateNewDeckData()
     {
-        Deck newDeck = new Deck();
         _isCreatingNewDeck = true;
-
         LoadDecksDatas();
     }
+
+    #endregion
 }

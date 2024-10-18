@@ -5679,7 +5679,7 @@ MonoBehaviour:
   _missionComplishedIcon: {fileID: 966937290}
   _completingRewardsIcon: {fileID: 1835809340}
   _completingRewardsCountText: {fileID: 2037532064}
-  StarsIcons:
+  _starsIcons:
   - {fileID: 729943192}
   - {fileID: 2048266047}
   - {fileID: 1044145734}
@@ -5687,7 +5687,72 @@ MonoBehaviour:
   _starsRewardText: {fileID: 252139469}
   _goldRewardIcon: {fileID: 1850855827}
   _goldRewardText: {fileID: 1227763139}
-  secondaryObjectivesText: {fileID: 1321374244}
+  _secondaryObjectivesText: {fileID: 1321374244}
+  _decksButtons:
+  - {fileID: 283978886}
+  - {fileID: 306442351}
+  - {fileID: 1066455214}
+  - {fileID: 59863156}
+  - {fileID: 1786383076}
+  - {fileID: 964248633}
+  - {fileID: 1693755422}
+  - {fileID: 19331576}
+  - {fileID: 334951065}
+  - {fileID: 1308446753}
+  - {fileID: 1913705672}
+  - {fileID: 1449570160}
+  _deckCardsSlot:
+  - {fileID: 835779983}
+  - {fileID: 416669295}
+  - {fileID: 298376144}
+  - {fileID: 1931695324}
+  - {fileID: 803832928}
+  - {fileID: 207178963}
+  - {fileID: 397850005}
+  - {fileID: 1217243881}
+  - {fileID: 1899219620}
+  - {fileID: 1857999059}
+  - {fileID: 2111309109}
+  - {fileID: 553138241}
+  - {fileID: 1913562961}
+  - {fileID: 969970949}
+  - {fileID: 861896366}
+  - {fileID: 1974881380}
+  - {fileID: 856822673}
+  - {fileID: 1953880748}
+  - {fileID: 749556076}
+  - {fileID: 7107431}
+  _decksMenu: {fileID: 171494546}
+  _cardsInDeckMenu: {fileID: 1753982529}
+  _defaultDeckButton: {fileID: -618197962268649703, guid: 26dc97c15a927ac4ea4a555f46142814,
+    type: 3}
+  _defaultCardButtonParent: {fileID: 1204699449}
+  _deckCardSlot: {fileID: 7598423738921699195, guid: 3d0d91fbf7dd9c940b3d05b585a9e3c3,
+    type: 3}
+  _cardSlotParent: {fileID: 1073930302}
+  _cardsInDeckText: {fileID: 256994368}
+  _goldCardsInDeckText: {fileID: 2045090360}
+  <CollectionCardsSlot>k__BackingField:
+  - {fileID: 7598423738795373450}
+  - {fileID: 201754595}
+  - {fileID: 1293808155}
+  - {fileID: 1850504489}
+  - {fileID: 1065577850}
+  - {fileID: 974347255}
+  - {fileID: 241102736}
+  - {fileID: 1744813977}
+  - {fileID: 2075110182}
+  - {fileID: 1808865564}
+  - {fileID: 665515832}
+  - {fileID: 1653601373}
+  - {fileID: 1149704923}
+  - {fileID: 796216105}
+  - {fileID: 291240578}
+  - {fileID: 1356150005}
+  - {fileID: 1610322108}
+  - {fileID: 115904177}
+  - {fileID: 646900644}
+  - {fileID: 1960654926}
 --- !u!1001 &868087567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13789,6 +13854,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8315993470664345466, guid: 7b35266b2b991fc4880f21ff5b7ae3ce,
         type: 3}
+      propertyPath: <NumberCardsInDeckMax>k__BackingField
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315993470664345466, guid: 7b35266b2b991fc4880f21ff5b7ae3ce,
+        type: 3}
       propertyPath: <CardsSlot>k__BackingField.Array.data[0]
       value: 
       objectReference: {fileID: 835779983}
@@ -13896,6 +13966,11 @@ PrefabInstance:
         type: 3}
       propertyPath: <DeckCardsSlot>k__BackingField.Array.size
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315993470664345466, guid: 7b35266b2b991fc4880f21ff5b7ae3ce,
+        type: 3}
+      propertyPath: <NumberGoldCardsInDeckMax>k__BackingField
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8315993470664345466, guid: 7b35266b2b991fc4880f21ff5b7ae3ce,
         type: 3}
