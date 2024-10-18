@@ -5,13 +5,15 @@ using DeckEditor;
 using Data.Cards;
 using Sirenix.OdinInspector;
 using TMPro;
+using UnityEngine.UI;
 
 public class DeckEditorDeckManager : MonoBehaviour
 {
     [field: SerializeField] public Cards Cards { get; private set; }
     [field: SerializeField] public List<Deck> DeckData { get; set; }
     [field: SerializeField] public List<GameObject> DecksButtons { get; set; }
-    [field: SerializeField] public List<GameObject> CardsSlot { get; set; }
+    [field: SerializeField] public List<GameObject> DeckCardsSlot { get; set; }
+    [field: SerializeField] public List<GameObject> CollectionCardsSlot { get; set; }
 
     [SerializeField] private bool _inDecksMenu;
 
@@ -55,6 +57,7 @@ public class DeckEditorDeckManager : MonoBehaviour
         MissionDeckManager.Instance.DeckSaveLoadManager.SaveDeckData(prefDeck, prefDeck.Name);
 
         LoadDecksDatas();
+        LoadCollectionCards();
     }
 
     private void Update()
@@ -87,7 +90,7 @@ public class DeckEditorDeckManager : MonoBehaviour
 
     private void RefreshCardsSlotList()
     {
-        foreach (var slot in CardsSlot)
+        foreach (var slot in DeckCardsSlot)
         {
             slot.SetActive(false);
         }
@@ -119,10 +122,22 @@ public class DeckEditorDeckManager : MonoBehaviour
 
         for (int i = 0; i < deck.IDCardInDeck.Count; i++)
         {
-            CardsSlot[i].SetActive(true);
+            DeckCardsSlot[i].SetActive(true);
 
-            CardsSlot[i].GetComponentInChildren<TextMeshProUGUI>().text =
+            DeckCardsSlot[i].GetComponentInChildren<TextMeshProUGUI>().text =
                 Cards.GetCardData(deck.IDCardInDeck[i]).CardName;
+        }
+    }
+
+    private void LoadCollectionCards()
+    {
+        for (var i = 0; i < Cards.GetAllCards.Count; i++)
+        {
+            CollectionCardsSlot[i].SetActive(true);
+            
+            CollectionCardsSlot[i].GetComponent<Image>().sprite = Cards.GetAllCards[i].CardIllustrationSprite;
+            
+            CollectionCardsSlot[i].GetComponentInChildren<TMP_Text>().text = Cards.GetAllCards[i].CardPower.ToString();
         }
     }
 
