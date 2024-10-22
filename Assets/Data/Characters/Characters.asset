@@ -22,6 +22,7 @@ MonoBehaviour:
     ViewDetectionList: []
     <DoMakeSoundMoving>k__BackingField: 1
     <MoveSoundRange>k__BackingField: 2
+    <EarSoundRange>k__BackingField: 0
   - <Type>k__BackingField: 1
     <Life>k__BackingField: 3
     <MovementPoints>k__BackingField: 5
@@ -369,3 +370,4 @@ MonoBehaviour:
       <IsDetected>k__BackingField: 0
     <DoMakeSoundMoving>k__BackingField: 0
     <MoveSoundRange>k__BackingField: 2
+    <EarSoundRange>k__BackingField: 0
