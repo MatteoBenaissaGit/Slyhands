@@ -87,9 +87,9 @@ MonoBehaviour:
     - <Position>k__BackingField: {x: 5, y: 4}
       <IsDetected>k__BackingField: 0
     - <Position>k__BackingField: {x: 4, y: 4}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 3, y: 4}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 2, y: 4}
       <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 1, y: 4}
@@ -101,9 +101,9 @@ MonoBehaviour:
     - <Position>k__BackingField: {x: -2, y: 4}
       <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -3, y: 4}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -4, y: 4}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -5, y: 4}
       <IsDetected>k__BackingField: 0
     - <Position>k__BackingField: {x: -6, y: 4}
@@ -115,9 +115,9 @@ MonoBehaviour:
     - <Position>k__BackingField: {x: 4, y: 3}
       <IsDetected>k__BackingField: 0
     - <Position>k__BackingField: {x: 3, y: 3}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 2, y: 3}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 1, y: 3}
       <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 0, y: 3}
@@ -125,9 +125,9 @@ MonoBehaviour:
     - <Position>k__BackingField: {x: -1, y: 3}
       <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -2, y: 3}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -3, y: 3}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -4, y: 3}
       <IsDetected>k__BackingField: 0
     - <Position>k__BackingField: {x: -5, y: 3}
@@ -143,7 +143,7 @@ MonoBehaviour:
     - <Position>k__BackingField: {x: 3, y: 2}
       <IsDetected>k__BackingField: 0
     - <Position>k__BackingField: {x: 2, y: 2}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 1, y: 2}
       <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: 0, y: 2}
@@ -151,7 +151,7 @@ MonoBehaviour:
     - <Position>k__BackingField: {x: -1, y: 2}
       <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -2, y: 2}
-      <IsDetected>k__BackingField: 0
+      <IsDetected>k__BackingField: 1
     - <Position>k__BackingField: {x: -3, y: 2}
       <IsDetected>k__BackingField: 0
     - <Position>k__BackingField: {x: -4, y: 2}

@@ -71,6 +71,24 @@ namespace Slots
             }
         }
 
+        public static Vector3Int GetOffsetFromOrientation(Vector3Int start, Vector3Int to, Orientation orientation)
+        {
+            Vector3Int offset = to - start;
+            switch (orientation)
+            {
+                case Orientation.North:
+                    return new Vector3Int(offset.x, offset.y, offset.z);
+                case Orientation.East:
+                    return new Vector3Int(-offset.z, offset.y, offset.x);
+                case Orientation.South:
+                    return new Vector3Int(-offset.x, offset.y, -offset.z);
+                case Orientation.West:
+                    return new Vector3Int(offset.z, offset.y, -offset.x);
+                default:
+                    return Vector3Int.zero;
+            }
+        }
+
         public static Orientation GetDirection(Vector3Int from, Vector3Int to)
         {
             return GetOrientation(to - from);

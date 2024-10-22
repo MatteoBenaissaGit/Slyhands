@@ -321,8 +321,29 @@ namespace Board.Characters
                 if (Board.GetSlot(slot.Coordinates + new Vector3Int(0,1,0)) != null)
                 {
                     coordinatesToRemove.Add(slot.Coordinates);
+
+                    int viewSize = Math.Max(Data.ViewDetectionSize.x, Data.ViewDetectionSize.y);
+                    Vector3Int offset = WorldOrientation.GetOffsetFromOrientation(coordinates, slot.Coordinates, orientation);
+                    Vector3Int normalizedOffset = new Vector3Int(Mathf.Clamp(offset.x,-1,1), Mathf.Clamp(offset.y,-1,1), Mathf.Clamp(offset.z,-1,1));
+                    if (normalizedOffset.x == 0) //block in front
+                    {
+                        for (int y = 1; y < viewSize; y++)
+                        {
+                            coordinatesToRemove.Add(slot.Coordinates + WorldOrientation.TransposeVectorToOrientation(new Vector3Int(0, 0, y), orientation));
+                        }                        
+                    }
+                    else //block side offset
+                    {
+                        for (int y = 0; y < viewSize; y++)
+                        {
+                            for (int x = 0; x < y + 2; x++)
+                            {
+                                coordinatesToRemove.Add(slot.Coordinates + WorldOrientation.TransposeVectorToOrientation(new Vector3Int(x * normalizedOffset.x, 0, y), orientation));
+                            }
+                        }   
+                    }
                 }
-                //todo remove behind (get view size)
+                
             }
 
             foreach (Vector3Int coordinate in coordinatesToRemove)
