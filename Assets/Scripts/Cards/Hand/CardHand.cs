@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Board.Characters;
+using Data.Cards;
 using Inputs;
 using Sirenix.OdinInspector;
 using Slots;
@@ -259,6 +260,22 @@ public class CardHand : MonoBehaviour
                 _cardSelected.cardStatus = CardStatus.Discarded;
                 CardManager.Instance.GameplayDeckManager.PlayCardOnLocation(_cardSelected, slot);
                 _cardSelected = null;
+                switch (_cardSelected.GetComponent<Data.Cards.Card>().CategoryEffect)
+                {
+                    case CardCategoryEffect.Stun:
+                        character.OnCharacterAction.Invoke(CharacterAction.Stun, null);
+                        break;
+                    
+                    case CardCategoryEffect.PlusVisionPlusNoise:
+                        character.GameplayData.CurrentMovementPoints += 1;
+                        character.GameplayData.MoveSoundRange += 1;
+                        break;
+                    
+                    case CardCategoryEffect.LessVisionLessNoise:
+                        character.GameplayData.CurrentMovementPoints -= 1;
+                        character.GameplayData.MoveSoundRange -= 1;
+                        break;
+                }
                 character.OnCharacterAction.Invoke(CharacterAction.Stun, new object []{3});
                 return;
             }

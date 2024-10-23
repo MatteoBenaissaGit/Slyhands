@@ -12,10 +12,9 @@ namespace Data.Cards
     
     public enum CardCategoryEffect
     {
-        Movement = 0,
-        DeckControl = 1,
-        Equipment = 2,
-        Enemy = 3
+        Stun = 0,
+        PlusVisionPlusNoise = 1,
+        LessVisionLessNoise = 2
     }
     
     [CreateAssetMenu(fileName = "Data", menuName = "Data/Card/Card", order = 1)]
