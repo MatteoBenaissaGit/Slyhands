@@ -15,7 +15,7 @@ MonoBehaviour:
   <ID>k__BackingField: 1
   <CardName>k__BackingField: Etourdissement
   <CardDescription>k__BackingField: Etourdit l'ennemi durant 2 tours.
-  <CardIllustrationSprite>k__BackingField: {fileID: 21300000, guid: c33dfb5d539d873488ba422e5d3d3a27,
+  <CardIllustrationSprite>k__BackingField: {fileID: 21300000, guid: 819d7cf9ae1999443b28c178f6354b66,
     type: 3}
   <CardPower>k__BackingField: 9
   <RarityType>k__BackingField: 3

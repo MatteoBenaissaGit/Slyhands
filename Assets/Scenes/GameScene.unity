@@ -308,6 +308,36 @@ PrefabInstance:
       propertyPath: _levelToLoad
       value: stair
       objectReference: {fileID: 0}
+    - target: {fileID: 8855440308127421798, guid: 2a473d30f3b4e49478c31070ec371179,
+        type: 3}
+      propertyPath: IDCardInDeck.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8855440308127421798, guid: 2a473d30f3b4e49478c31070ec371179,
+        type: 3}
+      propertyPath: IDCardInDeck.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8855440308127421798, guid: 2a473d30f3b4e49478c31070ec371179,
+        type: 3}
+      propertyPath: IDCardInDeck.Array.data[4]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8855440308127421798, guid: 2a473d30f3b4e49478c31070ec371179,
+        type: 3}
+      propertyPath: IDCardInDeck.Array.data[7]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8855440308127421798, guid: 2a473d30f3b4e49478c31070ec371179,
+        type: 3}
+      propertyPath: IDCardInDeck.Array.data[8]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8855440308127421798, guid: 2a473d30f3b4e49478c31070ec371179,
+        type: 3}
+      propertyPath: IDCardInDeck.Array.data[9]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

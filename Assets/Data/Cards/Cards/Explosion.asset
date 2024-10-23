@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9780f8826dd40e64f91280df35fa4edc, type: 3}
   m_Name: Explosion
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: 2
+  <ID>k__BackingField: 0
   <CardName>k__BackingField: Explosion
   <CardDescription>k__BackingField: "D\xE9clanche une explosion sur une port\xE9e
     d'un case autour de la cible."
